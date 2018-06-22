@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.kuba.mealky.Activites.MainActivity">
+    tools:context="com.kuba.mealky.Activites.ListOfMealsActivity">
 
     <include
         layout="@layout/topbar"
