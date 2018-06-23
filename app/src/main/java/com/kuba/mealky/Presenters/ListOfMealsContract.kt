@@ -6,7 +6,7 @@ interface ListOfMealsContract {
 
 
     interface View {
-        fun loadData()
+        fun fillList(m: List<MealData>)
         fun onItemClick()
         fun onItemLongClick()
         fun clearData()
@@ -14,7 +14,7 @@ interface ListOfMealsContract {
 
 
     interface Presenter {
-        fun getAllMeals(): List<MealData>
+        fun loadMeals()
         fun changeViewToMeal()
         fun deleteMeal()
         fun refresh()
