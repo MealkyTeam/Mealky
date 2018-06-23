@@ -1,41 +1,28 @@
 package com.kuba.mealky.Presenters
 
+import android.os.AsyncTask
+import android.os.Handler
+import android.os.HandlerThread
+import android.util.Log
+import android.widget.Toast
+import com.kuba.mealky.Database.DBWorkerThread
 import com.kuba.mealky.Database.Entities.MealData
 import com.kuba.mealky.Database.MealkyDatabase
+import android.os.Looper
+
+
 
 class ListOfMealsPresenter(val mealkyDatabase: MealkyDatabase) : BasePresenter<ListOfMealsContract.View>(), ListOfMealsContract.Presenter {
 
-    override fun getAllMeals(): List<MealData> {
-        val meals =
-                mealkyDatabase?.mealDao()?.getAll()
-        /*val meals: List<MealData> = listOf(
-                MealData(1, "meal1", 31, "prep1"),
-                MealData(2, "meal2", 32, "prep2"),
-                MealData(3, "meal3", 33, "prep3"),
-                MealData(1, "meal1", 31, "prep1"),
-                MealData(2, "meal2", 32, "prep2"),
-                MealData(3, "meal3", 33, "prep3"),
-                MealData(1, "meal1", 31, "prep1"),
-                MealData(2, "meal2", 32, "prep2"),
-                MealData(3, "meal3", 33, "prep3"),
-                MealData(1, "meal1", 31, "prep1"),
-                MealData(2, "meal2", 32, "prep2"),
-                MealData(3, "meal3", 33, "prep3"),
-                MealData(1, "meal1", 31, "prep1"),
-                MealData(2, "meal2", 32, "prep2"),
-                MealData(3, "meal3", 33, "prep3"),
-                MealData(1, "meal1", 31, "prep1"),
-                MealData(2, "meal2", 32, "prep2"),
-                MealData(3, "meal3", 33, "prep3"),
-                MealData(1, "meal1", 31, "prep1"),
-                MealData(2, "meal2", 32, "prep2"),
-                MealData(3, "meal3", 33, "prep3"),
-                MealData(1, "meal1", 31, "prep1"),
-                MealData(2, "meal2", 32, "prep2"),
-                MealData(3, "meal3", 33, "prep3"),
-                MealData(4, "meal4", 34, "prep4")
-        )*/
-        return meals
+    override fun loadMeals() {
+        var meals: List<MealData> = emptyList()
+        val task = Runnable {
+            meals = mealkyDatabase?.mealDao()?.getAll()
+            Log.e("MealsSizeInTask", meals.size.toString())
+            view?.fillList(meals)
+        }
+        AsyncTask.execute(task)
+        Log.e("MealsSizeAfterTask", meals.size.toString())
     }
 
     override fun changeViewToMeal() {
