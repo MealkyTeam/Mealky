@@ -1,28 +1,20 @@
 package com.kuba.mealky.Presenters
 
-import android.os.AsyncTask
-import android.os.Handler
-import android.os.HandlerThread
-import android.util.Log
-import android.widget.Toast
-import com.kuba.mealky.Database.DBWorkerThread
 import com.kuba.mealky.Database.Entities.MealData
-import com.kuba.mealky.Database.MealkyDatabase
-import android.os.Looper
+import com.kuba.mealky.Database.Repositories.MealsRepository
 
 
-
-class ListOfMealsPresenter(val mealkyDatabase: MealkyDatabase) : BasePresenter<ListOfMealsContract.View>(), ListOfMealsContract.Presenter {
-
+class ListOfMealsPresenter(val repository: MealsRepository) : BasePresenter<ListOfMealsContract.View>(), ListOfMealsContract.Presenter {
+    private var meals: List<MealData> = emptyList()
     override fun loadMeals() {
-        var meals: List<MealData> = emptyList()
         val task = Runnable {
-            meals = mealkyDatabase?.mealDao()?.getAll()
-            Log.e("MealsSizeInTask", meals.size.toString())
-            view?.fillList(meals)
+            meals = repository.getAll()
         }
-        AsyncTask.execute(task)
-        Log.e("MealsSizeAfterTask", meals.size.toString())
+        val thread = Thread(task)
+        thread.start()
+        thread.join()
+
+        view?.fillList(meals)
     }
 
     override fun changeViewToMeal() {
@@ -32,10 +24,4 @@ class ListOfMealsPresenter(val mealkyDatabase: MealkyDatabase) : BasePresenter<L
     override fun deleteMeal() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
-
-    override fun refresh() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-
 }
