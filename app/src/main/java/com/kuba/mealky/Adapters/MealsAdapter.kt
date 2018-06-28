@@ -9,7 +9,7 @@ import com.kuba.mealky.Database.Entities.MealData
 import com.kuba.mealky.R
 
 
-class MealsAdapter(private val meals: List<MealData>, private val listener: OnItemClickListener) :
+class MealsAdapter(var meals: MutableList<MealData>, private val listener: OnItemClickListener) :
         RecyclerView.Adapter<MealsAdapter.ViewHolder>() {
 
     interface OnItemClickListener {
@@ -18,11 +18,7 @@ class MealsAdapter(private val meals: List<MealData>, private val listener: OnIt
 
     class ViewHolder(val textView: TextView) : RecyclerView.ViewHolder(textView) {
         fun bindListener(item: MealData, listener: OnItemClickListener) {
-            itemView.setOnClickListener(object : View.OnClickListener {
-                override fun onClick(p0: View?) {
-                    listener.onItemClick(item)
-                }
-            })
+            itemView.setOnClickListener { listener.onItemClick(item) }
         }
     }
 
@@ -39,4 +35,13 @@ class MealsAdapter(private val meals: List<MealData>, private val listener: OnIt
     }
 
     override fun getItemCount() = meals.size
+
+    fun getItem(i: Int): MealData? {
+        return meals[i]
+    }
+
+    fun removeAt(position: Int) {
+        meals.removeAt(position)
+        notifyItemRemoved(position)
+    }
 }

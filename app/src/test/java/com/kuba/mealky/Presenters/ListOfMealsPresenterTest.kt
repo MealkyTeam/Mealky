@@ -24,7 +24,7 @@ class ListOfMealsPresenterTest {
 
     @Test
     fun loadMealsIfRepoIsEmpty() {
-        Mockito.`when`((mockRepository.getAll())).thenReturn(emptyList<MealData>())
+        // Mockito.`when`((mockRepository.getAll())).thenReturn(emptyList<MealData>())
         presenter.loadMeals()
         assert(false)
     }

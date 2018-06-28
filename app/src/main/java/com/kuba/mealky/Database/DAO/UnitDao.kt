@@ -10,7 +10,7 @@ import com.kuba.mealky.Database.Entities.UnitData
 interface UnitDao {
 
     @Query("SELECT * from unit")
-    fun getAll(): List<UnitData>
+    fun getAll(): MutableList<UnitData>
 
     @Insert(onConflict = REPLACE)
     fun insert(unitData: UnitData)

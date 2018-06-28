@@ -7,16 +7,16 @@ interface ListOfMealsContract {
 
 
     interface View {
-        fun fillList(m: List<MealData>)
+        fun fillList(m: MutableList<MealData>)
         fun onItemClick()
-        fun onItemLongClick()
+        fun removeFromList(index: Int)
     }
 
 
     interface Presenter {
         fun loadMeals()
         fun changeViewToMeal()
-        fun deleteMeal()
+        fun deleteMeal(meal: MealData, index: Int)
     }
 
 }

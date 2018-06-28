@@ -10,7 +10,7 @@ import com.kuba.mealky.Database.Entities.IngredientData
 interface IngredientDao {
 
     @Query("SELECT * from ingredient")
-    fun getAll(): List<IngredientData>
+    fun getAll(): MutableList<IngredientData>
 
     @Insert(onConflict = REPLACE)
     fun insert(ingredientData: IngredientData)
