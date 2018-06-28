@@ -1,5 +1,6 @@
 package com.kuba.mealky.Presenters
 
+import android.arch.lifecycle.LiveData
 import com.kuba.mealky.Database.Entities.MealData
 
 interface ListOfMealsContract {
@@ -9,7 +10,6 @@ interface ListOfMealsContract {
         fun fillList(m: List<MealData>)
         fun onItemClick()
         fun onItemLongClick()
-        fun clearData()
     }
 
 
@@ -17,7 +17,6 @@ interface ListOfMealsContract {
         fun loadMeals()
         fun changeViewToMeal()
         fun deleteMeal()
-        fun refresh()
     }
 
 }
