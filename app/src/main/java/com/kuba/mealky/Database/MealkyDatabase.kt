@@ -24,7 +24,7 @@ abstract class MealkyDatabase : RoomDatabase() {
         fun getInstance(context: Context): MealkyDatabase? {
             if (INSTANCE == null) {
                 synchronized(MealkyDatabase::class) {
-                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
+                    INSTANCE = Room.databaseBuilder(context.applicationContext,
                             MealkyDatabase::class.java, "mealky.db")
                             .build()
                 }
