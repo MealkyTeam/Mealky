@@ -1,7 +1,7 @@
-package com.kuba.mealky.Presenters
+package com.kuba.mealky.presenters
 
 import android.content.Context
-import com.kuba.mealky.Database.MealkyDatabase
+import com.kuba.mealky.database.MealkyDatabase
 import org.junit.Test
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations

@@ -1,19 +1,19 @@
-package com.kuba.mealky.Database.Repositories
+package com.kuba.mealky.database.repositories
 
 import androidx.room.Room
 import androidx.test.InstrumentationRegistry
-import com.kuba.mealky.Database.DAO.MealDao
-import com.kuba.mealky.Database.Entities.MealData
-import com.kuba.mealky.Database.MealkyDatabase
+import com.kuba.mealky.database.MealkyDatabase
+import com.kuba.mealky.database.dao.MealDao
+import com.kuba.mealky.database.models.Meal
 import junit.framework.Assert.assertEquals
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
 class MealsRepositoryTest {
-    lateinit var mealDao: MealDao
-    lateinit var database: MealkyDatabase
-    lateinit var repository: MealsRepository
+    private lateinit var mealDao: MealDao
+    private lateinit var database: MealkyDatabase
+    private lateinit var repository: MealsRepository
 
 
     @Before
@@ -26,7 +26,7 @@ class MealsRepositoryTest {
 
     @Test
     fun getAllIfTableIsEmpty() {
-        val emptyList = emptyList<MealData>()
+        val emptyList = emptyList<Meal>()
         val listFromRepo = repository.getAll()
         assertEquals(emptyList, listFromRepo)
     }
@@ -34,9 +34,9 @@ class MealsRepositoryTest {
     @Test
     fun getAllIfTableNotEmpty() {
         val dummyList = mutableListOf(
-                MealData(1, "test1", 0, "testPrep1"),
-                MealData(2, "test2", 0, "testPrep2"),
-                MealData(3, "test3", 0, "testPrep3")
+                Meal(1, "test1", 0, "testPrep1"),
+                Meal(2, "test2", 0, "testPrep2"),
+                Meal(3, "test3", 0, "testPrep3")
         )
         repository.insertList(dummyList)
         val listFromRepo = repository.getAll()
@@ -46,13 +46,13 @@ class MealsRepositoryTest {
     @Test
     fun insertShouldReplace() {
         val dummyList = mutableListOf(
-                MealData(1, "test1", 0, "testPrep1"),
-                MealData(2, "test2", 0, "testPrep2"),
-                MealData(3, "test3", 0, "testPrep3")
+                Meal(1, "test1", 0, "testPrep1"),
+                Meal(2, "test2", 0, "testPrep2"),
+                Meal(3, "test3", 0, "testPrep3")
         )
         repository.insertList(dummyList)
 
-        val editedMeal = MealData(2, "test2EDITED", 0, "testPrep2EDITED")
+        val editedMeal = Meal(2, "test2EDITED", 0, "testPrep2EDITED")
         dummyList.removeAt(1)
         dummyList.add(1, editedMeal)
         repository.insert(editedMeal)
@@ -63,12 +63,12 @@ class MealsRepositoryTest {
 
     @Test
     fun deleteByMealIfExistsTest() {
-        val mealNo2 = MealData(2, "test2", 0, "testPrep2")
+        val mealNo2 = Meal(2, "test2", 0, "testPrep2")
 
         val dummyList = mutableListOf(
-                MealData(1, "test1", 0, "testPrep1"),
+                Meal(1, "test1", 0, "testPrep1"),
                 mealNo2,
-                MealData(3, "test3", 0, "testPrep3")
+                Meal(3, "test3", 0, "testPrep3")
         )
         repository.insertList(dummyList)
         dummyList.remove(mealNo2)
@@ -80,12 +80,12 @@ class MealsRepositoryTest {
 
     @Test
     fun deleteByIdIfExistsTest() {
-        val mealNo2 = MealData(2, "test2", 0, "testPrep2")
+        val mealNo2 = Meal(2, "test2", 0, "testPrep2")
 
         val dummyList = mutableListOf(
-                MealData(1, "test1", 0, "testPrep1"),
+                Meal(1, "test1", 0, "testPrep1"),
                 mealNo2,
-                MealData(3, "test3", 0, "testPrep3")
+                Meal(3, "test3", 0, "testPrep3")
         )
         repository.insertList(dummyList)
         dummyList.remove(mealNo2)
@@ -97,15 +97,15 @@ class MealsRepositoryTest {
 
     @Test
     fun deleteByMealIfNotExistsTest() {
-        val mealNo2 = MealData(2, "test2", 0, "testPrep2")
+        val mealNo2 = Meal(2, "test2", 0, "testPrep2")
 
         val dummyList = mutableListOf(
-                MealData(1, "test1", 0, "testPrep1"),
+                Meal(1, "test1", 0, "testPrep1"),
                 mealNo2,
-                MealData(3, "test3", 0, "testPrep3")
+                Meal(3, "test3", 0, "testPrep3")
         )
 
-        val mealOutsideList = MealData(4, "test4", 0, "testPrep4")
+        val mealOutsideList = Meal(4, "test4", 0, "testPrep4")
         repository.insertList(dummyList)
         repository.delete(mealOutsideList)
 
@@ -115,12 +115,12 @@ class MealsRepositoryTest {
 
     @Test
     fun deleteByIdIfNotExistsTest() {
-        val mealNo2 = MealData(2, "test2", 0, "testPrep2")
+        val mealNo2 = Meal(2, "test2", 0, "testPrep2")
 
         val dummyList = mutableListOf(
-                MealData(1, "test1", 0, "testPrep1"),
+                Meal(1, "test1", 0, "testPrep1"),
                 mealNo2,
-                MealData(3, "test3", 0, "testPrep3")
+                Meal(3, "test3", 0, "testPrep3")
         )
         repository.insertList(dummyList)
         repository.delete(4)
@@ -131,12 +131,12 @@ class MealsRepositoryTest {
 
     @Test
     fun findByIdTest() {
-        val mealNo2 = MealData(2, "test2", 0, "testPrep2")
+        val mealNo2 = Meal(2, "test2", 0, "testPrep2")
 
         val dummyList = mutableListOf(
-                MealData(1, "test1", 0, "testPrep1"),
+                Meal(1, "test1", 0, "testPrep1"),
                 mealNo2,
-                MealData(3, "test3", 0, "testPrep3")
+                Meal(3, "test3", 0, "testPrep3")
         )
         repository.insertList(dummyList)
 

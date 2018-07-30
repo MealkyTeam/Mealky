@@ -43,6 +43,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata:2.0.0-beta01"
     implementation "androidx.lifecycle:lifecycle-extensions:2.0.0-beta01"
     implementation "androidx.lifecycle:lifecycle-viewmodel:2.0.0-beta01"
+    implementation 'com.jakewharton.timber:timber:4.7.1'
     testImplementation 'androidx.test:runner:1.1.0-alpha4'
     testImplementation "org.robolectric:robolectric:3.3.2"
 }

@@ -1,25 +1,25 @@
-package com.kuba.mealky.Database.Repositories
+package com.kuba.mealky.database.repositories
 
-import com.kuba.mealky.Database.Entities.MealData
-import com.kuba.mealky.Database.MealkyDatabase
+import com.kuba.mealky.database.MealkyDatabase
+import com.kuba.mealky.database.models.Meal
 
 
 class MealsRepository(val mealkyDatabase: MealkyDatabase) {
 
-    fun getAll(): MutableList<MealData> {
+    fun getAll(): MutableList<Meal> {
         return mealkyDatabase.mealDao().getAll()
     }
 
-    fun insert(meal: MealData) {
+    fun insert(meal: Meal) {
         mealkyDatabase.mealDao().insert(meal)
     }
 
-    fun insertList(meals: List<MealData>) {
+    fun insertList(meals: List<Meal>) {
         for (meal in meals)
             insert(meal)
     }
 
-    fun delete(meal: MealData) {
+    fun delete(meal: Meal) {
         mealkyDatabase.mealDao().delete(meal)
     }
 
@@ -29,7 +29,7 @@ class MealsRepository(val mealkyDatabase: MealkyDatabase) {
             mealkyDatabase.mealDao().delete(meal)
     }
 
-    fun findById(index: Int): MealData? {
+    fun findById(index: Int): Meal? {
         return mealkyDatabase.mealDao().findMealByiD(index)
     }
 
