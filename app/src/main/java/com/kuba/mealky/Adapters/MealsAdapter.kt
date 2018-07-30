@@ -1,9 +1,9 @@
 package com.kuba.mealky.Adapters
 
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.kuba.mealky.Database.Entities.MealData
 import com.kuba.mealky.R
 import kotlinx.android.synthetic.main.meal_item.view.*

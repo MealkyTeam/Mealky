@@ -1,6 +1,5 @@
 package com.kuba.mealky.Presenters
 
-import android.arch.lifecycle.LiveData
 import com.kuba.mealky.Database.Entities.MealData
 
 interface ListOfMealsContract {

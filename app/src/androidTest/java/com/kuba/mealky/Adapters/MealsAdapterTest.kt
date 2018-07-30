@@ -1,19 +1,8 @@
 package com.kuba.mealky.Adapters
 
-import android.content.Intent
-import android.support.v7.widget.RecyclerView
-import android.util.Log
-import com.kuba.mealky.Activities.ListOfMealsActivity
 import com.kuba.mealky.Database.Entities.MealData
-import com.kuba.mealky.R
-import org.junit.After
-import org.junit.Test
-
-import org.junit.Assert.*
 import org.junit.Before
-import org.mockito.Mock
-import org.mockito.Mockito
-import org.mockito.MockitoAnnotations
+import org.junit.Test
 
 class MealsAdapterTest {
     private lateinit var adapter: MealsAdapter

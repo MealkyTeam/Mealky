@@ -1,13 +1,12 @@
 package com.kuba.mealky.Database.Repositories
 
-import android.arch.persistence.room.Room
-import android.support.test.InstrumentationRegistry
+import androidx.room.Room
+import androidx.test.InstrumentationRegistry
 import com.kuba.mealky.Database.DAO.MealDao
 import com.kuba.mealky.Database.Entities.MealData
 import com.kuba.mealky.Database.MealkyDatabase
 import junit.framework.Assert.assertEquals
 import org.junit.After
-import org.junit.Assert.assertNotEquals
 import org.junit.Before
 import org.junit.Test
 
