@@ -1,12 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mealItemLayout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:id="@+id/mealItemLayout">
+    android:background="@color/colorPrimary">
 
-    <TextView android:id="@+id/mealTextView"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/mealName"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        xmlns:android="http://schemas.android.com/apk/res/android" />
+        tools:text="Test meal name" />
+
+    <TextView
+        android:id="@+id/prepTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@id/mealName"
+        android:gravity="end"
+        tools:text="30" />
+
+    <TextView
+        android:id="@+id/preparation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/mealName"
+        tools:text="Test meal prep time very long text Test meal prep time very long text Test meal prep time very long text Test meal prep time very long text Test meal prep time very long text Test meal prep time very long text"
+        android:maxLines="2"
+        android:ellipsize="end" />
+
 </RelativeLayout>

@@ -1,26 +1,23 @@
-package com.kuba.mealky.Activities
+package com.kuba.mealky.activities
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.kuba.mealky.Adapters.MealsAdapter
-import com.kuba.mealky.Database.Entities.MealData
-import com.kuba.mealky.Database.MealkyDatabase
-import com.kuba.mealky.Database.Repositories.MealsRepository
-import com.kuba.mealky.Presenters.ListOfMealsContract
-import com.kuba.mealky.Presenters.ListOfMealsPresenter
 import com.kuba.mealky.R
+import com.kuba.mealky.adapters.MealsAdapter
+import com.kuba.mealky.database.MealkyDatabase
+import com.kuba.mealky.database.models.Meal
+import com.kuba.mealky.database.repositories.MealsRepository
+import com.kuba.mealky.presenters.ListOfMealsContract
+import com.kuba.mealky.presenters.ListOfMealsPresenter
 import com.kuba.mealky.util.SwipeToDeleteCallback
 
 class ListOfMealsActivity : AppCompatActivity(), ListOfMealsContract.View {
-
-
-    private lateinit var meals: MutableList<MealData>
+    private lateinit var meals: MutableList<Meal>
     private lateinit var bottomBar: BottomNavigationView
     private lateinit var presenter: ListOfMealsPresenter
     private lateinit var repository: MealsRepository
@@ -28,11 +25,7 @@ class ListOfMealsActivity : AppCompatActivity(), ListOfMealsContract.View {
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
 
-    companion object {
-        const val TAG: String = "KubaTag"
-    }
-
-    override fun fillList(m: MutableList<MealData>) {
+    override fun fillList(m: MutableList<Meal>) {
         meals = m
 
         viewManager = LinearLayoutManager(this)
@@ -43,6 +36,7 @@ class ListOfMealsActivity : AppCompatActivity(), ListOfMealsContract.View {
             layoutManager = viewManager
             adapter = viewAdapter
         }
+        recyclerView.addItemDecoration(DividerItemDecoration(recyclerView.context, LinearLayoutManager.VERTICAL))
 
         setupSwipeHandler()
     }
@@ -54,10 +48,9 @@ class ListOfMealsActivity : AppCompatActivity(), ListOfMealsContract.View {
                     val mealToDelete = (viewAdapter as MealsAdapter).getItem(viewHolder.adapterPosition)
                     if (mealToDelete != null) {
                         presenter.deleteMeal(mealToDelete, viewHolder.adapterPosition)
-                    } else
-                        Log.e(TAG, "Meal is null after swipe")
+                    }
                 } catch (e: Exception) {
-                    Log.e(TAG, e.printStackTrace().toString())
+
                 }
             }
         }
@@ -65,11 +58,9 @@ class ListOfMealsActivity : AppCompatActivity(), ListOfMealsContract.View {
         itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
-    private fun setRecyclerViewAdapter(m: MutableList<MealData>) {
+    private fun setRecyclerViewAdapter(m: MutableList<Meal>) {
         viewAdapter = MealsAdapter(m, object : MealsAdapter.OnItemClickListener {
-            override fun onItemClick(item: MealData) {
-                Log.e(TAG, "TEST ON CLICK")
-                val intent = Intent()
+            override fun onItemClick(item: Meal) {
             }
         })
     }
@@ -90,16 +81,15 @@ class ListOfMealsActivity : AppCompatActivity(), ListOfMealsContract.View {
         //Fill with dummyData
         val task = Runnable {
             val dummyList = mutableListOf(
-                    MealData(1, "test1", 0, "testPrep1"),
-                    MealData(2, "test2", 0, "testPrep2"),
-                    MealData(3, "test3", 0, "testPrep3")
+                    Meal(1, "test1", 120, "testPrep1"),
+                    Meal(2, "test2", 54, "testPrep2"),
+                    Meal(3, "test3", 13, "testPrep3")
             )
             repository.insertList(dummyList)
         }
         val thread = Thread(task)
         thread.start()
         thread.join()
-        //
 
         presenter = ListOfMealsPresenter(repository)
         presenter.attach(this)
@@ -121,5 +111,3 @@ class ListOfMealsActivity : AppCompatActivity(), ListOfMealsContract.View {
     }
 
 }
-
-

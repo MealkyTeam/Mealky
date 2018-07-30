@@ -1,4 +1,4 @@
-package com.kuba.mealky.Presenters
+package com.kuba.mealky.presenters
 
 abstract class BasePresenter<T> {
 

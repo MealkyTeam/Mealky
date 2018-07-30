@@ -1,17 +1,17 @@
-package com.kuba.mealky.Database
+package com.kuba.mealky.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.kuba.mealky.Database.DAO.IngredientDao
-import com.kuba.mealky.Database.DAO.MealDao
-import com.kuba.mealky.Database.DAO.UnitDao
-import com.kuba.mealky.Database.Entities.IngredientData
-import com.kuba.mealky.Database.Entities.MealData
-import com.kuba.mealky.Database.Entities.UnitData
+import com.kuba.mealky.database.dao.IngredientDao
+import com.kuba.mealky.database.dao.MealDao
+import com.kuba.mealky.database.dao.UnitDao
+import com.kuba.mealky.database.models.Ingredient
+import com.kuba.mealky.database.models.Meal
+import com.kuba.mealky.database.models.UnitData
 
-@Database(entities = arrayOf(MealData::class, IngredientData::class, UnitData::class), version = 1)
+@Database(entities = [(Meal::class), (Ingredient::class), (UnitData::class)], version = 1)
 abstract class MealkyDatabase : RoomDatabase() {
 
     abstract fun mealDao(): MealDao

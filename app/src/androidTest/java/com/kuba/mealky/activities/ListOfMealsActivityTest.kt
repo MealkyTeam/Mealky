@@ -1,8 +1,6 @@
-package com.kuba.mealky.Activities
+package com.kuba.mealky.activities
 
 import org.junit.Test
-
-import org.junit.Assert.*
 
 class ListOfMealsActivityTest {
 

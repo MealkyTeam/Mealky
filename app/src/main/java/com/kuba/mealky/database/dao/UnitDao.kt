@@ -1,10 +1,10 @@
-package com.kuba.mealky.Database.DAO
+package com.kuba.mealky.database.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
-import com.kuba.mealky.Database.Entities.UnitData
+import com.kuba.mealky.database.models.UnitData
 
 @Dao
 interface UnitDao {

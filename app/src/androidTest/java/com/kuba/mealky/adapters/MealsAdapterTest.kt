@@ -1,21 +1,21 @@
-package com.kuba.mealky.Adapters
+package com.kuba.mealky.adapters
 
-import com.kuba.mealky.Database.Entities.MealData
+import com.kuba.mealky.database.models.Meal
 import org.junit.Before
 import org.junit.Test
 
 class MealsAdapterTest {
     private lateinit var adapter: MealsAdapter
-    lateinit var dummyList: MutableList<MealData>
+    lateinit var dummyList: MutableList<Meal>
     @Before
     fun setUp() {
         dummyList = mutableListOf(
-                MealData(1, "test1", 0, "testPrep1"),
-                MealData(2, "test2", 0, "testPrep2"),
-                MealData(3, "test3", 0, "testPrep3")
+                Meal(1, "test1", 0, "testPrep1"),
+                Meal(2, "test2", 0, "testPrep2"),
+                Meal(3, "test3", 0, "testPrep3")
         )
         adapter = MealsAdapter(dummyList, object : MealsAdapter.OnItemClickListener {
-            override fun onItemClick(item: MealData) {
+            override fun onItemClick(item: Meal) {
             }
         })
     }
