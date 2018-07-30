@@ -2,13 +2,12 @@ package com.kuba.mealky.Activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.BottomNavigationView
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.helper.ItemTouchHelper
 import android.util.Log
-import android.widget.SimpleAdapter
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.kuba.mealky.Adapters.MealsAdapter
 import com.kuba.mealky.Database.Entities.MealData
 import com.kuba.mealky.Database.MealkyDatabase

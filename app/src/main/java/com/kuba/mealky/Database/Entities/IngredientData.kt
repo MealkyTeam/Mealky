@@ -1,6 +1,10 @@
 package com.kuba.mealky.Database.Entities
 
-import android.arch.persistence.room.*
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.Index
+import androidx.room.PrimaryKey
 
 @Entity(tableName = "ingredient", foreignKeys = arrayOf(ForeignKey(
         entity = UnitData::class,
