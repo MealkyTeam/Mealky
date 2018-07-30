@@ -4,9 +4,9 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import com.kuba.mealky.Database.Entities.MealData
 import com.kuba.mealky.R
+import kotlinx.android.synthetic.main.meal_item.view.*
 
 
 class MealsAdapter(var meals: MutableList<MealData>, private val listener: OnItemClickListener) :
@@ -16,7 +16,7 @@ class MealsAdapter(var meals: MutableList<MealData>, private val listener: OnIte
         fun onItemClick(item: MealData)
     }
 
-    class ViewHolder(val textView: TextView) : RecyclerView.ViewHolder(textView) {
+    class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         fun bindListener(item: MealData, listener: OnItemClickListener) {
             itemView.setOnClickListener { listener.onItemClick(item) }
         }
@@ -24,13 +24,13 @@ class MealsAdapter(var meals: MutableList<MealData>, private val listener: OnIte
 
     override fun onCreateViewHolder(parent: ViewGroup,
                                     viewType: Int): ViewHolder {
-        val textView = LayoutInflater.from(parent.context)
-                .inflate(R.layout.meal_text_view, parent, false) as TextView
-        return ViewHolder(textView)
+        val layout = LayoutInflater.from(parent.context)
+                .inflate(R.layout.meal_item, parent, false)
+        return ViewHolder(layout)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.textView.text = meals[position].toString()
+        holder.view.mealTextView.text = meals[position].toString()
         holder.bindListener(meals[position], listener)
     }
 
