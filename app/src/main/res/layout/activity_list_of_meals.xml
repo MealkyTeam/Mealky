@@ -8,20 +8,19 @@
     tools:context="com.kuba.mealky.activities.ListOfMealsActivity">
 
     <include
-        layout="@layout/topbar"
-        android:id="@+id/topBar" />
+        android:id="@+id/topBar"
+        layout="@layout/top_bar" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list_of_meals"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="?attr/actionBarSize"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/bottomBar"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/topBar" />
 
     <include
-        layout="@layout/bottombar"
-        android:id="@+id/bottomBar" />
+        android:id="@+id/bottomBar"
+        layout="@layout/bottom_bar" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -17,8 +17,8 @@ class ListOfMealsPresenter(val repository: MealsRepository) : BasePresenter<List
         view?.fillList(meals)
     }
 
-    override fun changeViewToMeal() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun changeViewToMeal(meal:Meal) {
+        view?.onItemClick(meal)
     }
 
     override fun deleteMeal(meal: Meal, index: Int) {

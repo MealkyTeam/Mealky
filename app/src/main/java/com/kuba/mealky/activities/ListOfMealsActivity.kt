@@ -1,5 +1,6 @@
 package com.kuba.mealky.activities
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -15,6 +16,7 @@ import com.kuba.mealky.database.repositories.MealsRepository
 import com.kuba.mealky.presenters.ListOfMealsContract
 import com.kuba.mealky.presenters.ListOfMealsPresenter
 import com.kuba.mealky.util.SwipeToDeleteCallback
+import timber.log.Timber
 
 class ListOfMealsActivity : AppCompatActivity(), ListOfMealsContract.View {
     private lateinit var meals: MutableList<Meal>
@@ -23,7 +25,7 @@ class ListOfMealsActivity : AppCompatActivity(), ListOfMealsContract.View {
     private lateinit var repository: MealsRepository
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
-    private lateinit var viewManager: RecyclerView.LayoutManager
+    private lateinit var viewManager: LinearLayoutManager
 
     override fun fillList(m: MutableList<Meal>) {
         meals = m
@@ -60,17 +62,20 @@ class ListOfMealsActivity : AppCompatActivity(), ListOfMealsContract.View {
 
     private fun setRecyclerViewAdapter(m: MutableList<Meal>) {
         viewAdapter = MealsAdapter(m, object : MealsAdapter.OnItemClickListener {
-            override fun onItemClick(item: Meal) {
+            override fun onItemClick(item: Meal) { presenter.changeViewToMeal(item)
             }
         })
     }
 
-    override fun onItemClick() {
+    override fun onItemClick(meal:Meal) {
+        Timber.e("FunName:onItemClick *****$meal *****")
+        val intent = Intent(this, MealActivity::class.java)
+        startActivity(intent)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_list_of_meals)
 
         setSupportActionBar(findViewById(R.id.topBar))
         bottomBar = findViewById(R.id.bottomBar)
@@ -78,12 +83,31 @@ class ListOfMealsActivity : AppCompatActivity(), ListOfMealsContract.View {
 
         repository = MealsRepository(MealkyDatabase.getInstance(this)!!)
 
-        //Fill with dummyData
+        //Filled with dummyData
         val task = Runnable {
             val dummyList = mutableListOf(
                     Meal(1, "test1", 120, "testPrep1"),
                     Meal(2, "test2", 54, "testPrep2"),
-                    Meal(3, "test3", 13, "testPrep3")
+                    Meal(3, "test2", 54, "testPrep2"),
+                    Meal(4, "test2", 54, "testPrep2"),
+                    Meal(5, "test2", 54, "testPrep2"),
+                    Meal(6, "test2", 54, "testPrep2"),
+                    Meal(7, "test2", 54, "testPrep2"),
+                    Meal(8, "test2", 54, "testPrep2"),
+                    Meal(9, "test2", 54, "testPrep2"),
+                    Meal(11, "test2", 54, "testPrep2"),
+                    Meal(12, "test2", 54, "testPrep2"),
+                    Meal(13, "test2", 54, "testPrep2"),
+                    Meal(14, "test2", 54, "testPrep2"),
+                    Meal(15, "test2", 54, "testPrep2"),
+                    Meal(16, "test2", 54, "testPrep2"),
+                    Meal(17, "test2", 54, "testPrep2"),
+                    Meal(18, "test2", 54, "testPrep2"),
+                    Meal(19, "test2", 54, "testPrep2"),
+                    Meal(20, "test2", 54, "testPrep2"),
+                    Meal(21, "test2", 54, "testPrep2"),
+                    Meal(22, "test2", 54, "testPrep2"),
+                    Meal(23, "test3", 13, "testPrep3")
             )
             repository.insertList(dummyList)
         }

@@ -5,15 +5,15 @@ import com.kuba.mealky.database.models.Meal
 interface ListOfMealsContract {
 
     interface View {
-        fun fillList(m: MutableList<Meal>)
-        fun onItemClick()
+        fun fillList(listOfMeals: MutableList<Meal>)
+        fun onItemClick(meal:Meal)
         fun removeFromList(index: Int)
     }
 
 
     interface Presenter {
         fun loadMeals()
-        fun changeViewToMeal()
+        fun changeViewToMeal(meal:Meal)
         fun deleteMeal(meal: Meal, index: Int)
     }
 
