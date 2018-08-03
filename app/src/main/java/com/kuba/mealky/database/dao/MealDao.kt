@@ -6,12 +6,13 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
 import com.kuba.mealky.database.models.Meal
+import io.reactivex.Single
 
 @Dao
 interface MealDao {
 
     @Query("SELECT * from meal")
-    fun getAll(): MutableList<Meal>
+    fun getAll(): Single<List<Meal>>
 
     @Insert(onConflict = REPLACE)
     fun insert(meal: Meal)
@@ -19,9 +20,12 @@ interface MealDao {
     @Query("DELETE from meal")
     fun deleteAll()
 
-    @Delete()
+    @Delete
     fun delete(meal: Meal)
 
+    @Query("DELETE from meal WHERE meal_id=:id")
+    fun delete(id: Int)
+
     @Query("SELECT * from meal WHERE meal_id=:id LIMIT 1")
-    fun findMealByiD(id: Int): Meal
+    fun findMealByiD(id: Int): Single<Meal>
 }

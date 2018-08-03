@@ -2,16 +2,33 @@ package com.kuba.mealky.database.repositories
 
 import com.kuba.mealky.database.MealkyDatabase
 import com.kuba.mealky.database.models.Meal
+import io.reactivex.Observable
+import io.reactivex.Single
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.addTo
+import io.reactivex.schedulers.Schedulers
 
 
-class MealsRepository(private val mealkyDatabase: MealkyDatabase) {
+class MealsRepository(private val mealkyDatabase: MealkyDatabase) : Repository {
+
+    init {
+        compositeDisposable = CompositeDisposable()
+        observable = Observable.just(
+                .subscribeOn(Schedulers.io())
+    }
 
     fun getAll(): MutableList<Meal> {
         return mealkyDatabase.mealDao().getAll()
     }
 
     fun insert(meal: Meal) {
-        mealkyDatabase.mealDao().insert(meal)
+        observable = Single.just(mealkyDatabase)
+                .subscribeOn(Schedulers.io())
+                .subscribe { db -> db.mealDao().insert(meal) }
+
+        observable.addTo(compositeDisposable)
+        compositeDisposable.dispose()
+
     }
 
     fun insertList(meals: List<Meal>) {
@@ -20,17 +37,27 @@ class MealsRepository(private val mealkyDatabase: MealkyDatabase) {
     }
 
     fun delete(meal: Meal) {
-        mealkyDatabase.mealDao().delete(meal)
+        observable = Observable.just(mealkyDatabase)
+                .subscribeOn(Schedulers.io())
+                .subscribe { db -> db.mealDao().delete(meal) }
+
+        observable.addTo(compositeDisposable)
+        compositeDisposable.dispose()
     }
 
     fun delete(index: Int) {
-        val meal = findById(index)
-        if (meal != null)
-            mealkyDatabase.mealDao().delete(meal)
+
+                observable.subscribe { db -> db.mealDao().delete(index) }
+
+        observable.addTo(compositeDisposable)
+        compositeDisposable.dispose()
     }
 
-    fun findById(index: Int): Meal? {
-        return mealkyDatabase.mealDao().findMealByiD(index)
+    fun findById(index: Int): Single<Meal> {
+        val single=Single.just(mealkyDatabase)
+                .subscribeOn(Schedulers.io())
+                .subscribe { db -> db.mealDao().findMealByiD(index) }
+        return
     }
 
 }

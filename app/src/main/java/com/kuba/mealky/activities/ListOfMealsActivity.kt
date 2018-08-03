@@ -27,8 +27,8 @@ class ListOfMealsActivity : AppCompatActivity(), ListOfMealsContract.View {
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: LinearLayoutManager
 
-    override fun fillList(m: MutableList<Meal>) {
-        meals = m
+    override fun fillList(listOfMeals: MutableList<Meal>) {
+        meals = listOfMeals
 
         viewManager = LinearLayoutManager(this)
         setRecyclerViewAdapter(meals)
