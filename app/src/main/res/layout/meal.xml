@@ -5,13 +5,14 @@
     android:id="@+id/mealItemLayout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@color/colorPrimary">
+    >
 
     <TextView
         android:id="@+id/mealName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="Test meal name" />
+        tools:text="Test meal name"
+        android:background="@color/colorPrimary"/>
 
     <TextView
         android:id="@+id/prepTime"
@@ -22,10 +23,12 @@
         tools:text="30" />
 
     <TextView
+        android:background="@color/colorPrimary"
         android:id="@+id/preparation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/mealName"
+        android:layout_marginTop="10dp"
         tools:text="Test meal prep time very long text Test meal prep time very long text Test meal prep time very long text Test meal prep time very long text Test meal prep time very long text Test meal prep time very long text" />
 
 </RelativeLayout>

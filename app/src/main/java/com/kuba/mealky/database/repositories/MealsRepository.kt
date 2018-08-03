@@ -4,7 +4,7 @@ import com.kuba.mealky.database.MealkyDatabase
 import com.kuba.mealky.database.models.Meal
 
 
-class MealsRepository(val mealkyDatabase: MealkyDatabase) {
+class MealsRepository(private val mealkyDatabase: MealkyDatabase) {
 
     fun getAll(): MutableList<Meal> {
         return mealkyDatabase.mealDao().getAll()
