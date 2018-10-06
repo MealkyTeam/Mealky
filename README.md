@@ -13,6 +13,8 @@ Trello, Github, Android Studio.
 
 Diagram przypadków użycia:
 
+![mealky-przypadki uzycia](https://user-images.githubusercontent.com/43780500/46571210-3277ce80-c971-11e8-9549-5a21f68a5cab.jpg)
+
 Diagram ERD:
 
 Spis funkcjonalności:
