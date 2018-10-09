@@ -18,7 +18,7 @@ Diagram przypadków użycia:
 Diagram ERD:
 ![mealky-diagram erd](https://user-images.githubusercontent.com/43789592/46572105-a7063980-c980-11e8-8aa2-a6d4fe897709.png)
 Spis funkcjonalności:
-- Dodawnie przepisów.
+- Dodawanie przepisów.
 - Modyfikowanie przepisów.
 - Przepisy przyporządkowane do konkretnego konta.
 - Przepisy na serwerze/chmurze.
@@ -40,3 +40,7 @@ Opcjonalnie:
 - Funkcja przeglądania przepisów "kulinarny tinder"
 - Przelicznik jednostek
 - Notatki do przepisów
+
+
+Przypadki "wrażliwe":
+- Szukanie: po składnikach, 
