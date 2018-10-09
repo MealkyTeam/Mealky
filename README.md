@@ -9,7 +9,7 @@ Technologie:
 Kotlin, Java, Android, jUnit, dagger2, rxjava, retrofi, picasso.
 
 Narzędzia:
-Trello, Github, Android Studio.
+Trello, Github, Android Studio, Slack.
 
 Diagram przypadków użycia:
 
@@ -34,4 +34,9 @@ Spis funkcjonalności:
 Opcjonalnie:
 - Baza ogólna z przepisami wszystkich uzytkownikow.
 - Dzielenie się własną bazą z innymi użykownikami
+- Kopiowanie przepisów innych użytkowników
 - Aplikacja webowa.
+- Lista zakupów
+- Funkcja przeglądania przepisów "kulinarny tinder"
+- Przelicznik jednostek
+- Notatki do przepisów
