@@ -18,25 +18,24 @@ Diagram przypadków użycia:
 Diagram ERD:
 ![mealky-diagram erd](https://user-images.githubusercontent.com/43789592/46572105-a7063980-c980-11e8-8aa2-a6d4fe897709.png)
 Spis funkcjonalności:
-- Dodawanie przepisów.
-- Modyfikowanie przepisów.
-- Przepisy przyporządkowane do konkretnego konta.
-- Przepisy na serwerze/chmurze.
-- Wyszukiwanie przepisów po nazwie/składnikach/kategoriach.
-- Zdjęcia główne
-- Druk przepisu bez zdjęcia. 
-- Zdjęcia do poszczególnych kroków.
-- Do przemyślenia: aplikacja webowa.
-- Dostęp do początkowej podstawowej bazy. 
-- Ulubione
-- Przepisy offline (początkowa baza przepisów)
-- Funkcja przeglądania przepisów "kulinarny tinder"
-- Przelicznik jednostek
-- Notatki do przepisów
-- Lista zakupów
-- Strona dla developera do akceptacji przepisów
+- Dodawanie przepisów;
+- Modyfikowanie przepisów;
+- Przepisy przyporządkowane do konkretnego konta;
+- Przepisy na serwerze/chmurze;
+- Wyszukiwanie przepisów po nazwie/składnikach/kategoriach;
+- Zdjęcia główne;
+- Druk przepisu bez zdjęcia;
+- Do przemyślenia: aplikacja webowa;
+- Dostęp do początkowej podstawowej bazy;
+- Ulubione;
+- Przepisy offline (początkowa baza przepisów);
+- Funkcja przeglądania przepisów "kulinarny tinder";
+- Przelicznik jednostek;
+- Notatki do przepisów;
+- Lista zakupów;
+- Strona dla developera do akceptacji przepisów.
 
-
+Przykładowe ikony kategorii ze strony "Moje Wypieki":
 ![tes2596259](https://user-images.githubusercontent.com/43780500/46664715-174fcd80-cbc2-11e8-8874-f5d8d79d617b.png)
 
 Przypadki "wrażliwe":
