@@ -29,18 +29,25 @@ Spis funkcjonalności:
 - Do przemyślenia: aplikacja webowa.
 - Dostęp do początkowej podstawowej bazy. 
 - Ulubione
-- Przepisy offline.
-
-Opcjonalnie:
-- Baza ogólna z przepisami wszystkich uzytkownikow.
-- Dzielenie się własną bazą z innymi użykownikami
-- Kopiowanie przepisów innych użytkowników
-- Aplikacja webowa.
-- Lista zakupów
+- Przepisy offline (początkowa baza przepisów)
 - Funkcja przeglądania przepisów "kulinarny tinder"
 - Przelicznik jednostek
 - Notatki do przepisów
+- Lista zakupów
+- Strona dla developera do akceptacji przepisów
 
+
+![tes2596259](https://user-images.githubusercontent.com/43780500/46664715-174fcd80-cbc2-11e8-8874-f5d8d79d617b.png)
 
 Przypadki "wrażliwe":
-- Szukanie: po składnikach, 
+1. Szukanie: po składnikach, po kategoriach, po nazwach przepisu, po użytkowniku
+2. Sortowanie: losowo, alfabetycznie, ilości ulubionych
+3. Opcja zaskocz mnie: 
+   Otwieramy losowy przepis (główne zdjęcie, nazwa, ilość ulubień)
+    - swipe z prawej do lewej -> odrzucamy przepis -> wyświetl kolejny przepis
+    - swipe z lewej do prawej -> otwieramy przepis
+4. Strona przeznaczona do akceptacji nowy dodanych przepisów:
+   Wyświetlają się nowe przepisy dodane przez użytkowników w aplikacji.
+   Administrator ma możliwość zatwierdzenia lub odrzucenia przepisu:
+   - zatwierdzenie zmienia status przepisu na zaakceptowany
+   - odrzucenie wysyła komunikat do użytkownika z informacją zwrotną od administratora
