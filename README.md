@@ -13,7 +13,7 @@ Trello, Github, Android Studio, Slack.
 
 Diagram przypadków użycia:
 
-![mealky-przypadki uzycia](https://user-images.githubusercontent.com/43780500/46571210-3277ce80-c971-11e8-9549-5a21f68a5cab.jpg)
+![mealky-przypadki uzycia](https://user-images.githubusercontent.com/43780500/46821807-0f428a00-cd8a-11e8-860e-589348a5d668.jpg)
 
 Diagram ERD:
 ![mealky-diagram erd](https://user-images.githubusercontent.com/43789592/46572105-a7063980-c980-11e8-8aa2-a6d4fe897709.png)
