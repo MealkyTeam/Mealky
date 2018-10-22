@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.kuba.mealky.activities.ListOfMealsActivity">
+    tools:context="com.kuba.mealky.presentation.meals.MealListActivity">
 
     <include
         layout="@layout/topbar"
         android:id="@+id/topBar" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/list_of_meals"
+        android:id="@+id/mealList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingTop="?attr/actionBarSize"

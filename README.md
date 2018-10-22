@@ -50,3 +50,5 @@ Przypadki "wrażliwe":
    Administrator ma możliwość zatwierdzenia lub odrzucenia przepisu:
    - zatwierdzenie zmienia status przepisu na zaakceptowany
    - odrzucenie wysyła komunikat do użytkownika z informacją zwrotną od administratora
+
+Dzięki Marcin Kitowicz (github.com/kitek) za rady i sugestie odnośnie projektu.
