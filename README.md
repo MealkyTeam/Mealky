@@ -9,7 +9,7 @@ Technologie:
 Kotlin, Java, Android, jUnit, dagger2, rxjava, retrofi, picasso.
 
 Narzędzia:
-Trello, Github, Android Studio, Slack.
+Trello, Github, Android Studio, Slack, Figma, Canva
 
 Diagram przypadków użycia:
 
