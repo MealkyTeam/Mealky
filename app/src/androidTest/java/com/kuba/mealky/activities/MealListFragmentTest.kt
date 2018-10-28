@@ -2,7 +2,7 @@ package com.kuba.mealky.activities
 
 import org.junit.Test
 
-class MealListActivityTest {
+class MealListFragmentTest {
 
     @Test
     fun fillList() {
