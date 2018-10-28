@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.kuba.mealky.R
 import com.kuba.mealky.domain.model.Meal
+import com.kuba.mealky.presentation.commons.extension.loadImage
 import com.kuba.mealky.presentation.commons.extension.toTime
 import kotlinx.android.synthetic.main.meal_item.view.*
 
@@ -32,8 +33,9 @@ class MealsAdapter(var meals: MutableList<Meal>, private val listener: OnItemCli
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val meal = meals[position]
         holder.view.mealName.text = meal.name
-        holder.view.prepTime.text = meal.prepTime.toTime()
         holder.view.preparation.text = meal.preparation
+        val url = if(meal.images.isNotEmpty()) meal.images[0] else ""
+        holder.view.imageView.loadImage(url)
         holder.bindListener(meals[position], listener)
     }
 

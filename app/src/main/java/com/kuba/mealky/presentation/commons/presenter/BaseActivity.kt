@@ -3,18 +3,23 @@ package com.kuba.mealky.presentation.commons.presenter
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import javax.inject.Inject
 
 abstract class BaseActivity<P : Presenter<V>, in V, VM : BaseViewModel<P>> : AppCompatActivity(), BaseUI {
 
+    @Inject open lateinit var vmFactory: ViewModelProvider.Factory
     abstract val vmClass: Class<VM>
 
     protected var presenter: P? = null
     private var alertDialog: AlertDialog? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        presenter = ViewModelProviders.of(this).get(vmClass).presenter
+        val vm = ViewModelProviders.of(this, vmFactory).get(vmClass)
+        presenter = vm.presenter
     }
 
 
