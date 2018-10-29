@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>>
+    <color name="colorPrimary">#0F334D</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <color name="bar">#0F334D</color>
+    <color name="icons">#9EACB4</color>
+    <color name="windows">#9939474F</color>
+    <color name="white">#ffffff</color>
+</resources>

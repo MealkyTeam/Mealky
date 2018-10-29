@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/Background"
+    tools:context=".MainActivity"
+    tools:layout_editor_absoluteY="81dp">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/mealItemLayout"
+        android:layout_width="360dp"
+        android:layout_height="415dp"
+        android:background="@color/windows"
+        tools:layout_editor_absoluteX="17dp"
+        tools:layout_editor_absoluteY="13dp">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="159dp"
+            android:layout_height="167dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="35dp"
+            android:outlineProvider="background"
+            android:scaleType="centerCrop"
+            android:src="@drawable/nalesniki"
+            tools:layout_editor_absoluteX="54dp"
+            tools:layout_editor_absoluteY="33dp" />
+
+        <TextView
+            android:id="@+id/sklad"
+            android:layout_width="196dp"
+            android:layout_height="166dp"
+            android:layout_above="@+id/przygotowanie"
+            android:layout_alignEnd="@id/imageView"
+            android:layout_marginEnd="-196dp"
+            android:layout_marginBottom="-169dp"
+            android:textColor="@color/white"
+            android:textSize="15dp"
+            tools:text=" Czas przygotowania : 10 min
+ Składniki:
+    1 szklanka mąki pszennej
+    2 jajka
+    1 szklanka mleka
+    3/4 szklanki wody
+    szczypta soli
+    3 łyżki masła
+
+" />
+
+        <TextView
+            android:id="@+id/przepis"
+            android:layout_width="86dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="3dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="onTermConditions"
+            android:textColor="@color/white"
+            android:textSize="18dp"
+            tools:layout_editor_absoluteX="159dp"
+            tools:layout_editor_absoluteY="198dp"
+            tools:text="Naleśniki" />
+
+        <TextView
+            android:id="@+id/przygotowanie"
+            android:layout_width="match_parent"
+            android:layout_height="206dp"
+            android:layout_below="@+id/przepis"
+            android:layout_marginTop="176dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:maxLines="10"
+            android:onClick="onTermConditions"
+            android:textColor="@color/white"
+            android:textSize="16.4dp"
+            tools:layout_editor_absoluteX="29dp"
+            tools:layout_editor_absoluteY="244dp"
+            tools:text="Mąkę wsypać do miski, dodać jajka, mleko, wodę i sól. Zmiksować na gładkie ciasto. Dodać roztopione masło lub olej roślinny i razem zmiksować (lub wykorzystać tłuszcz do smarowania patelni przed smażeniem każdego naleśnika). Naleśniki smażyć na dobrze rozgrzanej patelni z cienkim dnem np. naleśnikowej. Przewrócić na drugą stronę gdy spód naleśnika będzie już ładnie zrumieniony i ścięty." />
+    </RelativeLayout>
+
+    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/toolbar"
+        android:layout_width="383dp"
+        android:layout_height="100dp"
+        android:background="@color/bar"
+        android:minHeight="?attr/actionBarSize"
+        app:theme="@style/Base.Theme.AppCompat.CompactMenu"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="441dp">
+
+        <LinearLayout
+            android:id="@+id/toolbarmenucontainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+
+            android:weightSum="4">
+
+            <ImageButton
+                android:layout_width="10dp"
+                android:layout_height="65dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/ic_baseline_fastfood_24px"
+                android:backgroundTint="@color/icons"
+                android:clickable="true"
+                android:scaleType="fitXY"
+
+            <ImageButton
+                android:layout_width="10dp"
+                android:layout_height="75dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/ic_baseline_shopping_cart_24px"
+                android:backgroundTint="@color/icons"
+                android:clickable="true"
+                android:scaleType="fitXY"
+
+            <ImageButton
+                android:layout_width="15dp"
+                android:layout_height="70dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/ic_baseline_spa_24px"
+                android:backgroundTint="@color/icons"
+                android:clickable="true"
+
+                android:scaleType="fitXY"
+
+            <ImageButton
+                android:layout_width="10dp"
+                android:layout_height="70dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/ic_baseline_settings_20px"
+                android:backgroundTint="@color/icons"
+                android:clickable="true"
+                android:scaleType="fitXY"
+
+        </LinearLayout>
+
+    </android.support.v7.widget.Toolbar>
+
+</android.support.constraint.ConstraintLayout>
