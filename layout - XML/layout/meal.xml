@@ -26,15 +26,15 @@
             android:layout_marginTop="35dp"
             android:outlineProvider="background"
             android:scaleType="centerCrop"
-            android:src="@drawable/nalesniki"
+            android:src="@drawable/pancakes"
             tools:layout_editor_absoluteX="54dp"
             tools:layout_editor_absoluteY="33dp" />
 
         <TextView
-            android:id="@+id/sklad"
+            android:id="@+id/ingredients"
             android:layout_width="196dp"
             android:layout_height="166dp"
-            android:layout_above="@+id/przygotowanie"
+            android:layout_above="@+id/preparation"
             android:layout_alignEnd="@id/imageView"
             android:layout_marginEnd="-196dp"
             android:layout_marginBottom="-169dp"
@@ -52,7 +52,7 @@
 " />
 
         <TextView
-            android:id="@+id/przepis"
+            android:id="@+id/meal"
             android:layout_width="86dp"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -68,10 +68,10 @@
             tools:text="Naleśniki" />
 
         <TextView
-            android:id="@+id/przygotowanie"
+            android:id="@+id/preparation"
             android:layout_width="match_parent"
             android:layout_height="206dp"
-            android:layout_below="@+id/przepis"
+            android:layout_below="@+id/meal"
             android:layout_marginTop="176dp"
             android:clickable="true"
             android:focusable="true"
