@@ -7,27 +7,34 @@
     android:layout_height="wrap_content"
     android:background="@color/colorPrimary">
 
-    <TextView
-        android:id="@+id/mealName"
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:scaleType="centerCrop"
+        android:outlineProvider="background"
+        android:src="@mipmap/ic_launcher"/>
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="Test meal name" />
+        android:orientation="vertical"
+        android:layout_toEndOf="@id/imageView">
 
-    <TextView
-        android:id="@+id/prepTime"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@id/mealName"
-        android:gravity="end"
-        tools:text="30" />
+        <TextView
+            android:id="@+id/mealName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Test meal name" />
 
-    <TextView
-        android:id="@+id/preparation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/mealName"
-        tools:text="Test meal prep time very long text Test meal prep time very long text Test meal prep time very long text Test meal prep time very long text Test meal prep time very long text Test meal prep time very long text"
-        android:maxLines="2"
-        android:ellipsize="end" />
+        <TextView
+            android:id="@+id/preparation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/mealName"
+            android:ellipsize="end"
+            android:maxLines="2"
+            tools:text="Test meal prep time very long text Test meal prep time very long text Test meal prep time very long text Test meal prep time very long text Test meal prep time very long text Test meal prep time very long text" />
+
+    </LinearLayout>
 
 </RelativeLayout>
