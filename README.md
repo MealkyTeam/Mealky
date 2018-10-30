@@ -52,3 +52,30 @@ Przypadki "wrażliwe":
    - odrzucenie wysyła komunikat do użytkownika z informacją zwrotną od administratora
 
 Dzięki Marcin Kitowicz (github.com/kitek) za rady i sugestie odnośnie projektu.
+
+Terminarz na najbliższy miesiąc:
+
+Do 30.10
+Kuba:  Lista i strony posiłków (Symulowane dane)
+Lucjan i Krzysiek:  Działający serwer z odpowiedziami do SELECTÓW. Prosty REST service. Podstawowe dane testowe.
+Maciek: Layout do listy i stron posiłków.
+
+Do 06.11
+Kuba: Działający bottombar i zaimplementowanie layoutów.
+Maciek: Layout do funkcji tinder, koszyka i opcji.
+Lucjan i Krzysiek: Działająca strona administratora. Ukończony REST service.
+
+Do 13.11
+Kuba: Połączenie z REST service, działająca opcja tinder.
+Maciek: Pozostałe layouty, których wymaga aplikacja.
+Lucjan i Krzysiek: Dokumentacja REST Api, endpoint.
+
+Do 20.11
+Kuba:  Testowanie aplikacji, wprowadzanie wymaganych poprawek.
+Maciek: Wyszukiwanie odpowiednich bibliotek animacji do androida, aktualizacja readme.
+Lucjan i Krzysiek: CRUD strony admina.
+
+Do 27.11
+Kuba:  Działający generator listy zakupów.
+Maciek:
+Lucjan i Krzysiek: Pełna bazowa książka kucharska.
