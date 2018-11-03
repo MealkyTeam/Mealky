@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/navHome"
-        android:icon="@drawable/ic_restaurant_menu_black_24dp"
+        android:icon="@drawable/ic_baseline_fastfood_24px"
         android:title="@string/meals" />
 
     <item
@@ -13,8 +13,8 @@
 
     <item
         android:id="@+id/navDiscover"
-        android:icon="@drawable/ic_receipt_black_24dp"
-        android:title="@string/discover" />
+        android:icon="@drawable/ic_baseline_spa_24px"
+        android:title="@string/ingredients" />
 
     <item
         android:id="@+id/navSettings"
