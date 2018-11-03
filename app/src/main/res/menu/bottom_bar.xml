@@ -14,7 +14,7 @@
     <item
         android:id="@+id/navDiscover"
         android:icon="@drawable/ic_receipt_black_24dp"
-        android:title="@string/ingredients" />
+        android:title="@string/discover" />
 
     <item
         android:id="@+id/navSettings"

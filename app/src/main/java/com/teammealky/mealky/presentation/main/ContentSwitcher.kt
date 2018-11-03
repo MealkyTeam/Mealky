@@ -6,7 +6,10 @@ import android.transition.TransitionValues
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.teammealky.mealky.R
+import com.teammealky.mealky.presentation.discover.DiscoverFragment
 import com.teammealky.mealky.presentation.meals.MealListFragment
+import com.teammealky.mealky.presentation.settings.SettingsFragment
+import com.teammealky.mealky.presentation.shoppinglist.ShoppingListFragment
 
 class ContentSwitcher(private val fm: FragmentManager,
                       private val context: Context) {
@@ -35,9 +38,9 @@ class ContentSwitcher(private val fm: FragmentManager,
 
     private fun isSecondLevel(fragment: Fragment): Boolean {
         return when (fragment) {
-//            is ShoppingListFragment -> true
-//            is DiscoverFragment -> true
-//            is SettingsFragment -> true
+            is ShoppingListFragment -> true
+            is DiscoverFragment -> true
+            is SettingsFragment -> true
             else -> false
         }
     }
