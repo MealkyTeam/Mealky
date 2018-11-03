@@ -11,8 +11,11 @@ import com.teammealky.mealky.presentation.App
 import com.teammealky.mealky.presentation.commons.Navigator
 import com.teammealky.mealky.presentation.commons.extension.*
 import com.teammealky.mealky.presentation.commons.presenter.BaseActivity
+import com.teammealky.mealky.presentation.discover.DiscoverFragment
 import com.teammealky.mealky.presentation.meal.MealFragment
 import com.teammealky.mealky.presentation.meals.MealListFragment
+import com.teammealky.mealky.presentation.settings.SettingsFragment
+import com.teammealky.mealky.presentation.shoppinglist.ShoppingListFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.Exception
 
@@ -76,6 +79,9 @@ class MainActivity : BaseActivity<MainPresenter, MainPresenter.UI, MainViewModel
         when (fragment) {
             is MealListFragment -> menuItemPosition = BOTTOM_BAR_MEALS
             is MealFragment -> menuItemPosition = BOTTOM_BAR_MEALS
+            is ShoppingListFragment -> menuItemPosition = BOTTOM_BAR_SHOPPING_LIST
+            is DiscoverFragment -> menuItemPosition = BOTTOM_BAR_DISCOVER
+            is SettingsFragment -> menuItemPosition = BOTTOM_BAR_SETTINGS
 
             else -> isBottomBarFragment = false
         }
