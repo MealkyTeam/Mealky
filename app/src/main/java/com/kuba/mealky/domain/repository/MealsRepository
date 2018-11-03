@@ -1,4 +1,0 @@
-package com.kuba.mealky.domain.repository
-
-interface MealsRepository{
-}
