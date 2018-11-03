@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.kuba.mealky.presentation.commons.view.AspectRatioImageView
+            <com.teammealky.mealky.presentation.commons.view.AspectRatioImageView
                 android:id="@+id/imageView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
