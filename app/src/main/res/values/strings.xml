@@ -3,6 +3,6 @@
     <string name="title_activity_list_of_meals">ListOfMealsActivity</string>
     <string name="meals">Meals</string>
     <string name="shopping_list">Shopping list</string>
-    <string name="discover">Discover</string>
+    <string name="ingredients">Ingredients</string>
     <string name="settings">Settings</string>
 </resources>

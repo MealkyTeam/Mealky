@@ -5,7 +5,7 @@
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:background="@android:color/white"
+    tools:background="@drawable/background"
     tools:ignore="MergeRootFrame">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -16,12 +16,12 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomBar"
+        android:background="@color/bar"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_gravity="bottom"
-        android:background="@android:color/holo_green_light"
         app:elevation="8dp"
-        app:itemTextColor="@color/colorPrimary"
+        app:itemTextColor="@color/barItems"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_bar" />
 </FrameLayout>
