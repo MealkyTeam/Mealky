@@ -1,4 +1,0 @@
-package com.teammealky.mealky.domain.repository
-
-interface MealsRepository{
-}

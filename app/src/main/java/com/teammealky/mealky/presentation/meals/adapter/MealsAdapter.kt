@@ -9,7 +9,7 @@ import com.teammealky.mealky.domain.model.Meal
 import com.teammealky.mealky.presentation.commons.extension.loadImage
 import kotlinx.android.synthetic.main.meal_item.view.*
 
-class MealsAdapter(var meals: MutableList<Meal>, private val listener: OnItemClickListener) :
+class MealsAdapter(var meals: List<Meal>, private val listener: OnItemClickListener) :
         RecyclerView.Adapter<MealsAdapter.ViewHolder>() {
 
     interface OnItemClickListener {
@@ -44,8 +44,4 @@ class MealsAdapter(var meals: MutableList<Meal>, private val listener: OnItemCli
         return meals[i]
     }
 
-    fun removeAt(position: Int) {
-        meals.removeAt(position)
-        notifyItemRemoved(position)
-    }
 }

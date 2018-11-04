@@ -2,6 +2,7 @@ package com.teammealky.mealky.presentation.commons.injection.component
 
 import android.app.Application
 import android.content.Context
+import com.teammealky.mealky.domain.repository.MealsRepository
 import com.teammealky.mealky.presentation.App
 import com.teammealky.mealky.presentation.commons.Navigator
 import com.teammealky.mealky.presentation.commons.injection.ApplicationContext
@@ -28,6 +29,7 @@ interface ApplicationComponent {
     @ApplicationContext fun context(): Context
     fun application(): Application
 
+    fun meals(): MealsRepository
     fun inject(navigator: Navigator)
     fun inject(app: App)
 

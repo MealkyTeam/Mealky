@@ -22,8 +22,13 @@ android {
     }
     buildTypes {
         release {
+            buildConfigField "String", "CENTRAL_URL", rootProject.ext.api.release.central
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            buildConfigField "String", "CENTRAL_URL", rootProject.ext.api.release.central
         }
     }
     testOptions {
@@ -50,6 +55,8 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxandroid:2.1.0"
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
     implementation 'com.google.dagger:dagger-android:2.15'
     implementation 'com.google.dagger:dagger-android-support:2.13'
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.16'
@@ -65,5 +72,4 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.1.0-beta02'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-beta02'
     androidTestImplementation 'org.mockito:mockito-android:2.7.22'
-
 }
