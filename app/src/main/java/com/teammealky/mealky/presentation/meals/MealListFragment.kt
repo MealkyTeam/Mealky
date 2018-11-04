@@ -26,7 +26,6 @@ class MealListFragment : BaseFragment<MealListPresenter, MealListPresenter.UI, M
         App.get(requireContext()).getComponent().inject(this)
         super.onCreate(savedInstanceState)
 
-        presenter = MealListPresenter()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = inflater.inflate(R.layout.meals_fragment, container, false)
@@ -36,7 +35,7 @@ class MealListFragment : BaseFragment<MealListPresenter, MealListPresenter.UI, M
         setupRecyclerView()
     }
 
-    override fun fillList(meals: MutableList<Meal>) {
+    override fun fillList(meals: List<Meal>) {
         viewManager = LinearLayoutManager(context)
         setRecyclerViewAdapter(meals)
 
@@ -47,7 +46,7 @@ class MealListFragment : BaseFragment<MealListPresenter, MealListPresenter.UI, M
         mealListRv.addItemDecoration(DividerItemDecoration(mealListRv.context, LinearLayoutManager.VERTICAL))
     }
 
-    private fun setRecyclerViewAdapter(meals: MutableList<Meal>) {
+    private fun setRecyclerViewAdapter(meals: List<Meal>) {
         viewAdapter = MealsAdapter(meals, object : MealsAdapter.OnItemClickListener {
             override fun onItemClick(item: Meal) {
                 presenter?.onItemClicked(item)
