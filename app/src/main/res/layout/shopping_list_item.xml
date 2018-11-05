@@ -2,7 +2,7 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/settingsItemLayout"
+    android:id="@+id/shoplistItemLayout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@color/bar">
@@ -14,22 +14,13 @@
         android:layout_toEndOf="@id/imageView">
 
         <TextView
-            android:id="@+id/settingName"
+            android:id="@+id/shoplistItemName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/bar"
             android:textColor="@color/barItems"
-            android:text="Informacje o wersji" />
+            tools:text="Naleśniki" />
 
-        <TextView
-            android:id="@+id/settingInfo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/bar"
-            android:textColor="@color/barItems"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:text="alpha v.01"/>
     </LinearLayout>
 
 </RelativeLayout>
