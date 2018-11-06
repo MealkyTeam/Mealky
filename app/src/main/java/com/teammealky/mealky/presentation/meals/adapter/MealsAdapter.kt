@@ -33,7 +33,7 @@ class MealsAdapter(var meals: List<Meal>, private val listener: OnItemClickListe
         val meal = meals[position]
         holder.view.mealName.text = meal.name
         holder.view.preparation.text = meal.preparation
-        val url = if(meal.images.isNotEmpty()) meal.images[0] else ""
+        val url = if (meal.images.isNotEmpty()) meal.images[0] else ""
         holder.view.imageView.loadImage(url)
         holder.bindListener(meals[position], listener)
     }
@@ -42,6 +42,11 @@ class MealsAdapter(var meals: List<Meal>, private val listener: OnItemClickListe
 
     fun getItem(i: Int): Meal? {
         return meals[i]
+    }
+
+    fun refreshItems(meals: List<Meal>) {
+        this.meals = meals
+        this.notifyDataSetChanged()
     }
 
 }

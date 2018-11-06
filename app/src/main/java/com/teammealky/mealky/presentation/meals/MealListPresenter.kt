@@ -16,22 +16,32 @@ class MealListPresenter @Inject constructor(
         disposable.add(getMealsUseCase.execute(
                 ListMealsUseCase.Params(0, 0, 0),
                 { list ->
-                    Timber.e("FunName:loadMeals *****$list *****")
                     ui().perform { it.fillList(list) }
                 },
                 { e ->
                     Timber.e("FunName:loadMeals *****ERROR: $e *****")
                 }))
-
     }
 
     fun onItemClicked(model: Meal) {
         ui().perform { it.openItem(model) }
     }
 
+    fun refresh() {
+        disposable.add(getMealsUseCase.execute(
+                ListMealsUseCase.Params(0, 0, 0),
+                { list ->
+                    ui().perform { it.refreshList(list) }
+                },
+                { e ->
+                    Timber.e("FunName:loadMeals *****ERROR: $e *****")
+                }))
+    }
+
     interface UI : BaseUI {
         fun fillList(meals: List<Meal>)
         fun removeFromList(meal: Meal)
         fun openItem(meal: Meal)
+        fun refreshList(meals: List<Meal>)
     }
 }
