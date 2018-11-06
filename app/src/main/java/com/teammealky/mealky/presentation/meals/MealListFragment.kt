@@ -15,7 +15,7 @@ import com.teammealky.mealky.presentation.commons.presenter.BaseFragment
 import com.teammealky.mealky.presentation.meals.adapter.MealsAdapter
 import kotlinx.android.synthetic.main.meals_fragment.*
 
-class MealListFragment : BaseFragment<MealListPresenter, MealListPresenter.UI, MealListViewModel>(), MealListPresenter.UI {
+class MealListFragment : BaseFragment<MealListPresenter, MealListPresenter.UI, MealListViewModel>(), MealListPresenter.UI, MealsAdapter.OnItemClickListener {
 
     override val vmClass = MealListViewModel::class.java
 
@@ -54,15 +54,14 @@ class MealListFragment : BaseFragment<MealListPresenter, MealListPresenter.UI, M
 
     override fun refreshList(meals: List<Meal>) {
         viewAdapter.refreshItems(meals)
-        swipeContainer.isRefreshing=false
     }
 
     private fun setRecyclerViewAdapter(meals: List<Meal>) {
-        viewAdapter = MealsAdapter(meals, object : MealsAdapter.OnItemClickListener {
-            override fun onItemClick(item: Meal) {
-                presenter?.onItemClicked(item)
-            }
-        })
+        viewAdapter = MealsAdapter(meals, this)
+    }
+
+    override fun isLoading(isLoading: Boolean) {
+        swipeContainer.isRefreshing = isLoading
     }
 
     override fun openItem(meal: Meal) {
@@ -76,6 +75,10 @@ class MealListFragment : BaseFragment<MealListPresenter, MealListPresenter.UI, M
     }
 
     override fun removeFromList(meal: Meal) {
+    }
+
+    override fun onItemClick(item: Meal) {
+        presenter?.onItemClicked(item)
     }
 
     override fun onDestroy() {

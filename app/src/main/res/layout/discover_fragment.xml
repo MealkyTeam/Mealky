@@ -1,52 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:background="@drawable/pancakes">
+    android:id="@+id/imageLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:background="@drawable/pancakes">
 
-        <FrameLayout
-            android:id="@+id/imageLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/mealDisName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@color/bar"
+        android:clipToPadding="false"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:textAlignment="center"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        tools:text="Naleśniki" />
 
-            <TextView
-                android:id="@+id/mealDisName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
-                android:background="@color/bar"
-                android:clipToPadding="false"
-                android:gravity="center"
-                android:includeFontPadding="false"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:textAlignment="center"
-                android:textSize="32sp"
-                android:textStyle="bold"
-                tools:text="Naleśniki" />
+    <ImageButton
+        android:id="@+id/likeDis"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|end"
+        android:layout_margin="10dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/ic_baseline_favorite_24px"
+        android:contentDescription="@string/like" />
 
-            <ImageButton
-                android:id="@+id/likeDis"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|end"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
-                android:layout_margin="10dp"
-                android:background="@drawable/ic_baseline_favorite_24px" />
-
-            <ImageButton
-                android:id="@+id/dislikeDis"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|start"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
-                android:layout_margin="10dp"
-                android:background="@drawable/ic_baseline_x_24px" />
-
-        </FrameLayout>
-</RelativeLayout>
+    <ImageButton
+        android:id="@+id/dislikeDis"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|start"
+        android:layout_margin="10dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/ic_baseline_x_24px"
+        android:contentDescription="@string/dislike" />
+</FrameLayout>
