@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mealItemLayout"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:background="@color/bar">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <FrameLayout
+            android:id="@+id/imageLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.teammealky.mealky.presentation.commons.view.AspectRatioImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:contentDescription="Image"
+                android:outlineProvider="background"
+                android:scaleType="centerCrop"
+                app:aspectRatio="0.66"
+                tools:src="@drawable/pancakes" />
+
+            <TextView
+                android:id="@+id/prepTime"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_gravity="bottom|end"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@color/bar"
+                android:clipToPadding="false"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:textAlignment="center"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                tools:text="15min" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/mealName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/imageLayout"
+            android:textSize="32sp"
+            android:textColor="@color/barItems"
+            tools:text="Naleśniki" />
+
+        <TextView
+            android:id="@+id/preparation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/mealName"
+            android:ellipsize="end"
+            android:textSize="18sp"
+            android:textColor="@color/barItems"
+            tools:text="Mąkę wsypać do miski, dodać jajka, mleko, wodę i sól. Zmiksować na gładkie ciasto. Dodać roztopione masło lub olej roślinny i razem zmiksować (lub wykorzystać tłuszcz do smarowania patelni przed smażeniem każdego naleśnika). Naleśniki smażyć na dobrze rozgrzanej patelni z cienkim dnem np. naleśnikowej. Przewrócić na drugą stronę gdy spód naleśnika będzie już ładnie zrumieniony i ścięty."/>
+
+    </RelativeLayout>
+
+</ScrollView>
