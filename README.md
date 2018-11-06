@@ -16,7 +16,7 @@ Diagram przypadków użycia:
 ![mealky-przypadki uzycia](https://user-images.githubusercontent.com/43780500/46821807-0f428a00-cd8a-11e8-860e-589348a5d668.jpg)
 
 Diagram ERD:
-![mealky-diagram erd](https://user-images.githubusercontent.com/43789592/46903332-a2d3a200-ced3-11e8-829f-f1a0552c1523.png)
+![erd](https://user-images.githubusercontent.com/43789592/48032693-efb83a80-e158-11e8-871c-f9c22b61ce40.png)
 Spis funkcjonalności:
 - Dodawanie przepisów;
 - Modyfikowanie przepisów;
