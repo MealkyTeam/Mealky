@@ -31,7 +31,7 @@ object MealMapper {
 
     private const val ID = "id"
     private const val NAME = "name"
-    private const val PREP_TIME = "prep_time"
+    private const val PREP_TIME = "prepTime"
     private const val PREPARATION = "preparation"
     private const val IMAGES = "images"
 }

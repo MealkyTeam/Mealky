@@ -12,12 +12,11 @@ class MealListPresenter @Inject constructor(
         private val getMealsUseCase: ListMealsUseCase
 ) : BasePresenter<MealListPresenter.UI>() {
 
-    private var meals: MutableList<Meal> = mutableListOf()
-
     fun loadMeals() {
         disposable.add(getMealsUseCase.execute(
                 ListMealsUseCase.Params(0, 0, 0),
                 { list ->
+                    Timber.e("FunName:loadMeals *****$list *****")
                     ui().perform { it.fillList(list) }
                 },
                 { e ->
