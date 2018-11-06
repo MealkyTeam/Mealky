@@ -19,13 +19,12 @@ class MealListFragment : BaseFragment<MealListPresenter, MealListPresenter.UI, M
 
     override val vmClass = MealListViewModel::class.java
 
-    private lateinit var viewAdapter: RecyclerView.Adapter<*>
+    private lateinit var viewAdapter: MealsAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         App.get(requireContext()).getComponent().inject(this)
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = inflater.inflate(R.layout.meals_fragment, container, false)
@@ -33,6 +32,13 @@ class MealListFragment : BaseFragment<MealListPresenter, MealListPresenter.UI, M
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
+        setupRefreshLayout()
+    }
+
+    private fun setupRefreshLayout() {
+        swipeContainer.setOnRefreshListener {
+            presenter?.refresh()
+        }
     }
 
     override fun fillList(meals: List<Meal>) {
@@ -46,6 +52,11 @@ class MealListFragment : BaseFragment<MealListPresenter, MealListPresenter.UI, M
         mealListRv.addItemDecoration(DividerItemDecoration(mealListRv.context, LinearLayoutManager.VERTICAL))
     }
 
+    override fun refreshList(meals: List<Meal>) {
+        viewAdapter.refreshItems(meals)
+        swipeContainer.isRefreshing=false
+    }
+
     private fun setRecyclerViewAdapter(meals: List<Meal>) {
         viewAdapter = MealsAdapter(meals, object : MealsAdapter.OnItemClickListener {
             override fun onItemClick(item: Meal) {
@@ -55,7 +66,7 @@ class MealListFragment : BaseFragment<MealListPresenter, MealListPresenter.UI, M
     }
 
     override fun openItem(meal: Meal) {
-        context?.let{
+        context?.let {
             Navigator.from(it as Navigator.Navigable).openMeal(meal)
         }
     }
