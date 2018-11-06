@@ -1,12 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mealItemLayout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:id="@+id/mealItemLayout">
+    android:background="@color/bar">
 
-    <TextView android:id="@+id/mealTextView"
-        android:layout_width="wrap_content"
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:scaleType="centerCrop"
+        android:outlineProvider="background"
+        android:src="@drawable/pancakes"/>
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        xmlns:android="http://schemas.android.com/apk/res/android" />
+        android:orientation="vertical"
+        android:layout_toEndOf="@id/imageView">
+
+        <TextView
+            android:id="@+id/mealName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/bar"
+            android:textColor="@color/barItems"
+            tools:text="Naleśniki" />
+
+        <TextView
+            android:id="@+id/preparation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/mealName"
+            android:background="@color/bar"
+            android:textColor="@color/barItems"
+            android:ellipsize="end"
+            android:maxLines="2"
+            tools:text="Mąkę wsypać do miski, dodać jajka, mleko, wodę i sól. Zmiksować na gładkie ciasto. Dodać roztopione masło lub olej roślinny i razem zmiksować (lub wykorzystać tłuszcz do smarowania patelni przed smażeniem każdego naleśnika). Naleśniki smażyć na dobrze rozgrzanej patelni z cienkim dnem np. naleśnikowej. Przewrócić na drugą stronę gdy spód naleśnika będzie już ładnie zrumieniony i ścięty." />
+
+    </LinearLayout>
+
 </RelativeLayout>

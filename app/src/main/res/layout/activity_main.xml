@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.kuba.mealky.Activities.ListOfMealsActivity">
+    tools:background="@drawable/background"
+    tools:ignore="MergeRootFrame">
 
-    <include
-        layout="@layout/topbar"
-        android:id="@+id/topBar" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/list_of_meals"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/containerMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="?attr/actionBarSize"
-        app:layout_constraintBottom_toTopOf="@+id/bottomBar"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topBar" />
+        android:layout_marginBottom="56dp" />
 
-    <include
-        layout="@layout/bottombar"
-        android:id="@+id/bottomBar" />
-</android.support.constraint.ConstraintLayout>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomBar"
+        android:background="@color/bar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_gravity="bottom"
+        app:elevation="8dp"
+        app:itemTextColor="@color/barItems"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/bottom_bar" />
+</FrameLayout>
