@@ -2,6 +2,7 @@ package com.teammealky.mealky.presentation.commons.extension
 
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import android.view.View
 import android.widget.ImageView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.teammealky.mealky.R
@@ -55,4 +56,11 @@ fun ImageView.loadImage(url: String, transformation: Transformation? = null,
     if (transformation != null) picasso.transform(transformation)
 
     picasso.into(this, callback)
+}
+
+fun View.isVisible(isVisible: Boolean) {
+    when (isVisible) {
+        true -> this.visibility = View.VISIBLE
+        false -> this.visibility = View.GONE
+    }
 }

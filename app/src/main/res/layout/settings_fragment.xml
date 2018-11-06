@@ -1,35 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/settingsItemLayout"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@color/bar">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/settingInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_toEndOf="@id/imageView">
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textSize="32sp"
+        android:text="@string/version"
+        android:textAlignment="center"
+        android:textColor="@color/barItems" />
+</LinearLayout>
 
-        <TextView
-            android:id="@+id/settingName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/bar"
-            android:textColor="@color/barItems"
-            android:text="Informacje o wersji" />
-
-        <TextView
-            android:id="@+id/settingInfo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/bar"
-            android:textColor="@color/barItems"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:text="version: 0.1.0"/>
-    </LinearLayout>
-
-</RelativeLayout>
