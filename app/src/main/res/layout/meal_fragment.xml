@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:contentDescription="Image"
+                android:contentDescription="@string/meal_image"
                 android:outlineProvider="background"
                 android:scaleType="centerCrop"
                 app:aspectRatio="0.66"

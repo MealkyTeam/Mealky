@@ -29,7 +29,7 @@
             android:textColor="@color/barItems"
             android:ellipsize="end"
             android:maxLines="2"
-            android:text="alpha v.01"/>
+            android:text="version: 0.1.0"/>
     </LinearLayout>
 
 </RelativeLayout>

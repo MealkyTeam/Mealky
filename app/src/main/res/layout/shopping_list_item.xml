@@ -2,7 +2,7 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/shoplistItemLayout"
+    android:id="@+id/shopListItemLayout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@color/bar">
@@ -14,7 +14,7 @@
         android:layout_toEndOf="@id/imageView">
 
         <TextView
-            android:id="@+id/shoplistItemName"
+            android:id="@+id/shopListItemName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/bar"

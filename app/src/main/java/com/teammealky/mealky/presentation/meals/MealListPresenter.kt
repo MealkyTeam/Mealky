@@ -13,10 +13,17 @@ class MealListPresenter @Inject constructor(
 ) : BasePresenter<MealListPresenter.UI>() {
 
     fun loadMeals() {
+        ui().perform {
+            it.isLoading(true)
+        }
+
         disposable.add(getMealsUseCase.execute(
                 ListMealsUseCase.Params(0, 0, 0),
                 { list ->
-                    ui().perform { it.fillList(list) }
+                    ui().perform {
+                        it.fillList(list)
+                        it.isLoading(false)
+                    }
                 },
                 { e ->
                     Timber.e("FunName:loadMeals *****ERROR: $e *****")
@@ -28,10 +35,17 @@ class MealListPresenter @Inject constructor(
     }
 
     fun refresh() {
+        ui().perform {
+            it.isLoading(true)
+        }
+
         disposable.add(getMealsUseCase.execute(
                 ListMealsUseCase.Params(0, 0, 0),
                 { list ->
-                    ui().perform { it.refreshList(list) }
+                    ui().perform {
+                        it.refreshList(list)
+                        it.isLoading(false)
+                    }
                 },
                 { e ->
                     Timber.e("FunName:loadMeals *****ERROR: $e *****")
@@ -43,5 +57,6 @@ class MealListPresenter @Inject constructor(
         fun removeFromList(meal: Meal)
         fun openItem(meal: Meal)
         fun refreshList(meals: List<Meal>)
+        fun isLoading(isLoading: Boolean)
     }
 }
