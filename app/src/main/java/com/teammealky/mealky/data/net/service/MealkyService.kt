@@ -1,6 +1,7 @@
 package com.teammealky.mealky.data.net.service
 
 import com.teammealky.mealky.domain.model.Meal
+import com.teammealky.mealky.domain.model.Page
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -17,6 +18,12 @@ interface MealkyService {
             @Query("offset") offset: Int,
             @Query("limit") limit: Int
     ): Single<List<Meal>>
+
+    @GET("discovery")
+    fun discover(
+            @Query("page") page: Int,
+            @Query("size") limit: Int
+    ): Single<Page>
 
     @GET("meals")
     fun searchMeals(

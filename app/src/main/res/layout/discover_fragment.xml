@@ -6,41 +6,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/imageViewBackground"
+    <com.yuyakaido.android.cardstackview.CardStackView
+        android:id="@+id/cards"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:contentDescription="@string/meal_image"
-        android:scaleType="centerCrop"
-        tools:src="@drawable/pancakes" />
-
-    <TextView
-        android:id="@+id/mealName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:alpha="0.8"
-        android:background="@color/bar"
-        android:clipToPadding="false"
-        android:gravity="center"
-        android:includeFontPadding="false"
-        android:maxLines="2"
-        android:paddingLeft="16dp"
-        android:paddingTop="4dp"
-        android:paddingRight="16dp"
-        android:paddingBottom="4dp"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:visibility="invisible"
-        tools:text="Naleśniki"
-        tools:visibility="visible" />
+        tools:listitem="@layout/meal_card" />
 
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="invisible"
         android:layout_gravity="center"
+        android:visibility="invisible"
         tools:visibility="visible" />
 
     <ImageButton

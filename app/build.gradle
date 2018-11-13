@@ -48,6 +48,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel:2.0.0'
 
+    implementation "com.yuyakaido.android:card-stack-view:2.0.0"
     implementation 'com.jakewharton.timber:timber:4.7.1'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
     implementation 'androidx.room:room-runtime:2.0.0'
