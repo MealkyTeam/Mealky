@@ -21,7 +21,6 @@ class MealListPresenter @Inject constructor(
                     ui().perform {
                         it.fillList(list)
                         it.isLoading(false)
-                        Timber.e("FunName:loadMeals ***** *****")
                     }
                 },
                 { e ->
@@ -44,7 +43,6 @@ class MealListPresenter @Inject constructor(
                     ui().perform {
                         it.refreshList(list)
                         it.isLoading(false)
-                        Timber.e("FunName:refresh ***** *****")
                     }
                 },
                 { e ->

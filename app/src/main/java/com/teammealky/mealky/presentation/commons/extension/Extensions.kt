@@ -9,6 +9,7 @@ import com.teammealky.mealky.R
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Transformation
+import java.util.*
 
 fun Int.toTime(): String {
     val originalValue = this
@@ -63,4 +64,15 @@ fun View.isVisible(isVisible: Boolean) {
         true -> this.visibility = View.VISIBLE
         false -> this.visibility = View.GONE
     }
+}
+
+fun genRandomIntExcept(start: Int, end: Int, excluded: List<Int>): Int {
+    val rand = Random()
+    val range = end - start
+
+    var random = rand.nextInt(range)
+    while (excluded.contains(random)) {
+        random = rand.nextInt(range)
+    }
+    return random
 }
