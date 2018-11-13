@@ -2,12 +2,14 @@ package com.teammealky.mealky.presentation.commons.extension
 
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import android.view.View
 import android.widget.ImageView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.teammealky.mealky.R
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Transformation
+import java.util.*
 
 fun Int.toTime(): String {
     val originalValue = this
@@ -55,4 +57,22 @@ fun ImageView.loadImage(url: String, transformation: Transformation? = null,
     if (transformation != null) picasso.transform(transformation)
 
     picasso.into(this, callback)
+}
+
+fun View.isVisible(isVisible: Boolean) {
+    when (isVisible) {
+        true -> this.visibility = View.VISIBLE
+        false -> this.visibility = View.GONE
+    }
+}
+
+fun genRandomIntExcept(start: Int, end: Int, excluded: List<Int>): Int {
+    val rand = Random()
+    val range = end - start
+
+    var random = rand.nextInt(range)
+    while (excluded.contains(random)) {
+        random = rand.nextInt(range)
+    }
+    return random
 }

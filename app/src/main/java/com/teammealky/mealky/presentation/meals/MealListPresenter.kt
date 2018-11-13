@@ -13,9 +13,7 @@ class MealListPresenter @Inject constructor(
 ) : BasePresenter<MealListPresenter.UI>() {
 
     fun loadMeals() {
-        ui().perform {
-            it.isLoading(true)
-        }
+        ui().perform { it.isLoading(true) }
 
         disposable.add(getMealsUseCase.execute(
                 ListMealsUseCase.Params(0, 0, 0),

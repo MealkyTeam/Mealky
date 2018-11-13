@@ -8,4 +8,6 @@
     <string name="meal_image">Meal image</string>
     <string name="like">like</string>
     <string name="dislike">dislike</string>
+    <string name="version">Version %s</string>
+    <string name="about_version">About version</string>
 </resources>
