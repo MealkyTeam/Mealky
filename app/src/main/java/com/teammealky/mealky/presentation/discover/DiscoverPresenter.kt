@@ -33,12 +33,15 @@ class DiscoverPresenter @Inject constructor(private val getMealsUseCase: ListMea
 
     fun setup() {
         currentMealId = 0
+        ui().perform { it.isLoading(true) }
+
         disposable.add(getMealsUseCase.execute(
                 ListMealsUseCase.Params(0, 0, 0),
                 { list ->
                     meals = list
                     ui().perform {
                         it.setMeal(meals[currentMealId])
+                        it.isLoading(false)
                     }
                 },
                 { e ->
@@ -49,5 +52,6 @@ class DiscoverPresenter @Inject constructor(private val getMealsUseCase: ListMea
     interface UI : BaseUI {
         fun openItem(meal: Meal)
         fun setMeal(meal: Meal)
+        fun isLoading(isLoading: Boolean)
     }
 }
