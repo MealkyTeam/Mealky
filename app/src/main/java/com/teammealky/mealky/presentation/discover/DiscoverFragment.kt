@@ -58,6 +58,10 @@ class DiscoverFragment : BaseFragment<DiscoverPresenter, DiscoverPresenter.UI, D
         imageViewBackground.loadImage(meal.images[0])
     }
 
+    override fun isLoading(isLoading: Boolean) {
+        progressBar.isVisible(isLoading)
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         presenter?.detach()

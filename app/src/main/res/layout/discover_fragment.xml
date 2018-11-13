@@ -16,22 +16,32 @@
 
     <TextView
         android:id="@+id/mealName"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/rounded_background"
+        android:alpha="0.8"
+        android:background="@color/bar"
         android:clipToPadding="false"
         android:gravity="center"
         android:includeFontPadding="false"
+        android:maxLines="2"
         android:paddingLeft="16dp"
-        android:paddingRight="16dp"
         android:paddingTop="4dp"
+        android:paddingRight="16dp"
         android:paddingBottom="4dp"
         android:textAlignment="center"
-        android:textSize="16sp"
+        android:textSize="24sp"
         android:textStyle="bold"
         android:visibility="invisible"
-        tools:visibility="visible"
-        tools:text="Naleśniki" />
+        tools:text="Naleśniki"
+        tools:visibility="visible" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:layout_gravity="center"
+        tools:visibility="visible" />
 
     <ImageButton
         android:id="@+id/likeImg"
