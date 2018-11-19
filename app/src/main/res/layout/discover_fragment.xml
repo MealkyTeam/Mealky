@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/imageLayout"
     android:layout_width="match_parent"
+    android:background="@color/barItems"
     android:layout_height="match_parent">
 
-    <com.yuyakaido.android.cardstackview.CardStackView
-        android:id="@+id/cards"
+    <com.mindorks.placeholderview.SwipePlaceHolderView
+        android:id="@+id/swipeView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/meal_card" />
+        tools:background="@drawable/pancakes" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -25,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center|end"
-        android:layout_margin="10dp"
+        android:layout_margin="32dp"
         android:background="@drawable/circle_background"
         android:clickable="true"
         android:contentDescription="@string/like"
@@ -38,7 +39,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center|start"
-        android:layout_margin="10dp"
+        android:layout_margin="32dp"
         android:background="@drawable/circle_background"
         android:clickable="true"
         android:contentDescription="@string/dislike"
