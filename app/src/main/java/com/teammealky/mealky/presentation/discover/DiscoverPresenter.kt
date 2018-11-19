@@ -17,21 +17,18 @@ class DiscoverPresenter @Inject constructor(private val getMealsByPage: Discover
     private var totalElements: Int = 0
     private var excluded: MutableList<Int> = mutableListOf()
 
-    fun likeClicked() {
+    fun swipedLeft() {
         ui().perform { it.openItem(meals[currentMealId]) }
     }
 
-    fun dislikeClicked(fromSwipe: Boolean) {
+    fun swipedRight() {
         currentMealId++
 
-        if (currentMealId == totalElements) {
+        if (currentMealId == totalElements-1)
             invalidate()
-        }
-        if (shouldLoadMore()) {
-            loadMore(!fromSwipe)
-        } else if (!fromSwipe) {
-            ui().perform { it.swipeMeal() }
-        }
+
+        if (shouldLoadMore() && excluded.size!=maxPages)
+            loadMore()
     }
 
     private fun invalidate() {
@@ -39,38 +36,42 @@ class DiscoverPresenter @Inject constructor(private val getMealsByPage: Discover
         currentMealId = 0
         meals = mutableListOf()
         excluded = mutableListOf()
+        loadMore()
     }
 
-    private fun shouldLoadMore() = currentMealId == LOAD_MORE_AFTER ||
-            currentMealId % LOAD_MORE_AFTER + LIMIT == 0
+    private fun shouldLoadMore() = currentMealId == (meals.size - (LIMIT- LOAD_MORE_AFTER)-1)
             || meals.size == 0
 
     fun firstRequest() {
+        ui().perform { it.isLoading(true) }
         disposable.add(getMealsByPage.execute(
                 DiscoverUseCase.Params(0, LIMIT),
                 { page ->
                     maxPages = page.totalPages
                     totalElements = page.totalElements
-                    loadMore(false)
+
+                    if(meals.isEmpty()) loadMore()
+                    else{
+                        ui().perform { it.setMeals(meals.subList(currentMealId,meals.size-1)) }
+                    }
+                    ui().perform { it.isLoading(false) }
                 },
                 { e ->
                     Timber.e("FunName:loadMore *****ERROR: $e *****")
-                }))
+                })
+        )
     }
 
-    private fun loadMore(withSwipe: Boolean) {
-        ui().perform { it.isLoading(true) }
+    private fun loadMore() {
         pageNumber = genRandomIntExcept(0, maxPages, excluded)
         excluded.add(pageNumber)
+
         disposable.add(getMealsByPage.execute(
                 DiscoverUseCase.Params(pageNumber, LIMIT),
                 { page ->
                     meals.addAll(page.meals)
-
                     ui().perform {
-                        it.setMeals(meals)
-                        it.isLoading(false)
-                        if (withSwipe) it.swipeMeal()
+                        it.setMeals(page.meals)
                     }
                     pageNumber++
                 },
@@ -86,8 +87,13 @@ class DiscoverPresenter @Inject constructor(private val getMealsByPage: Discover
         fun isLoading(isLoading: Boolean)
     }
 
+    interface SwipeListener {
+        fun swipedLeft()
+        fun swipedRight()
+    }
+
     companion object {
-        private const val LIMIT = 3
-        private const val LOAD_MORE_AFTER = 2
+        const val LIMIT = 8
+        private const val LOAD_MORE_AFTER = 6
     }
 }

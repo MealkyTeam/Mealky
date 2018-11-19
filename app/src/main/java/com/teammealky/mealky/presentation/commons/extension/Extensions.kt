@@ -1,6 +1,8 @@
 package com.teammealky.mealky.presentation.commons.extension
 
+import android.content.res.Resources
 import android.graphics.Bitmap
+import android.graphics.Point
 import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
@@ -10,6 +12,8 @@ import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Transformation
 import java.util.*
+import android.util.DisplayMetrics
+import android.view.WindowManager
 
 fun Int.toTime(): String {
     val originalValue = this
@@ -50,9 +54,10 @@ fun ImageView.loadImage(url: String, transformation: Transformation? = null,
             .get()
             .load(url)
             .config(Bitmap.Config.RGB_565)
-            .error(R.drawable.ic_error_outline_white_large)
+            .error(R.drawable.broken_image)
 
     if (null != placeholder) picasso.placeholder(placeholder)
+    else picasso.placeholder(R.color.bar)
     if (fit) picasso.fit()
     if (transformation != null) picasso.transform(transformation)
 
@@ -69,10 +74,26 @@ fun View.isVisible(isVisible: Boolean) {
 fun genRandomIntExcept(start: Int, end: Int, excluded: List<Int>): Int {
     val rand = Random()
     val range = end - start
-
+    if(range <=excluded.size)
+        return 0
     var random = rand.nextInt(range)
     while (excluded.contains(random)) {
         random = rand.nextInt(range)
     }
     return random
+}
+
+fun dp2px(dp: Int): Float = dp * Resources.getSystem().displayMetrics.density
+
+fun getDisplaySize(windowManager: WindowManager): Point {
+    return try {
+        val display = windowManager.defaultDisplay
+        val displayMetrics = DisplayMetrics()
+        display.getMetrics(displayMetrics)
+        Point(displayMetrics.widthPixels, displayMetrics.heightPixels)
+    } catch (e: Exception) {
+        e.printStackTrace()
+        Point(0, 0)
+    }
+
 }

@@ -14,14 +14,26 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="56dp" />
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomBar"
-        android:background="@color/bar"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        app:elevation="8dp"
-        app:itemTextColor="@color/barItems"
-        app:labelVisibilityMode="labeled"
-        app:menu="@menu/bottom_bar" />
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/black" />
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomBar"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@color/bar"
+            app:elevation="8dp"
+            app:itemTextColor="@color/barItems"
+            app:labelVisibilityMode="labeled"
+            app:menu="@menu/bottom_bar" />
+    </LinearLayout>
+
 </FrameLayout>

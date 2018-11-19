@@ -49,7 +49,6 @@ class MealListFragment : BaseFragment<MealListPresenter, MealListPresenter.UI, M
         mealListRv.setHasFixedSize(true)
         mealListRv.layoutManager = viewManager
 
-        mealListRv.addItemDecoration(DividerItemDecoration(mealListRv.context, LinearLayoutManager.VERTICAL))
     }
 
     override fun refreshList(meals: List<Meal>) {
