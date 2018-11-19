@@ -42,7 +42,6 @@ class MealCard(private val meal: Meal,
 
     @SwipeIn
     private fun onSwipeIn() {
-        swipeView.addView(this)
         listener.swipedRight()
     }
 
