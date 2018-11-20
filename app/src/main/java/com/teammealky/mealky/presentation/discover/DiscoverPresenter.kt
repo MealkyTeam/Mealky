@@ -18,10 +18,6 @@ class DiscoverPresenter @Inject constructor(private val getMealsByPage: Discover
     private var excluded: MutableList<Int> = mutableListOf()
 
     fun swipedLeft() {
-        ui().perform { it.openItem(meals[currentMealId]) }
-    }
-
-    fun swipedRight() {
         currentMealId++
 
         if (currentMealId == totalElements-1)
@@ -29,6 +25,10 @@ class DiscoverPresenter @Inject constructor(private val getMealsByPage: Discover
 
         if (shouldLoadMore() && excluded.size!=maxPages)
             loadMore()
+    }
+
+    fun swipedRight() {
+        ui().perform { it.openItem(meals[currentMealId]) }
     }
 
     private fun invalidate() {
