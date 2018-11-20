@@ -18,6 +18,7 @@ class MealListPresenter @Inject constructor(
         disposable.add(getMealsUseCase.execute(
                 ListMealsUseCase.Params(0, 0, 0),
                 { list ->
+                    Timber.e("FunName:loadMeals *****${list[0]} *****")
                     ui().perform {
                         it.fillList(list)
                         it.isLoading(false)
