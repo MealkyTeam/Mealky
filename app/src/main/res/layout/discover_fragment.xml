@@ -32,7 +32,7 @@
         android:contentDescription="@string/like"
         android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
-        android:src="@drawable/ic_baseline_favorite_24px" />
+        android:src="@drawable/ic_outline_look_disc_24px" />
 
     <ImageButton
         android:id="@+id/dislikeImg"
@@ -45,5 +45,5 @@
         android:contentDescription="@string/dislike"
         android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
-        android:src="@drawable/ic_baseline_x_24px" />
+        android:src="@drawable/ic_baseline_favorite_24px" />
 </FrameLayout>
