@@ -5,4 +5,5 @@
     <color name="colorAccent">#FF4081</color>
     <color name="bar">#0F334D</color>
     <color name="barItems">#9EACB4</color>
+    <color name="white">#FFFFFF</color>
 </resources>
