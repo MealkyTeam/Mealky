@@ -38,12 +38,12 @@ class MockData{
         )
 
         val MEALS = listOf(
-                Meal(1,"meal1",1,"prep1", listOf(INGREDIENTS[0], INGREDIENTS[2]),
-                        listOf(CATEGORIES[0], CATEGORIES[2]),true,listOf(IMAGES[0], IMAGES[2]),USERS[0]),
-                Meal(2,"meal2",2,"prep2", listOf(INGREDIENTS[1], INGREDIENTS[2]),
-                        listOf(CATEGORIES[1], CATEGORIES[2]),true,listOf(IMAGES[1], IMAGES[2]),USERS[1]),
-                Meal(3,"meal3",3,"prep3", listOf(INGREDIENTS[0], INGREDIENTS[1]),
-                        listOf(CATEGORIES[0], CATEGORIES[1]),true,listOf(IMAGES[0], IMAGES[1]),USERS[2])
+                Meal(1, "meal1", 1, "prep1", listOf(IMAGES[0], IMAGES[2]),
+                        true, USERS[0], listOf(CATEGORIES[0], CATEGORIES[2]), listOf(INGREDIENTS[0], INGREDIENTS[2])),
+                Meal(2, "meal2", 2, "prep2", listOf(IMAGES[1], IMAGES[2]),
+                        true, USERS[1], listOf(CATEGORIES[1], CATEGORIES[2]), listOf(INGREDIENTS[1], INGREDIENTS[2])),
+                Meal(3, "meal3", 3, "prep3", listOf(IMAGES[0], IMAGES[1]),
+                        true, USERS[2], listOf(CATEGORIES[0], CATEGORIES[1]), listOf(INGREDIENTS[0], INGREDIENTS[1]))
         )
     }
 
