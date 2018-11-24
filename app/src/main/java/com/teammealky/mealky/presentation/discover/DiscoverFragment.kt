@@ -63,10 +63,8 @@ class DiscoverFragment : BaseFragment<DiscoverPresenter, DiscoverPresenter.UI, D
 
     override fun onClick(p0: View?) {
         when (p0?.id) {
-            R.id.likeImg -> presenter?.swipedLeft()
-            R.id.dislikeImg -> {
-                swipeMeal()
-            }
+            R.id.likeImg -> swipedRight()
+            R.id.dislikeImg -> swipeMeal()
         }
     }
 
@@ -83,7 +81,7 @@ class DiscoverFragment : BaseFragment<DiscoverPresenter, DiscoverPresenter.UI, D
     }
 
     override fun swipeMeal() {
-        swipeView.doSwipe(true)
+        swipeView.doSwipe(false)
     }
 
     override fun isLoading(isLoading: Boolean) {
