@@ -18,4 +18,5 @@
     <string name="forget_pass">I forgot my password</string>
     <string name="nickname">Login</string>
     <string name="account">Registered already? Sign in!</string>
+    <string name="search">Search</string>
 </resources>
