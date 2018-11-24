@@ -21,7 +21,6 @@
             android:id="@+id/mealListRv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/barItems"
             android:clickable="true"
             android:clipToPadding="false"
             android:focusable="true"
