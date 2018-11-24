@@ -17,15 +17,15 @@ class MealListPresenter @Inject constructor(
 
         disposable.add(getMealsUseCase.execute(
                 ListMealsUseCase.Params(0, 0, 0),
-                { list ->
-                    Timber.e("FunName:loadMeals *****${list[0]} *****")
+                { page ->
                     ui().perform {
-                        it.fillList(list)
+                        it.fillList(page.meals)
                         it.isLoading(false)
                     }
                 },
                 { e ->
                     Timber.e("FunName:loadMeals *****ERROR: $e *****")
+                    loadMeals()
                 }))
     }
 
@@ -40,14 +40,14 @@ class MealListPresenter @Inject constructor(
 
         disposable.add(getMealsUseCase.execute(
                 ListMealsUseCase.Params(0, 0, 0),
-                { list ->
+                { page ->
                     ui().perform {
-                        it.refreshList(list)
+                        it.refreshList(page.meals)
                         it.isLoading(false)
                     }
                 },
                 { e ->
-                    Timber.e("FunName:loadMeals *****ERROR: $e *****")
+                    Timber.e("FunName:refresh *****ERROR: $e *****")
                 }))
     }
 

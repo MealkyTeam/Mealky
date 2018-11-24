@@ -139,7 +139,7 @@ object MealMapper {
         val images = bundle.getStringArrayList(IMAGES) ?: ArrayList()
         val author = readAuthor(bundle)
 
-        return Meal(id, name, prepTime, preparation, ingredients, categories, confirmed, images, author)
+        return Meal(id, name, prepTime, preparation, images, confirmed, author, categories, ingredients)
     }
 
     private const val ID = "id"
