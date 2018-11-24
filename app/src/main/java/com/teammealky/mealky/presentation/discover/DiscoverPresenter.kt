@@ -1,14 +1,14 @@
 package com.teammealky.mealky.presentation.discover
 
 import com.teammealky.mealky.domain.model.Meal
-import com.teammealky.mealky.domain.usecase.discover.DiscoverUseCase
+import com.teammealky.mealky.domain.usecase.meals.ListMealsUseCase
 import com.teammealky.mealky.presentation.commons.extension.genRandomIntExcept
 import com.teammealky.mealky.presentation.commons.presenter.BasePresenter
 import com.teammealky.mealky.presentation.commons.presenter.BaseUI
 import timber.log.Timber
 import javax.inject.Inject
 
-class DiscoverPresenter @Inject constructor(private val getMealsByPage: DiscoverUseCase
+class DiscoverPresenter @Inject constructor(private val getMealsByPage: ListMealsUseCase
 ) : BasePresenter<DiscoverPresenter.UI>() {
     private var currentMealId = 0
     private var meals = mutableListOf<Meal>()
@@ -45,7 +45,7 @@ class DiscoverPresenter @Inject constructor(private val getMealsByPage: Discover
     fun firstRequest() {
         ui().perform { it.isLoading(true) }
         disposable.add(getMealsByPage.execute(
-                DiscoverUseCase.Params(0, LIMIT),
+                ListMealsUseCase.Params(WITHOUT_CATEGORY,0, LIMIT),
                 { page ->
                     maxPages = page.totalPages
                     totalElements = page.totalElements
@@ -67,7 +67,7 @@ class DiscoverPresenter @Inject constructor(private val getMealsByPage: Discover
         excluded.add(pageNumber)
 
         disposable.add(getMealsByPage.execute(
-                DiscoverUseCase.Params(pageNumber, LIMIT),
+                ListMealsUseCase.Params(WITHOUT_CATEGORY,pageNumber, LIMIT),
                 { page ->
                     meals.addAll(page.meals)
                     ui().perform {
@@ -95,5 +95,6 @@ class DiscoverPresenter @Inject constructor(private val getMealsByPage: Discover
     companion object {
         const val LIMIT = 8
         private const val LOAD_MORE_AFTER = 6
+        private const val WITHOUT_CATEGORY = -1
     }
 }

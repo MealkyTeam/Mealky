@@ -10,4 +10,5 @@
     <string name="dislike">dislike</string>
     <string name="version">Version %s</string>
     <string name="about_version">About version</string>
+    <string name="prep_time">%s min</string>
 </resources>

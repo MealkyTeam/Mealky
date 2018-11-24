@@ -15,21 +15,15 @@ interface MealkyService {
     @GET("meals")
     fun listMeals(
             @Query("category") categoryId: Int,
-            @Query("offset") offset: Int,
-            @Query("limit") limit: Int
-    ): Single<List<Meal>>
-
-    @GET("discovery")
-    fun discover(
-            @Query("page") page: Int,
+            @Query("page") offset: Int,
             @Query("size") limit: Int
     ): Single<Page>
 
     @GET("meals")
     fun searchMeals(
             @Query("q") query: String,
-            @Query("offset") offset: Int,
-            @Query("limit") limit: Int
+            @Query("page") offset: Int,
+            @Query("size") limit: Int
     ): Single<List<Meal>>
 
 }

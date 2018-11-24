@@ -1,8 +1,9 @@
 package com.teammealky.mealky.data.net
 
 import android.content.Context
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import okhttp3.Cache
-import okhttp3.Credentials
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -24,16 +25,16 @@ object RestClient {
         okBuilder.writeTimeout(TIMEOUT_SEC, TimeUnit.SECONDS)
 
         okBuilder.addInterceptor { chain ->
-            //todo temp
-            val authToken = Credentials.basic("mealkyappandroid!@#\$KJNSDSDFJkj","aKUd2@34jjasdbj@#\$jn4jS!@#jhsnda&jhasjdhj@#")
-
-            var request = chain.request()
-            val headers = request.headers().newBuilder().add("Authorization", authToken).build()
-            request = request.newBuilder().headers(headers).build()
-            chain.proceed(request)
+            val original = chain.request()
+            chain.proceed(original)
         }
 
         return okBuilder
+    }
+
+    private val gson: Gson by lazy {
+        GsonBuilder()
+                .create()
     }
 
     fun <S> createService(
@@ -47,7 +48,7 @@ object RestClient {
                 .client(getHttpClientBuilder(context).cache(cache).build())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .baseUrl(baseURL)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .build()
 
         return builder.create(serviceClass)

@@ -34,7 +34,7 @@ class MealFragment : BaseFragment<MealPresenter, MealPresenter.UI, MealViewModel
 
     private fun setupView() {
         mealName.text = presenter?.meal?.name
-        prepTime.text = presenter?.meal?.prepTime.toString() + " min"
+        prepTime.text = getString(R.string.prep_time,  presenter?.meal?.prepTime.toString())
         preparation.text = presenter?.meal?.preparation
 
         val images = presenter?.meal?.images ?: emptyList()
