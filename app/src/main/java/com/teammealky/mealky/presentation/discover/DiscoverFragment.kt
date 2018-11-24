@@ -52,6 +52,7 @@ class DiscoverFragment : BaseFragment<DiscoverPresenter, DiscoverPresenter.UI, D
 
         swipeView.getBuilder<SwipePlaceHolderView, SwipeViewBuilder<SwipePlaceHolderView>>()
                 .setDisplayViewCount(3)
+                .setWidthSwipeDistFactor(8f)
                 .setSwipeType(SwipePlaceHolderView.SWIPE_TYPE_HORIZONTAL)
                 .setSwipeDecor(SwipeDecor()
                         .setPaddingLeft(20)

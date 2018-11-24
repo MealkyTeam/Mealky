@@ -11,4 +11,11 @@
     <string name="version">Version %s</string>
     <string name="about_version">About version</string>
     <string name="prep_time">%s min</string>
+    <string name="register">Sign up</string>
+    <string name="login">Sign in</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="forget_pass">I forgot my password</string>
+    <string name="nickname">Login</string>
+    <string name="account">Registered already? Sign in!</string>
 </resources>

@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.transition.TransitionValues
 import android.view.MenuItem
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.teammealky.mealky.R

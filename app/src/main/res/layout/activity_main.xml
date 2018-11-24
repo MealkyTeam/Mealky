@@ -5,35 +5,31 @@
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:background="@drawable/background"
+    android:background="@android:color/white"
+    android:clipToPadding="false"
     tools:ignore="MergeRootFrame">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/containerMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="56dp" />
+        android:layout_marginBottom="56dp"
+        android:clipToPadding="false" />
 
-    <LinearLayout
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="1dp"
+        android:background="@android:color/black" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
         android:layout_gravity="bottom"
-        android:orientation="vertical">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/black" />
-
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottomBar"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:background="@color/bar"
-            app:elevation="8dp"
-            app:itemTextColor="@color/barItems"
-            app:labelVisibilityMode="labeled"
-            app:menu="@menu/bottom_bar" />
-    </LinearLayout>
+        android:background="@color/bar"
+        app:elevation="8dp"
+        app:itemTextColor="@color/barItems"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/bottom_bar" />
 
 </FrameLayout>

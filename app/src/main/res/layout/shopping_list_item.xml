@@ -5,15 +5,14 @@
     android:id="@+id/shopListItemLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bar"
+    android:background="@color/colorPrimary"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/shopListItemName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/bar"
-        android:textColor="@color/barItems"
+        android:textColor="@android:color/black"
         tools:text="Naleśniki" />
 
 </LinearLayout>

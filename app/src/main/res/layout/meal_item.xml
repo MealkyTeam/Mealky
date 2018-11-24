@@ -5,17 +5,17 @@
     android:id="@+id/mealItemLayout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="4dp"
+    android:layout_marginLeft="8dp"
     android:layout_marginTop="4dp"
-    android:layout_marginRight="4dp"
+    android:layout_marginRight="8dp"
     android:layout_marginBottom="4dp"
     android:background="@drawable/rounded_background"
     android:clipToPadding="true">
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
         android:contentDescription="@string/meal_image"
         android:outlineProvider="background"
         android:scaleType="centerCrop"
@@ -33,9 +33,8 @@
             android:id="@+id/mealName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/bar"
-            android:textColor="@color/barItems"
-            android:textSize="18sp"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
             android:textStyle="bold"
             android:maxLines="1"
             tools:text="Naleśniki" />
@@ -49,11 +48,10 @@
             android:id="@+id/preparation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/bar"
             android:ellipsize="end"
-            android:maxLines="3"
-            android:textSize="14sp"
-            android:textColor="@color/barItems"
+            android:maxLines="6"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
             tools:text="Mąkę wsypać do miski, dodać jajka, mleko, wodę i sól. Zmiksować na gładkie ciasto. Dodać roztopione masło lub olej roślinny i razem zmiksować (lub wykorzystać tłuszcz do smarowania patelni przed smażeniem każdego naleśnika). Naleśniki smażyć na dobrze rozgrzanej patelni z cienkim dnem np. naleśnikowej. Przewrócić na drugą stronę gdy spód naleśnika będzie już ładnie zarumieniony i ścięty." />
     </LinearLayout>
 </RelativeLayout>
