@@ -17,7 +17,6 @@ class SettingsFragment : BaseFragment<SettingsPresenter, SettingsPresenter.UI, S
     override fun onCreate(savedInstanceState: Bundle?) {
         App.get(requireContext()).getComponent().inject(this)
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
@@ -33,8 +32,4 @@ class SettingsFragment : BaseFragment<SettingsPresenter, SettingsPresenter.UI, S
         settingInfo.text = getString(R.string.version, BuildConfig.VERSION_NAME)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter?.detach()
-    }
 }

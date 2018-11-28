@@ -57,7 +57,7 @@ fun ImageView.loadImage(url: String, transformation: Transformation? = null,
             .error(R.drawable.broken_image)
 
     if (null != placeholder) picasso.placeholder(placeholder)
-    else picasso.placeholder(R.color.colorPrimary)
+    else picasso.placeholder(R.color.barItems)
     if (fit) picasso.fit()
     if (transformation != null) picasso.transform(transformation)
 

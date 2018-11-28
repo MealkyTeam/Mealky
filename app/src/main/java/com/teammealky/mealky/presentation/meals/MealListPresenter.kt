@@ -12,50 +12,73 @@ class MealListPresenter @Inject constructor(
         private val getMealsUseCase: ListMealsUseCase
 ) : BasePresenter<MealListPresenter.UI>() {
 
-    fun loadMeals() {
-        ui().perform { it.isLoading(true) }
-
-        disposable.add(getMealsUseCase.execute(
-                ListMealsUseCase.Params(0, 0, 0),
-                { page ->
-                    ui().perform {
-                        it.fillList(page.meals)
-                        it.isLoading(false)
-                    }
-                },
-                { e ->
-                    Timber.e("FunName:loadMeals *****ERROR: $e *****")
-                    loadMeals()
-                }))
-    }
+    private var maxPages: Int = 0
+    private var pageNumber: Int = 0
+    private var meals = emptyList<Meal>()
+    private var visibleItemId = 0
 
     fun onItemClicked(model: Meal) {
         ui().perform { it.openItem(model) }
     }
 
-    fun refresh() {
-        ui().perform {
-            it.isLoading(true)
-        }
+    fun firstRequest() {
+        ui().perform { it.isLoading(true) }
+        if (meals.isEmpty()) {
+            disposable.add(getMealsUseCase.execute(
+                    ListMealsUseCase.Params(WITHOUT_CATEGORY, 0, LIMIT),
+                    { page ->
+                        maxPages = page.totalPages
+                        loadMore()
+                    },
+                    { e ->
+                        Timber.e("FunName:loadMore *****ERROR: $e *****")
+                    })
+            )
+        } else
+            refresh()
+    }
 
+    private fun refresh() {
+        ui().perform {
+            it.fillList(meals)
+            it.setVisibleItem(visibleItemId)
+            it.isLoading(false)
+        }
+    }
+
+    fun loadMore() {
         disposable.add(getMealsUseCase.execute(
-                ListMealsUseCase.Params(0, 0, 0),
+                ListMealsUseCase.Params(WITHOUT_CATEGORY, pageNumber, LIMIT),
                 { page ->
                     ui().perform {
-                        it.refreshList(page.meals)
+                        meals += page.meals
+                        it.fillList(page.meals)
                         it.isLoading(false)
                     }
+                    if (pageNumber >= maxPages - 1)
+                        pageNumber = 0
+                    else
+                        pageNumber++
                 },
                 { e ->
-                    Timber.e("FunName:refresh *****ERROR: $e *****")
+                    Timber.e("FunName:loadMore *****ERROR: $e *****")
                 }))
     }
 
+    fun onPaused(itemPosition: Int) {
+        this.visibleItemId = itemPosition
+    }
+
     interface UI : BaseUI {
-        fun fillList(meals: List<Meal>)
-        fun removeFromList(meal: Meal)
+        fun setupRecyclerView()
         fun openItem(meal: Meal)
-        fun refreshList(meals: List<Meal>)
         fun isLoading(isLoading: Boolean)
+        fun fillList(meals: List<Meal>)
+        fun setVisibleItem(visibleItemId: Int)
+    }
+
+    companion object {
+        const val LIMIT = 8
+        private const val WITHOUT_CATEGORY = -1
     }
 }

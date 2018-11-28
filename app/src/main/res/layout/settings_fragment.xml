@@ -15,6 +15,6 @@
         android:textSize="32sp"
         android:text="@string/version"
         android:textAlignment="center"
-        android:textColor="@color/barItems" />
+        android:textColor="@android:color/black" />
 </LinearLayout>
 

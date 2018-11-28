@@ -16,7 +16,8 @@ interface MealkyService {
     fun listMeals(
             @Query("category") categoryId: Int,
             @Query("page") offset: Int,
-            @Query("size") limit: Int
+            @Query("size") limit: Int,
+            @Query("sort") sort: String? = "id,desc"
     ): Single<Page>
 
     @GET("meals")
