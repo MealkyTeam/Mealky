@@ -8,7 +8,7 @@ import com.teammealky.mealky.presentation.commons.presenter.BaseUI
 import timber.log.Timber
 import javax.inject.Inject
 
-class DiscoverPresenter @Inject constructor(private val getMealsByPage: ListMealsUseCase
+class DiscoverPresenter @Inject constructor(private val getMealsUseCase: ListMealsUseCase
 ) : BasePresenter<DiscoverPresenter.UI>() {
     private var currentMealId = 0
     private var meals = mutableListOf<Meal>()
@@ -20,10 +20,10 @@ class DiscoverPresenter @Inject constructor(private val getMealsByPage: ListMeal
     fun swipedLeft() {
         currentMealId++
 
-        if (currentMealId == totalElements-1)
+        if (currentMealId == totalElements - 1)
             invalidate()
 
-        if (shouldLoadMore() && excluded.size!=maxPages)
+        if (shouldLoadMore() && excluded.size != maxPages)
             loadMore()
     }
 
@@ -39,39 +39,45 @@ class DiscoverPresenter @Inject constructor(private val getMealsByPage: ListMeal
         loadMore()
     }
 
-    private fun shouldLoadMore() = currentMealId == (meals.size - (LIMIT- LOAD_MORE_AFTER)-1)
+    private fun shouldLoadMore() = currentMealId == (meals.size - (LIMIT - LOAD_MORE_AFTER) - 1)
             || meals.size == 0
 
     fun firstRequest() {
         ui().perform { it.isLoading(true) }
-        disposable.add(getMealsByPage.execute(
-                ListMealsUseCase.Params(WITHOUT_CATEGORY,0, LIMIT),
-                { page ->
-                    maxPages = page.totalPages
-                    totalElements = page.totalElements
+        if (meals.isEmpty()) {
+            disposable.add(getMealsUseCase.execute(
+                    ListMealsUseCase.Params(WITHOUT_CATEGORY, 0, LIMIT),
+                    { page ->
+                        maxPages = page.totalPages
+                        totalElements = page.totalElements
+                        loadMore()
+                    },
+                    { e ->
+                        Timber.e("FunName:loadMore *****ERROR: $e *****")
+                    })
+            )
+        } else
+            refresh()
+    }
 
-                    if(meals.isEmpty()) loadMore()
-                    else{
-                        ui().perform { it.setMeals(meals.subList(currentMealId,meals.size-1)) }
-                    }
-                    ui().perform { it.isLoading(false) }
-                },
-                { e ->
-                    Timber.e("FunName:loadMore *****ERROR: $e *****")
-                })
-        )
+    private fun refresh() {
+        ui().perform {
+            it.setMeals(meals.subList(currentMealId, meals.size - 1))
+            it.isLoading(false)
+        }
     }
 
     private fun loadMore() {
         pageNumber = genRandomIntExcept(0, maxPages, excluded)
         excluded.add(pageNumber)
 
-        disposable.add(getMealsByPage.execute(
-                ListMealsUseCase.Params(WITHOUT_CATEGORY,pageNumber, LIMIT),
+        disposable.add(getMealsUseCase.execute(
+                ListMealsUseCase.Params(WITHOUT_CATEGORY, pageNumber, LIMIT),
                 { page ->
                     meals.addAll(page.meals)
                     ui().perform {
                         it.setMeals(page.meals)
+                        it.isLoading(false)
                     }
                     pageNumber++
                 },

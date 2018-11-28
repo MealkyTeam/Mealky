@@ -1,6 +1,7 @@
 package com.teammealky.mealky.presentation.meal
 
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import com.teammealky.mealky.domain.model.Category
 import com.teammealky.mealky.domain.model.Ingredient
 import com.teammealky.mealky.domain.model.Meal
@@ -141,6 +142,8 @@ object MealMapper {
 
         return Meal(id, name, prepTime, preparation, images, confirmed, author, categories, ingredients)
     }
+
+    fun areTheSame(a: Fragment, b: Fragment): Boolean = a.arguments?.getString(ID) == b.arguments?.getString(ID)
 
     private const val ID = "id"
     private const val NAME = "name"

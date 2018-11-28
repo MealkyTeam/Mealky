@@ -30,8 +30,4 @@ class ShoppingListFragment : BaseFragment<ShoppingListPresenter, ShoppingListPre
 
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter?.detach()
-    }
 }

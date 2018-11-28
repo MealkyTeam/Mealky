@@ -99,8 +99,4 @@ class DiscoverFragment : BaseFragment<DiscoverPresenter, DiscoverPresenter.UI, D
         presenter?.swipedRight()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter?.detach()
-    }
 }

@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import com.teammealky.mealky.R
 import com.teammealky.mealky.domain.model.Meal
 import com.teammealky.mealky.presentation.App
-import com.teammealky.mealky.presentation.commons.extension.loadImage
 import com.teammealky.mealky.presentation.commons.presenter.BaseFragment
+import com.teammealky.mealky.presentation.meal.adapter.GalleryAdapter
 import kotlinx.android.synthetic.main.meal_fragment.*
 
 class MealFragment : BaseFragment<MealPresenter, MealPresenter.UI, MealViewModel>(), MealPresenter.UI {
@@ -34,16 +34,11 @@ class MealFragment : BaseFragment<MealPresenter, MealPresenter.UI, MealViewModel
 
     private fun setupView() {
         mealName.text = presenter?.meal?.name
-        prepTime.text = getString(R.string.prep_time,  presenter?.meal?.prepTime.toString())
+        prepTime.text = getString(R.string.prep_time, presenter?.meal?.prepTime.toString())
         preparation.text = presenter?.meal?.preparation
 
         val images = presenter?.meal?.images ?: emptyList()
-        imageView.loadImage(if (images.isNotEmpty()) images[0] else "")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter?.detach()
+        imagePager.adapter = GalleryAdapter(requireContext(), images)
     }
 
     companion object {

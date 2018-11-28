@@ -23,6 +23,7 @@ class ContentSwitcher(private val fm: FragmentManager,
         }
 
         val ft = fm.beginTransaction()
+        ft.setReorderingAllowed(true)
         if (cleanStack) {
             val stackEntryAt = if (isSecondLevel(newFragment)) 1 else 0
             cleanBackStack(stackEntryAt)
