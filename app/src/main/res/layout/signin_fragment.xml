@@ -1,14 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="16dp">
+
+    <com.teammealky.mealky.presentation.commons.view.AspectRatioImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        app:aspectRatio="0.66"
+        android:src="@drawable/logo"
+        android:contentDescription="@string/logo" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/emailHint"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true">
 
         <EditText
             android:id="@+id/emailInput"
@@ -22,7 +31,8 @@
         android:id="@+id/passwordHint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="8dp" >
+        android:layout_below="@id/emailHint"
+        android:paddingTop="8dp">
 
         <EditText
             android:id="@+id/passwordInput"
@@ -36,28 +46,35 @@
         android:id="@+id/signInBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/passwordHint"
         android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp"
         android:layout_marginTop="8dp"
+        android:layout_marginRight="24dp"
         android:layout_marginBottom="8dp"
         android:text="@string/sign_in" />
 
     <TextView
-        android:id="@+id/signInTv"
+        android:id="@+id/forgottenPasswordTv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/signInBtn"
+        android:clickable="true"
+        android:focusable="true"
         android:gravity="center"
-        android:textAlignment="center"
         android:text="@string/forgotten_password"
+        android:textAlignment="center"
         android:textSize="16sp" />
 
     <TextView
         android:id="@+id/toSignUpTv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:layout_below="@id/forgottenPasswordTv"
         android:layout_marginTop="4dp"
-        android:textAlignment="center"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
         android:text="@string/to_sign_up"
+        android:textAlignment="center"
         android:textSize="16sp" />
-</LinearLayout>
+</RelativeLayout>

@@ -70,14 +70,12 @@ class DiscoverFragment : BaseFragment<DiscoverPresenter, DiscoverPresenter.UI, D
     }
 
     override fun openItem(meal: Meal) {
-        context?.let {
-            Navigator.from(it as Navigator.Navigable).openMeal(meal)
-        }
+        Navigator.from(context as Navigator.Navigable).openMeal(meal)
     }
 
     override fun setMeals(meals: List<Meal>) {
         for (meal in meals) {
-            swipeView.addView(MealCard(meal, swipeView,this))
+            swipeView.addView(MealCard(meal, swipeView, this))
         }
     }
 

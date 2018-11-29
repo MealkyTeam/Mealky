@@ -2,8 +2,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true"
     android:padding="16dp">
+
+    <com.teammealky.mealky.presentation.commons.view.AspectRatioImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        app:aspectRatio="0.66"
+        android:src="@drawable/logo"
+        android:contentDescription="@string/logo" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/usernameHint"
@@ -23,7 +32,7 @@
         android:id="@+id/emailHint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/passwordHint"
+        android:layout_centerVertical="true"
         android:paddingTop="8dp">
 
         <EditText
@@ -38,7 +47,7 @@
         android:id="@+id/passwordHint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
+        android:layout_below="@id/emailHint"
         android:paddingTop="8dp">
 
         <EditText
