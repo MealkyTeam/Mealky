@@ -4,6 +4,9 @@ import android.app.Application
 import android.content.Context
 import com.teammealky.mealky.domain.repository.MealsRepository
 import com.teammealky.mealky.presentation.App
+import com.teammealky.mealky.presentation.account.AccountActivity
+import com.teammealky.mealky.presentation.account.signin.SignInFragment
+import com.teammealky.mealky.presentation.account.signup.SignUpFragment
 import com.teammealky.mealky.presentation.commons.Navigator
 import com.teammealky.mealky.presentation.commons.injection.ApplicationContext
 import com.teammealky.mealky.presentation.commons.injection.module.ApplicationModule
@@ -34,11 +37,14 @@ interface ApplicationComponent {
     fun inject(app: App)
 
     fun inject(activity: MainActivity)
+    fun inject(activity: AccountActivity)
 
     fun inject(app: MealListFragment)
     fun inject(app: ShoppingListFragment)
     fun inject(app: DiscoverFragment)
     fun inject(app: SettingsFragment)
+    fun inject(app: SignInFragment)
+    fun inject(app: SignUpFragment)
 
     fun inject(app: MealFragment)
 }

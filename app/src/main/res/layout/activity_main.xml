@@ -5,7 +5,7 @@
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/barItems"
+    android:background="@color/colorPrimary"
     android:clipToPadding="false"
     tools:ignore="MergeRootFrame">
 
@@ -26,9 +26,9 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_gravity="bottom"
-        android:background="@color/bar"
+        android:background="@color/colorPrimaryDark"
         app:elevation="8dp"
-        app:itemTextColor="@color/barItems"
+        app:itemTextColor="@color/colorPrimary"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_bar" />
 
