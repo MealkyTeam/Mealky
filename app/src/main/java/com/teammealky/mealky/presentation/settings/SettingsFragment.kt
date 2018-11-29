@@ -1,6 +1,5 @@
 package com.teammealky.mealky.presentation.settings
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +7,7 @@ import android.view.ViewGroup
 import com.teammealky.mealky.BuildConfig
 import com.teammealky.mealky.R
 import com.teammealky.mealky.presentation.App
-import com.teammealky.mealky.presentation.account.AccountActivity
+import com.teammealky.mealky.presentation.commons.Navigator
 import com.teammealky.mealky.presentation.commons.presenter.BaseFragment
 import kotlinx.android.synthetic.main.settings_fragment.*
 
@@ -36,8 +35,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter, SettingsPresenter.UI, S
     }
 
     override fun toAccountActivity() {
-        val intent = Intent(context, AccountActivity::class.java)
-        startActivity(intent)
+        Navigator.from(context as Navigator.Navigable).openActivity(Navigator.ACTIVITY_ACCOUNT)
         activity?.finish()
     }
 
