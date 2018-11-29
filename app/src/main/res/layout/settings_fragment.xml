@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/settingsItemLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:background="@color/colorPrimary">
 
     <TextView
         android:id="@+id/settingInfo"
@@ -12,9 +14,17 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:maxLines="1"
-        android:textSize="32sp"
+        android:padding="8sp"
         android:text="@string/version"
         android:textAlignment="center"
-        android:textColor="@android:color/black" />
+        android:textColor="@android:color/black"
+        android:textSize="32sp" />
+
+    <com.teammealky.mealky.presentation.settings.view.SignOutCard
+        android:id="@+id/signOutCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"/>
+
 </LinearLayout>
 

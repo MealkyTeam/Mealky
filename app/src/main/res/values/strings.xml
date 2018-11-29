@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Mealky</string>
-    <string name="title_activity_list_of_meals">ListOfMealsActivity</string>
     <string name="meals">Meals</string>
     <string name="shopping_list">Shopping list</string>
     <string name="ingredients">Ingredients</string>
@@ -11,12 +10,15 @@
     <string name="version">Version %s</string>
     <string name="about_version">About version</string>
     <string name="prep_time">%s min</string>
-    <string name="register">Sign up</string>
-    <string name="login">Sign in</string>
+    <string name="sign_up">Sign up</string>
+    <string name="sign_in">Sign in</string>
+    <string name="sign_out">Sign out</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
-    <string name="forget_pass">I forgot my password</string>
-    <string name="nickname">Login</string>
-    <string name="account">Registered already? Sign in!</string>
+    <string name="forgotten_password">I forgot my password</string>
+    <string name="username">Username</string>
+    <string name="to_sign_in">Registered already? Sign in!</string>
+    <string name="to_sign_up">Sign up new account</string>
     <string name="search">Search</string>
+    <string name="test_username">My username</string>
 </resources>

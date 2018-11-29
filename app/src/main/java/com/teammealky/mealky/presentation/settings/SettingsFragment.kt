@@ -1,5 +1,6 @@
 package com.teammealky.mealky.presentation.settings
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,10 +8,11 @@ import android.view.ViewGroup
 import com.teammealky.mealky.BuildConfig
 import com.teammealky.mealky.R
 import com.teammealky.mealky.presentation.App
+import com.teammealky.mealky.presentation.account.AccountActivity
 import com.teammealky.mealky.presentation.commons.presenter.BaseFragment
 import kotlinx.android.synthetic.main.settings_fragment.*
 
-class SettingsFragment : BaseFragment<SettingsPresenter, SettingsPresenter.UI, SettingsViewModel>(), SettingsPresenter.UI {
+class SettingsFragment : BaseFragment<SettingsPresenter, SettingsPresenter.UI, SettingsViewModel>(), SettingsPresenter.UI, SettingsPresenter.SignOutListener {
 
     override val vmClass = SettingsViewModel::class.java
 
@@ -30,6 +32,17 @@ class SettingsFragment : BaseFragment<SettingsPresenter, SettingsPresenter.UI, S
 
     private fun setupView() {
         settingInfo.text = getString(R.string.version, BuildConfig.VERSION_NAME)
+        signOutCard.listener = this
+    }
+
+    override fun toAccountActivity() {
+        val intent = Intent(context, AccountActivity::class.java)
+        startActivity(intent)
+        activity?.finish()
+    }
+
+    override fun signOutBtnClicked() {
+        presenter?.signOutClicked()
     }
 
 }

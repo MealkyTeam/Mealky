@@ -32,7 +32,6 @@ class MainPresenter @Inject constructor(
     }
 
     interface UI : BaseUI {
-//        fun openLink(link: Uri)
         fun setContent(fragment: Fragment, cleanStack: Boolean = false, transitionValues: List<TransitionValues>? = null)
     }
 }
