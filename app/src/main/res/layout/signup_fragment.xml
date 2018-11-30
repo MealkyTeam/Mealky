@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         app:aspectRatio="0.66"
-        android:src="@drawable/logo"
+        android:src="@drawable/MainLogo"
         android:contentDescription="@string/logo" />
 
     <com.google.android.material.textfield.TextInputLayout
