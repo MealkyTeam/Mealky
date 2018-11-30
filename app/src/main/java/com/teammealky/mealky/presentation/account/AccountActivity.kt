@@ -10,7 +10,6 @@ import com.teammealky.mealky.presentation.commons.presenter.BaseActivity
 import com.teammealky.mealky.presentation.account.signin.SignInFragment
 import com.teammealky.mealky.presentation.commons.Navigator
 
-
 class AccountActivity : BaseActivity<AccountPresenter, AccountPresenter.UI, AccountViewModel>(), AccountPresenter.UI, Navigator.Navigable {
 
     override val vmClass = AccountViewModel::class.java
@@ -41,5 +40,14 @@ class AccountActivity : BaseActivity<AccountPresenter, AccountPresenter.UI, Acco
         ft.replace(R.id.containerAccount, fragment)
         ft.addToBackStack(null)
         ft.commit()
+    }
+
+    override fun onBackPressed() {
+        val count = supportFragmentManager.backStackEntryCount
+
+        if (count <= 1)
+            finish()
+        else
+            super.onBackPressed()
     }
 }
