@@ -11,8 +11,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
         android:contentDescription="@string/logo"
-        android:src="@drawable/MainLogo"
+        android:src="@drawable/logo"
         app:aspectRatio="0.66" />
 
     <ProgressBar
