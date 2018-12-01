@@ -29,6 +29,8 @@ android {
 
         debug {
             buildConfigField "String", "CENTRAL_URL", rootProject.ext.api.release.central
+            buildConfigField "String", "CENTRAL_LOGIN", rootProject.ext.api.release.login
+            buildConfigField "String", "CENTRAL_PASSWORD", rootProject.ext.api.release.password
         }
     }
     testOptions {

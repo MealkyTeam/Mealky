@@ -9,8 +9,8 @@ class SettingsPresenter @Inject constructor(
 ) : BasePresenter<SettingsPresenter.UI>() {
 
     private fun clearUserData(){
-        //todo neet to be implemented
-        Timber.e("FunName:clearUserData *****need to be implemented *****")
+        //todo need to be implemented
+        Timber.d("KUBA Method:clearUserData ***** NotImplemented *****")
     }
 
     fun signOutClicked(){

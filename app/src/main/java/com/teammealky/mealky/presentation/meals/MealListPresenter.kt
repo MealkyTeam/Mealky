@@ -31,7 +31,7 @@ class MealListPresenter @Inject constructor(
                         loadMore()
                     },
                     { e ->
-                        Timber.e("FunName:loadMore *****ERROR: $e *****")
+                        Timber.d("KUBA Method:firstRequest ***** ERROR: $e *****")
                     })
             )
         } else
@@ -61,7 +61,7 @@ class MealListPresenter @Inject constructor(
                         pageNumber++
                 },
                 { e ->
-                    Timber.e("FunName:loadMore *****ERROR: $e *****")
+                    Timber.d("KUBA Method:loadMore ***** ERROR: $e *****")
                 }))
     }
 
