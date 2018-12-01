@@ -1,47 +1,64 @@
 package com.teammealky.mealky.presentation.account.signin
 
 import com.teammealky.mealky.domain.model.User
+import com.teammealky.mealky.domain.usecase.signin.SignInWithPasswordUseCase
 import com.teammealky.mealky.presentation.commons.presenter.BasePresenter
 import com.teammealky.mealky.presentation.commons.presenter.BaseUI
+import retrofit2.HttpException
 import timber.log.Timber
 import javax.inject.Inject
 
-class SignInPresenter @Inject constructor(
+class SignInPresenter @Inject constructor(private val signInWithPasswordUseCase: SignInWithPasswordUseCase
 ) : BasePresenter<SignInPresenter.UI>() {
 
     var model = User.defaultUser()
-    var tempCounter = 1
 
     fun signInButtonClicked() {
         if (invalidUser()) {
             ui().perform { it.setErrorOnEmail() }
             return
-        } else
-            ui().perform { it.hideEmailError() }
-
-        val response = authorizeResponse()
-        if(response == Response.OK){
-            ui().perform { it.toMainActivity() }
-            return
         }
 
-        tempCounter++
         ui().perform {
-            it.showInfoText(true)
             it.hideKeyboard()
+            it.hideEmailError()
+            it.isLoading(true)
         }
 
-        when (response) {
-            Response.CONFIRM_EMAIL -> ui().perform {
-                it.showNeedConfirmEmail()
-            }
-            Response.NO_SUCH_USER -> ui().perform {
-                it.showThereIsNoSuchUser()
-            }
-            Response.INVALID_CREDENTIALS -> ui().perform {
-                it.showInvalidCredentials()
-            }
-            else -> ui().perform { it.toMainActivity() }
+        disposable.add(signInWithPasswordUseCase.execute(
+                //todo fix it its only for test
+                SignInWithPasswordUseCase.Params("admin", "123456"),
+                { token ->
+                    ui().perform {
+                        it.isLoading(false)
+                        model = model.copy(token = token)
+                        changeActivity()
+                    }
+                },
+                { e ->
+                    ui().perform { it.isLoading(false) }
+                    Timber.d("KUBA Method:signInButtonClicked ***** ERROR: $e *****")
+                    Timber.d("KUBA Method:signInButtonClicked ***** ${(e as HttpException).message()} *****")
+                })
+        )
+//        when (response) {
+//            Response.CONFIRM_EMAIL -> ui().perform {
+//                it.showNeedConfirmEmail()
+//            }
+//            Response.NO_SUCH_USER -> ui().perform {
+//                it.showThereIsNoSuchUser()
+//            }
+//            Response.INVALID_CREDENTIALS -> ui().perform {
+//                it.showInvalidCredentials()
+//            }
+//            else -> changeActivity()
+//        }
+    }
+
+    private fun changeActivity() {
+        ui().perform {
+            it.saveUser(model)
+            it.toMainActivity()
         }
     }
 
@@ -55,18 +72,6 @@ class SignInPresenter @Inject constructor(
 
     fun signUpLinkClicked() {
         ui().perform { it.toSignUpFragment() }
-    }
-
-    private fun authorizeResponse(): Response {
-        //todo need logic
-        ui().perform { it.isLoading(true) }
-
-//        val response = Response.getRandom()
-        val response = Response.getRandom(tempCounter)
-        Timber.e("FunName:authorizeResponse *****$response *****")
-        ui().perform { it.isLoading(false) }
-
-        return response
     }
 
     fun fieldsChanged() {
@@ -104,5 +109,6 @@ class SignInPresenter @Inject constructor(
         fun setErrorOnEmail()
         fun hideEmailError()
         fun hideKeyboard()
+        fun saveUser(user: User)
     }
 }

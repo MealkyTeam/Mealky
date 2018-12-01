@@ -17,7 +17,9 @@ import com.teammealky.mealky.presentation.commons.extension.isVisible
 import com.teammealky.mealky.presentation.commons.presenter.BaseFragment
 import kotlinx.android.synthetic.main.signin_fragment.*
 import android.app.Activity
+import android.preference.PreferenceManager
 import android.view.inputmethod.InputMethodManager
+import com.teammealky.mealky.domain.model.Authenticator
 
 class SignInFragment : BaseFragment<SignInPresenter, SignInPresenter.UI, SignInViewModel>(),
         SignInPresenter.UI, View.OnClickListener, TextWatcher, TextView.OnEditorActionListener {
@@ -119,6 +121,13 @@ class SignInFragment : BaseFragment<SignInPresenter, SignInPresenter.UI, SignInV
     override fun hideKeyboard() {
         val imm = context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view?.windowToken, 0)
+    }
+
+    override fun saveUser(user: User) {
+        val sharedPreferencesEditor = PreferenceManager.getDefaultSharedPreferences(context).edit()
+
+        sharedPreferencesEditor.putString(Authenticator.TOKEN, user.token)
+        sharedPreferencesEditor.apply()
     }
 
     override fun onClick(view: View?) {

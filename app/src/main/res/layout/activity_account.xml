@@ -11,5 +11,13 @@
         android:id="@+id/containerAccount"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false" />
+        android:background="@color/colorPrimaryDark"
+        android:clipToPadding="false" >
+        <ImageView
+            android:id="@+id/mainLogo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/main_logo"
+            android:contentDescription="@string/logo" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </FrameLayout>

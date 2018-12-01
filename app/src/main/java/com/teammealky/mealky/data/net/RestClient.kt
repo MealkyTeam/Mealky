@@ -3,7 +3,9 @@ package com.teammealky.mealky.data.net
 import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.teammealky.mealky.BuildConfig
 import okhttp3.Cache
+import okhttp3.Credentials
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -25,9 +27,15 @@ object RestClient {
         okBuilder.writeTimeout(TIMEOUT_SEC, TimeUnit.SECONDS)
 
         okBuilder.addInterceptor { chain ->
-            val original = chain.request()
-            chain.proceed(original)
+            val authToken = Credentials.basic(BuildConfig.CENTRAL_LOGIN, BuildConfig.CENTRAL_PASSWORD)
+
+            var request = chain.request()
+            val headers = request.headers().newBuilder().add("Authorization", authToken).build()
+            request = request.newBuilder().headers(headers).build()
+            chain.proceed(request)
         }
+
+        okBuilder.addInterceptor(ErrorInterceptor())
 
         return okBuilder
     }
