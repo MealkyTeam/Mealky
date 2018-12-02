@@ -13,6 +13,8 @@ import com.squareup.picasso.Picasso
 import com.squareup.picasso.Transformation
 import java.util.*
 import android.util.DisplayMetrics
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import android.view.WindowManager
 
 fun Int.toTime(): String {
@@ -43,6 +45,10 @@ fun BottomNavigationView.markAsSelected(position: Int) {
     menu.getItem(position).isChecked = true
 }
 
+fun ViewGroup.inflate(
+        layoutId: Int, attachToRoot: Boolean = false
+): View = LayoutInflater.from(context).inflate(layoutId, this, attachToRoot)
+
 fun ImageView.loadImage(url: String, transformation: Transformation? = null,
                         callback: Callback? = null,
                         placeholder: Drawable? = null,
@@ -57,7 +63,7 @@ fun ImageView.loadImage(url: String, transformation: Transformation? = null,
             .error(R.drawable.broken_image)
 
     if (null != placeholder) picasso.placeholder(placeholder)
-    else picasso.placeholder(R.color.barItems)
+    else picasso.placeholder(R.color.colorPrimary)
     if (fit) picasso.fit()
     if (transformation != null) picasso.transform(transformation)
 

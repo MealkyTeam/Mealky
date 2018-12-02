@@ -53,7 +53,7 @@ class DiscoverPresenter @Inject constructor(private val getMealsUseCase: ListMea
                         loadMore()
                     },
                     { e ->
-                        Timber.e("FunName:loadMore *****ERROR: $e *****")
+                        Timber.d("KUBA Method:firstRequest ***** ERROR: $e *****")
                     })
             )
         } else
@@ -82,7 +82,7 @@ class DiscoverPresenter @Inject constructor(private val getMealsUseCase: ListMea
                     pageNumber++
                 },
                 { e ->
-                    Timber.e("FunName:loadMore *****ERROR: $e *****")
+                    Timber.d("KUBA Method:loadMore ***** ERROR: $e *****")
                 }))
     }
 

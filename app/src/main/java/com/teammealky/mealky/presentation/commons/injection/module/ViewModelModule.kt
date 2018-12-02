@@ -2,6 +2,9 @@ package com.teammealky.mealky.presentation.commons.injection.module
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.teammealky.mealky.presentation.account.AccountViewModel
+import com.teammealky.mealky.presentation.account.signin.SignInViewModel
+import com.teammealky.mealky.presentation.account.signup.SignUpViewModel
 import com.teammealky.mealky.presentation.commons.injection.ViewModelFactory
 import com.teammealky.mealky.presentation.commons.injection.ViewModelKey
 import com.teammealky.mealky.presentation.discover.DiscoverViewModel
@@ -26,6 +29,9 @@ abstract class ViewModelModule {
     @Binds @IntoMap @ViewModelKey(MainViewModel::class)
     internal abstract fun main(vm: MainViewModel): ViewModel
 
+    @Binds @IntoMap @ViewModelKey(AccountViewModel::class)
+    internal abstract fun account(vm: AccountViewModel): ViewModel
+
     @Binds @IntoMap @ViewModelKey(ShoppingListViewModel::class)
     internal abstract fun shoppingList(vm: ShoppingListViewModel): ViewModel
 
@@ -37,4 +43,10 @@ abstract class ViewModelModule {
 
     @Binds @IntoMap @ViewModelKey(MealViewModel::class)
     internal abstract fun meal(vm: MealViewModel): ViewModel
+
+    @Binds @IntoMap @ViewModelKey(SignInViewModel::class)
+    internal abstract fun signIn(vm: SignInViewModel): ViewModel
+
+    @Binds @IntoMap @ViewModelKey(SignUpViewModel::class)
+    internal abstract fun signUp(vm: SignUpViewModel): ViewModel
 }
