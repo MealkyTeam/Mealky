@@ -2,11 +2,13 @@ package com.teammealky.mealky.data.net.service
 
 import com.teammealky.mealky.domain.model.Meal
 import com.teammealky.mealky.domain.model.Page
-import com.teammealky.mealky.domain.model.PasswordRequest
+import com.teammealky.mealky.domain.model.PasswordSignInRequest
+import com.teammealky.mealky.domain.model.SignUpRequest
 import com.teammealky.mealky.domain.model.Token
-import com.teammealky.mealky.domain.model.TokenRequest
+import com.teammealky.mealky.domain.model.TokenSignInRequest
 import com.teammealky.mealky.domain.model.User
 import io.reactivex.Single
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -34,13 +36,11 @@ interface MealkyService {
     ): Single<List<Meal>>
 
     @POST("/sec/login")
-    fun signInWithPassword(@Body request: PasswordRequest): Single<Token>
+    fun signInWithPassword(@Body request: PasswordSignInRequest): Single<Token>
 
     @POST("/sec/login")
-    fun signInWithToken(@Body request: TokenRequest): Single<User>
+    fun signInWithToken(@Body request: TokenSignInRequest): Single<User>
 
     @POST("/sec/signup")
-    fun signUp(@Query("username") username: String,
-               @Query("email") email: String,
-               @Query("password") password: String)
+    fun signUp(@Body request: SignUpRequest): Single<Response<Void>>
 }

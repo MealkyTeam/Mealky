@@ -14,9 +14,13 @@ data class User(
     }
 
     fun hasCorrectUsername(): Boolean {
-        val regex = Regex.fromLiteral("^[a-zA-Z0-9]){4,15}$")
+        val regex = "^[a-zA-Z0-9]{1,15}$".toRegex()
 
-        return regex.matches(email.orEmpty())
+        return regex.matches(username.orEmpty())
+    }
+
+    fun hasCorrectPassword(): Boolean {
+       return password?.length ?: 0 > 5
     }
 
     companion object {

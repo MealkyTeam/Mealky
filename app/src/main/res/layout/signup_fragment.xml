@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:fitsSystemWindows="true"
     android:padding="16dp">
 
@@ -15,12 +16,34 @@
         android:src="@drawable/logo"
         app:aspectRatio="0.66" />
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+
     <LinearLayout
         android:id="@+id/userInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/logo"
         android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/infoTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="center"
+            tools:text="@string/you_need_to_confirm_email"
+            android:textAlignment="center"
+            android:textColor="@android:color/holo_red_light"
+            android:textSize="16sp"
+            android:visibility="gone"
+            android:paddingBottom="8dp"
+            tools:visibility="visible" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/usernameHint"
@@ -74,7 +97,7 @@
             android:text="@string/sign_up" />
 
         <TextView
-            android:id="@+id/signUpTv"
+            android:id="@+id/toSignInTv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="24dp"

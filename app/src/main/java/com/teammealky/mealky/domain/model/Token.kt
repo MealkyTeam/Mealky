@@ -1,4 +1,4 @@
 package com.teammealky.mealky.domain.model
 
 
-data class Token(val string: String)
+data class Token(val token: String)

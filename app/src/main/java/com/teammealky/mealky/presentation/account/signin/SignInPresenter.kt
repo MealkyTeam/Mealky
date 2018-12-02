@@ -14,7 +14,7 @@ class SignInPresenter @Inject constructor(private val signInWithPasswordUseCase:
     var model = User.defaultUser()
 
     fun signInButtonClicked() {
-        if (invalidUser()) {
+        if (!validUser()) {
             ui().perform { it.setErrorOnEmail() }
             return
         }
@@ -22,7 +22,7 @@ class SignInPresenter @Inject constructor(private val signInWithPasswordUseCase:
         ui().perform {
             it.hideKeyboard()
             it.hideEmailError()
-            it.showInfoText(false)
+            it.showInfoTv(false)
             it.isLoading(true)
         }
 
@@ -31,32 +31,27 @@ class SignInPresenter @Inject constructor(private val signInWithPasswordUseCase:
                 { token ->
                     ui().perform {
                         it.isLoading(false)
-                        model = model.copy(token = token.string)
+                        model = model.copy(token = token.token)
                         changeActivity()
                     }
                 },
                 { e ->
                     ui().perform {
-                        it.showInfoText(true)
+                        it.showInfoTv(true)
                         it.isLoading(false)
                     }
                     if (e is APIError) {
                         when (e.type) {
                             APIError.ErrorType.CONFIRM_EMAIL -> {
-                                //todo implement confirm_email
-                                Timber.d("KUBA Method:signInButtonClicked *****  confirm email need to be implemented *****")
+                                ui().perform { it.showErrorInInfo(APIError.ErrorType.CONFIRM_EMAIL) }
                             }
                             APIError.ErrorType.NO_SUCH_USER -> {
-                                Timber.d("KUBA Method:signInButtonClicked ***** no such *****")
-                                ui().perform { it.showThereIsNoSuchUser() }
+                                ui().perform { it.showErrorInInfo(APIError.ErrorType.NO_SUCH_USER) }
                             }
-                            APIError.ErrorType.INVALID_PASSWORD -> {
-                                Timber.d("KUBA Method:signInButtonClicked ***** inv pass *****")
-
-                                ui().perform { it.showInvalidPassword() }
+                            APIError.ErrorType.WRONG_PASSWORD -> {
+                                ui().perform { it.showErrorInInfo(APIError.ErrorType.WRONG_PASSWORD) }
                             }
                             else -> {
-                                Timber.d("KUBA Method:signInButtonClicked ***** error *****")
                                 ui().perform { it.showErrorMessage(e) }
                             }
                         }
@@ -73,8 +68,8 @@ class SignInPresenter @Inject constructor(private val signInWithPasswordUseCase:
         }
     }
 
-    private fun invalidUser(): Boolean {
-        return !model.hasCorrectEmail()
+    private fun validUser(): Boolean {
+        return model.hasCorrectEmail()
     }
 
     fun forgottenPasswordLinkClicked() {
@@ -97,14 +92,11 @@ class SignInPresenter @Inject constructor(private val signInWithPasswordUseCase:
         fun toMainActivity()
         fun toSignUpFragment()
         fun toForgottenPasswordFragment()
-        fun showInvalidPassword()
-        fun showThereIsNoSuchUser()
-        fun showNeedConfirmEmail()
+        fun showErrorInInfo(error: APIError.ErrorType)
         fun toggleSignInButton(toggle: Boolean)
-        fun showInfoText(isVisible: Boolean)
+        fun showInfoTv(isVisible: Boolean)
         fun setErrorOnEmail()
         fun hideEmailError()
-        fun hideKeyboard()
         fun saveUser(user: User)
     }
 }
