@@ -35,8 +35,6 @@ object RestClient {
             chain.proceed(request)
         }
 
-        okBuilder.addInterceptor(ErrorInterceptor())
-
         return okBuilder
     }
 
@@ -54,9 +52,9 @@ object RestClient {
         val cache = if (null != cacheDirectory) Cache(cacheDirectory, CACHE_SIZE) else null
         val builder = Retrofit.Builder()
                 .client(getHttpClientBuilder(context).cache(cache).build())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .baseUrl(baseURL)
                 .addConverterFactory(GsonConverterFactory.create(gson))
+                .addCallAdapterFactory(RxErrorAdapterFactory())
                 .build()
 
         return builder.create(serviceClass)

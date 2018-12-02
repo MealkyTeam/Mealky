@@ -9,8 +9,7 @@ class SettingsPresenter @Inject constructor(
 ) : BasePresenter<SettingsPresenter.UI>() {
 
     private fun clearUserData(){
-        //todo need to be implemented
-        Timber.d("KUBA Method:clearUserData ***** NotImplemented *****")
+        ui().perform { it.clearUserToken() }
     }
 
     fun signOutClicked(){
@@ -24,5 +23,6 @@ class SettingsPresenter @Inject constructor(
 
     interface UI : BaseUI {
         fun toAccountActivity()
+        fun clearUserToken()
     }
 }

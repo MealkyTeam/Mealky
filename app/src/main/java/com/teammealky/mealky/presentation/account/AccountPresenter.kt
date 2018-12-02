@@ -2,6 +2,7 @@ package com.teammealky.mealky.presentation.account
 
 import android.transition.TransitionValues
 import androidx.fragment.app.Fragment
+import com.teammealky.mealky.domain.model.User
 import com.teammealky.mealky.domain.usecase.signin.SignInWithTokenUseCase
 import com.teammealky.mealky.presentation.commons.presenter.BasePresenter
 import com.teammealky.mealky.presentation.commons.presenter.BaseUI
@@ -16,18 +17,20 @@ class AccountPresenter @Inject constructor(private val signInWithTokenUseCase: S
     }
 
     fun validateToken(token: String) {
-    //todo its only for tests:
-//        if (token.isEmpty())
+        if (token.isEmpty())
             ui().perform { it.toSignIn() }
-//        else
-//            sendToken(token)
+        else
+            sendToken(token)
     }
 
     private fun sendToken(token: String) {
         disposable.add(signInWithTokenUseCase.execute(
                 SignInWithTokenUseCase.Params(token),
-                { _ ->
-                    ui().perform { it.toMainActivity() }
+                { user ->
+                    ui().perform {
+                        it.saveUsername(user)
+                        it.toMainActivity()
+                    }
                 },
                 { e ->
                     Timber.d("KUBA Method:sendToken ***** ERROR: $e *****")
@@ -40,5 +43,6 @@ class AccountPresenter @Inject constructor(private val signInWithTokenUseCase: S
         fun setContent(fragment: Fragment, cleanStack: Boolean = false, transitionValues: List<TransitionValues>? = null)
         fun toSignIn()
         fun toMainActivity()
+        fun saveUsername(user: User)
     }
 }

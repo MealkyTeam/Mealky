@@ -1,15 +1,20 @@
 package com.teammealky.mealky.presentation.settings
 
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.teammealky.mealky.BuildConfig
 import com.teammealky.mealky.R
+import com.teammealky.mealky.domain.model.Authenticator.Companion.TOKEN
+import com.teammealky.mealky.domain.model.Authenticator.Companion.USERNAME
 import com.teammealky.mealky.presentation.App
 import com.teammealky.mealky.presentation.commons.Navigator
+import com.teammealky.mealky.presentation.commons.extension.isVisible
 import com.teammealky.mealky.presentation.commons.presenter.BaseFragment
 import kotlinx.android.synthetic.main.settings_fragment.*
+import kotlinx.android.synthetic.main.signout_layout.*
 
 class SettingsFragment : BaseFragment<SettingsPresenter, SettingsPresenter.UI, SettingsViewModel>(), SettingsPresenter.UI, SettingsPresenter.SignOutListener {
 
@@ -31,7 +36,18 @@ class SettingsFragment : BaseFragment<SettingsPresenter, SettingsPresenter.UI, S
 
     private fun setupView() {
         settingInfo.text = getString(R.string.version, BuildConfig.VERSION_NAME)
+        val username = getUsername()
+
+        usernameTv.text = username
+        if (usernameTv.text.isEmpty())
+            usernameTv.isVisible(false)
+
         signOutCard.listener = this
+    }
+
+    private fun getUsername(): String {
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+        return sharedPreferences.getString(USERNAME, "") ?: ""
     }
 
     override fun toAccountActivity() {
@@ -41,6 +57,14 @@ class SettingsFragment : BaseFragment<SettingsPresenter, SettingsPresenter.UI, S
 
     override fun signOutBtnClicked() {
         presenter?.signOutClicked()
+    }
+
+    override fun clearUserToken() {
+        val sharedPreferencesEditor = PreferenceManager.getDefaultSharedPreferences(context).edit()
+
+        sharedPreferencesEditor.remove(TOKEN)
+        sharedPreferencesEditor.remove(USERNAME)
+        sharedPreferencesEditor.apply()
     }
 
 }
