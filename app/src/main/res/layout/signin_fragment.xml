@@ -38,10 +38,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:gravity="center"
-            android:text="@string/you_need_to_confirm_email"
+            tools:text="@string/you_need_to_confirm_email"
             android:textAlignment="center"
             android:textColor="@android:color/holo_red_light"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:visibility="gone"
             android:paddingBottom="8dp"
             tools:visibility="visible" />

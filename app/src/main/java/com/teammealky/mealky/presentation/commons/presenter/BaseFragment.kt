@@ -1,6 +1,8 @@
 package com.teammealky.mealky.presentation.commons.presenter
 
+import android.app.Activity
 import android.os.Bundle
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -46,5 +48,10 @@ abstract class BaseFragment<P : Presenter<V>, in V, VM : BaseViewModel<P>> : Fra
                 .setTitle("Sorry!").setMessage("Something went wrong.")
                 .setPositiveButton("Close", null)
                 .show()
+    }
+
+    override fun hideKeyboard() {
+        val imm = context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view?.windowToken, 0)
     }
 }

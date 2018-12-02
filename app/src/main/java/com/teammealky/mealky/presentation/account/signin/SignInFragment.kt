@@ -16,10 +16,10 @@ import com.teammealky.mealky.presentation.commons.Navigator
 import com.teammealky.mealky.presentation.commons.extension.isVisible
 import com.teammealky.mealky.presentation.commons.presenter.BaseFragment
 import kotlinx.android.synthetic.main.signin_fragment.*
-import android.app.Activity
 import android.preference.PreferenceManager
-import android.view.inputmethod.InputMethodManager
+import com.teammealky.mealky.domain.model.APIError
 import com.teammealky.mealky.domain.model.Authenticator
+import timber.log.Timber
 
 class SignInFragment : BaseFragment<SignInPresenter, SignInPresenter.UI, SignInViewModel>(),
         SignInPresenter.UI, View.OnClickListener, TextWatcher, TextView.OnEditorActionListener {
@@ -48,6 +48,9 @@ class SignInFragment : BaseFragment<SignInPresenter, SignInPresenter.UI, SignInV
         emailInput.addTextChangedListener(this)
         passwordInput.addTextChangedListener(this)
         passwordInput.setOnEditorActionListener(this)
+
+        //todo it's not implemented yet that's why it's hidden
+        forgottenPasswordTv.isVisible(false)
     }
 
     override fun toMainActivity() {
@@ -63,16 +66,13 @@ class SignInFragment : BaseFragment<SignInPresenter, SignInPresenter.UI, SignInV
         Navigator.from(context as Navigator.Navigable).openForgottenPassword()
     }
 
-    override fun showThereIsNoSuchUser() {
-        infoTv.text = getString(R.string.missing_user)
-    }
-
-    override fun showNeedConfirmEmail() {
-        infoTv.text = getString(R.string.you_need_to_confirm_email)
-    }
-
-    override fun showInvalidPassword() {
-        infoTv.text = getString(R.string.wrong_password)
+    override fun showErrorInInfo(error: APIError.ErrorType) {
+        infoTv.text = when (error) {
+            APIError.ErrorType.NO_SUCH_USER -> getString(R.string.missing_user)
+            APIError.ErrorType.CONFIRM_EMAIL -> getString(R.string.you_need_to_confirm_email)
+            APIError.ErrorType.WRONG_PASSWORD -> getString(R.string.invalid_password)
+            else -> getString(R.string.something_went_wrong)
+        }
     }
 
     override fun isLoading(isLoading: Boolean) {
@@ -84,7 +84,7 @@ class SignInFragment : BaseFragment<SignInPresenter, SignInPresenter.UI, SignInV
         signInBtn.isEnabled = toggle
     }
 
-    override fun showInfoText(isVisible: Boolean) {
+    override fun showInfoTv(isVisible: Boolean) {
         infoTv.isVisible(isVisible)
     }
 
@@ -116,11 +116,6 @@ class SignInFragment : BaseFragment<SignInPresenter, SignInPresenter.UI, SignInV
         }
 
         return false
-    }
-
-    override fun hideKeyboard() {
-        val imm = context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(view?.windowToken, 0)
     }
 
     override fun saveUser(user: User) {
