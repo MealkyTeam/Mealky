@@ -67,9 +67,7 @@ class MealListFragment : BaseFragment<MealListPresenter, MealListPresenter.UI, M
     }
 
     override fun openItem(meal: Meal) {
-        context?.let {
-            Navigator.from(it as Navigator.Navigable).openMeal(meal)
-        }
+            Navigator.from(context as Navigator.Navigable).openMeal(meal)
     }
 
     override fun onItemClick(item: Meal) {

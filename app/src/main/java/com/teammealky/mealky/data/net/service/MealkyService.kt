@@ -2,8 +2,16 @@ package com.teammealky.mealky.data.net.service
 
 import com.teammealky.mealky.domain.model.Meal
 import com.teammealky.mealky.domain.model.Page
+import com.teammealky.mealky.domain.model.PasswordSignInRequest
+import com.teammealky.mealky.domain.model.SignUpRequest
+import com.teammealky.mealky.domain.model.Token
+import com.teammealky.mealky.domain.model.TokenSignInRequest
+import com.teammealky.mealky.domain.model.User
 import io.reactivex.Single
+import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -27,4 +35,12 @@ interface MealkyService {
             @Query("size") limit: Int
     ): Single<List<Meal>>
 
+    @POST("/sec/login")
+    fun signInWithPassword(@Body request: PasswordSignInRequest): Single<Token>
+
+    @POST("/sec/login")
+    fun signInWithToken(@Body request: TokenSignInRequest): Single<User>
+
+    @POST("/sec/signup")
+    fun signUp(@Body request: SignUpRequest): Single<Response<Void>>
 }

@@ -58,6 +58,7 @@ object MealMapper {
         bundle.putString(AUTHOR_EMAIL, author.email)
         bundle.putString(AUTHOR_PASSWORD, author.password)
         bundle.putString(AUTHOR_USERNAME, author.username)
+        bundle.putString(AUTHOR_TOKEN, author.token)
 
         return bundle
     }
@@ -120,8 +121,9 @@ object MealMapper {
             val email = bundle.getString(AUTHOR_EMAIL)
             val password = bundle.getString(AUTHOR_PASSWORD)
             val username = bundle.getString(AUTHOR_USERNAME, "")
+            val token = bundle.getString(AUTHOR_TOKEN, "")
 
-            return User(id, email, password, username)
+            return User(id, email, password, username,token)
         }
 
         return User.defaultUser()
@@ -166,4 +168,5 @@ object MealMapper {
     private const val AUTHOR_USERNAME = "author_username"
     private const val AUTHOR_EMAIL = "author_email"
     private const val AUTHOR_PASSWORD = "author_password"
+    private const val AUTHOR_TOKEN = "author_token"
 }
