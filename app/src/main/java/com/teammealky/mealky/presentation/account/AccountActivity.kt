@@ -8,6 +8,8 @@ import android.transition.TransitionValues
 import androidx.fragment.app.Fragment
 import com.teammealky.mealky.R
 import com.teammealky.mealky.domain.model.Authenticator
+import com.teammealky.mealky.domain.model.Authenticator.Companion.USERNAME
+import com.teammealky.mealky.domain.model.User
 import com.teammealky.mealky.presentation.App
 import com.teammealky.mealky.presentation.commons.presenter.BaseActivity
 import com.teammealky.mealky.presentation.account.signin.SignInFragment
@@ -26,13 +28,19 @@ class AccountActivity : BaseActivity<AccountPresenter, AccountPresenter.UI, Acco
         setContentView(R.layout.activity_account)
 
         setupView()
-
     }
 
     private fun setupView() {
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         val token = sharedPreferences.getString(Authenticator.TOKEN, "") ?: ""
         presenter?.validateToken(token)
+    }
+
+    override fun saveUsername(user: User) {
+        val sharedPreferencesEditor = PreferenceManager.getDefaultSharedPreferences(this).edit()
+        sharedPreferencesEditor.putString(USERNAME, user.username)
+
+        sharedPreferencesEditor.apply()
     }
 
     override fun toSignIn() {

@@ -1,10 +1,10 @@
 package com.teammealky.mealky.presentation.account.signin
 
+import com.teammealky.mealky.domain.model.APIError
 import com.teammealky.mealky.domain.model.User
 import com.teammealky.mealky.domain.usecase.signin.SignInWithPasswordUseCase
 import com.teammealky.mealky.presentation.commons.presenter.BasePresenter
 import com.teammealky.mealky.presentation.commons.presenter.BaseUI
-import retrofit2.HttpException
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -22,37 +22,48 @@ class SignInPresenter @Inject constructor(private val signInWithPasswordUseCase:
         ui().perform {
             it.hideKeyboard()
             it.hideEmailError()
+            it.showInfoText(false)
             it.isLoading(true)
         }
 
         disposable.add(signInWithPasswordUseCase.execute(
-                //todo fix it its only for test
-                SignInWithPasswordUseCase.Params("admin", "123456"),
+                SignInWithPasswordUseCase.Params(model.email ?: "", model.password ?: ""),
                 { token ->
                     ui().perform {
                         it.isLoading(false)
-                        model = model.copy(token = token)
+                        model = model.copy(token = token.string)
                         changeActivity()
                     }
                 },
                 { e ->
-                    ui().perform { it.isLoading(false) }
-                    Timber.d("KUBA Method:signInButtonClicked ***** ERROR: $e *****")
-                    Timber.d("KUBA Method:signInButtonClicked ***** ${(e as HttpException).message()} *****")
+                    ui().perform {
+                        it.showInfoText(true)
+                        it.isLoading(false)
+                    }
+                    if (e is APIError) {
+                        when (e.type) {
+                            APIError.ErrorType.CONFIRM_EMAIL -> {
+                                //todo implement confirm_email
+                                Timber.d("KUBA Method:signInButtonClicked *****  confirm email need to be implemented *****")
+                            }
+                            APIError.ErrorType.NO_SUCH_USER -> {
+                                Timber.d("KUBA Method:signInButtonClicked ***** no such *****")
+                                ui().perform { it.showThereIsNoSuchUser() }
+                            }
+                            APIError.ErrorType.INVALID_PASSWORD -> {
+                                Timber.d("KUBA Method:signInButtonClicked ***** inv pass *****")
+
+                                ui().perform { it.showInvalidPassword() }
+                            }
+                            else -> {
+                                Timber.d("KUBA Method:signInButtonClicked ***** error *****")
+                                ui().perform { it.showErrorMessage(e) }
+                            }
+                        }
+                    }
+                    Timber.d("KUBA Method:signInButtonClicked ***** ERROR:$e *****")
                 })
         )
-//        when (response) {
-//            Response.CONFIRM_EMAIL -> ui().perform {
-//                it.showNeedConfirmEmail()
-//            }
-//            Response.NO_SUCH_USER -> ui().perform {
-//                it.showThereIsNoSuchUser()
-//            }
-//            Response.INVALID_CREDENTIALS -> ui().perform {
-//                it.showInvalidCredentials()
-//            }
-//            else -> changeActivity()
-//        }
     }
 
     private fun changeActivity() {
@@ -81,27 +92,12 @@ class SignInPresenter @Inject constructor(private val signInWithPasswordUseCase:
             ui().perform { it.toggleSignInButton(true) }
     }
 
-    enum class Response {
-        OK, CONFIRM_EMAIL, NO_SUCH_USER, INVALID_CREDENTIALS;
-
-        companion object {
-            fun getRandom(i: Int): Response {
-                return when (i % 4) {
-                    1 -> CONFIRM_EMAIL
-                    2 -> NO_SUCH_USER
-                    3 -> INVALID_CREDENTIALS
-                    else -> OK
-                }
-            }
-        }
-    }
-
     interface UI : BaseUI {
         fun isLoading(isLoading: Boolean)
         fun toMainActivity()
         fun toSignUpFragment()
         fun toForgottenPasswordFragment()
-        fun showInvalidCredentials()
+        fun showInvalidPassword()
         fun showThereIsNoSuchUser()
         fun showNeedConfirmEmail()
         fun toggleSignInButton(toggle: Boolean)

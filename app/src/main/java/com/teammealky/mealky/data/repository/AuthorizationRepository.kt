@@ -1,6 +1,7 @@
 package com.teammealky.mealky.data.repository
 
 import com.teammealky.mealky.domain.model.PasswordRequest
+import com.teammealky.mealky.domain.model.Token
 import com.teammealky.mealky.domain.model.TokenRequest
 import com.teammealky.mealky.domain.repository.AuthorizationRepository
 import com.teammealky.mealky.domain.service.RestService
@@ -11,7 +12,7 @@ import javax.inject.Singleton
 @Singleton
 class AuthorizationDataRepository @Inject constructor(private val api: RestService) : AuthorizationRepository {
 
-    override fun signInWithPassword(email: String, password: String): Single<String> =
+    override fun signInWithPassword(email: String, password: String): Single<Token> =
             api.client().signInWithPassword(PasswordRequest(email, password))
 
     override fun signInWithToken(token: String) =

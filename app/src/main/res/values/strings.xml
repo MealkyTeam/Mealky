@@ -24,6 +24,6 @@
     <string name="logo">logo</string>
     <string name="you_need_to_confirm_email">You need to confirm email first!</string>
     <string name="missing_user">There is no such user in our database!</string>
-    <string name="wrong_credentials">You need to type correct credentials</string>
+    <string name="wrong_password">You need to type correct password</string>
     <string name="incorrect_email">Email is incorrect. Should be like: xxx@yyy.zz</string>
 </resources>

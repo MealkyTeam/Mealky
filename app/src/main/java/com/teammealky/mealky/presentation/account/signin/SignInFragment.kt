@@ -71,8 +71,8 @@ class SignInFragment : BaseFragment<SignInPresenter, SignInPresenter.UI, SignInV
         infoTv.text = getString(R.string.you_need_to_confirm_email)
     }
 
-    override fun showInvalidCredentials() {
-        infoTv.text = getString(R.string.wrong_credentials)
+    override fun showInvalidPassword() {
+        infoTv.text = getString(R.string.wrong_password)
     }
 
     override fun isLoading(isLoading: Boolean) {
