@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.Exception
 
 class MainActivity : BaseActivity<MainPresenter, MainPresenter.UI, MainViewModel>(),
-        MainPresenter.UI, Navigator.Navigable, BottomNavigationView.OnNavigationItemSelectedListener {
+        MainPresenter.UI, Navigator.Navigable, BottomNavigationView.OnNavigationItemSelectedListener, BottomNavigationView.OnNavigationItemReselectedListener {
 
     override val vmClass = MainViewModel::class.java
 
@@ -39,6 +39,7 @@ class MainActivity : BaseActivity<MainPresenter, MainPresenter.UI, MainViewModel
 
     private fun initUI() {
         bottomBar.setOnNavigationItemSelectedListener(this)
+        bottomBar.setOnNavigationItemReselectedListener(this)
 
         if (null == savedInstanceState) bottomBar.markAsSelected(BOTTOM_BAR_MEALS)
     }
@@ -57,6 +58,9 @@ class MainActivity : BaseActivity<MainPresenter, MainPresenter.UI, MainViewModel
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         presenter?.setContent(item.itemId)
         return true
+    }
+
+    override fun onNavigationItemReselected(item: MenuItem) {
     }
 
     override fun onBackPressed() {

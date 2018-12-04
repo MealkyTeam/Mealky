@@ -5,40 +5,54 @@
     android:id="@+id/mealItemLayout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@color/bar">
+    android:layout_marginLeft="8dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginRight="8dp"
+    android:layout_marginBottom="4dp"
+    android:background="@drawable/rounded_background"
+    android:clipToPadding="true">
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:scaleType="centerCrop"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:contentDescription="@string/meal_image"
         android:outlineProvider="background"
-        android:src="@drawable/pancakes"/>
+        android:scaleType="centerCrop"
+        android:src="@drawable/pancakes" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/imageView"
         android:orientation="vertical"
-        android:layout_toEndOf="@id/imageView">
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp">
 
         <TextView
             android:id="@+id/mealName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/bar"
-            android:textColor="@color/barItems"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:maxLines="2"
+            android:ellipsize="end"
             tools:text="Naleśniki" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorPrimary" />
 
         <TextView
             android:id="@+id/preparation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/mealName"
-            android:background="@color/bar"
-            android:textColor="@color/barItems"
             android:ellipsize="end"
-            android:maxLines="2"
-            tools:text="Mąkę wsypać do miski, dodać jajka, mleko, wodę i sól. Zmiksować na gładkie ciasto. Dodać roztopione masło lub olej roślinny i razem zmiksować (lub wykorzystać tłuszcz do smarowania patelni przed smażeniem każdego naleśnika). Naleśniki smażyć na dobrze rozgrzanej patelni z cienkim dnem np. naleśnikowej. Przewrócić na drugą stronę gdy spód naleśnika będzie już ładnie zrumieniony i ścięty." />
-
+            android:maxLines="6"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            tools:text="Mąkę wsypać do miski, dodać jajka, mleko, wodę i sól. Zmiksować na gładkie ciasto. Dodać roztopione masło lub olej roślinny i razem zmiksować (lub wykorzystać tłuszcz do smarowania patelni przed smażeniem każdego naleśnika). Naleśniki smażyć na dobrze rozgrzanej patelni z cienkim dnem np. naleśnikowej. Przewrócić na drugą stronę gdy spód naleśnika będzie już ładnie zarumieniony i ścięty." />
     </LinearLayout>
-
 </RelativeLayout>

@@ -5,23 +5,31 @@
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:background="@drawable/background"
+    android:background="@color/colorPrimary"
+    android:clipToPadding="false"
     tools:ignore="MergeRootFrame">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/containerMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="56dp" />
+        android:layout_marginBottom="56dp"
+        android:clipToPadding="false" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/black" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomBar"
-        android:background="@color/bar"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_gravity="bottom"
+        android:background="@color/colorPrimaryDark"
         app:elevation="8dp"
-        app:itemTextColor="@color/barItems"
+        app:itemTextColor="@color/colorPrimary"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_bar" />
+
 </FrameLayout>

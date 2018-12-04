@@ -28,8 +28,10 @@ task clean(type: Delete) {
 
 ext {
     api = [
-            "release" : [
-                    "central" : '"https://mealkyapp.herokuapp.com/"'
+            "release": [
+                    "central" : '"https://mealkyapp.herokuapp.com/"',
+                    "login"   : '"mealkyappandroid!@#$KJNSDSDFJkj"',
+                    "password": '"aKUd2@34jjasdbj@#$jn4jS!@#jhsnda&jhasjdhj@#"'
             ]
     ]
 }
