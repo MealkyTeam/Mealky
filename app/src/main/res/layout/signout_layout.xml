@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/test_username"
-        android:textSize="16sp"
+        android:textSize="24sp"
         android:textStyle="bold" />
 
     <com.google.android.material.button.MaterialButton
