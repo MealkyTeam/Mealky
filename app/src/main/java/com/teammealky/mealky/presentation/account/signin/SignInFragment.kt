@@ -122,6 +122,7 @@ class SignInFragment : BaseFragment<SignInPresenter, SignInPresenter.UI, SignInV
         val sharedPreferencesEditor = PreferenceManager.getDefaultSharedPreferences(context).edit()
 
         sharedPreferencesEditor.putString(Authenticator.TOKEN, user.token)
+        sharedPreferencesEditor.putString(Authenticator.USERNAME, user.username)
         sharedPreferencesEditor.apply()
     }
 

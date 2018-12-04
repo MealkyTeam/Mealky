@@ -28,10 +28,10 @@ class SignInPresenter @Inject constructor(private val signInWithPasswordUseCase:
 
         disposable.add(signInWithPasswordUseCase.execute(
                 SignInWithPasswordUseCase.Params(model.email ?: "", model.password ?: ""),
-                { token ->
+                { user ->
                     ui().perform {
                         it.isLoading(false)
-                        model = model.copy(token = token.token)
+                        model = model.copy(token = user.token,username = user.username)
                         changeActivity()
                     }
                 },

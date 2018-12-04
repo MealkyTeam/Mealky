@@ -36,7 +36,7 @@ interface MealkyService {
     ): Single<List<Meal>>
 
     @POST("/sec/login")
-    fun signInWithPassword(@Body request: PasswordSignInRequest): Single<Token>
+    fun signInWithPassword(@Body request: PasswordSignInRequest): Single<User>
 
     @POST("/sec/login")
     fun signInWithToken(@Body request: TokenSignInRequest): Single<User>
