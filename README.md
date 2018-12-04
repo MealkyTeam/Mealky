@@ -3,7 +3,7 @@
 Aplikacja książka kucharska.
 
 Role:
-Użytkownik
+Użytkownik, Admin
 
 Technologie:
 Kotlin, Java, Android, jUnit, dagger2, rxjava, retrofi, picasso.
@@ -35,9 +35,6 @@ Spis funkcjonalności:
 - Lista zakupów;
 - Strona dla developera do akceptacji przepisów.
 
-Przykładowe ikony kategorii ze strony "Moje Wypieki":
-![tes2596259](https://user-images.githubusercontent.com/43780500/46664715-174fcd80-cbc2-11e8-8874-f5d8d79d617b.png)
-
 Przypadki "wrażliwe":
 1. Szukanie: po składnikach, po kategoriach, po nazwach przepisu, po użytkowniku
 2. Sortowanie: losowo, alfabetycznie, ilości ulubionych
@@ -51,31 +48,28 @@ Przypadki "wrażliwe":
    - zatwierdzenie zmienia status przepisu na zaakceptowany
    - odrzucenie wysyła komunikat do użytkownika z informacją zwrotną od administratora
 
+-------------------------------------------------------------------
+Lista zmian:
+
+Wersja 0.2.0
+- Odświeżanie listy posiłków.
+- Stronicowanie listy posiłków.
+- Przesuwanie listy posiłków w nieskończoność.
+- W pełni działająca opcja “Odkryj posiłek”.
+- Dodany górny pasek nawigacji z szukaniem.
+- Dodano zapisywanie stanu, w którym ekran został przekręcony.
+- Dodano sortowanie posiłków po dacie dodania.
+- Dodano wsparcie do kilku obrazków na jeden posiłek.
+- Dodano ekran powitalny.
+- Dodano rejestrację.
+- Rejestracja z potwierdzeniem maila.
+- Dodano logowanie.
+- Dodano autoryzację.
+- Pierwsza iteracja strony administratora skończona. (Logowanie, szablony CRUD-ów).
+
+Wersja 0.1.0
+- Prosta lista posiłków pobierana z internetu
+- Działający dolny pasek nawigacji 
+- Puste ekrany listy posiłków, opcji “Odkryj posiłek”
+
 Dzięki Marcin Kitowicz (github.com/kitek) za rady i sugestie odnośnie projektu.
-
-Terminarz na najbliższy miesiąc:
-
-Do 30.10
-Kuba:  Lista i strony posiłków (Symulowane dane)
-Lucjan i Krzysiek:  Działający serwer z odpowiedziami do SELECTÓW. Prosty REST service. Podstawowe dane testowe.
-Maciek: Layout do listy i stron posiłków.
-
-Do 06.11
-Kuba: Działający bottombar i zaimplementowanie layoutów.
-Maciek: Layout do funkcji tinder, koszyka i opcji.
-Lucjan i Krzysiek: Działająca strona administratora. Ukończony REST service.
-
-Do 13.11
-Kuba: Połączenie z REST service, działająca opcja tinder.
-Maciek: Pozostałe layouty, których wymaga aplikacja.
-Lucjan i Krzysiek: Dokumentacja REST Api, endpoint.
-
-Do 20.11
-Kuba:  Testowanie aplikacji, wprowadzanie wymaganych poprawek.
-Maciek: Wyszukiwanie odpowiednich bibliotek animacji do androida, aktualizacja readme.
-Lucjan i Krzysiek: CRUD strony admina.
-
-Do 27.11
-Kuba:  Działający generator listy zakupów.
-Maciek:
-Lucjan i Krzysiek: Pełna bazowa książka kucharska.
