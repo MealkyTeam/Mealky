@@ -1,35 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/settingsItemLayout"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@color/bar">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:background="@color/colorPrimary">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/settingInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_toEndOf="@id/imageView">
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:padding="8sp"
+        android:text="@string/version"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textSize="32sp" />
 
-        <TextView
-            android:id="@+id/settingName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/bar"
-            android:textColor="@color/barItems"
-            android:text="Informacje o wersji" />
+    <com.teammealky.mealky.presentation.settings.view.SignOutCard
+        android:id="@+id/signOutCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"/>
 
-        <TextView
-            android:id="@+id/settingInfo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/bar"
-            android:textColor="@color/barItems"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:text="alpha v.01"/>
-    </LinearLayout>
+</LinearLayout>
 
-</RelativeLayout>
