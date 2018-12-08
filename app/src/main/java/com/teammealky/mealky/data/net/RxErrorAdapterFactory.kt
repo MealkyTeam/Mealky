@@ -66,7 +66,7 @@ class RxErrorAdapterFactory : CallAdapter.Factory() {
             }
             return try {
                 val converter = retrofit.responseBodyConverter<APIError>(APIError::class.java, arrayOfNulls(0))
-                converter.convert(errorBody)
+                converter.convert(errorBody) ?: APIError("Something went wrong.")
             } catch (e: Exception) {
                 APIError("Something went wrong.")
             }
