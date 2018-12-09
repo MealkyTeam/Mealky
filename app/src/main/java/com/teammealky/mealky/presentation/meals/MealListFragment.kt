@@ -10,6 +10,7 @@ import com.teammealky.mealky.R
 import com.teammealky.mealky.domain.model.Meal
 import com.teammealky.mealky.presentation.App
 import com.teammealky.mealky.presentation.commons.Navigator
+import com.teammealky.mealky.presentation.commons.extension.isVisible
 import com.teammealky.mealky.presentation.commons.listener.InfiniteScrollListener
 import com.teammealky.mealky.presentation.commons.presenter.BaseFragment
 import com.teammealky.mealky.presentation.meals.adapter.MealsAdapter
@@ -32,14 +33,7 @@ class MealListFragment : BaseFragment<MealListPresenter, MealListPresenter.UI, M
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupRefreshLayout()
         setupRecyclerView()
-    }
-
-    private fun setupRefreshLayout() {
-        swipeContainer.setOnRefreshListener {
-            presenter?.loadMore()
-        }
     }
 
     override fun setupRecyclerView() {
@@ -63,7 +57,7 @@ class MealListFragment : BaseFragment<MealListPresenter, MealListPresenter.UI, M
     }
 
     override fun isLoading(isLoading: Boolean) {
-        swipeContainer.isRefreshing = isLoading
+        progressBar.isVisible(isLoading)
     }
 
     override fun openItem(meal: Meal) {
