@@ -80,7 +80,7 @@ fun View.isVisible(isVisible: Boolean) {
 fun genRandomIntExcept(start: Int, end: Int, excluded: List<Int>): Int {
     val rand = Random()
     val range = end - start
-    if(range <=excluded.size)
+    if (range <= excluded.size)
         return 0
     var random = rand.nextInt(range)
     while (excluded.contains(random)) {
@@ -103,3 +103,9 @@ fun getDisplaySize(windowManager: WindowManager): Point {
     }
 
 }
+
+fun getResizedImageHeight(aspectRatio: Float): Int {
+    return Math.round(getScreenWidth() * aspectRatio)
+}
+
+fun getScreenWidth(): Int = Resources.getSystem().displayMetrics.widthPixels
