@@ -23,16 +23,27 @@ class MealListPresenter @Inject constructor(
 
     fun firstRequest() {
         ui().perform { it.isLoading(true) }
-        disposable.add(getMealsUseCase.execute(
-                ListMealsUseCase.Params(WITHOUT_CATEGORY, 0, LIMIT),
-                { page ->
-                    maxPages = page.totalPages
-                    loadMore()
-                },
-                { e ->
-                    Timber.d("KUBA Method:firstRequest ***** ERROR: $e *****")
-                })
-        )
+        if (meals.isEmpty()) {
+            disposable.add(getMealsUseCase.execute(
+                    ListMealsUseCase.Params(WITHOUT_CATEGORY, 0, LIMIT),
+                    { page ->
+                        maxPages = page.totalPages
+                        loadMore()
+                    },
+                    { e ->
+                        Timber.d("KUBA Method:firstRequest ***** ERROR: $e *****")
+                    })
+            )
+        } else
+            refresh()
+    }
+
+    private fun refresh() {
+        ui().perform {
+            it.fillList(meals)
+            it.setVisibleItem(visibleItemId)
+            it.isLoading(false)
+        }
     }
 
     fun loadMore() {

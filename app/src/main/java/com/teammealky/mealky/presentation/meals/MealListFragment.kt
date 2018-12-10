@@ -45,7 +45,6 @@ class MealListFragment : BaseFragment<MealListPresenter, MealListPresenter.UI, M
         mealListRv.layoutManager = layoutManager
         mealListRv.addOnScrollListener(InfiniteScrollListener({ presenter?.loadMore() }, layoutManager as LinearLayoutManager))
         presenter?.firstRequest()
-
     }
 
     override fun fillList(meals: List<Meal>) {
