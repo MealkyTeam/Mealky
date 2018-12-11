@@ -1,7 +1,5 @@
 package com.teammealky.mealky.presentation.main
 
-import android.content.Context
-import android.os.Bundle
 import android.transition.TransitionValues
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -11,14 +9,16 @@ import com.teammealky.mealky.presentation.meals.MealListFragment
 import com.teammealky.mealky.presentation.settings.SettingsFragment
 import com.teammealky.mealky.presentation.shoppinglist.ShoppingListFragment
 
-class ContentSwitcher(private val fm: FragmentManager,
-                      private val context: Context) {
+class ContentSwitcher(private val fm: FragmentManager) {
 
     fun switchContent(newFragment: Fragment, cleanStack: Boolean, transitionValues: List<TransitionValues>?) {
         val currentFragment = getCurrentFragment()
 
+        if(currentFragment?.javaClass == newFragment.javaClass)
+            return
+
         if (isFirstLevel(newFragment) && null != currentFragment) {
-            performRewind(newFragment.arguments)
+            performRewind()
             return
         }
 
@@ -33,7 +33,7 @@ class ContentSwitcher(private val fm: FragmentManager,
         ft.commit()
     }
 
-    private fun performRewind(arguments: Bundle?) {
+    private fun performRewind() {
         cleanBackStack(1, true)
     }
 
