@@ -13,22 +13,13 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_margin="32dp"
-        android:orientation="vertical"
         app:cardCornerRadius="8dp"
         app:cardElevation="4dp">
 
-        <ImageView
-            android:id="@+id/imageView"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:background="@color/colorPrimaryDark"
-            android:contentDescription="@string/meal_image"
-            android:scaleType="centerCrop"
-            tools:src="@drawable/pancakes" />
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/mealName"
@@ -38,17 +29,28 @@
                 android:clipToPadding="false"
                 android:gravity="center"
                 android:includeFontPadding="false"
-                android:maxLines="2"
+                android:maxLines="1"
                 android:paddingLeft="16dp"
                 android:paddingTop="4dp"
                 android:paddingRight="16dp"
                 android:paddingBottom="4dp"
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimary"
-                android:textSize="24sp"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 tools:text="Pancakes" />
-        </com.google.android.material.card.MaterialCardView>
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:background="@color/colorPrimaryDark"
+                android:contentDescription="@string/meal_image"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/pancakes" />
+        </LinearLayout>
+
 
     </com.google.android.material.card.MaterialCardView>
+
 </RelativeLayout>

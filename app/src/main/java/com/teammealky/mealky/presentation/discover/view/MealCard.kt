@@ -1,8 +1,8 @@
 package com.teammealky.mealky.presentation.discover.view
 
 import android.graphics.Color
-import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.google.android.material.card.MaterialCardView
 import com.mindorks.placeholderview.SwipePlaceHolderView
@@ -34,8 +34,8 @@ class MealCard(private val meal: Meal,
         cardView.strokeWidth = 1
         mealName.text = meal.name
 
-        imageView.layoutParams = FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.MATCH_PARENT,
+        imageView.layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
                 getResizedImageHeight(ASPECT_RATIO)
         )
         val url = if (meal.images.isNotEmpty()) meal.images[0] else ""
