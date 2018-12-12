@@ -1,0 +1,15 @@
+Spis funkcjonalności:
+- Dodawanie przepisów;
+- Modyfikowanie przepisów;
+- Przepisy przyporządkowane do konkretnego konta;
+- Przepisy na serwerze/chmurze;
+- Lista zakupów;
+- Wyszukiwanie przepisów po nazwie/składnikacj;
+- Zdjęcia główne;
+- Dostęp do początkowej podstawowej bazy;
+- Ulubione;
+- Przepisy offline (początkowa baza przepisów);
+- Funkcja przeglądania przepisów "kulinarny tinder";
+- Przelicznik jednostek;
+- Notatki do przepisów;
+- Strona dla developera do akceptacji przepisów.

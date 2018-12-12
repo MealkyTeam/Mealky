@@ -1,0 +1,22 @@
+Jakub:
+	- implementacja głównej aplikacji na system Android,
+	- zarządzanie zespołowych repozytorium na Githubie,
+	- rozdzielanie zadań.
+
+Lucjan:
+	- implementacja mechanizmów obsługi danych na serwerze,
+	- zarządzanie serwerem Heroku,
+	- projekt bazy danych.
+
+Krzysztof:
+	- implementacja strony admina,
+	- pisanie dokumentacji,
+	- obsługa JSON,
+	- pisanie test casów.
+	
+Maciek:
+	- projekt wyglądu aplikacji,
+	- implementacja layoutów w XML,
+	- implementacja strony admina,
+	- pisanie dokumentacji,
+	- pisanie test casów,

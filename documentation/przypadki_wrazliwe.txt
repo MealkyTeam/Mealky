@@ -1,0 +1,14 @@
+1. Szukanie po składnikach;
+
+2. Sortowanie: losowo, alfabetycznie;
+
+3. Opcja zaskocz mnie: 
+   Otwieramy losowy przepis (główne zdjęcie, nazwa)
+    - swipe z prawej do lewej -> otwieramy przepis
+    - swipe z lewej do prawej -> odrzucamy przepis -> wyświetl kolejny przepis
+
+4. Strona przeznaczona do akceptacji nowy dodanych przepisów:
+   Wyświetlają się nowe przepisy dodane przez użytkowników w aplikacji.
+   Administrator ma możliwość zatwierdzenia lub odrzucenia przepisu:
+   - zatwierdzenie zmienia status przepisu na zaakceptowany
+   - odrzucenie wysyła komunikat do użytkownika z informacją zwrotną od administratora
