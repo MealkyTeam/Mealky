@@ -12,7 +12,6 @@ Narzędzia:
 Trello, Github, Android Studio, Slack, Figma, Canva
 
 Biblioteki:
-- androidx.recyclerview  
 - com.google.android.material  
 - androidx.lifecycle  
 - androidx.appcompat  
