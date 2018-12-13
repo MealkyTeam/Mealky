@@ -11,7 +11,7 @@ Lucjan:
 Krzysztof:
 	- implementacja strony admina,
 	- pisanie dokumentacji,
-	- obsługa JSON,
+	- zarządzanie bazą danych JSON,
 	- pisanie test casów.
 	
 Maciek:

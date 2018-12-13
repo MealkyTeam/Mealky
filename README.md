@@ -62,3 +62,4 @@ Wersja 0.1.0
 - Działający dolny pasek nawigacji   
 - Puste ekrany listy posiłków, opcji “Odkryj posiłek”  
 
+Dzięki Marcin Kitowicz (github.com/kitek) za rady i sugestie odnośnie projektu.

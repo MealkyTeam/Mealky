@@ -12,4 +12,5 @@ Spis funkcjonalności:
 - Funkcja przeglądania przepisów "kulinarny tinder";
 - Przelicznik jednostek;
 - Notatki do przepisów;
-- Strona dla developera do akceptacji przepisów.
+- Strona dla developera do akceptacji przepisów;
+- Zapis posiłku do pliku PDF.
