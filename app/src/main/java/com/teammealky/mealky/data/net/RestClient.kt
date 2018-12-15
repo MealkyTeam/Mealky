@@ -14,7 +14,7 @@ import java.io.File
 import java.util.concurrent.TimeUnit
 
 object RestClient {
-    private const val TIMEOUT_SEC = 30L
+    private const val TIMEOUT_SEC = 35L
     private const val CACHE_SIZE = 2 * 1024 * 1024L
 
 

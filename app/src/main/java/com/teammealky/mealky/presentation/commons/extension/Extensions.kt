@@ -101,7 +101,6 @@ fun getDisplaySize(windowManager: WindowManager): Point {
         e.printStackTrace()
         Point(0, 0)
     }
-
 }
 
 fun getResizedImageHeight(aspectRatio: Float): Int {
