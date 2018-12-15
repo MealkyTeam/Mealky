@@ -66,7 +66,7 @@ class SignInFragment : BaseFragment<SignInPresenter, SignInPresenter.UI, SignInV
         Navigator.from(context as Navigator.Navigable).openForgottenPassword()
     }
 
-    override fun showErrorInInfo(error: APIError.ErrorType) {
+    override fun showErrorInfo(error: APIError.ErrorType) {
         infoTv.text = when (error) {
             APIError.ErrorType.NO_SUCH_USER -> getString(R.string.missing_user)
             APIError.ErrorType.CONFIRM_EMAIL -> getString(R.string.you_need_to_confirm_email)

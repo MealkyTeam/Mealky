@@ -20,7 +20,7 @@ class MealListFragment : BaseFragment<MealListPresenter, MealListPresenter.UI, M
 
     override val vmClass = MealListViewModel::class.java
 
-    private lateinit var viewAdapter: MealsAdapter
+    private lateinit var adapter: MealsAdapter
     private lateinit var layoutManager: RecyclerView.LayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,9 +38,9 @@ class MealListFragment : BaseFragment<MealListPresenter, MealListPresenter.UI, M
 
     override fun setupRecyclerView() {
         layoutManager = LinearLayoutManager(context)
-        viewAdapter = MealsAdapter(listener = this)
+        adapter = MealsAdapter(listener = this)
 
-        mealListRv.adapter = viewAdapter
+        mealListRv.adapter = adapter
         mealListRv.setHasFixedSize(true)
         mealListRv.layoutManager = layoutManager
         mealListRv.addOnScrollListener(InfiniteScrollListener({ presenter?.loadMore() }, layoutManager as LinearLayoutManager))
@@ -48,7 +48,7 @@ class MealListFragment : BaseFragment<MealListPresenter, MealListPresenter.UI, M
     }
 
     override fun fillList(meals: List<Meal>) {
-        viewAdapter.addItems(meals)
+        adapter.addItems(meals)
     }
 
     override fun setVisibleItem(visibleItemId: Int) {
