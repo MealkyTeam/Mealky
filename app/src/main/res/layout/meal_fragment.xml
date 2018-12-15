@@ -73,11 +73,11 @@
             android:id="@+id/ingredientsTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="24sp"
             android:layout_below="@id/separator"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="@string/ingredients"/>
+            android:text="@string/ingredients"
+            android:textSize="24sp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/ingredientListRv"
@@ -86,15 +86,23 @@
             android:layout_below="@id/ingredientsTv"
             tools:listitem="@layout/ingredient_item" />
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/ingredientsBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_below="@id/ingredientListRv"
+            android:text="@string/add_to_shopping_list" />
+
         <TextView
             android:id="@+id/preparationTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="24sp"
-            android:layout_below="@id/ingredientListRv"
+            android:layout_below="@id/ingredientsBtn"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="@string/preparations"/>
+            android:text="@string/preparations"
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/preparation"

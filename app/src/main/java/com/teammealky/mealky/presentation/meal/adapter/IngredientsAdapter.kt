@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.teammealky.mealky.R
+import com.teammealky.mealky.R.string.ingredients
 import com.teammealky.mealky.domain.model.Ingredient
 import kotlinx.android.synthetic.main.ingredient_item.view.*
 
@@ -13,14 +14,10 @@ class IngredientsAdapter(var ingredients: List<Ingredient> = emptyList(), privat
         RecyclerView.Adapter<IngredientsAdapter.ViewHolder>() {
 
     interface OnItemClickListener {
-        fun onItemClick(item: Ingredient)
+        fun onItemClick(item: Ingredient, isChecked: Boolean)
     }
 
-    class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        fun bindListener(item: Ingredient, listener: OnItemClickListener) {
-            itemView.setOnClickListener { listener.onItemClick(item) }
-        }
-    }
+    class ViewHolder(val view: View) : RecyclerView.ViewHolder(view)
 
     override fun onCreateViewHolder(parent: ViewGroup,
                                     viewType: Int): ViewHolder {
@@ -32,15 +29,14 @@ class IngredientsAdapter(var ingredients: List<Ingredient> = emptyList(), privat
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val ingredient = ingredients[position]
+        val checkbox = holder.view.checkbox
+
         holder.view.ingredientTv.text = ingredient.name.capitalize() + ": " + ingredient.quantity + " " + ingredient.unit.name
-        holder.bindListener(ingredients[position], listener)
+        holder.view.setOnClickListener {
+            checkbox.performClick()
+        }
+        checkbox.setOnClickListener { listener.onItemClick(ingredient, checkbox.isChecked) }
     }
 
     override fun getItemCount() = ingredients.size
-
-    fun addItems(ingredients: List<Ingredient>) {
-        this.ingredients += ingredients
-        this.notifyDataSetChanged()
-    }
-
 }
