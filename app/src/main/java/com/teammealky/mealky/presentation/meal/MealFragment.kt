@@ -15,9 +15,10 @@ import com.teammealky.mealky.presentation.commons.presenter.BaseFragment
 import com.teammealky.mealky.presentation.meal.adapter.GalleryAdapter
 import com.teammealky.mealky.presentation.meal.adapter.IngredientsAdapter
 import kotlinx.android.synthetic.main.meal_fragment.*
-import timber.log.Timber
 
-class MealFragment : BaseFragment<MealPresenter, MealPresenter.UI, MealViewModel>(), MealPresenter.UI, IngredientsAdapter.OnItemClickListener {
+class MealFragment : BaseFragment<MealPresenter, MealPresenter.UI, MealViewModel>(), MealPresenter.UI,
+        IngredientsAdapter.OnItemClickListener, View.OnClickListener {
+
     override val vmClass = MealViewModel::class.java
     private lateinit var adapter: IngredientsAdapter
     private lateinit var layoutManager: RecyclerView.LayoutManager
@@ -40,6 +41,28 @@ class MealFragment : BaseFragment<MealPresenter, MealPresenter.UI, MealViewModel
     }
 
     private fun setupView() {
+        setupRecyclerView()
+        setupImages()
+        setupTexts()
+
+        ingredientsBtn.setOnClickListener(this)
+    }
+
+    private fun setupRecyclerView() {
+        layoutManager = LinearLayoutManager(context)
+        adapter = IngredientsAdapter(presenter?.meal?.ingredients ?: emptyList(), this)
+
+        ingredientListRv.adapter = adapter
+        ingredientListRv.setHasFixedSize(true)
+        ingredientListRv.layoutManager = layoutManager
+    }
+
+    private fun setupImages() {
+        val images = presenter?.meal?.images ?: emptyList()
+        imagePager.adapter = GalleryAdapter(requireContext(), images)
+    }
+
+    private fun setupTexts() {
         if (presenter?.meal?.author?.username.isNullOrEmpty()) {
             author.isVisible(false)
         } else {
@@ -49,20 +72,16 @@ class MealFragment : BaseFragment<MealPresenter, MealPresenter.UI, MealViewModel
         mealName.text = presenter?.meal?.name
         prepTime.text = getString(R.string.prep_time, presenter?.meal?.prepTime.toString())
         preparation.text = presenter?.meal?.preparation
-
-        val images = presenter?.meal?.images ?: emptyList()
-        imagePager.adapter = GalleryAdapter(requireContext(), images)
-
-        layoutManager = LinearLayoutManager(context)
-        adapter = IngredientsAdapter(presenter?.meal?.ingredients ?: emptyList(), this)
-
-        ingredientListRv.adapter = adapter
-        ingredientListRv.setHasFixedSize(true)
-        ingredientListRv.layoutManager = layoutManager
     }
 
-    override fun onItemClick(item: Ingredient) {
-        Timber.d("KUBA Method:onItemClick *****  *****")
+    override fun onItemClick(item: Ingredient, isChecked: Boolean) {
+        presenter?.onIngredientClicked(item, isChecked)
+    }
+
+    override fun onClick(view: View?) {
+        when (view?.id) {
+            R.id.ingredientsBtn -> presenter?.onIngredientsButtonClicked()
+        }
     }
 
     companion object {
