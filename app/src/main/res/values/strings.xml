@@ -34,4 +34,6 @@
     <string name="bullet">bullet</string>
     <string name="preparations">Preparation</string>
     <string name="add_to_shopping_list">Add to shopping list</string>
+    <string name="plus_button">plus button</string>
+    <string name="clear_list">Clear list</string>
 </resources>
