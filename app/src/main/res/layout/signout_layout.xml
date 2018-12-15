@@ -13,7 +13,8 @@
         android:gravity="center"
         android:text="@string/test_username"
         android:textSize="24sp"
-        android:textStyle="bold" />
+        android:maxLength="15"
+        android:textColor="@android:color/black"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/signOutBtn"

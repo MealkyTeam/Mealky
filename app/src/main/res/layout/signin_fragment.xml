@@ -8,12 +8,12 @@
 
     <com.teammealky.mealky.presentation.commons.view.AspectRatioImageView
         android:id="@+id/logo"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:scaleType="fitCenter"
         android:adjustViewBounds="true"
         android:contentDescription="@string/logo"
+        android:scaleType="fitCenter"
         android:src="@drawable/logo"
         app:aspectRatio="0.66" />
 
@@ -23,7 +23,7 @@
         android:layout_height="56dp"
         android:layout_centerInParent="true"
         android:visibility="gone"
-        tools:visibility="visible"/>
+        tools:visibility="visible" />
 
     <LinearLayout
         android:id="@+id/userInputLayout"
@@ -38,12 +38,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:gravity="center"
-            tools:text="@string/you_need_to_confirm_email"
+            android:paddingBottom="8dp"
             android:textAlignment="center"
             android:textColor="@android:color/holo_red_light"
             android:textSize="16sp"
             android:visibility="gone"
-            android:paddingBottom="8dp"
+            tools:text="@string/you_need_to_confirm_email"
             tools:visibility="visible" />
 
         <com.google.android.material.textfield.TextInputLayout
