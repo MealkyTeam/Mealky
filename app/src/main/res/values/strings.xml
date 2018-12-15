@@ -31,4 +31,6 @@
     <string name="something_went_wrong">Something went wrong</string>
     <string name="username_taken">This username is already used.</string>
     <string name="email_taken">This email is already used.</string>
+    <string name="bullet">bullet</string>
+    <string name="preparations">Preparation</string>
 </resources>

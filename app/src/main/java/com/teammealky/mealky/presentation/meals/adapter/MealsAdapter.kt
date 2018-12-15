@@ -12,8 +12,6 @@ import kotlinx.android.synthetic.main.meal_item.view.*
 class MealsAdapter(var meals: List<Meal> = emptyList(), private val listener: OnItemClickListener) :
         RecyclerView.Adapter<MealsAdapter.ViewHolder>() {
 
-    private var isLoading: Boolean = false
-
     interface OnItemClickListener {
         fun onItemClick(item: Meal)
     }

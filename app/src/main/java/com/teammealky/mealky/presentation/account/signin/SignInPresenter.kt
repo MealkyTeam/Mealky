@@ -43,13 +43,13 @@ class SignInPresenter @Inject constructor(private val signInWithPasswordUseCase:
                     if (e is APIError) {
                         when (e.type) {
                             APIError.ErrorType.CONFIRM_EMAIL -> {
-                                ui().perform { it.showErrorInInfo(APIError.ErrorType.CONFIRM_EMAIL) }
+                                ui().perform { it.showErrorInfo(APIError.ErrorType.CONFIRM_EMAIL) }
                             }
                             APIError.ErrorType.NO_SUCH_USER -> {
-                                ui().perform { it.showErrorInInfo(APIError.ErrorType.NO_SUCH_USER) }
+                                ui().perform { it.showErrorInfo(APIError.ErrorType.NO_SUCH_USER) }
                             }
                             APIError.ErrorType.WRONG_PASSWORD -> {
-                                ui().perform { it.showErrorInInfo(APIError.ErrorType.WRONG_PASSWORD) }
+                                ui().perform { it.showErrorInfo(APIError.ErrorType.WRONG_PASSWORD) }
                             }
                             else -> {
                                 ui().perform { it.showErrorMessage(e) }
@@ -92,7 +92,7 @@ class SignInPresenter @Inject constructor(private val signInWithPasswordUseCase:
         fun toMainActivity()
         fun toSignUpFragment()
         fun toForgottenPasswordFragment()
-        fun showErrorInInfo(error: APIError.ErrorType)
+        fun showErrorInfo(error: APIError.ErrorType)
         fun toggleSignInButton(toggle: Boolean)
         fun showInfoTv(isVisible: Boolean)
         fun setErrorOnEmail()
