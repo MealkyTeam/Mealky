@@ -30,10 +30,10 @@ class SignUpPresenter @Inject constructor(
 
         disposable.add(signUpUseCase.execute(
                 SignUpUseCase.Params(model.username ?: "", model.email ?: "", model.password ?: ""),
-                { _ ->
-                    ui().perform {
-                        it.isLoading(false)
-                        it.toSignInFragment()
+                {
+                    ui().perform { ui ->
+                        ui.isLoading(false)
+                        ui.toSignInFragment()
                     }
                 },
                 { e ->

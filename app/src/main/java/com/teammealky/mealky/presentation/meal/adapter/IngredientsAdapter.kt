@@ -38,5 +38,15 @@ class IngredientsAdapter(var ingredients: List<Ingredient> = emptyList(), privat
         checkbox.setOnClickListener { listener.onItemClick(ingredient, checkbox.isChecked) }
     }
 
+    fun fillAdapter(ingredients: List<Ingredient>) {
+        this.ingredients = ingredients
+        notifyDataSetChanged()
+    }
+
+    fun clearAdapter() {
+        this.ingredients = emptyList()
+        notifyDataSetChanged()
+    }
+
     override fun getItemCount() = ingredients.size
 }

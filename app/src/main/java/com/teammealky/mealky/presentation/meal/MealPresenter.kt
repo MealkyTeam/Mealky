@@ -26,17 +26,16 @@ class MealPresenter @Inject constructor(
     fun onIngredientsButtonClicked() {
         disposable.add(addToShoppingListUseCase.execute(
                 checkedIngredients,
-                { succeed ->
-                    ui().perform { it.showToast(succeed) }
+                { succeeded ->
+                    ui().perform { it.showToast(succeeded) }
                 },
                 { e ->
                     Timber.e("KUBA Method:onIngredientsButtonClicked ***** $e *****")
                 })
         )
-        Timber.d("KUBA Method:onIngredientsButtonClicked ***** SAVE INGREDIENTS $checkedIngredients *****")
     }
 
     interface UI : BaseUI {
-        fun showToast(succeed: Boolean)
+        fun showToast(succeeded: Boolean)
     }
 }

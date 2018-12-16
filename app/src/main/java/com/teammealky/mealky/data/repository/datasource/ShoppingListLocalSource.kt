@@ -15,7 +15,7 @@ import javax.inject.Singleton
 
 
 @Singleton
-class LocalShoppingListSource @Inject constructor(
+class ShoppingListLocalSource @Inject constructor(
         @ApplicationContext private val context: Context,
         private val parser: Gson
 ) : ShoppingListRepository {

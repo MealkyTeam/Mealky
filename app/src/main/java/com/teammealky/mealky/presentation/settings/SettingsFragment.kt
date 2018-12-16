@@ -1,14 +1,12 @@
 package com.teammealky.mealky.presentation.settings
 
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.teammealky.mealky.BuildConfig
 import com.teammealky.mealky.R
-import com.teammealky.mealky.domain.model.Authenticator.Companion.TOKEN
-import com.teammealky.mealky.domain.model.Authenticator.Companion.USERNAME
+import com.teammealky.mealky.domain.model.User
 import com.teammealky.mealky.presentation.App
 import com.teammealky.mealky.presentation.commons.Navigator
 import com.teammealky.mealky.presentation.commons.extension.isVisible
@@ -31,23 +29,18 @@ class SettingsFragment : BaseFragment<SettingsPresenter, SettingsPresenter.UI, S
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupView()
+        presenter?.setupPresenter()
     }
 
-    private fun setupView() {
+    override fun setupView(user: User) {
         settingInfo.text = getString(R.string.version, BuildConfig.VERSION_NAME)
-        val username = getUsername()
+        val username = user.username
 
         usernameTv.text = username
         if (usernameTv.text.isEmpty())
             usernameTv.isVisible(false)
 
         signOutCard.listener = this
-    }
-
-    private fun getUsername(): String {
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-        return sharedPreferences.getString(USERNAME, "") ?: ""
     }
 
     override fun toAccountActivity() {
@@ -57,14 +50,6 @@ class SettingsFragment : BaseFragment<SettingsPresenter, SettingsPresenter.UI, S
 
     override fun signOutBtnClicked() {
         presenter?.signOutClicked()
-    }
-
-    override fun clearUserToken() {
-        val sharedPreferencesEditor = PreferenceManager.getDefaultSharedPreferences(context).edit()
-
-        sharedPreferencesEditor.remove(TOKEN)
-        sharedPreferencesEditor.remove(USERNAME)
-        sharedPreferencesEditor.apply()
     }
 
 }

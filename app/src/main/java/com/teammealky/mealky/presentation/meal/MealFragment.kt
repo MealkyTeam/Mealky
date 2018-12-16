@@ -85,8 +85,8 @@ class MealFragment : BaseFragment<MealPresenter, MealPresenter.UI, MealViewModel
         }
     }
 
-    override fun showToast(succeed: Boolean) {
-        val message = if (succeed) "Saving ingredients to meal succeeded!" else "Something went wrong"
+    override fun showToast(succeeded: Boolean) {
+        val message = if (succeeded) getString(R.string.save_ingredients_text) else getString(R.string.something_went_wrong)
         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 
