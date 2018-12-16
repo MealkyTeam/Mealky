@@ -25,7 +25,7 @@ data class User(
 
     companion object {
         fun defaultUser(): User {
-            return User(0, null, null, "default_user",null)
+            return User(-1, null, null, "default_user",null)
         }
     }
 }

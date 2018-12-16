@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.teammealky.mealky.R
-import com.teammealky.mealky.R.string.ingredients
 import com.teammealky.mealky.domain.model.Ingredient
 import kotlinx.android.synthetic.main.ingredient_item.view.*
 

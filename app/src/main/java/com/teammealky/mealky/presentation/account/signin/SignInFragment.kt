@@ -16,10 +16,7 @@ import com.teammealky.mealky.presentation.commons.Navigator
 import com.teammealky.mealky.presentation.commons.extension.isVisible
 import com.teammealky.mealky.presentation.commons.presenter.BaseFragment
 import kotlinx.android.synthetic.main.signin_fragment.*
-import android.preference.PreferenceManager
 import com.teammealky.mealky.domain.model.APIError
-import com.teammealky.mealky.domain.model.Authenticator
-import timber.log.Timber
 
 class SignInFragment : BaseFragment<SignInPresenter, SignInPresenter.UI, SignInViewModel>(),
         SignInPresenter.UI, View.OnClickListener, TextWatcher, TextView.OnEditorActionListener {
@@ -116,14 +113,6 @@ class SignInFragment : BaseFragment<SignInPresenter, SignInPresenter.UI, SignInV
         }
 
         return false
-    }
-
-    override fun saveUser(user: User) {
-        val sharedPreferencesEditor = PreferenceManager.getDefaultSharedPreferences(context).edit()
-
-        sharedPreferencesEditor.putString(Authenticator.TOKEN, user.token)
-        sharedPreferencesEditor.putString(Authenticator.USERNAME, user.username)
-        sharedPreferencesEditor.apply()
     }
 
     override fun onClick(view: View?) {
