@@ -1,6 +1,6 @@
 package com.teammealky.mealky.data.repository
 
-import com.teammealky.mealky.data.repository.datasource.LocalShoppingListSource
+import com.teammealky.mealky.data.repository.datasource.ShoppingListLocalSource
 import com.teammealky.mealky.domain.model.Ingredient
 import com.teammealky.mealky.domain.repository.ShoppingListRepository
 import io.reactivex.Completable
@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 
 class ShoppingListDataRepository @Inject constructor(
-        private val local: LocalShoppingListSource
+        private val local: ShoppingListLocalSource
 ) : ShoppingListRepository {
 
     override fun list(): Single<List<Ingredient>> = local.list()
