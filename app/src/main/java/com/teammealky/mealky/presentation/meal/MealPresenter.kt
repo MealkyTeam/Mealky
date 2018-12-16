@@ -2,13 +2,14 @@ package com.teammealky.mealky.presentation.meal
 
 import com.teammealky.mealky.domain.model.Ingredient
 import com.teammealky.mealky.domain.model.Meal
+import com.teammealky.mealky.domain.usecase.shoppinglist.AddToShoppingListUseCase
 import com.teammealky.mealky.presentation.commons.presenter.BasePresenter
 import com.teammealky.mealky.presentation.commons.presenter.BaseUI
 import timber.log.Timber
 import javax.inject.Inject
 
-
 class MealPresenter @Inject constructor(
+        private val addToShoppingListUseCase: AddToShoppingListUseCase
 ) : BasePresenter<MealPresenter.UI>() {
 
     var meal: Meal? = null
@@ -23,9 +24,18 @@ class MealPresenter @Inject constructor(
     }
 
     fun onIngredientsButtonClicked() {
-        //todo save ingredients on device
-        Timber.d("KUBA Method:onIngredientsButtonClicked ***** SAVE INGREDIENTS $checkedIngredients *****")
+        disposable.add(addToShoppingListUseCase.execute(
+                checkedIngredients,
+                { succeeded ->
+                    ui().perform { it.showToast(succeeded) }
+                },
+                { e ->
+                    Timber.e("KUBA Method:onIngredientsButtonClicked ***** $e *****")
+                })
+        )
     }
 
-    interface UI : BaseUI
+    interface UI : BaseUI {
+        fun showToast(succeeded: Boolean)
+    }
 }

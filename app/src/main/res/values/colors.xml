@@ -8,6 +8,5 @@
     <color name="borderPrimary">#1f000000</color>
     <color name="borderSecondary">#1e000000</color>
     <color name="secondary">#3097a7</color>
-    <color name="text_primary">#b3000000</color>
-    <color name="colorHighlight">#663CBDD1</color>
+    <color name="text_primary">#000000</color>
 </resources>

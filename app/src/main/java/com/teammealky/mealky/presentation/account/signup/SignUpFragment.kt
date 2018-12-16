@@ -76,15 +76,15 @@ class SignUpFragment : BaseFragment<SignUpPresenter, SignUpPresenter.UI, SignUpV
     }
 
     override fun toggleUsernameError(toggle: Boolean) {
-        usernameInput.error = if(toggle) getString(R.string.incorrect_username) else null
+        usernameInput.error = if (toggle) getString(R.string.incorrect_username) else null
     }
 
     override fun toggleEmailError(toggle: Boolean) {
-        emailInput.error = if(toggle) getString(R.string.incorrect_email) else null
+        emailInput.error = if (toggle) getString(R.string.incorrect_email) else null
     }
 
     override fun togglePasswordError(toggle: Boolean) {
-        passwordInput.error = if(toggle) getString(R.string.incorrect_password) else null
+        passwordInput.error = if (toggle) getString(R.string.incorrect_password) else null
     }
 
     override fun onClick(view: View?) {

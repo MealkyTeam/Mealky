@@ -1,14 +1,20 @@
 package com.teammealky.mealky.presentation.account.signin
 
 import com.teammealky.mealky.domain.model.APIError
+import com.teammealky.mealky.domain.model.Token
 import com.teammealky.mealky.domain.model.User
 import com.teammealky.mealky.domain.usecase.signin.SignInWithPasswordUseCase
+import com.teammealky.mealky.domain.usecase.token.SaveTokenUseCase
+import com.teammealky.mealky.domain.usecase.user.SaveUserUseCase
 import com.teammealky.mealky.presentation.commons.presenter.BasePresenter
 import com.teammealky.mealky.presentation.commons.presenter.BaseUI
 import timber.log.Timber
 import javax.inject.Inject
 
-class SignInPresenter @Inject constructor(private val signInWithPasswordUseCase: SignInWithPasswordUseCase
+class SignInPresenter @Inject constructor(
+        private val signInWithPasswordUseCase: SignInWithPasswordUseCase,
+        private val saveUserUseCase: SaveUserUseCase,
+        private val saveTokenUseCase: SaveTokenUseCase
 ) : BasePresenter<SignInPresenter.UI>() {
 
     var model = User.defaultUser()
@@ -31,7 +37,7 @@ class SignInPresenter @Inject constructor(private val signInWithPasswordUseCase:
                 { user ->
                     ui().perform {
                         it.isLoading(false)
-                        model = model.copy(token = user.token,username = user.username)
+                        model = model.copy(id = user.id, token = user.token, username = user.username)
                         changeActivity()
                     }
                 },
@@ -56,16 +62,38 @@ class SignInPresenter @Inject constructor(private val signInWithPasswordUseCase:
                             }
                         }
                     }
-                    Timber.d("KUBA Method:signInButtonClicked ***** ERROR:$e *****")
+                    Timber.e("KUBA Method:signInButtonClicked ***** ERROR:$e *****")
                 })
         )
     }
 
     private fun changeActivity() {
-        ui().perform {
-            it.saveUser(model)
-            it.toMainActivity()
-        }
+        saveUser()
+    }
+
+    private fun saveUser() {
+        disposable.add(saveUserUseCase.execute(model,
+                {
+                    saveToken()
+                },
+                { e ->
+                    Timber.e("KUBA Method:saveUser ***** $e *****")
+                }
+        ))
+
+    }
+
+    private fun saveToken() {
+        disposable.add(saveTokenUseCase.execute(Token(model.token ?: ""),
+                {
+                    ui().perform { ui ->
+                        ui.toMainActivity()
+                    }
+                },
+                { e ->
+                    Timber.e("KUBA Method:saveUser *****  *****")
+                }
+        ))
     }
 
     private fun validUser(): Boolean {
@@ -97,6 +125,5 @@ class SignInPresenter @Inject constructor(private val signInWithPasswordUseCase:
         fun showInfoTv(isVisible: Boolean)
         fun setErrorOnEmail()
         fun hideEmailError()
-        fun saveUser(user: User)
     }
 }

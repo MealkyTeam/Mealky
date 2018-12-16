@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.teammealky.mealky.R
@@ -82,6 +83,11 @@ class MealFragment : BaseFragment<MealPresenter, MealPresenter.UI, MealViewModel
         when (view?.id) {
             R.id.ingredientsBtn -> presenter?.onIngredientsButtonClicked()
         }
+    }
+
+    override fun showToast(succeeded: Boolean) {
+        val message = if (succeeded) getString(R.string.save_ingredients_text) else getString(R.string.something_went_wrong)
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 
     companion object {
