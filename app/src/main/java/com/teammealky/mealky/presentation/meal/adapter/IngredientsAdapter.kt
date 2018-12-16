@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.teammealky.mealky.R
-import com.teammealky.mealky.R.string.ingredients
 import com.teammealky.mealky.domain.model.Ingredient
 import kotlinx.android.synthetic.main.ingredient_item.view.*
 
@@ -36,16 +35,6 @@ class IngredientsAdapter(var ingredients: List<Ingredient> = emptyList(), privat
             checkbox.performClick()
         }
         checkbox.setOnClickListener { listener.onItemClick(ingredient, checkbox.isChecked) }
-    }
-
-    fun fillAdapter(ingredients: List<Ingredient>) {
-        this.ingredients = ingredients
-        notifyDataSetChanged()
-    }
-
-    fun clearAdapter() {
-        this.ingredients = emptyList()
-        notifyDataSetChanged()
     }
 
     override fun getItemCount() = ingredients.size
