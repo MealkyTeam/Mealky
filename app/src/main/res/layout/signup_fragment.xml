@@ -104,6 +104,7 @@
             android:layout_marginLeft="24dp"
             android:layout_marginRight="24dp"
             android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
             android:focusable="true"
             android:gravity="center"
             android:text="@string/to_sign_in"

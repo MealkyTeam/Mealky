@@ -1,8 +1,8 @@
 package com.teammealky.mealky.domain.repository
 
 import com.teammealky.mealky.domain.model.User
+import io.reactivex.Completable
 import io.reactivex.Single
-import retrofit2.Response
 
 interface AuthorizationRepository {
     fun signInWithPassword(email: String,
@@ -12,5 +12,5 @@ interface AuthorizationRepository {
 
     fun signUp(username: String,
                email: String,
-               password: String): Single<Response<Void>>
+               password: String): Completable
 }

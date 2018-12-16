@@ -8,13 +8,12 @@ import okhttp3.Cache
 import okhttp3.Credentials
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
 import java.util.concurrent.TimeUnit
 
 object RestClient {
-    private const val TIMEOUT_SEC = 35L
+    private const val TIMEOUT_SEC = 30L
     private const val CACHE_SIZE = 2 * 1024 * 1024L
 
 

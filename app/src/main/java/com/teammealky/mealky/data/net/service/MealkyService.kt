@@ -4,11 +4,10 @@ import com.teammealky.mealky.domain.model.Meal
 import com.teammealky.mealky.domain.model.Page
 import com.teammealky.mealky.domain.model.PasswordSignInRequest
 import com.teammealky.mealky.domain.model.SignUpRequest
-import com.teammealky.mealky.domain.model.Token
 import com.teammealky.mealky.domain.model.TokenSignInRequest
 import com.teammealky.mealky.domain.model.User
+import io.reactivex.Completable
 import io.reactivex.Single
-import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -42,5 +41,5 @@ interface MealkyService {
     fun signInWithToken(@Body request: TokenSignInRequest): Single<User>
 
     @POST("/sec/signup")
-    fun signUp(@Body request: SignUpRequest): Single<Response<Void>>
+    fun signUp(@Body request: SignUpRequest): Completable
 }

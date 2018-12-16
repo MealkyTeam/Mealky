@@ -17,5 +17,7 @@ abstract class SingleUseCase<Param, Result> {
                 onNext: (t: Result) -> Unit,
                 onError: (e: Throwable) -> Unit
     ): Disposable = asSingle(param)
+            .doOnError { _ ->
+            }
             .subscribe(onNext, onError)
 }
