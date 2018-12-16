@@ -40,7 +40,7 @@
                 android:contentDescription="@string/plus_button"
                 android:focusable="true"
                 android:foreground="?android:attr/actionBarItemBackground"
-                android:paddingEnd="8dp"
+                android:padding="8dp"
                 android:src="@drawable/ic_add_box_40dp"
                 tools:ignore="RtlSymmetry" />
         </RelativeLayout>

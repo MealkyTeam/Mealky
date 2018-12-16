@@ -36,4 +36,5 @@
     <string name="add_to_shopping_list">Add to shopping list</string>
     <string name="plus_button">plus button</string>
     <string name="clear_list">Clear list</string>
+    <string name="empty_shopping_list">Your shopping list is empty. You can add something to it!</string>
 </resources>

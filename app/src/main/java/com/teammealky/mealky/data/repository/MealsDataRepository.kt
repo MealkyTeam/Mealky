@@ -1,7 +1,6 @@
 package com.teammealky.mealky.data.repository
 
 import com.teammealky.mealky.data.repository.datasource.MealsRemoteSource
-import com.teammealky.mealky.domain.model.Meal
 import com.teammealky.mealky.domain.model.Page
 import com.teammealky.mealky.domain.repository.MealsRepository
 import io.reactivex.Single
