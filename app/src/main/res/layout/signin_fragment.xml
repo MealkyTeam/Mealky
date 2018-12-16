@@ -93,6 +93,7 @@
             android:focusable="true"
             android:gravity="center"
             android:text="@string/forgotten_password"
+            android:foreground="?android:attr/selectableItemBackground"
             android:textAlignment="center"
             android:textSize="16sp" />
 
@@ -103,6 +104,7 @@
             android:layout_marginTop="4dp"
             android:clickable="true"
             android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
             android:gravity="center"
             android:text="@string/to_sign_up"
             android:textAlignment="center"

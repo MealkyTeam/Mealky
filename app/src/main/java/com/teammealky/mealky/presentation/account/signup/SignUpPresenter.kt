@@ -32,7 +32,6 @@ class SignUpPresenter @Inject constructor(
                 SignUpUseCase.Params(model.username ?: "", model.email ?: "", model.password ?: ""),
                 {
                     ui().perform { ui ->
-                        ui.isLoading(false)
                         ui.toSignInFragment()
                     }
                 },
