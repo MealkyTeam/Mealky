@@ -2,7 +2,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:drawable="@drawable/ic_check_box_outline_blank_black_24dp"
         android:state_checked="false"/>
-    <item android:drawable="@drawable/ic_check_box_green_24dp"
+    <item android:drawable="@drawable/ic_check_box_grey_24dp"
         android:state_checked="true"/>
-    <item android:drawable="@drawable/logo"/>
+    <item android:drawable="@drawable/ic_check_box_grey_24dp"/>
 </selector>

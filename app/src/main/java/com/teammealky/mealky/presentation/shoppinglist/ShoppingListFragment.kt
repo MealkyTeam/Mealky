@@ -17,14 +17,16 @@ import kotlinx.android.synthetic.main.shopping_toolbar.*
 import kotlinx.android.synthetic.main.shopping_toolbar.view.*
 import com.google.android.material.snackbar.Snackbar
 import com.teammealky.mealky.presentation.commons.extension.isVisible
+import com.teammealky.mealky.presentation.shoppinglist.adapter.ShoppingListAdapter
+import com.teammealky.mealky.presentation.shoppinglist.model.ShoppingListItemViewModel
 import kotlinx.android.synthetic.main.empty_item.*
 
 
 class ShoppingListFragment : BaseFragment<ShoppingListPresenter, ShoppingListPresenter.UI, ShoppingListViewModel>(), ShoppingListPresenter.UI,
-        IngredientsAdapter.OnItemClickListener, View.OnClickListener {
+        ShoppingListAdapter.OnItemClickListener, View.OnClickListener {
 
     override val vmClass = ShoppingListViewModel::class.java
-    private lateinit var adapter: IngredientsAdapter
+    private lateinit var adapter: ShoppingListAdapter
     private lateinit var layoutManager: RecyclerView.LayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,17 +49,17 @@ class ShoppingListFragment : BaseFragment<ShoppingListPresenter, ShoppingListPre
         shoppingListToolbar.clearListBtn.setOnClickListener(this)
     }
 
-    override fun setupRecyclerView(ingredients: List<Ingredient>) {
+    override fun setupRecyclerView(ingredients: List<ShoppingListItemViewModel>) {
         layoutManager = LinearLayoutManager(context)
-        adapter = IngredientsAdapter(ingredients, this)
+        adapter = ShoppingListAdapter(ingredients, this)
 
         shopListRv.adapter = adapter
         shopListRv.setHasFixedSize(true)
         shopListRv.layoutManager = layoutManager
     }
 
-    override fun onItemClick(item: Ingredient, isChecked: Boolean) {
-        presenter?.onItemClicked(item, isChecked)
+    override fun onItemClick(model: ShoppingListItemViewModel, isChecked: Boolean) {
+        presenter?.onItemClicked(model, isChecked)
     }
 
     override fun showSnackbar() {
@@ -86,7 +88,7 @@ class ShoppingListFragment : BaseFragment<ShoppingListPresenter, ShoppingListPre
         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 
-    override fun fillList(ingredients: List<Ingredient>) {
+    override fun fillList(ingredients: List<ShoppingListItemViewModel>) {
         adapter.fillAdapter(ingredients)
     }
 
