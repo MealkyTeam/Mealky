@@ -63,7 +63,7 @@ class SignUpPresenter @Inject constructor(
                             }
                         }
                     }
-                    Timber.d("KUBA Method:signUpButtonClicked ***** ERROR:$e *****")
+                    Timber.e("KUBA Method:signUpButtonClicked ***** ERROR:$e *****")
                 })
         )
     }

@@ -27,7 +27,7 @@ class ShoppingListFragment : BaseFragment<ShoppingListPresenter, ShoppingListPre
     }
 
     private fun setupView() {
-
+        presenter?.setupPresenter()
     }
 
 }

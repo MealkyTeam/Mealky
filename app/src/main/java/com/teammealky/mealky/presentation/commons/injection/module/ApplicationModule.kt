@@ -2,6 +2,7 @@ package com.teammealky.mealky.presentation.commons.injection.module
 
 import android.app.Application
 import android.content.Context
+import com.google.gson.Gson
 import com.teammealky.mealky.data.service.RestDataService
 import com.teammealky.mealky.data.executor.InteractorExecutor
 import com.teammealky.mealky.data.executor.JobExecutor
@@ -28,6 +29,8 @@ class ApplicationModule(private val application: Application) {
     @Provides @ApplicationContext fun provideContext(): Context = application
 
     @Provides @Singleton fun provideRestService(service: RestDataService): RestService = service
+
+    @Provides @Singleton fun provideGson(): Gson = Gson()
 
     @Provides @Singleton
     fun provideThreadExecutor(jobExecutor: JobExecutor): ThreadExecutor = jobExecutor

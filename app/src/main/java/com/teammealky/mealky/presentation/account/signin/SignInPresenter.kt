@@ -56,7 +56,7 @@ class SignInPresenter @Inject constructor(private val signInWithPasswordUseCase:
                             }
                         }
                     }
-                    Timber.d("KUBA Method:signInButtonClicked ***** ERROR:$e *****")
+                    Timber.e("KUBA Method:signInButtonClicked ***** ERROR:$e *****")
                 })
         )
     }

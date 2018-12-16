@@ -33,7 +33,7 @@ class AccountPresenter @Inject constructor(private val signInWithTokenUseCase: S
                     }
                 },
                 { e ->
-                    Timber.d("KUBA Method:sendToken ***** ERROR: $e *****")
+                    Timber.e("KUBA Method:sendToken ***** ERROR: $e *****")
                     ui().perform { it.toSignIn() }
                 })
         )
