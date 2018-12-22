@@ -6,7 +6,6 @@ import com.teammealky.mealky.domain.usecase.user.ClearUserUseCase
 import com.teammealky.mealky.domain.usecase.user.GetUserUseCase
 import com.teammealky.mealky.presentation.commons.presenter.BasePresenter
 import com.teammealky.mealky.presentation.commons.presenter.BaseUI
-import timber.log.Timber
 import javax.inject.Inject
 
 class SettingsPresenter @Inject constructor(
@@ -21,7 +20,7 @@ class SettingsPresenter @Inject constructor(
                     clearToken()
                 },
                 { e ->
-                    Timber.e("KUBA Method:clearUserData ***** $e *****")
+                    ui().perform { it.showErrorMessage({ clearUserData() }, e) }
                 }
         ))
     }
@@ -31,7 +30,7 @@ class SettingsPresenter @Inject constructor(
                 {
                 },
                 { e ->
-                    Timber.e("KUBA Method:clearToken ***** $e *****")
+                    ui().perform { it.showErrorMessage({ clearToken() }, e) }
                 }
         ))
     }
@@ -47,7 +46,7 @@ class SettingsPresenter @Inject constructor(
                     ui().perform { it.setupView(user) }
                 },
                 { e ->
-                    Timber.e("KUBA Method:setupPresenter ***** $e *****")
+                    ui().perform { it.showErrorMessage({ setupPresenter() }, e) }
                 }
         ))
     }

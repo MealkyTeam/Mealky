@@ -5,7 +5,6 @@ import com.teammealky.mealky.domain.model.User
 import com.teammealky.mealky.domain.usecase.signup.SignUpUseCase
 import com.teammealky.mealky.presentation.commons.presenter.BasePresenter
 import com.teammealky.mealky.presentation.commons.presenter.BaseUI
-import timber.log.Timber
 import javax.inject.Inject
 
 class SignUpPresenter @Inject constructor(
@@ -58,11 +57,10 @@ class SignUpPresenter @Inject constructor(
                                 ui().perform { it.showErrorInInfo(APIError.ErrorType.INVALID_PASSWORD) }
                             }
                             else -> {
-                                ui().perform { it.showErrorMessage(e) }
+                                ui().perform { it.showErrorMessage({ signUpButtonClicked() }, e) }
                             }
                         }
                     }
-                    Timber.e("KUBA Method:signUpButtonClicked ***** ERROR:$e *****")
                 })
         )
     }

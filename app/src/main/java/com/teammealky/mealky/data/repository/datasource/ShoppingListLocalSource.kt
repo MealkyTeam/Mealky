@@ -26,9 +26,9 @@ class ShoppingListLocalSource @Inject constructor(
     override fun list(): Single<List<Ingredient>> = Single.fromCallable { getItems() }
 
     override fun add(ingredients: List<Ingredient>): Completable = Completable.fromCallable {
-            val items = ArrayList(getItems())
-            items.addAll(ingredients)
-            setItems(items)
+        val items = ArrayList(getItems())
+        items.addAll(ingredients)
+        setItems(items)
     }
 
     override fun remove(id: Int): Completable = Completable.fromCallable {

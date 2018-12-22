@@ -5,7 +5,6 @@ import com.teammealky.mealky.domain.model.Meal
 import com.teammealky.mealky.domain.usecase.shoppinglist.AddToShoppingListUseCase
 import com.teammealky.mealky.presentation.commons.presenter.BasePresenter
 import com.teammealky.mealky.presentation.commons.presenter.BaseUI
-import timber.log.Timber
 import javax.inject.Inject
 
 class MealPresenter @Inject constructor(
@@ -30,7 +29,7 @@ class MealPresenter @Inject constructor(
                     ui().perform { it.showToast(succeeded) }
                 },
                 { e ->
-                    Timber.e("KUBA Method:onIngredientsButtonClicked ***** $e *****")
+                    ui().perform { it.showErrorMessage({ onIngredientsButtonClicked() }, e) }
                 })
         )
     }
