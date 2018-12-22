@@ -54,7 +54,7 @@ class AccountPresenter @Inject constructor(
         disposable.add(saveUserUseCase.execute(
                 user, {},
                 { e ->
-                    Timber.e("KUBA Method:saveUser ***** $e *****")
+                    ui().perform { it.showErrorMessage({ saveUser(user) }, e) }
                 })
         )
 

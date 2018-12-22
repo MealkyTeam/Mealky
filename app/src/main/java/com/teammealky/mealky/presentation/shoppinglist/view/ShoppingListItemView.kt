@@ -11,11 +11,11 @@ import com.teammealky.mealky.presentation.commons.extension.inflate
 import com.teammealky.mealky.presentation.shoppinglist.adapter.ShoppingListAdapter
 import com.teammealky.mealky.presentation.shoppinglist.model.ShoppingListItemViewModel
 import kotlinx.android.synthetic.main.ingredient_item.view.*
-import timber.log.Timber
 
+@SuppressLint("ViewConstructor")
 class ShoppingListItemView @JvmOverloads constructor(
         context: Context,
-        val listener: ShoppingListAdapter.OnItemClickListener,
+        private val listener: ShoppingListAdapter.OnItemClickListener,
         attrs: AttributeSet? = null,
         defStyle: Int = 0
 ) : RelativeLayout(context, attrs, defStyle) {
@@ -46,7 +46,6 @@ class ShoppingListItemView @JvmOverloads constructor(
             ingredientTv.setTextColor(ContextCompat.getColor(context, if (it.isGreyedOut) R.color.colorPrimary else R.color.text_primary))
 
             ingredientItemLayout.setOnClickListener {
-                Timber.d("KUBA Method:bind *****  *****")
                 checkbox.performClick()
             }
             checkbox.setOnClickListener { listener.onItemClick(model!!, checkbox.isChecked) }

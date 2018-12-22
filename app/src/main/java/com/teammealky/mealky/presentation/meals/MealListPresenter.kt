@@ -4,7 +4,6 @@ import com.teammealky.mealky.domain.model.Meal
 import com.teammealky.mealky.domain.usecase.meals.ListMealsUseCase
 import com.teammealky.mealky.presentation.commons.presenter.BasePresenter
 import com.teammealky.mealky.presentation.commons.presenter.BaseUI
-import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -31,7 +30,7 @@ class MealListPresenter @Inject constructor(
                         loadMore()
                     },
                     { e ->
-                        Timber.e("KUBA Method:firstRequest ***** ERROR: $e *****")
+                        ui().perform { it.showErrorMessage({ firstRequest() }, e) }
                     })
             )
         } else
@@ -62,7 +61,7 @@ class MealListPresenter @Inject constructor(
                         pageNumber++
                 },
                 { e ->
-                    Timber.e("KUBA Method:loadMore ***** ERROR: $e *****")
+                    ui().perform { it.showErrorMessage({ loadMore() }, e) }
                 }))
     }
 

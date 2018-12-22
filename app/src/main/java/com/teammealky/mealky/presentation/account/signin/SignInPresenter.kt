@@ -8,7 +8,6 @@ import com.teammealky.mealky.domain.usecase.token.SaveTokenUseCase
 import com.teammealky.mealky.domain.usecase.user.SaveUserUseCase
 import com.teammealky.mealky.presentation.commons.presenter.BasePresenter
 import com.teammealky.mealky.presentation.commons.presenter.BaseUI
-import timber.log.Timber
 import javax.inject.Inject
 
 class SignInPresenter @Inject constructor(
@@ -58,11 +57,10 @@ class SignInPresenter @Inject constructor(
                                 ui().perform { it.showErrorInfo(APIError.ErrorType.WRONG_PASSWORD) }
                             }
                             else -> {
-                                ui().perform { it.showErrorMessage(e) }
+                                ui().perform { it.showErrorMessage({ signInButtonClicked() }, e) }
                             }
                         }
                     }
-                    Timber.e("KUBA Method:signInButtonClicked ***** ERROR:$e *****")
                 })
         )
     }
@@ -77,7 +75,7 @@ class SignInPresenter @Inject constructor(
                     saveToken()
                 },
                 { e ->
-                    Timber.e("KUBA Method:saveUser ***** $e *****")
+                    ui().perform { it.showErrorMessage({ saveUser() }, e) }
                 }
         ))
 
@@ -91,7 +89,7 @@ class SignInPresenter @Inject constructor(
                     }
                 },
                 { e ->
-                    Timber.e("KUBA Method:saveUser *****  *****")
+                    ui().perform { it.showErrorMessage({ saveToken() }, e) }
                 }
         ))
     }

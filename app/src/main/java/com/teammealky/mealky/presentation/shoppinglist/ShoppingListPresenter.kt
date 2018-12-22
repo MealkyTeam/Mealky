@@ -30,10 +30,9 @@ class ShoppingListPresenter @Inject constructor(
                         it.showEmptyView(isEmpty)
                         it.enableClearListBtn(!isEmpty)
                     }
-
                 },
                 { e ->
-                    Timber.e("KUBA Method:onIngredientsButtonClicked ***** $e *****")
+                    ui().perform { it.showErrorMessage({ setupPresenter() }, e) }
                 })
         )
     }
@@ -60,7 +59,7 @@ class ShoppingListPresenter @Inject constructor(
                     }
                 },
                 { e ->
-                    Timber.e("KUBA Method:removeFromShoppingList ***** $e *****")
+                    ui().perform { it.showErrorMessage({ removeFromShoppingList(model) }, e) }
                 })
         )
     }
@@ -80,7 +79,7 @@ class ShoppingListPresenter @Inject constructor(
                     }
                 },
                 { e ->
-                    Timber.e("KUBA Method:removeFromShoppingList ***** $e *****")
+                    ui().perform { it.showErrorMessage({ addToShoppingList(model) }, e) }
                 })
         )
     }
@@ -111,7 +110,7 @@ class ShoppingListPresenter @Inject constructor(
                     }
                 },
                 { e ->
-                    Timber.e("KUBA Method:onIngredientsButtonClicked ***** $e *****")
+                    ui().perform { it.showErrorMessage({ snackbarDismissed() }, e) }
                 })
         )
     }
