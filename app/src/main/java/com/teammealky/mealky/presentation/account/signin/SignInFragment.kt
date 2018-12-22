@@ -46,6 +46,10 @@ class SignInFragment : BaseFragment<SignInPresenter, SignInPresenter.UI, SignInV
         passwordInput.addTextChangedListener(this)
         passwordInput.setOnEditorActionListener(this)
 
+        val showError = arguments?.getBoolean(EMAIL_ERROR_KEY) ?: false
+        infoTv.isVisible(showError)
+        infoTv.text = getString(R.string.you_need_to_confirm_email)
+
         //todo it's not implemented yet that's why it's hidden
         forgottenPasswordTv.isVisible(false)
     }
@@ -121,5 +125,18 @@ class SignInFragment : BaseFragment<SignInPresenter, SignInPresenter.UI, SignInV
             R.id.forgottenPasswordTv -> presenter?.forgottenPasswordLinkClicked()
             R.id.toSignUpTv -> presenter?.signUpLinkClicked()
         }
+    }
+
+    companion object {
+        fun newInstance(withError: Boolean): SignInFragment {
+            val fragment = SignInFragment()
+            val bundle = Bundle()
+            bundle.putBoolean(EMAIL_ERROR_KEY, withError)
+            fragment.arguments = bundle
+
+            return fragment
+        }
+
+        const val EMAIL_ERROR_KEY = "email_error_key"
     }
 }

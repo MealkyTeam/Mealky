@@ -53,7 +53,7 @@ class SignUpFragment : BaseFragment<SignUpPresenter, SignUpPresenter.UI, SignUpV
     }
 
     override fun toSignInFragment() {
-        Navigator.from(context as Navigator.Navigable).openSignIn()
+        Navigator.from(context as Navigator.Navigable).openSignIn(true)
     }
 
     override fun showErrorInInfo(error: APIError.ErrorType) {
