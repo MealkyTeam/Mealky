@@ -115,6 +115,10 @@ class ShoppingListPresenter @Inject constructor(
         )
     }
 
+    fun fieldChanged(model: ShoppingListItemViewModel, text: String) {
+        Timber.d("KUBA Method:fieldChanged *****  *****")
+    }
+
     interface UI : BaseUI {
         fun setupRecyclerView(ingredients: List<ShoppingListItemViewModel>)
         fun showSnackbar()
