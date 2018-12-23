@@ -7,11 +7,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.teammealky.mealky.presentation.shoppinglist.model.ShoppingListItemViewModel
 import com.teammealky.mealky.presentation.shoppinglist.view.ShoppingListItemView
 
-class ShoppingListAdapter(var models: List<ShoppingListItemViewModel> = emptyList(), private val listener: OnItemClickListener) :
+class ShoppingListAdapter(var models: List<ShoppingListItemViewModel> = emptyList(), private val listener: ShoppingListItemListener) :
         RecyclerView.Adapter<ShoppingListAdapter.ViewHolder>() {
 
-    interface OnItemClickListener {
+    interface ShoppingListItemListener {
         fun onItemClick(model: ShoppingListItemViewModel, isChecked: Boolean)
+        fun fieldChanged(model: ShoppingListItemViewModel, text: String)
     }
 
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view)
