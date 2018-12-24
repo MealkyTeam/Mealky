@@ -19,7 +19,6 @@ import com.teammealky.mealky.presentation.shoppinglist.adapter.ShoppingListAdapt
 import com.teammealky.mealky.presentation.shoppinglist.model.ShoppingListItemViewModel
 import kotlinx.android.synthetic.main.empty_item.*
 
-
 class ShoppingListFragment : BaseFragment<ShoppingListPresenter, ShoppingListPresenter.UI, ShoppingListViewModel>(), ShoppingListPresenter.UI,
         ShoppingListAdapter.ShoppingListItemListener, View.OnClickListener {
 
