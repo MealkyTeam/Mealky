@@ -55,6 +55,7 @@
         android:textColor="@android:color/black"
         android:textSize="16sp"
         tools:ignore="RtlSymmetry"
+        android:inputType="numberDecimal"
         tools:text="0.5" />
 
     <TextView

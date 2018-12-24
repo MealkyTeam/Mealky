@@ -4,17 +4,18 @@ import com.teammealky.mealky.domain.usecase.shoppinglist.AddToShoppingListUseCas
 import com.teammealky.mealky.domain.usecase.shoppinglist.ClearShoppingListUseCase
 import com.teammealky.mealky.domain.usecase.shoppinglist.RemoveFromShoppingListUseCase
 import com.teammealky.mealky.domain.usecase.shoppinglist.ShoppingListUseCase
+import com.teammealky.mealky.domain.usecase.shoppinglist.UpdateShoppingListItemUseCase
 import com.teammealky.mealky.presentation.commons.presenter.BasePresenter
 import com.teammealky.mealky.presentation.commons.presenter.BaseUI
 import com.teammealky.mealky.presentation.shoppinglist.model.ShoppingListItemViewModel
-import timber.log.Timber
 import javax.inject.Inject
 
 class ShoppingListPresenter @Inject constructor(
         private val shoppingListUseCase: ShoppingListUseCase,
         private val clearShoppingListUseCase: ClearShoppingListUseCase,
         private val addToShoppingListUseCase: AddToShoppingListUseCase,
-        private val removeFromShoppingListUseCase: RemoveFromShoppingListUseCase
+        private val removeFromShoppingListUseCase: RemoveFromShoppingListUseCase,
+        private val updateShoppingListItemUseCase: UpdateShoppingListItemUseCase
 ) : BasePresenter<ShoppingListPresenter.UI>() {
 
     private var models = emptyList<ShoppingListItemViewModel>()
@@ -47,7 +48,6 @@ class ShoppingListPresenter @Inject constructor(
     private fun removeFromShoppingList(model: ShoppingListItemViewModel) {
         disposable.add(removeFromShoppingListUseCase.execute(model.item.id,
                 {
-
                     val removedModel = models.first { item -> item.position == model.position }
 
                     models -= listOf(removedModel)
@@ -67,7 +67,6 @@ class ShoppingListPresenter @Inject constructor(
     private fun addToShoppingList(model: ShoppingListItemViewModel) {
         disposable.add(addToShoppingListUseCase.execute(listOf(model.item),
                 {
-
                     models.first { item -> item.position == model.position }.isGreyedOut = false
 
                     val removed = models.filter { item -> (item.isGreyedOut) }
@@ -116,7 +115,28 @@ class ShoppingListPresenter @Inject constructor(
     }
 
     fun fieldChanged(model: ShoppingListItemViewModel, text: String) {
-        Timber.d("KUBA Method:fieldChanged *****  *****")
+        val index = models.indexOf(model)
+        if (index < 0) return
+
+        models -= model
+        val updatedIngredient = model.item.copy(quantity = text.toDouble())
+        val updatedModel = model.copy(item = updatedIngredient)
+        val mutableList = models.toMutableList()
+
+        mutableList.add(index, updatedModel)
+        models = mutableList
+
+        updateModel(updatedModel)
+
+    }
+
+    private fun updateModel(updatedModel: ShoppingListItemViewModel) {
+        disposable.add(updateShoppingListItemUseCase.execute(updatedModel.item,
+                {},
+                { e ->
+                    ui().perform { it.showErrorMessage({ updateModel(updatedModel) }, e) }
+                })
+        )
     }
 
     interface UI : BaseUI {
