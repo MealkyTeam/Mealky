@@ -28,7 +28,7 @@ class SignUpPresenter @Inject constructor(
         }
 
         disposable.add(signUpUseCase.execute(
-                SignUpUseCase.Params(model.username ?: "", model.email ?: "", model.password ?: ""),
+                SignUpUseCase.Params(model.username, model.email ?: "", model.password ?: ""),
                 {
                     ui().perform { ui ->
                         ui.toSignInFragment()
@@ -100,7 +100,7 @@ class SignUpPresenter @Inject constructor(
     }
 
     fun fieldsChanged() {
-        if (model.password.isNullOrBlank() || model.email.isNullOrBlank() || model.username.isNullOrBlank())
+        if (model.password.isNullOrBlank() || model.email.isNullOrBlank() || model.username.isBlank())
             ui().perform { it.toggleSignUpButton(false) }
         else
             ui().perform { it.toggleSignUpButton(true) }
