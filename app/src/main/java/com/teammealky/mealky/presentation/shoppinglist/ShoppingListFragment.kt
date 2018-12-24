@@ -8,10 +8,8 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.teammealky.mealky.R
-import com.teammealky.mealky.domain.model.Ingredient
 import com.teammealky.mealky.presentation.App
 import com.teammealky.mealky.presentation.commons.presenter.BaseFragment
-import com.teammealky.mealky.presentation.meal.adapter.IngredientsAdapter
 import kotlinx.android.synthetic.main.shopping_list_fragment.*
 import kotlinx.android.synthetic.main.shopping_toolbar.*
 import kotlinx.android.synthetic.main.shopping_toolbar.view.*
@@ -21,9 +19,8 @@ import com.teammealky.mealky.presentation.shoppinglist.adapter.ShoppingListAdapt
 import com.teammealky.mealky.presentation.shoppinglist.model.ShoppingListItemViewModel
 import kotlinx.android.synthetic.main.empty_item.*
 
-
 class ShoppingListFragment : BaseFragment<ShoppingListPresenter, ShoppingListPresenter.UI, ShoppingListViewModel>(), ShoppingListPresenter.UI,
-        ShoppingListAdapter.OnItemClickListener, View.OnClickListener {
+        ShoppingListAdapter.ShoppingListItemListener, View.OnClickListener {
 
     override val vmClass = ShoppingListViewModel::class.java
     private lateinit var adapter: ShoppingListAdapter
@@ -102,6 +99,10 @@ class ShoppingListFragment : BaseFragment<ShoppingListPresenter, ShoppingListPre
 
     override fun showEmptyView(isEnabled: Boolean) {
         emptyItemLayout.isVisible(isEnabled)
+    }
+
+    override fun fieldChanged(model: ShoppingListItemViewModel, text: String) {
+        presenter?.fieldChanged(model, text)
     }
 
 }

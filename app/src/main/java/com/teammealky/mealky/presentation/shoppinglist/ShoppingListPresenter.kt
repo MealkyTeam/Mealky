@@ -7,7 +7,6 @@ import com.teammealky.mealky.domain.usecase.shoppinglist.ShoppingListUseCase
 import com.teammealky.mealky.presentation.commons.presenter.BasePresenter
 import com.teammealky.mealky.presentation.commons.presenter.BaseUI
 import com.teammealky.mealky.presentation.shoppinglist.model.ShoppingListItemViewModel
-import timber.log.Timber
 import javax.inject.Inject
 
 class ShoppingListPresenter @Inject constructor(
@@ -47,7 +46,6 @@ class ShoppingListPresenter @Inject constructor(
     private fun removeFromShoppingList(model: ShoppingListItemViewModel) {
         disposable.add(removeFromShoppingListUseCase.execute(model.item.id,
                 {
-
                     val removedModel = models.first { item -> item.position == model.position }
 
                     models -= listOf(removedModel)
@@ -67,7 +65,6 @@ class ShoppingListPresenter @Inject constructor(
     private fun addToShoppingList(model: ShoppingListItemViewModel) {
         disposable.add(addToShoppingListUseCase.execute(listOf(model.item),
                 {
-
                     models.first { item -> item.position == model.position }.isGreyedOut = false
 
                     val removed = models.filter { item -> (item.isGreyedOut) }
@@ -111,6 +108,33 @@ class ShoppingListPresenter @Inject constructor(
                 },
                 { e ->
                     ui().perform { it.showErrorMessage({ snackbarDismissed() }, e) }
+                })
+        )
+    }
+
+    fun fieldChanged(model: ShoppingListItemViewModel, text: String) {
+        var updatedModel = model
+        var previousQuantity = 0.0
+        val mutableList = models.map {
+            if (model.item.id == it.item.id) {
+                val updatedIngredient = model.item.copy(quantity = text.toDouble())
+                updatedModel = model.copy(item = updatedIngredient)
+                previousQuantity = it.item.quantity
+                return@map updatedModel
+            } else
+                return@map it
+        }
+        models = mutableList
+
+        updateModel(updatedModel, previousQuantity)
+    }
+
+    private fun updateModel(updatedModel: ShoppingListItemViewModel, previousQuantity: Double) {
+        val ingredient = updatedModel.item.copy(quantity = updatedModel.item.quantity - previousQuantity)
+        disposable.add(addToShoppingListUseCase.execute(listOf(ingredient),
+                {},
+                { e ->
+                    ui().perform { it.showErrorMessage({ updateModel(updatedModel, previousQuantity) }, e) }
                 })
         )
     }

@@ -13,7 +13,6 @@ import java.lang.reflect.Type
 import javax.inject.Inject
 import javax.inject.Singleton
 
-
 @Singleton
 class ShoppingListLocalSource @Inject constructor(
         @ApplicationContext private val context: Context,
@@ -26,8 +25,25 @@ class ShoppingListLocalSource @Inject constructor(
     override fun list(): Single<List<Ingredient>> = Single.fromCallable { getItems() }
 
     override fun add(ingredients: List<Ingredient>): Completable = Completable.fromCallable {
-        val items = ArrayList(getItems())
-        items.addAll(ingredients)
+        val oldItems = ArrayList(getItems())
+
+        //updated items
+        val updatedItems = oldItems.map { ingredient ->
+            var updatedItem = ingredients.firstOrNull { it.name == ingredient.name && it.unit == ingredient.unit }
+            return@map if (updatedItem == null)
+                ingredient
+            else {
+                updatedItem = updatedItem.copy(quantity = updatedItem.quantity + ingredient.quantity)
+                updatedItem
+            }
+        }
+
+        val items = ArrayList(updatedItems)
+
+        //new items
+        items.addAll(ingredients.filter { ingredient ->
+            oldItems.none { it.name == ingredient.name && it.unit == ingredient.unit }
+        })
         setItems(items)
     }
 
