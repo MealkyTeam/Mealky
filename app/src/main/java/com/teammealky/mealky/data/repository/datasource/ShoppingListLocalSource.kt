@@ -79,7 +79,7 @@ class ShoppingListLocalSource @Inject constructor(
 
             cache = ArrayList(newItems)
         } catch (e: Exception) {
-            Timber.e("KUBA Method:setItems ***** $e  *****")
+            Timber.e("KUBA_LOG Method:setItems ***** $e  *****")
         }
     }
 

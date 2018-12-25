@@ -1,27 +1,43 @@
 package com.teammealky.mealky.presentation.shoppinglist.component.addingredient.view
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
-import android.content.DialogInterface
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
+import android.view.WindowManager
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView
 import com.teammealky.mealky.R
+import com.teammealky.mealky.domain.model.Ingredient
+import com.teammealky.mealky.domain.model.Unit
 import com.teammealky.mealky.presentation.App
 import com.teammealky.mealky.presentation.shoppinglist.component.addingredient.AddIngredientPresenter
 import com.teammealky.mealky.presentation.shoppinglist.component.addingredient.AddIngredientViewModel
 import com.teammealky.mealky.presentation.shoppinglist.component.addingredient.BaseDialogFragment
+import kotlinx.android.synthetic.main.add_ingredient_dialog.*
+import java.lang.Exception
 
 class AddIngredientDialog : BaseDialogFragment<AddIngredientPresenter, AddIngredientPresenter.UI, AddIngredientViewModel>(),
-        AddIngredientPresenter.UI, View.OnClickListener {
+        AddIngredientPresenter.UI, View.OnClickListener, TextWatcher, TextView.OnEditorActionListener {
 
     override val vmClass = AddIngredientViewModel::class.java
 
+    @SuppressLint("InflateParams")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val view = LayoutInflater.from(context).inflate(R.layout.add_ingredient_dialog, null)
         return AlertDialog.Builder(activity!!)
                 .setView(view)
                 .create()
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,50 +48,75 @@ class AddIngredientDialog : BaseDialogFragment<AddIngredientPresenter, AddIngred
     override fun onStart() {
         super.onStart()
 
-//        val dialog = dialog as AlertDialog
-//        dialog.setCancelable(false)
-//        positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
-//        positiveButton?.setOnClickListener(this)
-//        toggleButton(positiveButton, false)
-//
-//        negativeButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
-//        negativeButton?.setTextColor(ContextCompat.getColor(context!!, R.color.colorPrimary))
-//
-//        getDialog()?.window?.clearFlags(
-//                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-//                        or WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM
-//        )
-//        getDialog()?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-//
-//        recyclerView?.requestFocus()
+
+        dialog.ingredientInput.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+            }
+        }
+        dialog.ingredientInput.requestFocus()
+
+
+        setupView()
+    }
+
+    private fun setupView() {
+        dialog.ingredientInput.addTextChangedListener(this)
+        dialog.quantityInput.addTextChangedListener(this)
+        dialog.unitInput.addTextChangedListener(this)
+        dialog.unitInput.setOnEditorActionListener(this)
+
+        dialog.addIngredientBtn.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
-//        presenter?.validate()
+        when (v?.id) {
+            R.id.addIngredientBtn -> presenter?.addIngredientBtnClicked()
+        }
     }
 
-    override fun onDismiss(dialog: DialogInterface?) {
-        super.onDismiss(dialog)
-
-//        context?.let { c -> getActivityFromContext(c)?.let { hideSoftwareKeyboard(it) } }
-//
-//        if (targetFragment?.isAdded == true) return
-//        if (targetFragment is DialogInterface.OnDismissListener)
-//            (targetFragment as DialogInterface.OnDismissListener).onDismiss(dialog)
+    override fun afterTextChanged(editable: Editable?) {
+        try {
+            presenter?.model = Ingredient.defaultIngredient().copy(
+                    name = dialog.ingredientInput.text.toString(),
+                    quantity = dialog.quantityInput.text.toString().toDouble(),
+                    unit = Unit.defaultUnit().copy(name = dialog.unitInput.text.toString())
+            )
+        } catch (ignored: Exception) {
+        }
+        presenter?.fieldsChanged()
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-//        val list = presenter?.models ?: emptyList()
-//
-//        outState.putAll(PurchaseInfoMapper.writePurchaseInfo(list))
+    override fun beforeTextChanged(text: CharSequence?, p1: Int, p2: Int, p3: Int) {
     }
 
-//    companion object {
-//        fun newInstance(model: AddIngredientViewModel): AddIngredientDialog{
-//            //todo pass that model
-//            return AddIngredientDialog()
-//        }
-//    }
+    override fun onTextChanged(text: CharSequence?, p1: Int, p2: Int, p3: Int) {
+    }
+
+    override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
+        if (event == null && actionId == EditorInfo.IME_ACTION_DONE) {
+            presenter?.addIngredientBtnClicked()
+            return true
+        }
+
+        return false
+    }
+
+    override fun toggleAddButton(isToggled: Boolean) {
+        dialog.addIngredientBtn.isEnabled = isToggled
+    }
+
+    override fun addIngredient(ingredient: Ingredient) {
+        dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
+        if (targetFragment is AddIngredientListener) {
+            (targetFragment as AddIngredientListener).onInformationPassed(presenter?.model!!)
+        }
+
+        dismiss()
+    }
+
+    interface AddIngredientListener {
+        fun onInformationPassed(ingredient: Ingredient)
+    }
 
 }

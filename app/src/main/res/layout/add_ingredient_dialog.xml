@@ -29,6 +29,7 @@
                 android:id="@+id/ingredientInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:focusable="true"
                 android:hint="@string/ingredient"
                 android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -44,7 +45,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/quantity"
-                android:inputType="numberDecimal" />
+                android:inputType="numberDecimal"
+                android:maxLength="8" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout

@@ -31,7 +31,7 @@ class AccountPresenter @Inject constructor(
                         sendToken(token.token)
                 },
                 { e ->
-                    Timber.e("KUBA Method:sendToken ***** ERROR: $e *****")
+                    Timber.e("KUBA_LOG Method:sendToken ***** ERROR: $e *****")
                     ui().perform { it.toSignIn() }
                 })
         )
@@ -44,7 +44,7 @@ class AccountPresenter @Inject constructor(
                     saveUser(user)
                 },
                 { e ->
-                    Timber.e("KUBA Method:sendToken ***** ERROR: $e *****")
+                    Timber.e("KUBA_LOG Method:sendToken ***** ERROR: $e *****")
                     ui().perform { it.toSignIn() }
                 })
         )

@@ -111,9 +111,9 @@ class SignUpPresenter @Inject constructor(
         fun toSignInFragment()
         fun showErrorInInfo(error: APIError.ErrorType)
         fun showInfoTv(isVisible: Boolean)
-        fun toggleSignUpButton(toggle: Boolean)
-        fun toggleUsernameError(toggle: Boolean)
-        fun toggleEmailError(toggle: Boolean)
-        fun togglePasswordError(toggle: Boolean)
+        fun toggleSignUpButton(isToggled: Boolean)
+        fun toggleUsernameError(isToggled: Boolean)
+        fun toggleEmailError(isToggled: Boolean)
+        fun togglePasswordError(isToggled: Boolean)
     }
 }
