@@ -13,6 +13,7 @@ import com.teammealky.mealky.presentation.meal.MealViewModel
 import com.teammealky.mealky.presentation.meals.MealListViewModel
 import com.teammealky.mealky.presentation.settings.SettingsViewModel
 import com.teammealky.mealky.presentation.shoppinglist.ShoppingListViewModel
+import com.teammealky.mealky.presentation.shoppinglist.component.addingredient.AddIngredientViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -34,6 +35,9 @@ abstract class ViewModelModule {
 
     @Binds @IntoMap @ViewModelKey(ShoppingListViewModel::class)
     internal abstract fun shoppingList(vm: ShoppingListViewModel): ViewModel
+
+    @Binds @IntoMap @ViewModelKey(AddIngredientViewModel::class)
+    internal abstract fun purchaseInfoDialog(vm: AddIngredientViewModel): ViewModel
 
     @Binds @IntoMap @ViewModelKey(DiscoverViewModel::class)
     internal abstract fun discover(vm: DiscoverViewModel): ViewModel

@@ -39,10 +39,14 @@
     <string name="empty_shopping_list">Your shopping list is empty. You can add something to it!</string>
     <string name="shopping_list_snackbar_text">Do you want to recover your list?</string>
     <string name="click">Click!</string>
-    <string name="save_ingredients_text">Saving ingredients to meal succeeded!</string>
+    <string name="save_ingredients_text">Saving ingredients to shopping list succeeded!</string>
     <string name="list_cleared">The list had been cleared</string>
     <string name="just_a_moment">Just a moment…</string>
     <string name="service_unavailable">Our app is currently unavailable, but we’re working on it!</string>
     <string name="retry">Retry</string>
     <string name="exit_app">Exit app</string>
+    <string name="add">Add</string>
+    <string name="ingredient">Ingredient</string>
+    <string name="quantity">Quantity</string>
+    <string name="unit">Unit</string>
 </resources>
