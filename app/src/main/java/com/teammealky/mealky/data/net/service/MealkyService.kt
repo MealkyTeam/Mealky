@@ -1,11 +1,13 @@
 package com.teammealky.mealky.data.net.service
 
+import com.teammealky.mealky.domain.model.Ingredient
 import com.teammealky.mealky.domain.model.Meal
 import com.teammealky.mealky.domain.model.Page
 import com.teammealky.mealky.domain.model.PasswordSignInRequest
 import com.teammealky.mealky.domain.model.SignUpRequest
 import com.teammealky.mealky.domain.model.TokenSignInRequest
 import com.teammealky.mealky.domain.model.User
+import com.teammealky.mealky.domain.model.Unit
 import io.reactivex.Completable
 import io.reactivex.Single
 import retrofit2.http.Body
@@ -33,6 +35,18 @@ interface MealkyService {
             @Query("page") offset: Int,
             @Query("size") limit: Int
     ): Single<List<Meal>>
+
+    @GET("sec/ingredients")
+    fun searchIngredients(
+            @Query("q") query: String,
+            @Query("limit") limit: Int
+    ): Single<List<Ingredient>>
+
+    @GET("sec/units")
+    fun searchUnits(
+            @Query("q") query: String,
+            @Query("limit") limit: Int
+    ): Single<List<Unit>>
 
     @POST("/sec/login")
     fun signInWithPassword(@Body request: PasswordSignInRequest): Single<User>
