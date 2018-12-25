@@ -1,5 +1,6 @@
 package com.teammealky.mealky.presentation.shoppinglist
 
+import com.teammealky.mealky.domain.model.Ingredient
 import com.teammealky.mealky.domain.usecase.shoppinglist.AddToShoppingListUseCase
 import com.teammealky.mealky.domain.usecase.shoppinglist.ClearShoppingListUseCase
 import com.teammealky.mealky.domain.usecase.shoppinglist.RemoveFromShoppingListUseCase
@@ -65,7 +66,7 @@ class ShoppingListPresenter @Inject constructor(
     private fun addToShoppingList(model: ShoppingListItemViewModel) {
         disposable.add(addToShoppingListUseCase.execute(listOf(model.item),
                 {
-                    models.first { item -> item.position == model.position }.isGreyedOut = false
+                    models.firstOrNull { item -> item.position == model.position }?.isGreyedOut = false
 
                     val removed = models.filter { item -> (item.isGreyedOut) }
                     models -= removed
@@ -139,6 +140,25 @@ class ShoppingListPresenter @Inject constructor(
         )
     }
 
+    fun addIngredient(ingredient: Ingredient) {
+        val position = getNextPosition()
+        val model = ShoppingListItemViewModel(ingredient, false, position)
+        models += model
+        ui().perform {
+            it.showEmptyView(false)
+            it.enableClearListBtn(true)
+        }
+        addToShoppingList(model)
+    }
+
+    private fun getNextPosition(): Int {
+        return (models.maxBy { it.position }?.position ?: 0) + 1
+    }
+
+    fun onPlusBtnClicked() {
+        ui().perform { it.showAddIngredientDialog() }
+    }
+
     interface UI : BaseUI {
         fun setupRecyclerView(ingredients: List<ShoppingListItemViewModel>)
         fun showSnackbar()
@@ -147,5 +167,6 @@ class ShoppingListPresenter @Inject constructor(
         fun clearList()
         fun enableClearListBtn(isEnabled: Boolean)
         fun showEmptyView(isEnabled: Boolean)
+        fun showAddIngredientDialog()
     }
 }

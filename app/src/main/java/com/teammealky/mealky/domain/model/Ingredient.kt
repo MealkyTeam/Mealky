@@ -6,4 +6,11 @@ data class Ingredient(
         val name: String,
         val unit: Unit,
         val quantity: Double
-)
+) {
+
+    companion object {
+        fun defaultIngredient(): Ingredient {
+            return Ingredient(-1, "", Unit(-1, ""), 0.0)
+        }
+    }
+}
