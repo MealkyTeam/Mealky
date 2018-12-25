@@ -119,7 +119,7 @@ class SignInPresenter @Inject constructor(
         fun toSignUpFragment()
         fun toForgottenPasswordFragment()
         fun showErrorInfo(error: APIError.ErrorType)
-        fun toggleSignInButton(toggle: Boolean)
+        fun toggleSignInButton(isToggled: Boolean)
         fun showInfoTv(isVisible: Boolean)
         fun setErrorOnEmail()
         fun hideEmailError()
