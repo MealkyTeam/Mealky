@@ -11,7 +11,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.TextView
+import com.google.android.material.textfield.TextInputEditText
 import com.teammealky.mealky.R
 import com.teammealky.mealky.domain.model.Ingredient
 import com.teammealky.mealky.domain.model.Unit
@@ -26,6 +29,12 @@ class AddIngredientDialog : BaseDialogFragment<AddIngredientPresenter, AddIngred
         AddIngredientPresenter.UI, View.OnClickListener, TextWatcher, TextView.OnEditorActionListener {
 
     override val vmClass = AddIngredientViewModel::class.java
+    private var ingredientsAdapter: ArrayAdapter<String>? = null
+    private var unitsAdapter: ArrayAdapter<String>? = null
+
+    var ingredientInput: AutoCompleteTextView? = null
+    var quantityInput: TextInputEditText? = null
+    var unitInput: AutoCompleteTextView? = null
 
     @SuppressLint("InflateParams")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -48,25 +57,42 @@ class AddIngredientDialog : BaseDialogFragment<AddIngredientPresenter, AddIngred
     override fun onStart() {
         super.onStart()
 
+        ingredientInput = dialog.ingredientInput
+        quantityInput = dialog.quantityInput
+        unitInput = dialog.unitInput
 
-        dialog.ingredientInput.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+        ingredientInput?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
             }
         }
-        dialog.ingredientInput.requestFocus()
+        ingredientInput?.requestFocus()
 
 
         setupView()
     }
 
     private fun setupView() {
-        dialog.ingredientInput.addTextChangedListener(this)
-        dialog.quantityInput.addTextChangedListener(this)
-        dialog.unitInput.addTextChangedListener(this)
-        dialog.unitInput.setOnEditorActionListener(this)
-
+        setupTextListeners()
         dialog.addIngredientBtn.setOnClickListener(this)
+
+        presenter?.setupFinished()
+    }
+
+    override fun setupAutocompleteAdapters(ingredients: List<Ingredient>, units: List<Unit>) {
+        if (context == null) return
+        ingredientsAdapter = ArrayAdapter(context!!, android.R.layout.simple_list_item_1, ingredients.map { it.name.capitalize() })
+        unitsAdapter = ArrayAdapter(context!!, android.R.layout.simple_list_item_1, units.map { it.name })
+
+        ingredientInput?.setAdapter(ingredientsAdapter)
+        unitInput?.setAdapter(unitsAdapter)
+    }
+
+    private fun setupTextListeners() {
+        ingredientInput?.addTextChangedListener(this)
+        quantityInput?.addTextChangedListener(this)
+        unitInput?.addTextChangedListener(this)
+        unitInput?.setOnEditorActionListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -78,9 +104,9 @@ class AddIngredientDialog : BaseDialogFragment<AddIngredientPresenter, AddIngred
     override fun afterTextChanged(editable: Editable?) {
         try {
             presenter?.model = Ingredient.defaultIngredient().copy(
-                    name = dialog.ingredientInput.text.toString(),
-                    quantity = dialog.quantityInput.text.toString().toDouble(),
-                    unit = Unit.defaultUnit().copy(name = dialog.unitInput.text.toString())
+                    name = ingredientInput?.text.toString(),
+                    quantity = quantityInput?.text.toString().toDouble(),
+                    unit = Unit.defaultUnit().copy(name = unitInput?.text.toString())
             )
         } catch (ignored: Exception) {
         }

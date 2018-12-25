@@ -25,10 +25,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <AutoCompleteTextView
                 android:id="@+id/ingredientInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:completionThreshold="1"
                 android:focusable="true"
                 android:hint="@string/ingredient"
                 android:inputType="text" />
@@ -55,10 +56,11 @@
             android:layout_height="wrap_content"
             android:paddingTop="8dp">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <AutoCompleteTextView
                 android:id="@+id/unitInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:completionThreshold="1"
                 android:hint="@string/unit"
                 android:imeOptions="actionDone"
                 android:inputType="text" />
