@@ -50,13 +50,13 @@
         android:layout_centerVertical="true"
         android:layout_toEndOf="@id/ingredientNameTv"
         android:inputType="numberDecimal"
-        android:maxLength="4"
+        android:maxLength="8"
         android:maxLines="1"
         android:paddingStart="4dp"
         android:textColor="@android:color/black"
         android:textSize="14sp"
         tools:ignore="RtlSymmetry"
-        tools:text="0.5" />
+        tools:text="22032.52323" />
 
     <TextView
         android:id="@+id/unitTv"

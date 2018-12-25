@@ -22,7 +22,7 @@ import com.teammealky.mealky.presentation.shoppinglist.model.ShoppingListItemVie
 import kotlinx.android.synthetic.main.empty_item.*
 
 class ShoppingListFragment : BaseFragment<ShoppingListPresenter, ShoppingListPresenter.UI, ShoppingListViewModel>(), ShoppingListPresenter.UI,
-        ShoppingListAdapter.ShoppingListItemListener, View.OnClickListener {
+        ShoppingListAdapter.ShoppingListItemListener, View.OnClickListener,AddIngredientDialog.AddIngredientListener {
 
     override val vmClass = ShoppingListViewModel::class.java
     private lateinit var adapter: ShoppingListAdapter

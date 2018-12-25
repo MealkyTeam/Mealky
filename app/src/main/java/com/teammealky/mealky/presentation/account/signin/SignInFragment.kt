@@ -81,8 +81,8 @@ class SignInFragment : BaseFragment<SignInPresenter, SignInPresenter.UI, SignInV
         progressBar.isVisible(isLoading)
     }
 
-    override fun toggleSignInButton(toggle: Boolean) {
-        signInBtn.isEnabled = toggle
+    override fun toggleSignInButton(isToggled: Boolean) {
+        signInBtn.isEnabled = isToggled
     }
 
     override fun showInfoTv(isVisible: Boolean) {

@@ -47,7 +47,7 @@ abstract class BaseFragment<P : Presenter<V>, in V, VM : BaseViewModel<P>> : Fra
     override fun showErrorMessage(retry: () -> Unit,e: Throwable) {
         if (context == null) return
 
-        Timber.d("KUBA Method:showErrorMessage ***** $e *****")
+        Timber.d("KUBA_LOG Method:showErrorMessage ***** $e *****")
         alertDialog = AlertDialog.Builder(context!!)
                 .setTitle(R.string.just_a_moment)
                 .setMessage(R.string.service_unavailable)
