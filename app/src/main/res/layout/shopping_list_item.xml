@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="8dp"
-    android:layout_marginTop="8dp"
     android:layout_marginEnd="8dp"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground"
     android:orientation="horizontal"
-    android:padding="8dp">
+    android:paddingStart="8dp"
+    android:paddingEnd="8dp">
 
     <ImageView
         android:id="@+id/bullet"
@@ -49,13 +49,13 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toEndOf="@id/ingredientNameTv"
+        android:inputType="numberDecimal"
         android:maxLength="4"
         android:maxLines="1"
         android:paddingStart="4dp"
         android:textColor="@android:color/black"
-        android:textSize="16sp"
+        android:textSize="14sp"
         tools:ignore="RtlSymmetry"
-        android:inputType="numberDecimal"
         tools:text="0.5" />
 
     <TextView
@@ -76,8 +76,8 @@
         android:id="@+id/checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
         android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
         android:button="@drawable/checkbox_selector_green" />
 
 </RelativeLayout>

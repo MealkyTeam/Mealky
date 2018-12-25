@@ -14,8 +14,10 @@ import kotlinx.android.synthetic.main.shopping_list_fragment.*
 import kotlinx.android.synthetic.main.shopping_toolbar.*
 import kotlinx.android.synthetic.main.shopping_toolbar.view.*
 import com.google.android.material.snackbar.Snackbar
+import com.teammealky.mealky.domain.model.Ingredient
 import com.teammealky.mealky.presentation.commons.extension.isVisible
 import com.teammealky.mealky.presentation.shoppinglist.adapter.ShoppingListAdapter
+import com.teammealky.mealky.presentation.shoppinglist.component.addingredient.view.AddIngredientDialog
 import com.teammealky.mealky.presentation.shoppinglist.model.ShoppingListItemViewModel
 import kotlinx.android.synthetic.main.empty_item.*
 
@@ -25,10 +27,13 @@ class ShoppingListFragment : BaseFragment<ShoppingListPresenter, ShoppingListPre
     override val vmClass = ShoppingListViewModel::class.java
     private lateinit var adapter: ShoppingListAdapter
     private lateinit var layoutManager: RecyclerView.LayoutManager
+    private var addIngredientDialog: AddIngredientDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         App.get(requireContext()).getComponent().inject(this)
         super.onCreate(savedInstanceState)
+
+        dialogRestoration(savedInstanceState)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
@@ -44,6 +49,7 @@ class ShoppingListFragment : BaseFragment<ShoppingListPresenter, ShoppingListPre
         presenter?.setupPresenter()
 
         shoppingListToolbar.clearListBtn.setOnClickListener(this)
+        shoppingListToolbar.plusBtn.setOnClickListener(this)
     }
 
     override fun setupRecyclerView(ingredients: List<ShoppingListItemViewModel>) {
@@ -77,6 +83,7 @@ class ShoppingListFragment : BaseFragment<ShoppingListPresenter, ShoppingListPre
         when (view?.id) {
             R.id.clearListBtn -> presenter?.onClearListBtnClicked()
             R.id.snackbar_action -> presenter?.onSnackbarActionClicked()
+            R.id.plusBtn -> presenter?.onPlusBtnClicked()
         }
     }
 
@@ -103,6 +110,32 @@ class ShoppingListFragment : BaseFragment<ShoppingListPresenter, ShoppingListPre
 
     override fun fieldChanged(model: ShoppingListItemViewModel, text: String) {
         presenter?.fieldChanged(model, text)
+    }
+
+    private fun dialogRestoration(savedInstanceState: Bundle?) {
+        if (null != savedInstanceState) {
+            val prevDialog = childFragmentManager.findFragmentByTag(ADD_DIALOG)
+            if (prevDialog is AddIngredientDialog) {
+                addIngredientDialog = prevDialog
+                addIngredientDialog?.setTargetFragment(this, ADD_DIALOG_ID)
+            }
+        }
+    }
+
+    override fun onInformationPassed(ingredient: Ingredient) {
+        addIngredientDialog?.dismiss()
+        presenter?.addIngredient(ingredient)
+    }
+
+    override fun showAddIngredientDialog() {
+        addIngredientDialog = AddIngredientDialog()
+        addIngredientDialog?.setTargetFragment(this, ADD_DIALOG_ID)
+        addIngredientDialog?.show(fragmentManager, ADD_DIALOG)
+    }
+
+    companion object {
+        private const val ADD_DIALOG = "info_dialog"
+        private const val ADD_DIALOG_ID = 200
     }
 
 }

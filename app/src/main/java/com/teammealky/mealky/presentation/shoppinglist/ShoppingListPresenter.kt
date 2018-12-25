@@ -1,5 +1,6 @@
 package com.teammealky.mealky.presentation.shoppinglist
 
+import com.teammealky.mealky.domain.model.Ingredient
 import com.teammealky.mealky.domain.usecase.shoppinglist.AddToShoppingListUseCase
 import com.teammealky.mealky.domain.usecase.shoppinglist.ClearShoppingListUseCase
 import com.teammealky.mealky.domain.usecase.shoppinglist.RemoveFromShoppingListUseCase
@@ -139,6 +140,14 @@ class ShoppingListPresenter @Inject constructor(
         )
     }
 
+    fun addIngredient(ingredient: Ingredient) {
+
+    }
+
+    fun onPlusBtnClicked() {
+        ui().perform { it.showAddIngredientDialog() }
+    }
+
     interface UI : BaseUI {
         fun setupRecyclerView(ingredients: List<ShoppingListItemViewModel>)
         fun showSnackbar()
@@ -147,5 +156,7 @@ class ShoppingListPresenter @Inject constructor(
         fun clearList()
         fun enableClearListBtn(isEnabled: Boolean)
         fun showEmptyView(isEnabled: Boolean)
+        fun showAddIngredientDialog()
+        fun onInformationPassed(ingredient: Ingredient)
     }
 }
