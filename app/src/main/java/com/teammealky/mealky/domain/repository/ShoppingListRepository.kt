@@ -8,6 +8,6 @@ import io.reactivex.Single
 interface ShoppingListRepository {
     fun list(): Single<List<Ingredient>>
     fun add(ingredients: List<Ingredient>): Completable
-    fun remove(id: Int): Completable
+    fun remove(ingredient: Ingredient): Completable
     fun clear(): Completable
 }

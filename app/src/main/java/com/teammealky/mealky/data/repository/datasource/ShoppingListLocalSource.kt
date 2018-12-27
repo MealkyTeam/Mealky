@@ -29,7 +29,7 @@ class ShoppingListLocalSource @Inject constructor(
 
         //updated items
         val updatedItems = oldItems.map { ingredient ->
-            var updatedItem = ingredients.firstOrNull { it.name == ingredient.name && it.unit == ingredient.unit }
+            var updatedItem = ingredients.firstOrNull { Ingredient.isSameIngredientWithDifferentQuantity(it, ingredient) }
             return@map if (updatedItem == null)
                 ingredient
             else {
@@ -42,15 +42,17 @@ class ShoppingListLocalSource @Inject constructor(
 
         //new items
         items.addAll(ingredients.filter { ingredient ->
-            oldItems.none { it.name == ingredient.name && it.unit == ingredient.unit }
+            oldItems.none { Ingredient.isSameIngredientWithDifferentQuantity(ingredient, it) }
         })
         setItems(items)
     }
 
-    override fun remove(id: Int): Completable = Completable.fromCallable {
+    override fun remove(ingredient: Ingredient): Completable = Completable.fromCallable {
         val items = ArrayList(getItems())
-        val item = items.firstOrNull { it.id == id }
-        item?.let { items.remove(it) }
+        val item = items.firstOrNull { Ingredient.isSameIngredientWithDifferentQuantity(ingredient, it) }
+        item?.let {
+            items.remove(it)
+        }
         setItems(items)
     }
 

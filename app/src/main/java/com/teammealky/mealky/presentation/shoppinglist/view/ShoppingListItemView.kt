@@ -68,7 +68,8 @@ class ShoppingListItemView @JvmOverloads constructor(
     }
 
     override fun afterTextChanged(editable: Editable?) {
-        listener.fieldChanged(model!!, editable.toString())
+        val text = if (editable.isNullOrBlank()) "0" else editable.toString()
+        listener.fieldChanged(model!!, text)
     }
 
     override fun beforeTextChanged(text: CharSequence?, p1: Int, p2: Int, p3: Int) {

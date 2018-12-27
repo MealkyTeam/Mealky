@@ -49,4 +49,9 @@
     <string name="ingredient">Ingredient</string>
     <string name="quantity">Quantity</string>
     <string name="unit">Unit</string>
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="you_will_lose">You will lose the entire shopping list!</string>
+    <string name="confirm">Confirm</string>
+    <string name="go_back">Go back</string>
+
 </resources>

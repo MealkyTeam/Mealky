@@ -28,7 +28,6 @@ object MealMapper {
 
     private fun writeIngredients(ingredients: List<Ingredient>): Bundle {
         val bundle = Bundle()
-        bundle.putIntArray(INGREDIENT_ID, ingredients.map { it.id }.toIntArray())
         bundle.putStringArray(INGREDIENT_NAME, ingredients.map { it.name }.toTypedArray())
         bundle.putAll(writeUnits(ingredients.map { it.unit }))
         bundle.putDoubleArray(INGREDIENT_QUANTITY, ingredients.map { it.quantity }.toDoubleArray())
@@ -38,7 +37,6 @@ object MealMapper {
 
     private fun writeUnits(units: List<Unit>): Bundle {
         val bundle = Bundle()
-        bundle.putIntArray(UNIT_ID, units.map { it.id }.toIntArray())
         bundle.putStringArray(UNIT_NAME, units.map { it.name }.toTypedArray())
 
         return bundle
@@ -65,16 +63,14 @@ object MealMapper {
 
     private fun readIngredients(bundle: Bundle?): List<Ingredient> {
         bundle?.let {
-            val ids = it.getIntArray(INGREDIENT_ID) ?: intArrayOf()
             val names = it.getStringArray(INGREDIENT_NAME) ?: emptyArray()
             val units = readUnits(bundle)
             val quantities = it.getDoubleArray(INGREDIENT_QUANTITY) ?: doubleArrayOf()
 
             val ingredients = mutableListOf<Ingredient>()
-            for (i in ids.indices)
+            for (i in names.indices)
                 ingredients.add(
                         Ingredient(
-                                ids[i],
                                 names[i],
                                 units[i],
                                 quantities[i]
@@ -89,12 +85,11 @@ object MealMapper {
 
     private fun readUnits(bundle: Bundle?): List<Unit> {
         bundle?.let {
-            val ids = it.getIntArray(UNIT_ID) ?: intArrayOf()
             val names = it.getStringArray(UNIT_NAME) ?: emptyArray()
 
             val units = mutableListOf<Unit>()
-            for (i in ids.indices)
-                units.add(Unit(ids[i], names[i]))
+            for (i in names.indices)
+                units.add(Unit(names[i]))
 
             return units
         }
@@ -123,7 +118,7 @@ object MealMapper {
             val username = bundle.getString(AUTHOR_USERNAME, "")
             val token = bundle.getString(AUTHOR_TOKEN, "")
 
-            return User(id, email, password, username,token)
+            return User(id, email, password, username, token)
         }
 
         return User.defaultUser()
@@ -145,16 +140,12 @@ object MealMapper {
         return Meal(id, name, prepTime, preparation, images, confirmed, author, categories, ingredients)
     }
 
-    fun areTheSame(a: Fragment, b: Fragment): Boolean = a.arguments?.getString(ID) == b.arguments?.getString(ID)
-
     private const val ID = "id"
     private const val NAME = "name"
     private const val PREP_TIME = "prepTime"
     private const val PREPARATION = "preparation"
 
-    private const val INGREDIENT_ID = "ingredient_id"
     private const val INGREDIENT_NAME = "ingredient_name"
-    private const val UNIT_ID = "unit_id"
     private const val UNIT_NAME = "unit_name"
     private const val INGREDIENT_QUANTITY = "ingredient_quantity"
 

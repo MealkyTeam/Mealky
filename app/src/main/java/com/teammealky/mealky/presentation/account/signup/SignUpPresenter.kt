@@ -60,6 +60,8 @@ class SignUpPresenter @Inject constructor(
                                 ui().perform { it.showErrorMessage({ signUpButtonClicked() }, e) }
                             }
                         }
+                    } else {
+                        ui().perform { it.showErrorMessage({ signUpButtonClicked() }, e) }
                     }
                 })
         )

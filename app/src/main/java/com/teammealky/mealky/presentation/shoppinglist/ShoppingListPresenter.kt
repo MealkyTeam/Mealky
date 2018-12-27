@@ -18,6 +18,7 @@ class ShoppingListPresenter @Inject constructor(
 ) : BasePresenter<ShoppingListPresenter.UI>() {
 
     private var models = emptyList<ShoppingListItemViewModel>()
+
     fun setupPresenter() {
         disposable.add(shoppingListUseCase.execute(
                 { ingredients ->
@@ -45,7 +46,7 @@ class ShoppingListPresenter @Inject constructor(
     }
 
     private fun removeFromShoppingList(model: ShoppingListItemViewModel) {
-        disposable.add(removeFromShoppingListUseCase.execute(model.item.id,
+        disposable.add(removeFromShoppingListUseCase.execute(model.item,
                 {
                     val removedModel = models.first { item -> item.position == model.position }
 
@@ -64,9 +65,14 @@ class ShoppingListPresenter @Inject constructor(
     }
 
     private fun addToShoppingList(model: ShoppingListItemViewModel) {
-        disposable.add(addToShoppingListUseCase.execute(listOf(model.item),
+        val updatedModel = setQuantityIfZero(model)
+        disposable.add(addToShoppingListUseCase.execute(listOf(updatedModel.item),
                 {
-                    models.firstOrNull { item -> item.position == model.position }?.isGreyedOut = false
+                    val currentModel = models.firstOrNull { item -> item.position == model.position }
+                    currentModel?.let {
+                        model.isGreyedOut = false
+                        model.item = model.item.copy(quantity = updatedModel.item.quantity)
+                    }
 
                     val removed = models.filter { item -> (item.isGreyedOut) }
                     models -= removed
@@ -82,42 +88,43 @@ class ShoppingListPresenter @Inject constructor(
         )
     }
 
+    private fun setQuantityIfZero(model: ShoppingListItemViewModel): ShoppingListItemViewModel {
+        if (model.item.quantity != 0.0) return model
+
+        val updatedIngredient = model.item.copy(quantity = 1.0)
+        return model.copy(item = updatedIngredient)
+    }
+
     fun onClearListBtnClicked() {
-        ui().perform {
-            it.clearList()
-            it.showSnackbar()
-            it.enableClearListBtn(false)
-            it.showEmptyView(true)
-        }
+        ui().perform { it.showDialog() }
     }
 
-    fun onSnackbarActionClicked() {
-        ui().perform {
-            it.fillList(models)
-            it.showEmptyView(false)
-            it.enableClearListBtn(true)
-        }
-    }
-
-    fun snackbarDismissed() {
+    fun clearConfirmed() {
+        models = emptyList()
         disposable.add(clearShoppingListUseCase.execute(
                 { succeeded ->
-                    models = emptyList()
                     ui().perform { ui ->
                         ui.showToast(succeeded)
+                        ui.clearList()
+                        ui.enableClearListBtn(false)
+                        ui.showEmptyView(true)
+                        ui.fillList(models)
                     }
                 },
                 { e ->
-                    ui().perform { it.showErrorMessage({ snackbarDismissed() }, e) }
+                    ui().perform { it.showErrorMessage({ clearConfirmed() }, e) }
                 })
         )
     }
 
     fun fieldChanged(model: ShoppingListItemViewModel, text: String) {
+        if (model.isGreyedOut) return
+
         var updatedModel = model
         var previousQuantity = 0.0
+
         val mutableList = models.map {
-            if (model.item.id == it.item.id) {
+            if (Ingredient.isSameIngredientWithDifferentQuantity(model.item, it.item)) {
                 val updatedIngredient = model.item.copy(quantity = text.toDouble())
                 updatedModel = model.copy(item = updatedIngredient)
                 previousQuantity = it.item.quantity
@@ -125,9 +132,15 @@ class ShoppingListPresenter @Inject constructor(
             } else
                 return@map it
         }
+
+        if (text.toDouble() == 0.0)
+            removeFromShoppingList(updatedModel)
+        else
+            updateModel(updatedModel, previousQuantity)
+
+
         models = mutableList
 
-        updateModel(updatedModel, previousQuantity)
     }
 
     private fun updateModel(updatedModel: ShoppingListItemViewModel, previousQuantity: Double) {
@@ -161,7 +174,7 @@ class ShoppingListPresenter @Inject constructor(
 
     interface UI : BaseUI {
         fun setupRecyclerView(ingredients: List<ShoppingListItemViewModel>)
-        fun showSnackbar()
+        fun showDialog()
         fun showToast(succeeded: Boolean)
         fun fillList(ingredients: List<ShoppingListItemViewModel>)
         fun clearList()

@@ -16,7 +16,7 @@ class ShoppingListDataRepository @Inject constructor(
 
     override fun add(ingredients: List<Ingredient>): Completable = local.add(ingredients)
 
-    override fun remove(id: Int): Completable = local.remove(id)
+    override fun remove(ingredient: Ingredient): Completable = local.remove(ingredient)
 
     override fun clear(): Completable = local.clear()
 }
