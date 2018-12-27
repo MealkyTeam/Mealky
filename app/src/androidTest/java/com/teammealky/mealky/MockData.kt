@@ -10,14 +10,14 @@ class MockData{
 
     companion object {
          val UNITS = listOf(
-                Unit(1,"unit1"),
-                Unit(2,"unit2"),
-                Unit(3,"unit3")
+                Unit("unit1"),
+                Unit("unit2"),
+                Unit("unit3")
         )
          val INGREDIENTS = listOf(
-                 Ingredient(1,"ingr1",UNITS[0], 1.toDouble()),
-                 Ingredient(2,"ingr2",UNITS[1], 2.toDouble()),
-                 Ingredient(3,"ingr3",UNITS[2], 3.toDouble())
+                 Ingredient("ingr1",UNITS[0], 1.toDouble()),
+                 Ingredient("ingr2",UNITS[1], 2.toDouble()),
+                 Ingredient("ingr3",UNITS[2], 3.toDouble())
                 )
         val CATEGORIES = listOf(
                 Category(1,"category1"),

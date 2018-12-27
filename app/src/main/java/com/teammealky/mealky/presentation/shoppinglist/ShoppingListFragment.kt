@@ -1,5 +1,6 @@
 package com.teammealky.mealky.presentation.shoppinglist
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +14,6 @@ import com.teammealky.mealky.presentation.commons.presenter.BaseFragment
 import kotlinx.android.synthetic.main.shopping_list_fragment.*
 import kotlinx.android.synthetic.main.shopping_toolbar.*
 import kotlinx.android.synthetic.main.shopping_toolbar.view.*
-import com.google.android.material.snackbar.Snackbar
 import com.teammealky.mealky.domain.model.Ingredient
 import com.teammealky.mealky.presentation.commons.extension.isVisible
 import com.teammealky.mealky.presentation.shoppinglist.adapter.ShoppingListAdapter
@@ -65,24 +65,21 @@ class ShoppingListFragment : BaseFragment<ShoppingListPresenter, ShoppingListPre
         presenter?.onItemClicked(model, isChecked)
     }
 
-    override fun showSnackbar() {
-        Snackbar.make(shopListFrameLayout, getString(R.string.shopping_list_snackbar_text), Snackbar.LENGTH_LONG)
-                .setAction(getString(R.string.click).toUpperCase(), this)
-                .addCallback(object : Snackbar.Callback() {
-                    override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
-                        if (event != Snackbar.Callback.DISMISS_EVENT_ACTION)
-                            presenter?.snackbarDismissed()
-
-                        super.onDismissed(transientBottomBar, event)
-                    }
-                })
+    override fun showDialog() {
+        AlertDialog.Builder(context, android.R.style.Theme_Material_Dialog_Alert)
+                .setTitle(R.string.are_you_sure)
+                .setMessage(R.string.you_will_lose)
+                .setPositiveButton(R.string.confirm) { _, _ ->
+                    presenter?.clearConfirmed()
+                }
+                .setNeutralButton(R.string.go_back) { _, _ -> }
+                .setCancelable(false)
                 .show()
     }
 
     override fun onClick(view: View?) {
         when (view?.id) {
             R.id.clearListBtn -> presenter?.onClearListBtnClicked()
-            R.id.snackbar_action -> presenter?.onSnackbarActionClicked()
             R.id.plusBtn -> presenter?.onPlusBtnClicked()
         }
     }

@@ -2,7 +2,6 @@ package com.teammealky.mealky.domain.model
 
 
 data class Ingredient(
-        val id: Int,
         val name: String,
         val unit: Unit,
         val quantity: Double
@@ -10,7 +9,11 @@ data class Ingredient(
 
     companion object {
         fun defaultIngredient(): Ingredient {
-            return Ingredient(-1, "", Unit(-1, ""), 0.0)
+            return Ingredient("", Unit(""), 0.0)
+        }
+
+        fun isSameIngredientWithDifferentQuantity(first: Ingredient, second: Ingredient): Boolean {
+            return first.unit == second.unit && first.name == second.name
         }
     }
 }
