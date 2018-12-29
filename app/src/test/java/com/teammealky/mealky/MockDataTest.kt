@@ -3,26 +3,28 @@ package com.teammealky.mealky
 import com.teammealky.mealky.domain.model.Category
 import com.teammealky.mealky.domain.model.Ingredient
 import com.teammealky.mealky.domain.model.Meal
+import com.teammealky.mealky.domain.model.Page
 import com.teammealky.mealky.domain.model.Unit
 import com.teammealky.mealky.domain.model.User
 
-class MockData{
+class MockDataTest {
+
 
     companion object {
-         val UNITS = listOf(
+        val UNITS = listOf(
                 Unit("unit1"),
                 Unit("unit2"),
                 Unit("unit3")
         )
-         val INGREDIENTS = listOf(
-                 Ingredient("ingr1",UNITS[0], 1.toDouble()),
-                 Ingredient("ingr2",UNITS[1], 2.toDouble()),
-                 Ingredient("ingr3",UNITS[2], 3.toDouble())
-                )
+        val INGREDIENTS = listOf(
+                Ingredient("ingr1", UNITS[0], 1.toDouble()),
+                Ingredient("ingr2", UNITS[1], 2.toDouble()),
+                Ingredient("ingr3", UNITS[2], 3.toDouble())
+        )
         val CATEGORIES = listOf(
-                Category(1,"category1"),
-                Category(2,"category2"),
-                Category(3,"category3")
+                Category(1, "category1"),
+                Category(2, "category2"),
+                Category(3, "category3")
         )
 
         val IMAGES = listOf(
@@ -32,9 +34,9 @@ class MockData{
         )
 
         val USERS = listOf(
-                User(1,"email1","password1","username1","token1"),
-                User(2,null,null,"username2","token2"),
-                User(3,"email3",null,"username3","token3")
+                User(1, "email1", "password1", "username1", "token1"),
+                User(2, null, null, "username2", "token2"),
+                User(3, "email3", null, "username3", "token3")
         )
 
         val MEALS = listOf(
@@ -44,6 +46,16 @@ class MockData{
                         true, USERS[1], listOf(CATEGORIES[1], CATEGORIES[2]), listOf(INGREDIENTS[1], INGREDIENTS[2])),
                 Meal(3, "meal3", 3, "prep3", listOf(IMAGES[0], IMAGES[1]),
                         true, USERS[2], listOf(CATEGORIES[0], CATEGORIES[1]), listOf(INGREDIENTS[0], INGREDIENTS[1]))
+        )
+
+        val PAGE = Page(
+                MEALS,
+                1,
+                MEALS.size,
+                true,
+                true,
+                true,
+                MEALS.size
         )
     }
 
