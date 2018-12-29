@@ -8,6 +8,7 @@ import com.teammealky.mealky.domain.usecase.shoppinglist.ShoppingListUseCase
 import com.teammealky.mealky.presentation.commons.presenter.BasePresenter
 import com.teammealky.mealky.presentation.commons.presenter.BaseUI
 import com.teammealky.mealky.presentation.shoppinglist.model.ShoppingListItemViewModel
+import timber.log.Timber
 import javax.inject.Inject
 
 class ShoppingListPresenter @Inject constructor(
@@ -19,11 +20,12 @@ class ShoppingListPresenter @Inject constructor(
 
     private var models = emptyList<ShoppingListItemViewModel>()
 
-    fun setupPresenter() {
+    override fun attach(ui: UI) {
+        super.attach(ui)
+
         disposable.add(shoppingListUseCase.execute(
                 { ingredients ->
-                    var position = 1
-                    this.models = ingredients.map { item -> ShoppingListItemViewModel(item, false, position++) }
+                    this.models = ingredients.map { item -> ShoppingListItemViewModel(item, false) }
                     ui().perform {
                         it.setupRecyclerView(models)
 
@@ -33,13 +35,13 @@ class ShoppingListPresenter @Inject constructor(
                     }
                 },
                 { e ->
-                    ui().perform { it.showErrorMessage({ setupPresenter() }, e) }
+                    Timber.d("KUBA_LOG Method:attach ***** $e *****")
                 })
         )
     }
 
-    fun onItemClicked(item: ShoppingListItemViewModel, checked: Boolean) {
-        if (checked)
+    fun onItemClicked(item: ShoppingListItemViewModel) {
+        if (!item.isGreyedOut)
             removeFromShoppingList(item)
         else
             addToShoppingList(item)
@@ -48,7 +50,7 @@ class ShoppingListPresenter @Inject constructor(
     private fun removeFromShoppingList(model: ShoppingListItemViewModel) {
         disposable.add(removeFromShoppingListUseCase.execute(model.item,
                 {
-                    val removedModel = models.first { item -> item.position == model.position }
+                    val removedModel = models.first { item -> item == model }
 
                     models -= listOf(removedModel)
                     removedModel.isGreyedOut = true
@@ -68,10 +70,10 @@ class ShoppingListPresenter @Inject constructor(
         val updatedModel = setQuantityIfZero(model)
         disposable.add(addToShoppingListUseCase.execute(listOf(updatedModel.item),
                 {
-                    val currentModel = models.firstOrNull { item -> item.position == model.position }
-                    currentModel?.let {
-                        model.isGreyedOut = false
-                        model.item = model.item.copy(quantity = updatedModel.item.quantity)
+                    val currentModel = models.firstOrNull { item -> item == model }
+                    currentModel?.let { viewModel ->
+                        viewModel.isGreyedOut = false
+                        viewModel.item = model.item.copy(quantity = updatedModel.item.quantity)
                     }
 
                     val removed = models.filter { item -> (item.isGreyedOut) }
@@ -154,18 +156,13 @@ class ShoppingListPresenter @Inject constructor(
     }
 
     fun addIngredient(ingredient: Ingredient) {
-        val position = getNextPosition()
-        val model = ShoppingListItemViewModel(ingredient, false, position)
+        val model = ShoppingListItemViewModel(ingredient, false)
         models += model
         ui().perform {
             it.showEmptyView(false)
             it.enableClearListBtn(true)
         }
         addToShoppingList(model)
-    }
-
-    private fun getNextPosition(): Int {
-        return (models.maxBy { it.position }?.position ?: 0) + 1
     }
 
     fun onPlusBtnClicked() {

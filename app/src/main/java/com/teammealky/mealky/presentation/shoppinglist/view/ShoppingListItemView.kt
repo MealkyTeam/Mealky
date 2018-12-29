@@ -62,7 +62,7 @@ class ShoppingListItemView @JvmOverloads constructor(
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.checkbox -> listener.onItemClick(model!!, checkbox.isChecked)
+            R.id.checkbox -> listener.onItemClick(model!!)
             else -> checkbox.performClick()
         }
     }

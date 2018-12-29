@@ -6,6 +6,7 @@ import com.teammealky.mealky.domain.model.Meal
 import com.teammealky.mealky.domain.model.Page
 import com.teammealky.mealky.domain.model.Unit
 import com.teammealky.mealky.domain.model.User
+import com.teammealky.mealky.presentation.shoppinglist.model.ShoppingListItemViewModel
 
 class MockDataTest {
 
@@ -57,6 +58,9 @@ class MockDataTest {
                 true,
                 MEALS.size
         )
+
+        val SHOPPING_LIST_ITEM_VIEW_MODEL =
+                INGREDIENTS.map { item -> ShoppingListItemViewModel(item, false) }
     }
 
 }
