@@ -1,7 +1,6 @@
 package com.teammealky.mealky.presenters
 
 import com.teammealky.mealky.MockDataTest
-import com.teammealky.mealky.R.string.meals
 import com.teammealky.mealky.data.repository.MealsDataRepository
 import com.teammealky.mealky.domain.usecase.meals.ListMealsUseCase
 import com.teammealky.mealky.presentation.meals.MealListPresenter
@@ -12,10 +11,10 @@ import io.mockk.*
 
 class MealListPresenterTest {
 
-    private var mockRepository = mockk<MealsDataRepository>()
-    private var mockUseCase = spyk(ListMealsUseCase(mockRepository))
+    private val mockRepository = mockk<MealsDataRepository>()
+    private val mockUseCase = spyk(ListMealsUseCase(mockRepository))
 
-    private var view = mockk<MealListPresenter.UI>()
+    private val view = mockk<MealListPresenter.UI>()
 
     private lateinit var presenter: MealListPresenter
 
@@ -29,7 +28,7 @@ class MealListPresenterTest {
     }
 
     /**
-     * Scenario: Filling list with new data
+     * Scenario Filling list with new data
      * Given new created presenter
      * When I attach presenter
      * Then it will fetch data and fill list with it.
@@ -38,7 +37,6 @@ class MealListPresenterTest {
     fun `Attach presenter if empty`() {
         //When
         presenter.attach(view)
-
 
         //Then
         verifySequence {
@@ -50,7 +48,7 @@ class MealListPresenterTest {
     }
 
     /**
-     * Scenario: Filling list with already fetched data
+     * Scenario Filling list with already fetched data
      * Given not empty presenter
      * When I attach presenter
      * Then it fill list with already fetched data and scroll to saved item.
@@ -77,4 +75,6 @@ class MealListPresenterTest {
             view.isLoading(false)
         }
     }
+
+    //todo test for errors
 }

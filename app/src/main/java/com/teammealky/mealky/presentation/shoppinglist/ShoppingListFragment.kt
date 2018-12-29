@@ -46,8 +46,6 @@ class ShoppingListFragment : BaseFragment<ShoppingListPresenter, ShoppingListPre
     }
 
     private fun setupView() {
-        presenter?.setupPresenter()
-
         shoppingListToolbar.clearListBtn.setOnClickListener(this)
         shoppingListToolbar.plusBtn.setOnClickListener(this)
     }
@@ -61,8 +59,8 @@ class ShoppingListFragment : BaseFragment<ShoppingListPresenter, ShoppingListPre
         shopListRv.layoutManager = layoutManager
     }
 
-    override fun onItemClick(model: ShoppingListItemViewModel, isChecked: Boolean) {
-        presenter?.onItemClicked(model, isChecked)
+    override fun onItemClick(model: ShoppingListItemViewModel) {
+        presenter?.onItemClicked(model)
     }
 
     override fun showDialog() {
