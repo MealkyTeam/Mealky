@@ -1,6 +1,5 @@
 package com.teammealky.mealky.data.net
 
-import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.teammealky.mealky.BuildConfig
@@ -13,17 +12,15 @@ import java.io.File
 import java.util.concurrent.TimeUnit
 
 object RestClient {
-    private const val TIMEOUT_SEC = 30L
     private const val CACHE_SIZE = 2 * 1024 * 1024L
 
-
-    private fun getHttpClientBuilder(context: Context): OkHttpClient.Builder {
+    private fun getHttpClientBuilder(timeoutSec: Long): OkHttpClient.Builder {
 
         val okBuilder = OkHttpClient.Builder()
 
-        okBuilder.connectTimeout(TIMEOUT_SEC, TimeUnit.SECONDS)
-        okBuilder.readTimeout(TIMEOUT_SEC, TimeUnit.SECONDS)
-        okBuilder.writeTimeout(TIMEOUT_SEC, TimeUnit.SECONDS)
+        okBuilder.connectTimeout(timeoutSec, TimeUnit.SECONDS)
+        okBuilder.readTimeout(timeoutSec, TimeUnit.SECONDS)
+        okBuilder.writeTimeout(timeoutSec, TimeUnit.SECONDS)
 
         okBuilder.addInterceptor { chain ->
             val authToken = Credentials.basic(BuildConfig.CENTRAL_LOGIN, BuildConfig.CENTRAL_PASSWORD)
@@ -46,11 +43,11 @@ object RestClient {
             baseURL: String,
             serviceClass: Class<S>,
             cacheDirectory: File? = null,
-            context: Context
+            timeoutSec: Long
     ): S {
         val cache = if (null != cacheDirectory) Cache(cacheDirectory, CACHE_SIZE) else null
         val builder = Retrofit.Builder()
-                .client(getHttpClientBuilder(context).cache(cache).build())
+                .client(getHttpClientBuilder(timeoutSec).cache(cache).build())
                 .baseUrl(baseURL)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxErrorAdapterFactory())
