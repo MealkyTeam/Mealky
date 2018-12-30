@@ -13,7 +13,7 @@ android {
 
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.kuba.mealky"
+        applicationId "com.teammealky.mealky"
         minSdkVersion 23
         targetSdkVersion 28
         versionCode 1
@@ -66,12 +66,12 @@ dependencies {
     kapt 'com.google.dagger:dagger-compiler:2.13'
     compileOnly 'javax.annotation:jsr250-api:1.0'
 
-    testImplementation 'org.mockito:mockito-core:2.18.3'
     testImplementation 'androidx.test:runner:1.1.1'
     testImplementation 'org.robolectric:robolectric:3.3.2'
     testImplementation 'junit:junit:4.12'
+    implementation "io.mockk:mockk-common:1.8.13.kotlin13"
+    testImplementation "io.mockk:mockk:1.8.13.kotlin13"
 
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
-    androidTestImplementation 'org.mockito:mockito-android:2.7.22'
 }

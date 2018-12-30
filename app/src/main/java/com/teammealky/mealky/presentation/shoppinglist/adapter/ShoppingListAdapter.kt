@@ -11,7 +11,7 @@ class ShoppingListAdapter(var models: List<ShoppingListItemViewModel> = emptyLis
         RecyclerView.Adapter<ShoppingListAdapter.ViewHolder>() {
 
     interface ShoppingListItemListener {
-        fun onItemClick(model: ShoppingListItemViewModel, isChecked: Boolean)
+        fun onItemClick(model: ShoppingListItemViewModel)
         fun fieldChanged(model: ShoppingListItemViewModel, text: String)
     }
 
