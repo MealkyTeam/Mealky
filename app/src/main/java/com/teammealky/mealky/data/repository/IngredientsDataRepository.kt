@@ -11,6 +11,5 @@ import javax.inject.Singleton
 @Singleton
 class IngredientsDataRepository @Inject constructor(private val api: RestService) : IngredientsRepository {
     override fun listIngredients(query: String, limit: Int): Single<Page<Ingredient>>
-            = api.client().searchIngredients(query, limit)
-
+            = api.clientShortTimeout().searchIngredients(query, limit)
 }

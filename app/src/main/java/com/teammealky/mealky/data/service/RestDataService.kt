@@ -20,11 +20,22 @@ class RestDataService @Inject constructor(@ApplicationContext private val contex
         return client!!
     }
 
-    private fun build(): MealkyService {
+    override fun clientShortTimeout(): MealkyService {
+        if (null == client) {
+            client = build(TIMEOUT_SHORT_SEC)
+        }
+        return client!!
+    }
+
+    private fun build(timeoutSec: Long = 30L): MealkyService {
         return RestClient.createService(
-                        BuildConfig.CENTRAL_URL,
+                BuildConfig.CENTRAL_URL,
                 MealkyService::class.java,
                 context.cacheDir.absoluteFile,
-                context)
+                timeoutSec)
+    }
+
+    companion object {
+        private const val TIMEOUT_SHORT_SEC = 5L
     }
 }
