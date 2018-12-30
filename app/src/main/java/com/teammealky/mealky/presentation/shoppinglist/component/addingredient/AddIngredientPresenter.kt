@@ -6,6 +6,7 @@ import com.teammealky.mealky.domain.usecase.data.SearchIngredientsUseCase
 import com.teammealky.mealky.domain.usecase.data.SearchUnitsUseCase
 import com.teammealky.mealky.presentation.commons.presenter.BasePresenter
 import com.teammealky.mealky.presentation.commons.presenter.BaseUI
+import timber.log.Timber
 import javax.inject.Inject
 
 class AddIngredientPresenter @Inject constructor(
@@ -14,9 +15,54 @@ class AddIngredientPresenter @Inject constructor(
 ) : BasePresenter<AddIngredientPresenter.UI>() {
 
     var model: Ingredient = Ingredient.defaultIngredient()
+    var ingredientsInList = emptyList<Ingredient>()
+
+    override fun attach(ui: UI) {
+        super.attach(ui)
+
+        fetchAll()
+    }
+
+    private fun fetchAll() {
+        ui().perform { it.isLoading(true) }
+        disposable.add(searchIngredientsUseCase.execute(SearchIngredientsUseCase.Params("", LIMIT),
+                { page ->
+                    searchUnits(page.items)
+                },
+                { e ->
+                    Timber.d("KUBA_LOG Method:fetchAll ***** $e *****")
+                    searchUnits(emptyList())
+                }
+        ))
+    }
+
+    private fun initialSetup(ingredients: List<Ingredient>, units: List<Unit>) {
+        ui().perform {
+            it.setupAutocompleteAdapters(ingredients, units)
+            it.isLoading(false)
+        }
+    }
+
+    private fun searchUnits(ingredients: List<Ingredient>) {
+        disposable.add(searchUnitsUseCase.execute(SearchUnitsUseCase.Params("", LIMIT),
+                { page ->
+                    initialSetup(ingredients, page.items)
+                },
+                { e ->
+                    Timber.d("KUBA_LOG Method:searchUnits ***** $e *****")
+                    ui().perform {
+                        it.setupAutocompleteAdapters(ingredients, emptyList())
+                        it.isLoading(false)
+                    }
+                }
+        ))
+    }
 
     fun addIngredientBtnClicked() {
-        ui().perform { it.addIngredient(model) }
+        if (ingredientsInList.none { Ingredient.isSameIngredientWithDifferentQuantity(it, model) })
+            ui().perform { it.addIngredient(model) }
+        else
+            ui().perform { it.showError(true) }
     }
 
     fun fieldsChanged() {
@@ -26,32 +72,12 @@ class AddIngredientPresenter @Inject constructor(
             ui().perform { it.toggleAddButton(true) }
     }
 
-    fun setupFinished() {
-        disposable.add(searchIngredientsUseCase.execute(SearchIngredientsUseCase.Params("", LIMIT),
-                { ingredients ->
-                    searchUnits(ingredients)
-                },
-                { e ->
-                    ui().perform { it.showErrorMessage({ setupFinished() }, e) }
-                }
-        ))
-    }
-
-    private fun searchUnits(ingredients: List<Ingredient>) {
-        disposable.add(searchUnitsUseCase.execute(SearchUnitsUseCase.Params("", LIMIT),
-                { units ->
-                    ui().perform { it.setupAutocompleteAdapters(ingredients, units) }
-                },
-                { e ->
-                    ui().perform { it.showErrorMessage({ searchUnits(ingredients) }, e) }
-                }
-        ))
-    }
-
     interface UI : BaseUI {
         fun toggleAddButton(isToggled: Boolean)
         fun addIngredient(ingredient: Ingredient)
         fun setupAutocompleteAdapters(ingredients: List<Ingredient>, units: List<Unit>)
+        fun isLoading(isLoading: Boolean)
+        fun showError(shouldShow: Boolean)
     }
 
     companion object {

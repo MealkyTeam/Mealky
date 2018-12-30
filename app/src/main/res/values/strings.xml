@@ -53,5 +53,6 @@
     <string name="you_will_lose">You will lose the entire shopping list!</string>
     <string name="confirm">Confirm</string>
     <string name="go_back">Go back</string>
+    <string name="you_already_have_ingredient">You already have such an ingredient on the list </string>
 
 </resources>

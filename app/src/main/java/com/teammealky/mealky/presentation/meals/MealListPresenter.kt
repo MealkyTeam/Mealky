@@ -56,8 +56,8 @@ class MealListPresenter @Inject constructor(
                 ListMealsUseCase.Params(WITHOUT_CATEGORY, pageNumber, LIMIT),
                 { page ->
                     ui().perform {
-                        meals += page.meals
-                        it.fillList(page.meals)
+                        meals += page.items
+                        it.fillList(page.items)
                         it.isLoading(false)
                     }
                     if (pageNumber >= maxPages - 1)

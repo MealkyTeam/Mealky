@@ -26,7 +26,7 @@ object MealMapper {
         return bundle
     }
 
-    private fun writeIngredients(ingredients: List<Ingredient>): Bundle {
+    fun writeIngredients(ingredients: List<Ingredient>): Bundle {
         val bundle = Bundle()
         bundle.putStringArray(INGREDIENT_NAME, ingredients.map { it.name }.toTypedArray())
         bundle.putAll(writeUnits(ingredients.map { it.unit }))
@@ -61,7 +61,7 @@ object MealMapper {
         return bundle
     }
 
-    private fun readIngredients(bundle: Bundle?): List<Ingredient> {
+    fun readIngredients(bundle: Bundle?): List<Ingredient> {
         bundle?.let {
             val names = it.getStringArray(INGREDIENT_NAME) ?: emptyArray()
             val units = readUnits(bundle)

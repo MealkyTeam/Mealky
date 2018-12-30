@@ -1,6 +1,5 @@
 package com.teammealky.mealky.domain.model
 
-
 data class TokenSignInRequest(val token: String)
 
 data class PasswordSignInRequest(val email: String,
