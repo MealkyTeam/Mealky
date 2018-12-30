@@ -10,5 +10,4 @@ open class SaveUserUseCase @Inject constructor(
 ) : SingleUseCase<User, Boolean>() {
 
     override fun doWork(param: User) = repo.setUser(param)
-
 }

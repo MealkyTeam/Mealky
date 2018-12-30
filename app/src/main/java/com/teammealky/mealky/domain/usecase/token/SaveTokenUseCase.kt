@@ -10,5 +10,4 @@ open class SaveTokenUseCase @Inject constructor(
 ) : SingleUseCase<Token, Boolean>() {
 
     override fun doWork(param: Token) = repo.setToken(param)
-
 }
