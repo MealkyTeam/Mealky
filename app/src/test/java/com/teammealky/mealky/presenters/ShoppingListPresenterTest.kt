@@ -56,7 +56,7 @@ class ShoppingListPresenterTest {
     }
 
     /**
-     * Scenario Showing empty view
+     * Scenario: Showing empty view
      * Given new created presenter
      * When I attach presenter
      * Then it will show empty view and disabled clear list button.
@@ -78,7 +78,7 @@ class ShoppingListPresenterTest {
     }
 
     /**
-     * Scenario Filling adapter with data
+     * Scenario: Filling adapter with data
      * Given new created presenter
      * When I attach presenter
      * Then it will show list of ingredients and enabled clear list button.
@@ -97,7 +97,7 @@ class ShoppingListPresenterTest {
     }
 
     /**
-     * Scenario User clicks on clear list button and confirms
+     * Scenario: User clicks on clear list button and confirms
      * Given Filled shopping list
      * When User click on clear list and confirm
      * Then Shopping list ls cleared and clear list button is disabled
@@ -129,7 +129,7 @@ class ShoppingListPresenterTest {
     }
 
     /**
-     * Scenario User clicks on item
+     * Scenario: User clicks on item twice
      * Given List with items
      * When User clicks on added item
      * Then Remove item
@@ -137,7 +137,7 @@ class ShoppingListPresenterTest {
      * Then Add item again
      */
     @Test
-    fun `On added item clicked`() {
+    fun `On item clicked twice`() {
         //Given
         val updatedList = MockDataTest.SHOPPING_LIST_ITEM_VIEW_MODEL.mapIndexed { index, item ->
             return@mapIndexed if (index == 0)
@@ -178,9 +178,101 @@ class ShoppingListPresenterTest {
         }
     }
 
-    //Todo test for errors
-    //    @Test
-    fun fieldChangedTest() {
-        assert(false)
+    /**
+     * Scenario: User changes quantity of item to 0
+     * Given List with items
+     * When User changes quantity of item to 0
+     * Then Remove item
+     */
+    @Test
+    fun `Item quantity changed to 0`() {
+        //Given
+        presenter.attach(view)
+        verifySequence {
+            view.setupRecyclerView(MockDataTest.SHOPPING_LIST_ITEM_VIEW_MODEL)
+            view.showEmptyView(false)
+            view.enableClearListBtn(true)
+        }
+
+        val updatedModels = MockDataTest.SHOPPING_LIST_ITEM_VIEW_MODEL.mapIndexed { index, model ->
+            return@mapIndexed if (index == 0)
+                model.copy(item = model.item.copy(quantity = 0.0), isGreyedOut = true)
+            else
+                model
+        }
+        val modelsWithUpdatedPositions = mutableListOf<ShoppingListItemViewModel>()
+        modelsWithUpdatedPositions.add(updatedModels[1])
+        modelsWithUpdatedPositions.add(updatedModels[2])
+        modelsWithUpdatedPositions.add(updatedModels[0])
+
+        //When
+        presenter.fieldChanged(MockDataTest.SHOPPING_LIST_ITEM_VIEW_MODEL.first(), "0")
+
+        //Then
+        verify {
+            view.fillList(modelsWithUpdatedPositions)
+        }
+    }
+
+    /**
+     * Scenario: User changes quantity of item to positive number
+     * Given List with items
+     * When User changes quantity of item to positive number
+     * Then update item
+     */
+    @Test
+    fun `Item quantity changed to positive number`() {
+        //Given
+        val updatedQuantity = 123.321
+        presenter.attach(view)
+        verifySequence {
+            view.setupRecyclerView(MockDataTest.SHOPPING_LIST_ITEM_VIEW_MODEL)
+            view.showEmptyView(false)
+            view.enableClearListBtn(true)
+        }
+
+        val updatedModels = MockDataTest.SHOPPING_LIST_ITEM_VIEW_MODEL.mapIndexed { index, model ->
+            return@mapIndexed if (index == 1)
+                model.copy(item = model.item.copy(quantity = updatedQuantity), isGreyedOut = false)
+            else
+                model
+        }
+
+        //When
+        presenter.fieldChanged(MockDataTest.SHOPPING_LIST_ITEM_VIEW_MODEL[1], "123.321")
+        presenter.attach(view)
+
+        //Then
+        verify {
+            //attach again
+            view.setupRecyclerView(updatedModels)
+            view.showEmptyView(false)
+            view.enableClearListBtn(true)
+        }
+    }
+
+    /**
+     * Scenario: User clicks on plus button
+     * Given presenter setup
+     * When user clicks on plus button
+     * Then open ingredients adding dialog
+     */
+    @Test
+    fun `On plus btn clicked`() {
+        //Given
+        presenter.attach(view)
+
+        //When
+        presenter.onPlusBtnClicked()
+
+        //Then
+        verifySequence {
+            //attach
+            view.setupRecyclerView(MockDataTest.SHOPPING_LIST_ITEM_VIEW_MODEL)
+            view.showEmptyView(false)
+            view.enableClearListBtn(true)
+
+            view.showAddIngredientDialog()
+        }
     }
 }
