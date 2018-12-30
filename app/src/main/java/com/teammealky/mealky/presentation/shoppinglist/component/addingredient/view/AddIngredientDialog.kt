@@ -23,6 +23,7 @@ import com.teammealky.mealky.domain.model.Unit
 import com.teammealky.mealky.presentation.App
 import com.teammealky.mealky.presentation.commons.extension.isInvisible
 import com.teammealky.mealky.presentation.commons.extension.isVisible
+import com.teammealky.mealky.presentation.meal.MealMapper
 import com.teammealky.mealky.presentation.shoppinglist.component.addingredient.AddIngredientPresenter
 import com.teammealky.mealky.presentation.shoppinglist.component.addingredient.AddIngredientViewModel
 import com.teammealky.mealky.presentation.shoppinglist.component.addingredient.BaseDialogFragment
@@ -41,6 +42,7 @@ class AddIngredientDialog : BaseDialogFragment<AddIngredientPresenter, AddIngred
     var unitInput: AutoCompleteTextView? = null
     var progressBar: ProgressBar? = null
     var userInputLayout: LinearLayout? = null
+    var infoTv: TextView? = null
 
     @SuppressLint("InflateParams")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -58,6 +60,10 @@ class AddIngredientDialog : BaseDialogFragment<AddIngredientPresenter, AddIngred
     override fun onCreate(savedInstanceState: Bundle?) {
         App.get(requireContext()).getComponent().inject(this)
         super.onCreate(savedInstanceState)
+
+        arguments?.let {
+            presenter?.ingredientsInList = MealMapper.readIngredients(it)
+        }
     }
 
     override fun onStart() {
@@ -68,6 +74,7 @@ class AddIngredientDialog : BaseDialogFragment<AddIngredientPresenter, AddIngred
         unitInput = dialog.unitInput
         progressBar = dialog.progressBar
         userInputLayout = dialog.userInputLayout
+        infoTv = dialog.infoTv
 
         ingredientInput?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
@@ -76,15 +83,12 @@ class AddIngredientDialog : BaseDialogFragment<AddIngredientPresenter, AddIngred
         }
         ingredientInput?.requestFocus()
 
-
         setupView()
     }
 
     private fun setupView() {
         setupTextListeners()
         dialog.addIngredientBtn.setOnClickListener(this)
-
-        presenter?.setupFinished()
     }
 
     override fun setupAutocompleteAdapters(ingredients: List<Ingredient>, units: List<Unit>) {
@@ -154,8 +158,21 @@ class AddIngredientDialog : BaseDialogFragment<AddIngredientPresenter, AddIngred
         userInputLayout?.isInvisible(isLoading)
     }
 
+    override fun showError(shouldShow: Boolean) {
+        infoTv?.isVisible(shouldShow)
+    }
+
     interface AddIngredientListener {
         fun onInformationPassed(ingredient: Ingredient)
+    }
+
+    companion object {
+        fun newInstance(ingredients: List<Ingredient>): AddIngredientDialog {
+            val dialog = AddIngredientDialog()
+            dialog.arguments = MealMapper.writeIngredients(ingredients)
+
+            return dialog
+        }
     }
 
 }

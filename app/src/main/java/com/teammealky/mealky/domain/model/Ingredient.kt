@@ -13,7 +13,7 @@ data class Ingredient(
         }
 
         fun isSameIngredientWithDifferentQuantity(first: Ingredient, second: Ingredient): Boolean {
-            return first.unit == second.unit && first.name == second.name
+            return first.unit == second.unit && first.name.toUpperCase() == second.name.toUpperCase()
         }
     }
 }

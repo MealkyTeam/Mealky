@@ -183,7 +183,7 @@ class ShoppingListPresenter @Inject constructor(
     }
 
     fun onPlusBtnClicked() {
-        ui().perform { it.showAddIngredientDialog() }
+        ui().perform { it.showAddIngredientDialog(models.map { model -> model.item }) }
     }
 
     interface UI : BaseUI {
@@ -194,6 +194,6 @@ class ShoppingListPresenter @Inject constructor(
         fun clearList()
         fun enableClearListBtn(isEnabled: Boolean)
         fun showEmptyView(isEnabled: Boolean)
-        fun showAddIngredientDialog()
+        fun showAddIngredientDialog(ingredients: List<Ingredient>)
     }
 }
