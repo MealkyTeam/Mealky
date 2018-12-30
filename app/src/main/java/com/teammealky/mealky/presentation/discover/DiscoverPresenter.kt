@@ -73,9 +73,9 @@ class DiscoverPresenter @Inject constructor(private val getMealsUseCase: ListMea
         disposable.add(getMealsUseCase.execute(
                 ListMealsUseCase.Params(WITHOUT_CATEGORY, pageNumber, LIMIT),
                 { page ->
-                    meals.addAll(page.meals)
+                    meals.addAll(page.items)
                     ui().perform {
-                        it.setMeals(page.meals)
+                        it.setMeals(page.items)
                         it.isLoading(false)
                     }
                     pageNumber++

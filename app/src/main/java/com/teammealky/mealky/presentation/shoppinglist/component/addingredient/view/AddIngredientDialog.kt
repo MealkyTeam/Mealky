@@ -13,12 +13,16 @@ import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import com.google.android.material.textfield.TextInputEditText
 import com.teammealky.mealky.R
 import com.teammealky.mealky.domain.model.Ingredient
 import com.teammealky.mealky.domain.model.Unit
 import com.teammealky.mealky.presentation.App
+import com.teammealky.mealky.presentation.commons.extension.isInvisible
+import com.teammealky.mealky.presentation.commons.extension.isVisible
 import com.teammealky.mealky.presentation.shoppinglist.component.addingredient.AddIngredientPresenter
 import com.teammealky.mealky.presentation.shoppinglist.component.addingredient.AddIngredientViewModel
 import com.teammealky.mealky.presentation.shoppinglist.component.addingredient.BaseDialogFragment
@@ -35,6 +39,8 @@ class AddIngredientDialog : BaseDialogFragment<AddIngredientPresenter, AddIngred
     var ingredientInput: AutoCompleteTextView? = null
     var quantityInput: TextInputEditText? = null
     var unitInput: AutoCompleteTextView? = null
+    var progressBar: ProgressBar? = null
+    var userInputLayout: LinearLayout? = null
 
     @SuppressLint("InflateParams")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -60,6 +66,8 @@ class AddIngredientDialog : BaseDialogFragment<AddIngredientPresenter, AddIngred
         ingredientInput = dialog.ingredientInput
         quantityInput = dialog.quantityInput
         unitInput = dialog.unitInput
+        progressBar = dialog.progressBar
+        userInputLayout = dialog.userInputLayout
 
         ingredientInput?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
@@ -139,6 +147,11 @@ class AddIngredientDialog : BaseDialogFragment<AddIngredientPresenter, AddIngred
         }
 
         dismiss()
+    }
+
+    override fun isLoading(isLoading: Boolean) {
+        progressBar?.isVisible(isLoading)
+        userInputLayout?.isInvisible(isLoading)
     }
 
     interface AddIngredientListener {
