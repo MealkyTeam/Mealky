@@ -1,5 +1,6 @@
 package com.teammealky.mealky.data.repository
 
+import com.teammealky.mealky.domain.model.Page
 import com.teammealky.mealky.domain.model.Unit
 import com.teammealky.mealky.domain.repository.UnitsRepository
 import com.teammealky.mealky.domain.service.RestService
@@ -9,5 +10,5 @@ import javax.inject.Singleton
 
 @Singleton
 class UnitsDataRepository @Inject constructor(private val api: RestService) : UnitsRepository {
-    override fun listUnits(query: String, limit: Int): Single<List<Unit>> = api.client().searchUnits(query, limit)
+    override fun listUnits(query: String, limit: Int): Single<Page<Unit>> = api.client().searchUnits(query, limit)
 }

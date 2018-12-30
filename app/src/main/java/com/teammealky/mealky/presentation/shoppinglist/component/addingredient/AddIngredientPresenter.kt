@@ -15,6 +15,32 @@ class AddIngredientPresenter @Inject constructor(
 
     var model: Ingredient = Ingredient.defaultIngredient()
 
+    fun setupFinished() {
+        ui().perform { it.isLoading(true) }
+        disposable.add(searchIngredientsUseCase.execute(SearchIngredientsUseCase.Params("", LIMIT),
+                { page ->
+                    searchUnits(page.items)
+                },
+                { e ->
+                    ui().perform { it.showErrorMessage({ setupFinished() }, e) }
+                }
+        ))
+    }
+
+    private fun searchUnits(ingredients: List<Ingredient>) {
+        disposable.add(searchUnitsUseCase.execute(SearchUnitsUseCase.Params("", LIMIT),
+                { page ->
+                    ui().perform {
+                        it.setupAutocompleteAdapters(ingredients, page.items)
+                        it.isLoading(false)
+                    }
+                },
+                { e ->
+                    ui().perform { it.showErrorMessage({ searchUnits(ingredients) }, e) }
+                }
+        ))
+    }
+
     fun addIngredientBtnClicked() {
         ui().perform { it.addIngredient(model) }
     }
@@ -26,32 +52,11 @@ class AddIngredientPresenter @Inject constructor(
             ui().perform { it.toggleAddButton(true) }
     }
 
-    fun setupFinished() {
-        disposable.add(searchIngredientsUseCase.execute(SearchIngredientsUseCase.Params("", LIMIT),
-                { ingredients ->
-                    searchUnits(ingredients)
-                },
-                { e ->
-                    ui().perform { it.showErrorMessage({ setupFinished() }, e) }
-                }
-        ))
-    }
-
-    private fun searchUnits(ingredients: List<Ingredient>) {
-        disposable.add(searchUnitsUseCase.execute(SearchUnitsUseCase.Params("", LIMIT),
-                { units ->
-                    ui().perform { it.setupAutocompleteAdapters(ingredients, units) }
-                },
-                { e ->
-                    ui().perform { it.showErrorMessage({ searchUnits(ingredients) }, e) }
-                }
-        ))
-    }
-
     interface UI : BaseUI {
         fun toggleAddButton(isToggled: Boolean)
         fun addIngredient(ingredient: Ingredient)
         fun setupAutocompleteAdapters(ingredients: List<Ingredient>, units: List<Unit>)
+        fun isLoading(isLoading: Boolean)
     }
 
     companion object {

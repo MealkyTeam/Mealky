@@ -2,8 +2,8 @@ package com.teammealky.mealky.domain.model
 
 import com.google.gson.annotations.SerializedName
 
-data class Page(
-        @SerializedName("content") val meals: List<Meal>,
+data class Page<T>(
+        @SerializedName("content") val items: List<T>,
         val totalPages: Int,
         val totalElements: Int,
         val first: Boolean,

@@ -27,26 +27,26 @@ interface MealkyService {
             @Query("page") offset: Int,
             @Query("size") limit: Int,
             @Query("sort") sort: String? = "id,desc"
-    ): Single<Page>
+    ): Single<Page<Meal>>
 
     @GET("meals")
     fun searchMeals(
             @Query("q") query: String,
             @Query("page") offset: Int,
             @Query("size") limit: Int
-    ): Single<List<Meal>>
+    ): Single<Page<Meal>>
 
-    @GET("sec/ingredients")
+    @GET("/sec/ingredients")
     fun searchIngredients(
             @Query("q") query: String,
             @Query("limit") limit: Int
-    ): Single<List<Ingredient>>
+    ): Single<Page<Ingredient>>
 
-    @GET("sec/units")
+    @GET("/sec/units")
     fun searchUnits(
             @Query("q") query: String,
             @Query("limit") limit: Int
-    ): Single<List<Unit>>
+    ): Single<Page<Unit>>
 
     @POST("/sec/login")
     fun signInWithPassword(@Body request: PasswordSignInRequest): Single<User>
