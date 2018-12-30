@@ -8,6 +8,7 @@ import com.teammealky.mealky.domain.usecase.shoppinglist.ShoppingListUseCase
 import com.teammealky.mealky.presentation.commons.presenter.BasePresenter
 import com.teammealky.mealky.presentation.commons.presenter.BaseUI
 import com.teammealky.mealky.presentation.shoppinglist.model.ShoppingListItemViewModel
+import timber.log.Timber
 import javax.inject.Inject
 
 class ShoppingListPresenter @Inject constructor(
@@ -19,27 +20,36 @@ class ShoppingListPresenter @Inject constructor(
 
     private var models = emptyList<ShoppingListItemViewModel>()
 
-    fun setupPresenter() {
-        disposable.add(shoppingListUseCase.execute(
-                { ingredients ->
-                    var position = 1
-                    this.models = ingredients.map { item -> ShoppingListItemViewModel(item, false, position++) }
-                    ui().perform {
-                        it.setupRecyclerView(models)
+    override fun attach(ui: UI) {
+        super.attach(ui)
 
-                        val isEmpty = ingredients.isEmpty()
-                        it.showEmptyView(isEmpty)
-                        it.enableClearListBtn(!isEmpty)
-                    }
-                },
-                { e ->
-                    ui().perform { it.showErrorMessage({ setupPresenter() }, e) }
-                })
-        )
+        if (models.isNotEmpty())
+            setupInitialState(models)
+        else {
+            disposable.add(shoppingListUseCase.execute(
+                    { ingredients ->
+                        models = ingredients.map { item -> ShoppingListItemViewModel(item, false) }
+                        setupInitialState(models)
+                    },
+                    { e ->
+                        Timber.d("KUBA_LOG Method:attach ***** $e *****")
+                    })
+            )
+        }
     }
 
-    fun onItemClicked(item: ShoppingListItemViewModel, checked: Boolean) {
-        if (checked)
+    private fun setupInitialState(models: List<ShoppingListItemViewModel>) {
+        ui().perform {
+            it.setupRecyclerView(models)
+
+            val isEmpty = models.isEmpty()
+            it.showEmptyView(isEmpty)
+            it.enableClearListBtn(!isEmpty)
+        }
+    }
+
+    fun onItemClicked(item: ShoppingListItemViewModel) {
+        if (!item.isGreyedOut)
             removeFromShoppingList(item)
         else
             addToShoppingList(item)
@@ -48,11 +58,13 @@ class ShoppingListPresenter @Inject constructor(
     private fun removeFromShoppingList(model: ShoppingListItemViewModel) {
         disposable.add(removeFromShoppingListUseCase.execute(model.item,
                 {
-                    val removedModel = models.first { item -> item.position == model.position }
+                    val removedModel = models.firstOrNull { currentModel ->
+                        Ingredient.isSameIngredientWithDifferentQuantity(currentModel.item, model.item)
+                    } ?: return@execute
 
-                    models -= listOf(removedModel)
-                    removedModel.isGreyedOut = true
-                    models += listOf(removedModel)
+                    models -= removedModel
+                    model.isGreyedOut = true
+                    models += model
 
                     ui().perform { ui ->
                         ui.fillList(models)
@@ -68,10 +80,10 @@ class ShoppingListPresenter @Inject constructor(
         val updatedModel = setQuantityIfZero(model)
         disposable.add(addToShoppingListUseCase.execute(listOf(updatedModel.item),
                 {
-                    val currentModel = models.firstOrNull { item -> item.position == model.position }
-                    currentModel?.let {
-                        model.isGreyedOut = false
-                        model.item = model.item.copy(quantity = updatedModel.item.quantity)
+                    val currentModel = models.firstOrNull { item -> item == model }
+                    currentModel?.let { viewModel ->
+                        viewModel.isGreyedOut = false
+                        viewModel.item = model.item.copy(quantity = updatedModel.item.quantity)
                     }
 
                     val removed = models.filter { item -> (item.isGreyedOut) }
@@ -123,7 +135,7 @@ class ShoppingListPresenter @Inject constructor(
         var updatedModel = model
         var previousQuantity = 0.0
 
-        val mutableList = models.map {
+        val list = models.map {
             if (Ingredient.isSameIngredientWithDifferentQuantity(model.item, it.item)) {
                 val updatedIngredient = model.item.copy(quantity = text.toDouble())
                 updatedModel = model.copy(item = updatedIngredient)
@@ -139,14 +151,21 @@ class ShoppingListPresenter @Inject constructor(
             updateModel(updatedModel, previousQuantity)
 
 
-        models = mutableList
+        models = list
 
     }
 
     private fun updateModel(updatedModel: ShoppingListItemViewModel, previousQuantity: Double) {
         val ingredient = updatedModel.item.copy(quantity = updatedModel.item.quantity - previousQuantity)
         disposable.add(addToShoppingListUseCase.execute(listOf(ingredient),
-                {},
+                {
+                    models = models.map { currentModel ->
+                        return@map if (Ingredient.isSameIngredientWithDifferentQuantity(currentModel.item, updatedModel.item))
+                            updatedModel
+                        else
+                            currentModel
+                    }
+                },
                 { e ->
                     ui().perform { it.showErrorMessage({ updateModel(updatedModel, previousQuantity) }, e) }
                 })
@@ -154,18 +173,13 @@ class ShoppingListPresenter @Inject constructor(
     }
 
     fun addIngredient(ingredient: Ingredient) {
-        val position = getNextPosition()
-        val model = ShoppingListItemViewModel(ingredient, false, position)
+        val model = ShoppingListItemViewModel(ingredient, false)
         models += model
         ui().perform {
             it.showEmptyView(false)
             it.enableClearListBtn(true)
         }
         addToShoppingList(model)
-    }
-
-    private fun getNextPosition(): Int {
-        return (models.maxBy { it.position }?.position ?: 0) + 1
     }
 
     fun onPlusBtnClicked() {

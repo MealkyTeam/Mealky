@@ -20,7 +20,12 @@ class MealListPresenter @Inject constructor(
         ui().perform { it.openItem(model) }
     }
 
-    fun firstRequest() {
+    override fun attach(ui: UI) {
+        super.attach(ui)
+        firstRequest()
+    }
+
+    private fun firstRequest() {
         ui().perform { it.isLoading(true) }
         if (meals.isEmpty()) {
             disposable.add(getMealsUseCase.execute(
