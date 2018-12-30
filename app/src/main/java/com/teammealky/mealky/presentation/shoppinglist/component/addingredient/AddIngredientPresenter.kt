@@ -6,6 +6,7 @@ import com.teammealky.mealky.domain.usecase.data.SearchIngredientsUseCase
 import com.teammealky.mealky.domain.usecase.data.SearchUnitsUseCase
 import com.teammealky.mealky.presentation.commons.presenter.BasePresenter
 import com.teammealky.mealky.presentation.commons.presenter.BaseUI
+import timber.log.Timber
 import javax.inject.Inject
 
 class AddIngredientPresenter @Inject constructor(
@@ -22,7 +23,8 @@ class AddIngredientPresenter @Inject constructor(
                     searchUnits(page.items)
                 },
                 { e ->
-                    ui().perform { it.showErrorMessage({ setupFinished() }, e) }
+                    Timber.d("KUBA_LOG Method:setupFinished ***** $e *****")
+                    searchUnits(emptyList())
                 }
         ))
     }
@@ -36,7 +38,11 @@ class AddIngredientPresenter @Inject constructor(
                     }
                 },
                 { e ->
-                    ui().perform { it.showErrorMessage({ searchUnits(ingredients) }, e) }
+                    Timber.d("KUBA_LOG Method:searchUnits ***** $e *****")
+                    ui().perform {
+                        it.setupAutocompleteAdapters(ingredients, emptyList())
+                        it.isLoading(false)
+                    }
                 }
         ))
     }
