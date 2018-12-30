@@ -77,6 +77,13 @@ fun View.isVisible(isVisible: Boolean) {
     }
 }
 
+fun View.isInvisible(isInvisible: Boolean) {
+    when (isInvisible) {
+        true -> this.visibility = View.INVISIBLE
+        false -> this.visibility = View.VISIBLE
+    }
+}
+
 fun genRandomIntExcept(start: Int, end: Int, excluded: List<Int>): Int {
     val rand = Random()
     val range = end - start

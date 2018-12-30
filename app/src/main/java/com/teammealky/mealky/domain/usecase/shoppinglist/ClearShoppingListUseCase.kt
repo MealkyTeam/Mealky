@@ -10,5 +10,4 @@ open class ClearShoppingListUseCase @Inject constructor(
 ) : ParamLessUseCase<Boolean>() {
 
     override fun doWork(): Single<Boolean> = repo.clear().toSingleDefault(true)
-
 }

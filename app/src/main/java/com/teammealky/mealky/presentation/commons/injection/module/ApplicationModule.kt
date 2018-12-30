@@ -36,15 +36,4 @@ class ApplicationModule(private val application: Application) {
 
     @Provides @Singleton
     fun provideUseCaseExecutor(executor: InteractorExecutor): UseCaseExecutor = executor
-
-    @Provides @Singleton
-    fun provideHttpClient(): OkHttpClient {
-        val okBuilder = OkHttpClient.Builder()
-
-        okBuilder.connectTimeout(10, TimeUnit.SECONDS)
-        okBuilder.readTimeout(10, TimeUnit.SECONDS)
-        okBuilder.writeTimeout(10, TimeUnit.SECONDS)
-
-        return okBuilder.build()
-    }
 }
