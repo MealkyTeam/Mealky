@@ -15,27 +15,38 @@ class AddIngredientPresenter @Inject constructor(
 ) : BasePresenter<AddIngredientPresenter.UI>() {
 
     var model: Ingredient = Ingredient.defaultIngredient()
+    var ingredientsInList = emptyList<Ingredient>()
 
-    fun setupFinished() {
+    override fun attach(ui: UI) {
+        super.attach(ui)
+
+        fetchAll()
+    }
+
+    private fun fetchAll() {
         ui().perform { it.isLoading(true) }
         disposable.add(searchIngredientsUseCase.execute(SearchIngredientsUseCase.Params("", LIMIT),
                 { page ->
                     searchUnits(page.items)
                 },
                 { e ->
-                    Timber.d("KUBA_LOG Method:setupFinished ***** $e *****")
+                    Timber.d("KUBA_LOG Method:fetchAll ***** $e *****")
                     searchUnits(emptyList())
                 }
         ))
     }
 
+    private fun initialSetup(ingredients: List<Ingredient>, units: List<Unit>) {
+        ui().perform {
+            it.setupAutocompleteAdapters(ingredients, units)
+            it.isLoading(false)
+        }
+    }
+
     private fun searchUnits(ingredients: List<Ingredient>) {
         disposable.add(searchUnitsUseCase.execute(SearchUnitsUseCase.Params("", LIMIT),
                 { page ->
-                    ui().perform {
-                        it.setupAutocompleteAdapters(ingredients, page.items)
-                        it.isLoading(false)
-                    }
+                    initialSetup(ingredients, page.items)
                 },
                 { e ->
                     Timber.d("KUBA_LOG Method:searchUnits ***** $e *****")
@@ -48,7 +59,10 @@ class AddIngredientPresenter @Inject constructor(
     }
 
     fun addIngredientBtnClicked() {
-        ui().perform { it.addIngredient(model) }
+        if (ingredientsInList.none { Ingredient.isSameIngredientWithDifferentQuantity(it, model) })
+            ui().perform { it.addIngredient(model) }
+        else
+            ui().perform { it.showError(true) }
     }
 
     fun fieldsChanged() {
@@ -63,6 +77,7 @@ class AddIngredientPresenter @Inject constructor(
         fun addIngredient(ingredient: Ingredient)
         fun setupAutocompleteAdapters(ingredients: List<Ingredient>, units: List<Unit>)
         fun isLoading(isLoading: Boolean)
+        fun showError(shouldShow: Boolean)
     }
 
     companion object {
