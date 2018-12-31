@@ -9,8 +9,6 @@ import com.teammealky.mealky.domain.model.User
 import com.teammealky.mealky.presentation.shoppinglist.model.ShoppingListItemViewModel
 
 class MockDataTest {
-
-
     companion object {
         val UNITS = listOf(
                 Unit("unit1"),
@@ -63,5 +61,4 @@ class MockDataTest {
         val SHOPPING_LIST_ITEM_VIEW_MODEL =
                 INGREDIENTS.map { item -> ShoppingListItemViewModel(item, false) }
     }
-
 }

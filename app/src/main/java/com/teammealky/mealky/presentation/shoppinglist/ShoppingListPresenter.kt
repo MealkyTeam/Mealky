@@ -103,7 +103,6 @@ class ShoppingListPresenter @Inject constructor(
 
         disposable.add(removeFromShoppingListUseCase.execute(model.item,
                 {
-
                     ui().perform { ui ->
                         ui.fillList(models)
                     }
@@ -207,7 +206,7 @@ class ShoppingListPresenter @Inject constructor(
         )
     }
 
-    fun addIngredient(ingredient: Ingredient) {
+    fun onInformationPassed(ingredient: Ingredient) {
         val model = ShoppingListItemViewModel(ingredient, false)
         models.add(model)
 

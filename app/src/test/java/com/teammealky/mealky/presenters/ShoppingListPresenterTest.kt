@@ -1,6 +1,8 @@
 package com.teammealky.mealky.presenters
 
 import com.teammealky.mealky.MockDataTest
+import com.teammealky.mealky.domain.model.Ingredient
+import com.teammealky.mealky.domain.model.Unit
 import com.teammealky.mealky.domain.repository.ShoppingListRepository
 import com.teammealky.mealky.domain.usecase.shoppinglist.AddToShoppingListUseCase
 import com.teammealky.mealky.domain.usecase.shoppinglist.ClearShoppingListUseCase
@@ -15,6 +17,7 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.spyk
 import io.mockk.verify
+import io.mockk.verifyOrder
 import io.mockk.verifySequence
 import io.reactivex.Single
 import org.junit.Before
@@ -46,6 +49,7 @@ class ShoppingListPresenterTest {
         every { shoppingListUseCase.asSingle() } returns Single.just(MockDataTest.INGREDIENTS)
         every { clearShoppingListUseCase.asSingle() } returns Single.just(true)
         every { addToShoppingListUseCase.asSingle(any()) } returns Single.just(true)
+        every { updateShoppingListItemUseCase.asSingle(any()) } returns Single.just(true)
         every { removeFromShoppingListUseCase.asSingle(any()) } returns Single.just(true)
 
         every { view.setupRecyclerView(any()) } just Runs
@@ -107,18 +111,19 @@ class ShoppingListPresenterTest {
      */
     @Test
     fun `Clear filled shopping list`() {
-        //When
+        //Given
         presenter.attach(view)
+        verifySequence {
+            view.setupRecyclerView(MockDataTest.SHOPPING_LIST_ITEM_VIEW_MODEL)
+            view.showEmptyView(false)
+            view.enableClearListBtn(true)
+        }
+        //When
         presenter.onClearListBtnClicked()
         presenter.clearConfirmed()
 
         //Then
-        verifySequence {
-            //attach
-            view.setupRecyclerView(MockDataTest.SHOPPING_LIST_ITEM_VIEW_MODEL)
-            view.showEmptyView(false)
-            view.enableClearListBtn(true)
-
+        verifyOrder {
             //onClearBtnClicked
             view.showDialog()
 
@@ -182,13 +187,13 @@ class ShoppingListPresenterTest {
     }
 
     /**
-     * Scenario: User changes quantity of item to positive number
+     * Scenario: User changes quantity of item
      * Given List with items
-     * When User changes quantity of item to positive number
+     * When User changes quantity of item
      * Then update item
      */
     @Test
-    fun `Item quantity changed to positive number`() {
+    fun `Item quantity changed`() {
         //Given
         val updatedQuantity = 123.321
         presenter.attach(view)
@@ -219,27 +224,40 @@ class ShoppingListPresenterTest {
     }
 
     /**
-     * Scenario: User clicks on plus button
+     * Scenario: User clicks on plus button and adds ingredient
      * Given presenter setup
      * When user clicks on plus button
      * Then open ingredients adding dialog
+     * And when user adds ingredient
+     * Then add ingredient to list
      */
     @Test
-    fun `On plus btn clicked`() {
+    fun `On plus btn clicked and added ingredient`() {
         //Given
+        val newIngredient = Ingredient("New ingredient", Unit("New unit"), 123.0)
+        val newList = MockDataTest.SHOPPING_LIST_ITEM_VIEW_MODEL.toMutableList()
+        newList.add(ShoppingListItemViewModel(newIngredient, false))
         presenter.attach(view)
-
-        //When
-        presenter.onPlusBtnClicked()
-
-        //Then
         verifySequence {
-            //attach
             view.setupRecyclerView(MockDataTest.SHOPPING_LIST_ITEM_VIEW_MODEL)
             view.showEmptyView(false)
             view.enableClearListBtn(true)
+        }
 
+        //When
+        presenter.onPlusBtnClicked()
+        presenter.onInformationPassed(newIngredient)
+
+        //Then
+        verifyOrder {
+            //onPlusBtnClicked
             view.showAddIngredientDialog(MockDataTest.SHOPPING_LIST_ITEM_VIEW_MODEL.map { it.item })
+
+            //onInformationPassed
+            view.showEmptyView(false)
+            view.enableClearListBtn(true)
+
+            view.fillList(newList)
         }
     }
 }
