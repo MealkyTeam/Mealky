@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:text="@string/empty_shopping_list"
         android:textAlignment="center"
+        android:layout_gravity="center"
         android:textSize="20sp" />
 
 </LinearLayout>
