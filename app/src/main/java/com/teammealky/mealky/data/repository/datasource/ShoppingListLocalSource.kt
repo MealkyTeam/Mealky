@@ -25,26 +25,21 @@ class ShoppingListLocalSource @Inject constructor(
     override fun list(): Single<List<Ingredient>> = Single.fromCallable { getItems() }
 
     override fun add(ingredients: List<Ingredient>): Completable = Completable.fromCallable {
-        val oldItems = ArrayList(getItems())
+        val items = ArrayList(getItems())
+        items.addAll(ingredients)
+        setItems(items)
+    }
 
-        //updated items
-        val updatedItems = oldItems.map { ingredient ->
-            var updatedItem = ingredients.firstOrNull { Ingredient.isSameIngredientWithDifferentQuantity(it, ingredient) }
-            return@map if (updatedItem == null)
+    override fun update(ingredient: Ingredient): Completable = Completable.fromCallable {
+        val items = ArrayList(getItems())
+        val updatedItems = items.map {
+            return@map if (Ingredient.isSameIngredientWithDifferentQuantity(it, ingredient))
                 ingredient
-            else {
-                updatedItem = updatedItem.copy(quantity = updatedItem.quantity + ingredient.quantity)
-                updatedItem
-            }
+            else
+                it
         }
 
-        val items = ArrayList(updatedItems)
-
-        //new items
-        items.addAll(ingredients.filter { ingredient ->
-            oldItems.none { Ingredient.isSameIngredientWithDifferentQuantity(ingredient, it) }
-        })
-        setItems(items)
+        setItems(updatedItems)
     }
 
     override fun remove(ingredient: Ingredient): Completable = Completable.fromCallable {

@@ -12,7 +12,7 @@ class ShoppingListAdapter(var models: List<ShoppingListItemViewModel> = emptyLis
 
     interface ShoppingListItemListener {
         fun onItemClick(model: ShoppingListItemViewModel)
-        fun fieldChanged(model: ShoppingListItemViewModel, text: String)
+        fun fieldChanged(model: ShoppingListItemViewModel, quantity: Double)
     }
 
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view)

@@ -103,8 +103,8 @@ class ShoppingListFragment : BaseFragment<ShoppingListPresenter, ShoppingListPre
         emptyItemLayout.isVisible(isEnabled)
     }
 
-    override fun fieldChanged(model: ShoppingListItemViewModel, text: String) {
-        presenter?.fieldChanged(model, text)
+    override fun fieldChanged(model: ShoppingListItemViewModel, quantity: Double) {
+        presenter?.fieldChanged(model, quantity)
     }
 
     private fun dialogRestoration(savedInstanceState: Bundle?) {
@@ -119,7 +119,7 @@ class ShoppingListFragment : BaseFragment<ShoppingListPresenter, ShoppingListPre
 
     override fun onInformationPassed(ingredient: Ingredient) {
         addIngredientDialog?.dismiss()
-        presenter?.addIngredient(ingredient)
+        presenter?.onInformationPassed(ingredient)
     }
 
     override fun showAddIngredientDialog(ingredients: List<Ingredient>) {

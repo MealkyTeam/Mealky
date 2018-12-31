@@ -1,11 +1,14 @@
 package com.teammealky.mealky.presenters
 
 import com.teammealky.mealky.MockDataTest
+import com.teammealky.mealky.domain.model.Ingredient
+import com.teammealky.mealky.domain.model.Unit
 import com.teammealky.mealky.domain.repository.ShoppingListRepository
 import com.teammealky.mealky.domain.usecase.shoppinglist.AddToShoppingListUseCase
 import com.teammealky.mealky.domain.usecase.shoppinglist.ClearShoppingListUseCase
 import com.teammealky.mealky.domain.usecase.shoppinglist.RemoveFromShoppingListUseCase
 import com.teammealky.mealky.domain.usecase.shoppinglist.ShoppingListUseCase
+import com.teammealky.mealky.domain.usecase.shoppinglist.UpdateShoppingListItemUseCase
 import com.teammealky.mealky.presentation.shoppinglist.ShoppingListPresenter
 import com.teammealky.mealky.presentation.shoppinglist.model.ShoppingListItemViewModel
 import io.mockk.Runs
@@ -14,6 +17,7 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.spyk
 import io.mockk.verify
+import io.mockk.verifyOrder
 import io.mockk.verifySequence
 import io.reactivex.Single
 import org.junit.Before
@@ -27,6 +31,7 @@ class ShoppingListPresenterTest {
     private val shoppingListUseCase = spyk(ShoppingListUseCase(mockRepository))
     private val clearShoppingListUseCase = spyk(ClearShoppingListUseCase(mockRepository))
     private val addToShoppingListUseCase = spyk(AddToShoppingListUseCase(mockRepository))
+    private val updateShoppingListItemUseCase = spyk(UpdateShoppingListItemUseCase(mockRepository))
     private val removeFromShoppingListUseCase = spyk(RemoveFromShoppingListUseCase(mockRepository))
 
     private lateinit var presenter: ShoppingListPresenter
@@ -37,12 +42,14 @@ class ShoppingListPresenterTest {
                 shoppingListUseCase,
                 clearShoppingListUseCase,
                 addToShoppingListUseCase,
+                updateShoppingListItemUseCase,
                 removeFromShoppingListUseCase
         )
 
         every { shoppingListUseCase.asSingle() } returns Single.just(MockDataTest.INGREDIENTS)
         every { clearShoppingListUseCase.asSingle() } returns Single.just(true)
         every { addToShoppingListUseCase.asSingle(any()) } returns Single.just(true)
+        every { updateShoppingListItemUseCase.asSingle(any()) } returns Single.just(true)
         every { removeFromShoppingListUseCase.asSingle(any()) } returns Single.just(true)
 
         every { view.setupRecyclerView(any()) } just Runs
@@ -52,7 +59,7 @@ class ShoppingListPresenterTest {
         every { view.clearList() } just Runs
         every { view.enableClearListBtn(any()) } just Runs
         every { view.showEmptyView(any()) } just Runs
-        every { view.showAddIngredientDialog() } just Runs
+        every { view.showAddIngredientDialog(any()) } just Runs
     }
 
     /**
@@ -104,18 +111,19 @@ class ShoppingListPresenterTest {
      */
     @Test
     fun `Clear filled shopping list`() {
-        //When
+        //Given
         presenter.attach(view)
+        verifySequence {
+            view.setupRecyclerView(MockDataTest.SHOPPING_LIST_ITEM_VIEW_MODEL)
+            view.showEmptyView(false)
+            view.enableClearListBtn(true)
+        }
+        //When
         presenter.onClearListBtnClicked()
         presenter.clearConfirmed()
 
         //Then
-        verifySequence {
-            //attach
-            view.setupRecyclerView(MockDataTest.SHOPPING_LIST_ITEM_VIEW_MODEL)
-            view.showEmptyView(false)
-            view.enableClearListBtn(true)
-
+        verifyOrder {
             //onClearBtnClicked
             view.showDialog()
 
@@ -179,49 +187,13 @@ class ShoppingListPresenterTest {
     }
 
     /**
-     * Scenario: User changes quantity of item to 0
+     * Scenario: User changes quantity of item
      * Given List with items
-     * When User changes quantity of item to 0
-     * Then Remove item
-     */
-    @Test
-    fun `Item quantity changed to 0`() {
-        //Given
-        presenter.attach(view)
-        verifySequence {
-            view.setupRecyclerView(MockDataTest.SHOPPING_LIST_ITEM_VIEW_MODEL)
-            view.showEmptyView(false)
-            view.enableClearListBtn(true)
-        }
-
-        val updatedModels = MockDataTest.SHOPPING_LIST_ITEM_VIEW_MODEL.mapIndexed { index, model ->
-            return@mapIndexed if (index == 0)
-                model.copy(item = model.item.copy(quantity = 0.0), isGreyedOut = true)
-            else
-                model
-        }
-        val modelsWithUpdatedPositions = mutableListOf<ShoppingListItemViewModel>()
-        modelsWithUpdatedPositions.add(updatedModels[1])
-        modelsWithUpdatedPositions.add(updatedModels[2])
-        modelsWithUpdatedPositions.add(updatedModels[0])
-
-        //When
-        presenter.fieldChanged(MockDataTest.SHOPPING_LIST_ITEM_VIEW_MODEL.first(), "0")
-
-        //Then
-        verify {
-            view.fillList(modelsWithUpdatedPositions)
-        }
-    }
-
-    /**
-     * Scenario: User changes quantity of item to positive number
-     * Given List with items
-     * When User changes quantity of item to positive number
+     * When User changes quantity of item
      * Then update item
      */
     @Test
-    fun `Item quantity changed to positive number`() {
+    fun `Item quantity changed`() {
         //Given
         val updatedQuantity = 123.321
         presenter.attach(view)
@@ -239,7 +211,7 @@ class ShoppingListPresenterTest {
         }
 
         //When
-        presenter.fieldChanged(MockDataTest.SHOPPING_LIST_ITEM_VIEW_MODEL[1], "123.321")
+        presenter.fieldChanged(MockDataTest.SHOPPING_LIST_ITEM_VIEW_MODEL[1], 123.321)
         presenter.attach(view)
 
         //Then
@@ -252,27 +224,40 @@ class ShoppingListPresenterTest {
     }
 
     /**
-     * Scenario: User clicks on plus button
+     * Scenario: User clicks on plus button and adds ingredient
      * Given presenter setup
      * When user clicks on plus button
      * Then open ingredients adding dialog
+     * And when user adds ingredient
+     * Then add ingredient to list
      */
     @Test
-    fun `On plus btn clicked`() {
+    fun `On plus btn clicked and added ingredient`() {
         //Given
+        val newIngredient = Ingredient("New ingredient", Unit("New unit"), 123.0)
+        val newList = MockDataTest.SHOPPING_LIST_ITEM_VIEW_MODEL.toMutableList()
+        newList.add(ShoppingListItemViewModel(newIngredient, false))
         presenter.attach(view)
-
-        //When
-        presenter.onPlusBtnClicked()
-
-        //Then
         verifySequence {
-            //attach
             view.setupRecyclerView(MockDataTest.SHOPPING_LIST_ITEM_VIEW_MODEL)
             view.showEmptyView(false)
             view.enableClearListBtn(true)
+        }
 
-            view.showAddIngredientDialog()
+        //When
+        presenter.onPlusBtnClicked()
+        presenter.onInformationPassed(newIngredient)
+
+        //Then
+        verifyOrder {
+            //onPlusBtnClicked
+            view.showAddIngredientDialog(MockDataTest.SHOPPING_LIST_ITEM_VIEW_MODEL.map { it.item })
+
+            //onInformationPassed
+            view.showEmptyView(false)
+            view.enableClearListBtn(true)
+
+            view.fillList(newList)
         }
     }
 }

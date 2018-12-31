@@ -1,10 +1,20 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
-
 apply plugin: 'kotlin-kapt'
+apply plugin: 'jacoco'
+
+buildscript {
+    repositories {
+        google()
+        maven { url 'https://maven.google.com' }
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.jacoco:org.jacoco.core:0.8.2'
+    }
+}
 
 android {
     kapt {
@@ -23,11 +33,15 @@ android {
     buildTypes {
         release {
             buildConfigField "String", "CENTRAL_URL", rootProject.ext.api.release.central
+            buildConfigField "String", "CENTRAL_LOGIN", rootProject.ext.api.release.login
+            buildConfigField "String", "CENTRAL_PASSWORD", rootProject.ext.api.release.password
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            testCoverageEnabled false
         }
 
         debug {
+            testCoverageEnabled true
             buildConfigField "String", "CENTRAL_URL", rootProject.ext.api.release.central
             buildConfigField "String", "CENTRAL_LOGIN", rootProject.ext.api.release.login
             buildConfigField "String", "CENTRAL_PASSWORD", rootProject.ext.api.release.password
@@ -74,4 +88,66 @@ dependencies {
 
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+}
+
+
+androidExtensions {
+    experimental = true
+}
+
+def testCounter = 0
+
+tasks.withType(Test) {
+    jacoco.includeNoLocationClasses = true
+
+    testLogging {
+        // set options for log level LIFECYCLE
+        events "passed", "skipped", "failed", "standardOut"
+        showExceptions true
+        exceptionFormat "short"
+        showCauses true
+        showStackTraces true
+
+        // set options for log level DEBUG and INFO
+        debug {
+            events "started", "passed", "skipped", "failed", "standardOut", "standardError"
+            exceptionFormat "full"
+        }
+        info.events = debug.events
+        info.exceptionFormat = debug.exceptionFormat
+
+        afterSuite { desc, result ->
+            if (!desc.parent) { // will match the outermost suite
+                def output = "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
+                def startItem = '|  ', endItem = '  |'
+                def repeatLength = startItem.length() + output.length() + endItem.length()
+                println('\n' + ('-' * repeatLength) + '\n' + startItem + output + endItem + '\n' + ('-' * repeatLength))
+
+                testCounter = result.testCount
+            }
+        }
+    }
+}
+
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
+    description = "Generate Jacoco coverage reports for Debug build"
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
+    def fileFilter = [ '**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*' ]
+    def debugTree = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/debug", excludes: fileFilter)
+    def mainSrc = "$project.projectDir/src/main/kotlin"
+
+    sourceDirectories = files([mainSrc])
+    classDirectories = files([debugTree])
+    executionData = fileTree(dir: project.buildDir, includes: [
+            'jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec'
+    ])
+}
+
+jacoco {
+    toolVersion = '0.8.2'
+    reportsDir = file("$buildDir/reports")
 }

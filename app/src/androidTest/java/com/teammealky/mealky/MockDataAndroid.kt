@@ -6,9 +6,9 @@ import com.teammealky.mealky.domain.model.Meal
 import com.teammealky.mealky.domain.model.Page
 import com.teammealky.mealky.domain.model.Unit
 import com.teammealky.mealky.domain.model.User
+import com.teammealky.mealky.presentation.shoppinglist.model.ShoppingListItemViewModel
 
 class MockDataAndroid {
-
     companion object {
         val UNITS = listOf(
                 Unit("unit1"),
@@ -47,15 +47,18 @@ class MockDataAndroid {
                         true, USERS[2], listOf(CATEGORIES[0], CATEGORIES[1]), listOf(INGREDIENTS[0], INGREDIENTS[1]))
         )
 
-        val PAGE = Page(
+        val MEALS_PAGE = Page(
                 MEALS,
                 1,
                 MEALS.size,
                 true,
                 true,
                 true,
-                MEALS.size
+                MEALS.size,
+                0
         )
-    }
 
+        val SHOPPING_LIST_ITEM_VIEW_MODEL =
+                INGREDIENTS.map { item -> ShoppingListItemViewModel(item, false) }
+    }
 }
