@@ -49,14 +49,15 @@ class MockDataTest {
                         true, USERS[2], listOf(CATEGORIES[0], CATEGORIES[1]), listOf(INGREDIENTS[0], INGREDIENTS[1]))
         )
 
-        val PAGE = Page(
+        val MEALS_PAGE = Page(
                 MEALS,
                 1,
                 MEALS.size,
                 true,
                 true,
                 true,
-                MEALS.size
+                MEALS.size,
+                0
         )
 
         val SHOPPING_LIST_ITEM_VIEW_MODEL =

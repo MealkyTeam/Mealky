@@ -20,7 +20,7 @@ class MealListPresenterTest {
 
     @Before
     fun setUp() {
-        every { mockUseCase.asSingle(ListMealsUseCase.Params(-1, 0, 8)) } returns Single.just(MockDataTest.PAGE)
+        every { mockUseCase.asSingle(ListMealsUseCase.Params(-1, 0, 8)) } returns Single.just(MockDataTest.MEALS_PAGE)
         every { view.setupRecyclerView() } just Runs
         every { view.openItem(any()) } just Runs
         every { view.isLoading(any()) } just Runs
