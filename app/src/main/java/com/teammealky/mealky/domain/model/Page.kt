@@ -9,5 +9,6 @@ data class Page<T>(
         val first: Boolean,
         val last: Boolean,
         val sorted: Boolean,
-        val limit: Int
+        val limit: Int,
+        @SerializedName("number") val pageNumber: Int
 )

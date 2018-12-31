@@ -6,6 +6,7 @@ import com.teammealky.mealky.domain.usecase.shoppinglist.AddToShoppingListUseCas
 import com.teammealky.mealky.domain.usecase.shoppinglist.ClearShoppingListUseCase
 import com.teammealky.mealky.domain.usecase.shoppinglist.RemoveFromShoppingListUseCase
 import com.teammealky.mealky.domain.usecase.shoppinglist.ShoppingListUseCase
+import com.teammealky.mealky.domain.usecase.shoppinglist.UpdateShoppingListItemUseCase
 import com.teammealky.mealky.presentation.shoppinglist.ShoppingListPresenter
 import com.teammealky.mealky.presentation.shoppinglist.model.ShoppingListItemViewModel
 import io.mockk.Runs
@@ -27,6 +28,7 @@ class ShoppingListPresenterTest {
     private val shoppingListUseCase = spyk(ShoppingListUseCase(mockRepository))
     private val clearShoppingListUseCase = spyk(ClearShoppingListUseCase(mockRepository))
     private val addToShoppingListUseCase = spyk(AddToShoppingListUseCase(mockRepository))
+    private val updateShoppingListItemUseCase = spyk(UpdateShoppingListItemUseCase(mockRepository))
     private val removeFromShoppingListUseCase = spyk(RemoveFromShoppingListUseCase(mockRepository))
 
     private lateinit var presenter: ShoppingListPresenter
@@ -37,6 +39,7 @@ class ShoppingListPresenterTest {
                 shoppingListUseCase,
                 clearShoppingListUseCase,
                 addToShoppingListUseCase,
+                updateShoppingListItemUseCase,
                 removeFromShoppingListUseCase
         )
 
@@ -52,7 +55,7 @@ class ShoppingListPresenterTest {
         every { view.clearList() } just Runs
         every { view.enableClearListBtn(any()) } just Runs
         every { view.showEmptyView(any()) } just Runs
-        every { view.showAddIngredientDialog() } just Runs
+        every { view.showAddIngredientDialog(any()) } just Runs
     }
 
     /**
@@ -179,42 +182,6 @@ class ShoppingListPresenterTest {
     }
 
     /**
-     * Scenario: User changes quantity of item to 0
-     * Given List with items
-     * When User changes quantity of item to 0
-     * Then Remove item
-     */
-    @Test
-    fun `Item quantity changed to 0`() {
-        //Given
-        presenter.attach(view)
-        verifySequence {
-            view.setupRecyclerView(MockDataTest.SHOPPING_LIST_ITEM_VIEW_MODEL)
-            view.showEmptyView(false)
-            view.enableClearListBtn(true)
-        }
-
-        val updatedModels = MockDataTest.SHOPPING_LIST_ITEM_VIEW_MODEL.mapIndexed { index, model ->
-            return@mapIndexed if (index == 0)
-                model.copy(item = model.item.copy(quantity = 0.0), isGreyedOut = true)
-            else
-                model
-        }
-        val modelsWithUpdatedPositions = mutableListOf<ShoppingListItemViewModel>()
-        modelsWithUpdatedPositions.add(updatedModels[1])
-        modelsWithUpdatedPositions.add(updatedModels[2])
-        modelsWithUpdatedPositions.add(updatedModels[0])
-
-        //When
-        presenter.fieldChanged(MockDataTest.SHOPPING_LIST_ITEM_VIEW_MODEL.first(), "0")
-
-        //Then
-        verify {
-            view.fillList(modelsWithUpdatedPositions)
-        }
-    }
-
-    /**
      * Scenario: User changes quantity of item to positive number
      * Given List with items
      * When User changes quantity of item to positive number
@@ -239,7 +206,7 @@ class ShoppingListPresenterTest {
         }
 
         //When
-        presenter.fieldChanged(MockDataTest.SHOPPING_LIST_ITEM_VIEW_MODEL[1], "123.321")
+        presenter.fieldChanged(MockDataTest.SHOPPING_LIST_ITEM_VIEW_MODEL[1], 123.321)
         presenter.attach(view)
 
         //Then
@@ -272,7 +239,7 @@ class ShoppingListPresenterTest {
             view.showEmptyView(false)
             view.enableClearListBtn(true)
 
-            view.showAddIngredientDialog()
+            view.showAddIngredientDialog(MockDataTest.SHOPPING_LIST_ITEM_VIEW_MODEL.map { it.item })
         }
     }
 }
