@@ -26,7 +26,7 @@
     <string name="missing_user">There is no such user in our database!</string>
     <string name="invalid_password">You need to type correct password</string>
     <string name="incorrect_username">Username is incorrect. You can use only letters or numbers. Maximum is 15 characters.</string>
-    <string name="incorrect_email">Email is incorrect. Should be like: xxx@yyy.zz</string>
+    <string name="incorrect_email">Email is incorrect. It should be like: xxx@yyy.zz</string>
     <string name="incorrect_password">Password should be longer than 5 signs.</string>
     <string name="something_went_wrong">Something went wrong</string>
     <string name="username_taken">This username is already used.</string>
@@ -54,5 +54,4 @@
     <string name="confirm">Confirm</string>
     <string name="go_back">Go back</string>
     <string name="you_already_have_ingredient">You already have such an ingredient on the list </string>
-
 </resources>
