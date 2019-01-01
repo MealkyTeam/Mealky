@@ -3,13 +3,9 @@ package com.teammealky.mealky.presentation.account
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.transition.TransitionValues
 import androidx.fragment.app.Fragment
 import com.teammealky.mealky.R
-import com.teammealky.mealky.domain.model.Authenticator
-import com.teammealky.mealky.domain.model.Authenticator.Companion.USERNAME
-import com.teammealky.mealky.domain.model.User
 import com.teammealky.mealky.presentation.App
 import com.teammealky.mealky.presentation.commons.presenter.BaseActivity
 import com.teammealky.mealky.presentation.account.signin.SignInFragment
@@ -31,16 +27,7 @@ class AccountActivity : BaseActivity<AccountPresenter, AccountPresenter.UI, Acco
     }
 
     private fun setupView() {
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
-        val token = sharedPreferences.getString(Authenticator.TOKEN, "") ?: ""
-        presenter?.validateToken(token)
-    }
-
-    override fun saveUsername(user: User) {
-        val sharedPreferencesEditor = PreferenceManager.getDefaultSharedPreferences(this).edit()
-        sharedPreferencesEditor.putString(USERNAME, user.username)
-
-        sharedPreferencesEditor.apply()
+        presenter?.validateToken()
     }
 
     override fun toSignIn() {

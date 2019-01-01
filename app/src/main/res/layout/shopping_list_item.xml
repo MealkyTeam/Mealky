@@ -1,18 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/shopListItemLayout"
+    android:id="@+id/shoppingListItemLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
-    android:orientation="vertical">
+    android:layout_height="wrap_content"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:orientation="horizontal"
+    android:paddingStart="8dp"
+    android:paddingEnd="8dp">
+
+    <ImageView
+        android:id="@+id/bullet"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:layout_centerVertical="true"
+        android:contentDescription="@string/bullet"
+        android:src="@drawable/ic_bullet_black_16dp" />
+
+    <View
+        android:id="@+id/strikethrough"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_centerVertical="true"
+        android:background="@color/colorPrimary"
+        android:visibility="gone"
+        tools:visibility="visible" />
 
     <TextView
-        android:id="@+id/shopListItemName"
-        android:layout_width="match_parent"
+        android:id="@+id/ingredientNameTv"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@id/bullet"
+        android:maxLines="1"
+        android:paddingStart="16dp"
         android:textColor="@android:color/black"
-        tools:text="Naleśniki" />
+        android:textSize="16sp"
+        tools:ignore="RtlSymmetry"
+        tools:text="Flour:" />
 
-</LinearLayout>
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/quantityTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@id/ingredientNameTv"
+        android:inputType="numberDecimal"
+        android:maxLength="8"
+        android:maxLines="1"
+        android:paddingStart="4dp"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        tools:ignore="RtlSymmetry"
+        tools:text="22032.52323" />
+
+    <TextView
+        android:id="@+id/unitTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@id/checkbox"
+        android:layout_toEndOf="@id/quantityTv"
+        android:maxLines="1"
+        android:paddingStart="4dp"
+        android:paddingEnd="16dp"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        tools:text="pound" />
+
+    <CheckBox
+        android:id="@+id/checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:button="@drawable/checkbox_selector_green" />
+
+</RelativeLayout>

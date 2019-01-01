@@ -5,7 +5,6 @@ import com.teammealky.mealky.domain.model.User
 import com.teammealky.mealky.domain.usecase.signup.SignUpUseCase
 import com.teammealky.mealky.presentation.commons.presenter.BasePresenter
 import com.teammealky.mealky.presentation.commons.presenter.BaseUI
-import timber.log.Timber
 import javax.inject.Inject
 
 class SignUpPresenter @Inject constructor(
@@ -29,11 +28,10 @@ class SignUpPresenter @Inject constructor(
         }
 
         disposable.add(signUpUseCase.execute(
-                SignUpUseCase.Params(model.username ?: "", model.email ?: "", model.password ?: ""),
-                { _ ->
-                    ui().perform {
-                        it.isLoading(false)
-                        it.toSignInFragment()
+                SignUpUseCase.Params(model.username, model.email ?: "", model.password ?: ""),
+                {
+                    ui().perform { ui ->
+                        ui.toSignInFragment()
                     }
                 },
                 { e ->
@@ -59,11 +57,12 @@ class SignUpPresenter @Inject constructor(
                                 ui().perform { it.showErrorInInfo(APIError.ErrorType.INVALID_PASSWORD) }
                             }
                             else -> {
-                                ui().perform { it.showErrorMessage(e) }
+                                ui().perform { it.showErrorMessage({ signUpButtonClicked() }, e) }
                             }
                         }
+                    } else {
+                        ui().perform { it.showErrorMessage({ signUpButtonClicked() }, e) }
                     }
-                    Timber.d("KUBA Method:signUpButtonClicked ***** ERROR:$e *****")
                 })
         )
     }
@@ -103,7 +102,7 @@ class SignUpPresenter @Inject constructor(
     }
 
     fun fieldsChanged() {
-        if (model.password.isNullOrBlank() || model.email.isNullOrBlank() || model.username.isNullOrBlank())
+        if (model.password.isNullOrBlank() || model.email.isNullOrBlank() || model.username.isBlank())
             ui().perform { it.toggleSignUpButton(false) }
         else
             ui().perform { it.toggleSignUpButton(true) }
@@ -114,9 +113,9 @@ class SignUpPresenter @Inject constructor(
         fun toSignInFragment()
         fun showErrorInInfo(error: APIError.ErrorType)
         fun showInfoTv(isVisible: Boolean)
-        fun toggleSignUpButton(toggle: Boolean)
-        fun toggleUsernameError(toggle: Boolean)
-        fun toggleEmailError(toggle: Boolean)
-        fun togglePasswordError(toggle: Boolean)
+        fun toggleSignUpButton(isToggled: Boolean)
+        fun toggleUsernameError(isToggled: Boolean)
+        fun toggleEmailError(isToggled: Boolean)
+        fun togglePasswordError(isToggled: Boolean)
     }
 }

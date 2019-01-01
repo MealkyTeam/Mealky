@@ -4,7 +4,6 @@ import com.teammealky.mealky.domain.model.Meal
 import com.teammealky.mealky.domain.usecase.meals.ListMealsUseCase
 import com.teammealky.mealky.presentation.commons.presenter.BasePresenter
 import com.teammealky.mealky.presentation.commons.presenter.BaseUI
-import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -21,7 +20,12 @@ class MealListPresenter @Inject constructor(
         ui().perform { it.openItem(model) }
     }
 
-    fun firstRequest() {
+    override fun attach(ui: UI) {
+        super.attach(ui)
+        firstRequest()
+    }
+
+    private fun firstRequest() {
         ui().perform { it.isLoading(true) }
         if (meals.isEmpty()) {
             disposable.add(getMealsUseCase.execute(
@@ -31,7 +35,7 @@ class MealListPresenter @Inject constructor(
                         loadMore()
                     },
                     { e ->
-                        Timber.d("KUBA Method:firstRequest ***** ERROR: $e *****")
+                        ui().perform { it.showErrorMessage({ firstRequest() }, e) }
                     })
             )
         } else
@@ -47,12 +51,13 @@ class MealListPresenter @Inject constructor(
     }
 
     fun loadMore() {
+        ui().perform { it.isLoading(true) }
         disposable.add(getMealsUseCase.execute(
                 ListMealsUseCase.Params(WITHOUT_CATEGORY, pageNumber, LIMIT),
                 { page ->
                     ui().perform {
-                        meals += page.meals
-                        it.fillList(page.meals)
+                        meals += page.items
+                        it.fillList(page.items)
                         it.isLoading(false)
                     }
                     if (pageNumber >= maxPages - 1)
@@ -61,7 +66,7 @@ class MealListPresenter @Inject constructor(
                         pageNumber++
                 },
                 { e ->
-                    Timber.d("KUBA Method:loadMore ***** ERROR: $e *****")
+                    ui().perform { it.showErrorMessage({ loadMore() }, e) }
                 }))
     }
 

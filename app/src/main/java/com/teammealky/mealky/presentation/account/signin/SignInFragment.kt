@@ -16,10 +16,7 @@ import com.teammealky.mealky.presentation.commons.Navigator
 import com.teammealky.mealky.presentation.commons.extension.isVisible
 import com.teammealky.mealky.presentation.commons.presenter.BaseFragment
 import kotlinx.android.synthetic.main.signin_fragment.*
-import android.preference.PreferenceManager
 import com.teammealky.mealky.domain.model.APIError
-import com.teammealky.mealky.domain.model.Authenticator
-import timber.log.Timber
 
 class SignInFragment : BaseFragment<SignInPresenter, SignInPresenter.UI, SignInViewModel>(),
         SignInPresenter.UI, View.OnClickListener, TextWatcher, TextView.OnEditorActionListener {
@@ -49,6 +46,10 @@ class SignInFragment : BaseFragment<SignInPresenter, SignInPresenter.UI, SignInV
         passwordInput.addTextChangedListener(this)
         passwordInput.setOnEditorActionListener(this)
 
+        val showError = arguments?.getBoolean(EMAIL_ERROR_KEY) ?: false
+        infoTv.isVisible(showError)
+        infoTv.text = getString(R.string.you_need_to_confirm_email)
+
         //todo it's not implemented yet that's why it's hidden
         forgottenPasswordTv.isVisible(false)
     }
@@ -66,7 +67,7 @@ class SignInFragment : BaseFragment<SignInPresenter, SignInPresenter.UI, SignInV
         Navigator.from(context as Navigator.Navigable).openForgottenPassword()
     }
 
-    override fun showErrorInInfo(error: APIError.ErrorType) {
+    override fun showErrorInfo(error: APIError.ErrorType) {
         infoTv.text = when (error) {
             APIError.ErrorType.NO_SUCH_USER -> getString(R.string.missing_user)
             APIError.ErrorType.CONFIRM_EMAIL -> getString(R.string.you_need_to_confirm_email)
@@ -80,8 +81,8 @@ class SignInFragment : BaseFragment<SignInPresenter, SignInPresenter.UI, SignInV
         progressBar.isVisible(isLoading)
     }
 
-    override fun toggleSignInButton(toggle: Boolean) {
-        signInBtn.isEnabled = toggle
+    override fun toggleSignInButton(isToggled: Boolean) {
+        signInBtn.isEnabled = isToggled
     }
 
     override fun showInfoTv(isVisible: Boolean) {
@@ -118,19 +119,24 @@ class SignInFragment : BaseFragment<SignInPresenter, SignInPresenter.UI, SignInV
         return false
     }
 
-    override fun saveUser(user: User) {
-        val sharedPreferencesEditor = PreferenceManager.getDefaultSharedPreferences(context).edit()
-
-        sharedPreferencesEditor.putString(Authenticator.TOKEN, user.token)
-        sharedPreferencesEditor.putString(Authenticator.USERNAME, user.username)
-        sharedPreferencesEditor.apply()
-    }
-
     override fun onClick(view: View?) {
         when (view?.id) {
             R.id.signInBtn -> presenter?.signInButtonClicked()
             R.id.forgottenPasswordTv -> presenter?.forgottenPasswordLinkClicked()
             R.id.toSignUpTv -> presenter?.signUpLinkClicked()
         }
+    }
+
+    companion object {
+        fun newInstance(withError: Boolean): SignInFragment {
+            val fragment = SignInFragment()
+            val bundle = Bundle()
+            bundle.putBoolean(EMAIL_ERROR_KEY, withError)
+            fragment.arguments = bundle
+
+            return fragment
+        }
+
+        const val EMAIL_ERROR_KEY = "email_error_key"
     }
 }

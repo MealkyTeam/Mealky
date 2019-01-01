@@ -1,14 +1,15 @@
 package com.teammealky.mealky.data.net.service
 
+import com.teammealky.mealky.domain.model.Ingredient
 import com.teammealky.mealky.domain.model.Meal
 import com.teammealky.mealky.domain.model.Page
 import com.teammealky.mealky.domain.model.PasswordSignInRequest
 import com.teammealky.mealky.domain.model.SignUpRequest
-import com.teammealky.mealky.domain.model.Token
 import com.teammealky.mealky.domain.model.TokenSignInRequest
 import com.teammealky.mealky.domain.model.User
+import com.teammealky.mealky.domain.model.Unit
+import io.reactivex.Completable
 import io.reactivex.Single
-import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -26,14 +27,26 @@ interface MealkyService {
             @Query("page") offset: Int,
             @Query("size") limit: Int,
             @Query("sort") sort: String? = "id,desc"
-    ): Single<Page>
+    ): Single<Page<Meal>>
 
     @GET("meals")
     fun searchMeals(
             @Query("q") query: String,
             @Query("page") offset: Int,
             @Query("size") limit: Int
-    ): Single<List<Meal>>
+    ): Single<Page<Meal>>
+
+    @GET("/sec/ingredients")
+    fun searchIngredients(
+            @Query("q") query: String,
+            @Query("limit") limit: Int
+    ): Single<Page<Ingredient>>
+
+    @GET("/sec/units")
+    fun searchUnits(
+            @Query("q") query: String,
+            @Query("limit") limit: Int
+    ): Single<Page<Unit>>
 
     @POST("/sec/login")
     fun signInWithPassword(@Body request: PasswordSignInRequest): Single<User>
@@ -42,5 +55,5 @@ interface MealkyService {
     fun signInWithToken(@Body request: TokenSignInRequest): Single<User>
 
     @POST("/sec/signup")
-    fun signUp(@Body request: SignUpRequest): Single<Response<Void>>
+    fun signUp(@Body request: SignUpRequest): Completable
 }

@@ -1,12 +1,13 @@
 package com.teammealky.mealky.presentation.commons.presenter
 
-import android.app.Activity
 import android.os.Bundle
-import android.view.inputmethod.InputMethodManager
+import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import com.teammealky.mealky.R
+import timber.log.Timber
 import javax.inject.Inject
 
 abstract class BaseFragment<P : Presenter<V>, in V, VM : BaseViewModel<P>> : Fragment(), BaseUI {
@@ -42,16 +43,28 @@ abstract class BaseFragment<P : Presenter<V>, in V, VM : BaseViewModel<P>> : Fra
         super.onPause()
     }
 
-    override fun showErrorMessage(e: Throwable) {
+    override fun showErrorMessage(retry: () -> Unit,e: Throwable) {
         if (context == null) return
+
+        Timber.d("KUBA_LOG Method:showErrorMessage ***** $e *****")
         alertDialog = AlertDialog.Builder(context!!)
-                .setTitle("Sorry!").setMessage("Something went wrong.")
-                .setPositiveButton("Close", null)
+                .setTitle(R.string.just_a_moment)
+                .setMessage(R.string.service_unavailable)
+                .setPositiveButton(R.string.retry) { _, _ ->
+                    try {
+                        retry.invoke()
+                    } catch (ignored: Exception) {
+                    }
+                }
+                .setNegativeButton(R.string.exit_app) { _, _ -> activity?.finish() }
+                .setCancelable(false)
                 .show()
     }
 
-    override fun hideKeyboard() {
-        val imm = context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(view?.windowToken, 0)
+    override fun hideKeyboard() 
+    {
+        this.activity?.window?.setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+        )
     }
 }

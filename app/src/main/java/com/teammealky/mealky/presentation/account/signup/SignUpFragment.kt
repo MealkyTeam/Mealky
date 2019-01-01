@@ -53,7 +53,7 @@ class SignUpFragment : BaseFragment<SignUpPresenter, SignUpPresenter.UI, SignUpV
     }
 
     override fun toSignInFragment() {
-        Navigator.from(context as Navigator.Navigable).openSignIn()
+        Navigator.from(context as Navigator.Navigable).openSignIn(true)
     }
 
     override fun showErrorInInfo(error: APIError.ErrorType) {
@@ -71,20 +71,20 @@ class SignUpFragment : BaseFragment<SignUpPresenter, SignUpPresenter.UI, SignUpV
         infoTv.isVisible(isVisible)
     }
 
-    override fun toggleSignUpButton(toggle: Boolean) {
-        signUpBtn.isEnabled = toggle
+    override fun toggleSignUpButton(isToggled: Boolean) {
+        signUpBtn.isEnabled = isToggled
     }
 
-    override fun toggleUsernameError(toggle: Boolean) {
-        usernameInput.error = if(toggle) getString(R.string.incorrect_username) else null
+    override fun toggleUsernameError(isToggled: Boolean) {
+        usernameInput.error = if (isToggled) getString(R.string.incorrect_username) else null
     }
 
-    override fun toggleEmailError(toggle: Boolean) {
-        emailInput.error = if(toggle) getString(R.string.incorrect_email) else null
+    override fun toggleEmailError(isToggled: Boolean) {
+        emailInput.error = if (isToggled) getString(R.string.incorrect_email) else null
     }
 
-    override fun togglePasswordError(toggle: Boolean) {
-        passwordInput.error = if(toggle) getString(R.string.incorrect_password) else null
+    override fun togglePasswordError(isToggled: Boolean) {
+        passwordInput.error = if (isToggled) getString(R.string.incorrect_password) else null
     }
 
     override fun onClick(view: View?) {
