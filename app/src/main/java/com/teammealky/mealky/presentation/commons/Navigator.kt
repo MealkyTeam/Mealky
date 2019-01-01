@@ -35,7 +35,7 @@ class Navigator(private val nav: Navigable) {
                 FRAG_DISCOVER -> openDiscover()
                 FRAG_SETTINGS -> openSettings()
 
-                FRAG_SIGNIN -> openSignIn()
+                FRAG_SIGNIN -> openSignIn(false)
                 FRAG_SIGNUP -> openSignUp()
                 FRAG_FORGOTTEN_PASSWORD -> openForgottenPassword()
                 else -> {
@@ -68,8 +68,8 @@ class Navigator(private val nav: Navigable) {
         nav.navigateTo(fragment)
     }
 
-    fun openSignIn() {
-        val fragment = SignInFragment()
+    fun openSignIn(withError: Boolean) {
+        val fragment = SignInFragment.newInstance(withError)
 
         nav.navigateTo(fragment)
     }

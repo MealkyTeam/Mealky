@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/searchToolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimaryDark"
@@ -24,9 +24,8 @@
             app:cardPreventCornerOverlap="true"
             app:cardUseCompatPadding="false">
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/searchEditText"
-                style="@style/EditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|start"

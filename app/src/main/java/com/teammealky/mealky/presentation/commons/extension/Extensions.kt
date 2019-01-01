@@ -77,10 +77,17 @@ fun View.isVisible(isVisible: Boolean) {
     }
 }
 
+fun View.isInvisible(isInvisible: Boolean) {
+    when (isInvisible) {
+        true -> this.visibility = View.INVISIBLE
+        false -> this.visibility = View.VISIBLE
+    }
+}
+
 fun genRandomIntExcept(start: Int, end: Int, excluded: List<Int>): Int {
     val rand = Random()
     val range = end - start
-    if(range <=excluded.size)
+    if (range <= excluded.size)
         return 0
     var random = rand.nextInt(range)
     while (excluded.contains(random)) {
@@ -101,5 +108,10 @@ fun getDisplaySize(windowManager: WindowManager): Point {
         e.printStackTrace()
         Point(0, 0)
     }
-
 }
+
+fun getResizedImageHeight(aspectRatio: Float): Int {
+    return Math.round(getScreenWidth() * aspectRatio)
+}
+
+fun getScreenWidth(): Int = Resources.getSystem().displayMetrics.widthPixels

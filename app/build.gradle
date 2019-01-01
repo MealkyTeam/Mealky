@@ -1,10 +1,20 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
-
 apply plugin: 'kotlin-kapt'
+apply plugin: 'jacoco'
+
+buildscript {
+    repositories {
+        google()
+        maven { url 'https://maven.google.com' }
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.jacoco:org.jacoco.core:0.8.2'
+    }
+}
 
 android {
     kapt {
@@ -13,21 +23,25 @@ android {
 
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.kuba.mealky"
+        applicationId "com.teammealky.mealky"
         minSdkVersion 23
         targetSdkVersion 28
         versionCode 1
-        versionName "0.2.0"
+        versionName "0.3.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
             buildConfigField "String", "CENTRAL_URL", rootProject.ext.api.release.central
+            buildConfigField "String", "CENTRAL_LOGIN", rootProject.ext.api.release.login
+            buildConfigField "String", "CENTRAL_PASSWORD", rootProject.ext.api.release.password
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            testCoverageEnabled false
         }
 
         debug {
+            testCoverageEnabled true
             buildConfigField "String", "CENTRAL_URL", rootProject.ext.api.release.central
             buildConfigField "String", "CENTRAL_LOGIN", rootProject.ext.api.release.login
             buildConfigField "String", "CENTRAL_PASSWORD", rootProject.ext.api.release.password
@@ -56,9 +70,9 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:2.2.2"
     implementation "io.reactivex.rxjava2:rxandroid:2.1.0"
     implementation 'com.squareup.picasso:picasso:2.71828'
-    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
     implementation 'com.google.dagger:dagger-android:2.15'
     implementation 'com.google.dagger:dagger-android-support:2.13'
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.16'
@@ -66,12 +80,74 @@ dependencies {
     kapt 'com.google.dagger:dagger-compiler:2.13'
     compileOnly 'javax.annotation:jsr250-api:1.0'
 
-    testImplementation 'org.mockito:mockito-core:2.18.3'
-    testImplementation 'androidx.test:runner:1.1.0-beta02'
+    testImplementation 'androidx.test:runner:1.1.1'
     testImplementation 'org.robolectric:robolectric:3.3.2'
     testImplementation 'junit:junit:4.12'
+    implementation "io.mockk:mockk-common:1.8.13.kotlin13"
+    testImplementation "io.mockk:mockk:1.8.13.kotlin13"
 
-    androidTestImplementation 'androidx.test:runner:1.1.0-beta02'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-beta02'
-    androidTestImplementation 'org.mockito:mockito-android:2.7.22'
+    androidTestImplementation 'androidx.test:runner:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+}
+
+
+androidExtensions {
+    experimental = true
+}
+
+def testCounter = 0
+
+tasks.withType(Test) {
+    jacoco.includeNoLocationClasses = true
+
+    testLogging {
+        // set options for log level LIFECYCLE
+        events "passed", "skipped", "failed", "standardOut"
+        showExceptions true
+        exceptionFormat "short"
+        showCauses true
+        showStackTraces true
+
+        // set options for log level DEBUG and INFO
+        debug {
+            events "started", "passed", "skipped", "failed", "standardOut", "standardError"
+            exceptionFormat "full"
+        }
+        info.events = debug.events
+        info.exceptionFormat = debug.exceptionFormat
+
+        afterSuite { desc, result ->
+            if (!desc.parent) { // will match the outermost suite
+                def output = "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
+                def startItem = '|  ', endItem = '  |'
+                def repeatLength = startItem.length() + output.length() + endItem.length()
+                println('\n' + ('-' * repeatLength) + '\n' + startItem + output + endItem + '\n' + ('-' * repeatLength))
+
+                testCounter = result.testCount
+            }
+        }
+    }
+}
+
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
+    description = "Generate Jacoco coverage reports for Debug build"
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
+    def fileFilter = [ '**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*' ]
+    def debugTree = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/debug", excludes: fileFilter)
+    def mainSrc = "$project.projectDir/src/main/kotlin"
+
+    sourceDirectories = files([mainSrc])
+    classDirectories = files([debugTree])
+    executionData = fileTree(dir: project.buildDir, includes: [
+            'jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec'
+    ])
+}
+
+jacoco {
+    toolVersion = '0.8.2'
+    reportsDir = file("$buildDir/reports")
 }

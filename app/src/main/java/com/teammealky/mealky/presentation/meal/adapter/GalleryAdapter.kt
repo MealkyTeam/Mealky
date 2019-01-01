@@ -1,13 +1,13 @@
 package com.teammealky.mealky.presentation.meal.adapter
 
 import android.content.Context
-import android.content.res.Resources
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.viewpager.widget.PagerAdapter
+import com.teammealky.mealky.presentation.commons.extension.getResizedImageHeight
 import com.teammealky.mealky.presentation.commons.extension.loadImage
 
 class GalleryAdapter(
@@ -18,9 +18,9 @@ class GalleryAdapter(
         val view = ImageView(context)
         view.layoutParams = FrameLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
-                getImageHeight()
+                getResizedImageHeight(ASPECT_RATIO)
         )
-        view.scaleType= ImageView.ScaleType.FIT_XY
+        view.scaleType= ImageView.ScaleType.CENTER_CROP
         bind(position, view)
         container.addView(view)
 
@@ -30,15 +30,6 @@ class GalleryAdapter(
     override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
         container.removeView(`object` as View)
     }
-
-    private fun getImageHeight(): Int {
-        val aspectRatio = ASPECT_RATIO
-
-        return Math.round(getScreenWidth() * aspectRatio)
-    }
-
-    private fun getScreenWidth(): Int = Resources.getSystem().displayMetrics.widthPixels
-
 
     override fun getCount() = images.size
 

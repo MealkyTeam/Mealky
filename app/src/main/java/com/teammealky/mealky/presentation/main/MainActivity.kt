@@ -24,7 +24,7 @@ class MainActivity : BaseActivity<MainPresenter, MainPresenter.UI, MainViewModel
 
     override val vmClass = MainViewModel::class.java
 
-    private val contentSwitcher = ContentSwitcher(supportFragmentManager, this)
+    private val contentSwitcher = ContentSwitcher(supportFragmentManager)
     private var savedInstanceState: Bundle? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,6 +61,7 @@ class MainActivity : BaseActivity<MainPresenter, MainPresenter.UI, MainViewModel
     }
 
     override fun onNavigationItemReselected(item: MenuItem) {
+        presenter?.setContent(item.itemId)
     }
 
     override fun onBackPressed() {
