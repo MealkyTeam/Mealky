@@ -41,6 +41,20 @@ Biblioteki:
 -------------------------------------------------------------------
 Lista zmian:
 
+Wersja 0.3.0 
+- Aktualizacja bibliotek projektu.
+- Nowy pasek postępu na liście posiłków.
+- Usunięto odświeżanie listy posiłków po przesunięciu w dół.
+- Poprawiony stosunek obrazków w opcji "Odkryj posiłek".
+- Poprawione zapisywanie pozycji na liście posiłku.
+- Poprawiono inne małe błędy.
+- Dodano dokumentację.
+- Dodano ikonę aplikacji.
+- Dodano składniki do posiłku i możliwość łatwego dodania ich do listy zakupów.
+- Dodano listę zakupu, a na niej możliwość dodawania kolejnych składników, usuwania, edycji.
+- Dodano informację o tym że trzeba potwierdzić mail przy rejestracji.
+- Dodano wiele testów do aplikacji.
+
 Wersja 0.2.0
 - Odświeżanie listy posiłków.  
 - Stronicowanie listy posiłków.  
