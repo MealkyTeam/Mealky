@@ -1,8 +1,7 @@
 package com.teammealky.mealky.presentation.commons.presenter
 
-import android.app.Activity
 import android.os.Bundle
-import android.view.inputmethod.InputMethodManager
+import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -47,8 +46,9 @@ abstract class BaseActivity<P : Presenter<V>, in V, VM : BaseViewModel<P>> : App
 
 
     override fun hideKeyboard() {
-        val imm = this.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
+        this.window?.setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+        )
     }
 
     override fun showErrorMessage(retry: () -> Unit, e: Throwable) {

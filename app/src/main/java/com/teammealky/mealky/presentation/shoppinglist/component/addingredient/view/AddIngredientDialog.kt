@@ -3,6 +3,7 @@ package com.teammealky.mealky.presentation.shoppinglist.component.addingredient.
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -29,6 +30,7 @@ import com.teammealky.mealky.presentation.shoppinglist.component.addingredient.A
 import com.teammealky.mealky.presentation.shoppinglist.component.addingredient.BaseDialogFragment
 import kotlinx.android.synthetic.main.add_ingredient_dialog.*
 import java.lang.Exception
+import android.view.inputmethod.InputMethodManager
 
 class AddIngredientDialog : BaseDialogFragment<AddIngredientPresenter, AddIngredientPresenter.UI, AddIngredientViewModel>(),
         AddIngredientPresenter.UI, View.OnClickListener, TextWatcher, TextView.OnEditorActionListener {
@@ -50,11 +52,6 @@ class AddIngredientDialog : BaseDialogFragment<AddIngredientPresenter, AddIngred
         return AlertDialog.Builder(activity!!)
                 .setView(view)
                 .create()
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,6 +79,8 @@ class AddIngredientDialog : BaseDialogFragment<AddIngredientPresenter, AddIngred
             }
         }
         ingredientInput?.requestFocus()
+        val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+        imm!!.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
 
         setupView()
     }
