@@ -213,6 +213,7 @@ class ShoppingListPresenter @Inject constructor(
         ui().perform {
             it.showEmptyView(false)
             it.enableClearListBtn(true)
+            it.hideKeyboard()
         }
         addToShoppingList(model)
     }
