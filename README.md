@@ -1,15 +1,19 @@
 # Mealky
 
+Android application - cookbook
+
+English version of readme: TO BE DONE
+
 Aplikacja książka kucharska.
 
 Role:
-Użytkownik, Admin
+Użytkownik, Admin.
 
 Technologie:
 Kotlin, Java, Android, jUnit, dagger2, rxjava, retrofi, picasso.
 
 Narzędzia:
-Trello, Github, Android Studio, Slack, Figma, Canva
+Trello, Github, Android Studio, Slack, Figma, Canva.
 
 Biblioteki:
 - com.google.android.material  
