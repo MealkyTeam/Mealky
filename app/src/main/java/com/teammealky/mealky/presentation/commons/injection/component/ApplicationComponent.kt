@@ -6,6 +6,7 @@ import com.teammealky.mealky.domain.repository.AuthorizationRepository
 import com.teammealky.mealky.domain.repository.MealsRepository
 import com.teammealky.mealky.presentation.App
 import com.teammealky.mealky.presentation.account.AccountActivity
+import com.teammealky.mealky.presentation.account.forgottenPassword.ForgottenPasswordFragment
 import com.teammealky.mealky.presentation.account.signin.SignInFragment
 import com.teammealky.mealky.presentation.account.signup.SignUpFragment
 import com.teammealky.mealky.presentation.commons.Navigator
@@ -49,6 +50,7 @@ interface ApplicationComponent {
     fun inject(app: SettingsFragment)
     fun inject(app: SignInFragment)
     fun inject(app: SignUpFragment)
+    fun inject(app: ForgottenPasswordFragment)
 
     fun inject(app: MealFragment)
 
