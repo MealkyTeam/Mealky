@@ -21,6 +21,7 @@ import com.teammealky.mealky.presentation.meals.MealListFragment
 import com.teammealky.mealky.presentation.settings.SettingsFragment
 import com.teammealky.mealky.presentation.shoppinglist.ShoppingListFragment
 import com.teammealky.mealky.presentation.shoppinglist.component.addingredient.view.AddIngredientDialog
+import com.teammealky.mealky.presentation.splash.SplashActivity
 import dagger.Component
 import javax.inject.Singleton
 
@@ -42,6 +43,7 @@ interface ApplicationComponent {
     fun inject(app: App)
 
     fun inject(activity: MainActivity)
+    fun inject(activity: SplashActivity)
     fun inject(activity: AccountActivity)
 
     fun inject(app: MealListFragment)

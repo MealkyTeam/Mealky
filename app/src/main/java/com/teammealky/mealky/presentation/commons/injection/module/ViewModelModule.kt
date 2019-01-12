@@ -15,6 +15,7 @@ import com.teammealky.mealky.presentation.meals.MealListViewModel
 import com.teammealky.mealky.presentation.settings.SettingsViewModel
 import com.teammealky.mealky.presentation.shoppinglist.ShoppingListViewModel
 import com.teammealky.mealky.presentation.shoppinglist.component.addingredient.AddIngredientViewModel
+import com.teammealky.mealky.presentation.splash.SplashViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -25,11 +26,14 @@ abstract class ViewModelModule {
     @Binds
     internal abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
 
-    @Binds @IntoMap @ViewModelKey(MealListViewModel::class)
-    internal abstract fun mealList(vm: MealListViewModel): ViewModel
-
     @Binds @IntoMap @ViewModelKey(MainViewModel::class)
     internal abstract fun main(vm: MainViewModel): ViewModel
+
+    @Binds @IntoMap @ViewModelKey(SplashViewModel::class)
+    internal abstract fun splash(vm: SplashViewModel): ViewModel
+
+    @Binds @IntoMap @ViewModelKey(MealListViewModel::class)
+    internal abstract fun mealList(vm: MealListViewModel): ViewModel
 
     @Binds @IntoMap @ViewModelKey(AccountViewModel::class)
     internal abstract fun account(vm: AccountViewModel): ViewModel
