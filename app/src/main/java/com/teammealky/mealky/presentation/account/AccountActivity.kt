@@ -1,7 +1,6 @@
 package com.teammealky.mealky.presentation.account
 
 import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
 import android.transition.TransitionValues
 import androidx.fragment.app.Fragment
@@ -10,9 +9,6 @@ import com.teammealky.mealky.presentation.App
 import com.teammealky.mealky.presentation.commons.presenter.BaseActivity
 import com.teammealky.mealky.presentation.account.signin.SignInFragment
 import com.teammealky.mealky.presentation.commons.Navigator
-import com.teammealky.mealky.presentation.commons.extension.isVisible
-import kotlinx.android.synthetic.main.activity_account.*
-import java.lang.Exception
 
 class AccountActivity : BaseActivity<AccountPresenter, AccountPresenter.UI, AccountViewModel>(), AccountPresenter.UI, Navigator.Navigable {
 
@@ -22,20 +18,9 @@ class AccountActivity : BaseActivity<AccountPresenter, AccountPresenter.UI, Acco
         App.get(this).getComponent().inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_account)
-
-        setupView()
-    }
-
-    private fun setupView() {
-        presenter?.validateToken()
     }
 
     override fun toSignIn() {
-        mainLogo.isVisible(false)
-        try {
-            containerAccount.setBackgroundColor(Color.parseColor("#FFFFFF"))
-        } catch (ignored: Exception) {
-        }
         setContent(SignInFragment())
     }
 
