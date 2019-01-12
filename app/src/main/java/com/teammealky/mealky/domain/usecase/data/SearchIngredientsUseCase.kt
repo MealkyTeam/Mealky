@@ -7,7 +7,7 @@ import com.teammealky.mealky.domain.usecase.SingleUseCase
 import io.reactivex.Single
 import javax.inject.Inject
 
-open class SearchIngredientsUseCase @Inject constructor(
+ class SearchIngredientsUseCase @Inject constructor(
         private val repo: IngredientsRepository
 ) : SingleUseCase<SearchIngredientsUseCase.Params, Page<Ingredient>>() {
 

@@ -7,7 +7,7 @@ import com.teammealky.mealky.domain.usecase.SingleUseCase
 import io.reactivex.Single
 import javax.inject.Inject
 
-open class ListMealsUseCase @Inject constructor(
+ class ListMealsUseCase @Inject constructor(
         private val repo: MealsRepository
 ) : SingleUseCase<ListMealsUseCase.Params, Page<Meal>>() {
 

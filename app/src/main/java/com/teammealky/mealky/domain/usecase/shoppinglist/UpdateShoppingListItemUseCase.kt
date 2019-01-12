@@ -6,7 +6,7 @@ import com.teammealky.mealky.domain.usecase.SingleUseCase
 import io.reactivex.Single
 import javax.inject.Inject
 
-open class UpdateShoppingListItemUseCase @Inject constructor(
+ class UpdateShoppingListItemUseCase @Inject constructor(
         private val repo: ShoppingListRepository
 ) : SingleUseCase<Ingredient, Boolean>() {
 

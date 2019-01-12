@@ -6,7 +6,7 @@ import com.teammealky.mealky.domain.usecase.SingleUseCase
 import io.reactivex.Single
 import javax.inject.Inject
 
-open class SignInWithTokenUseCase @Inject constructor(
+ class SignInWithTokenUseCase @Inject constructor(
         private val repo: AuthorizationRepository
 ) : SingleUseCase<SignInWithTokenUseCase.Params, User>() {
 
