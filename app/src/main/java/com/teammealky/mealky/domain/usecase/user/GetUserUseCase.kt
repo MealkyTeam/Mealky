@@ -6,7 +6,7 @@ import com.teammealky.mealky.domain.usecase.ParamLessUseCase
 import io.reactivex.Single
 import javax.inject.Inject
 
-open class GetUserUseCase @Inject constructor(
+ class GetUserUseCase @Inject constructor(
         private val repo: UserRepository
 ) : ParamLessUseCase<User>() {
 

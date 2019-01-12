@@ -60,6 +60,7 @@ class ShoppingListPresenterTest {
         every { view.enableClearListBtn(any()) } just Runs
         every { view.showEmptyView(any()) } just Runs
         every { view.showAddIngredientDialog(any()) } just Runs
+        every { view.hideKeyboard() } just Runs
     }
 
     /**
@@ -256,6 +257,7 @@ class ShoppingListPresenterTest {
             //onInformationPassed
             view.showEmptyView(false)
             view.enableClearListBtn(true)
+            view.hideKeyboard()
 
             view.fillList(newList)
         }

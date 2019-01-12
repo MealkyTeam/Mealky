@@ -6,7 +6,7 @@ import com.teammealky.mealky.domain.usecase.ParamLessUseCase
 import io.reactivex.Single
 import javax.inject.Inject
 
-open class ShoppingListUseCase @Inject constructor(
+ class ShoppingListUseCase @Inject constructor(
         private val repo: ShoppingListRepository
 ) : ParamLessUseCase<List<Ingredient>>() {
 
