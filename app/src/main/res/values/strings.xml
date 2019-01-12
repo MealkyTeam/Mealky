@@ -42,7 +42,7 @@
     <string name="save_ingredients_text">Saving ingredients to shopping list succeeded!</string>
     <string name="list_cleared">The list had been cleared</string>
     <string name="just_a_moment">Just a moment…</string>
-    <string name="service_unavailable">Our app is currently unavailable, but we’re working on it!</string>
+    <string name="service_unavailable">Our app is unavailable, check your connection or try again later!</string>
     <string name="retry">Retry</string>
     <string name="exit_app">Exit app</string>
     <string name="add">Add</string>
