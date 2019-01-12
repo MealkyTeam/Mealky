@@ -3,6 +3,7 @@ package com.teammealky.mealky.presentation.commons.injection.module
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.teammealky.mealky.presentation.account.AccountViewModel
+import com.teammealky.mealky.presentation.account.forgottenPassword.ForgottenPasswordViewModel
 import com.teammealky.mealky.presentation.account.signin.SignInViewModel
 import com.teammealky.mealky.presentation.account.signup.SignUpViewModel
 import com.teammealky.mealky.presentation.commons.injection.ViewModelFactory
@@ -53,4 +54,7 @@ abstract class ViewModelModule {
 
     @Binds @IntoMap @ViewModelKey(SignUpViewModel::class)
     internal abstract fun signUp(vm: SignUpViewModel): ViewModel
+
+    @Binds @IntoMap @ViewModelKey(ForgottenPasswordViewModel::class)
+    internal abstract fun forgottenPassword(vm: ForgottenPasswordViewModel): ViewModel
 }

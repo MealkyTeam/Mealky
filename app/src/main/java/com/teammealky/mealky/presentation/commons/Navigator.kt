@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import com.teammealky.mealky.domain.model.Meal
 import com.teammealky.mealky.presentation.App
 import com.teammealky.mealky.presentation.account.AccountActivity
+import com.teammealky.mealky.presentation.account.forgottenPassword.ForgottenPasswordFragment
 import com.teammealky.mealky.presentation.account.signin.SignInFragment
 import com.teammealky.mealky.presentation.account.signup.SignUpFragment
 import com.teammealky.mealky.presentation.discover.DiscoverFragment
@@ -81,7 +82,9 @@ class Navigator(private val nav: Navigable) {
     }
 
     fun openForgottenPassword() {
-        //todo add ForgottenPasswordFragment
+        val fragment = ForgottenPasswordFragment()
+
+        nav.navigateTo(fragment)
     }
 
     fun openHome() {
