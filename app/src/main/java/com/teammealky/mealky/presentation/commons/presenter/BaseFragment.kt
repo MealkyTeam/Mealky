@@ -43,10 +43,10 @@ abstract class BaseFragment<P : Presenter<V>, in V, VM : BaseViewModel<P>> : Fra
         super.onPause()
     }
 
-    override fun showErrorMessage(retry: () -> Unit,e: Throwable) {
+    override fun showErrorMessage(retry: () -> Unit, e: Throwable, cancelable: Boolean) {
         if (context == null) return
 
-        Timber.d("KUBA_LOG Method:showErrorMessage ***** $e *****")
+        Timber.e("KUBA_LOG Method:showErrorMessage ***** $e *****")
         alertDialog = AlertDialog.Builder(context!!)
                 .setTitle(R.string.just_a_moment)
                 .setMessage(R.string.service_unavailable)
@@ -57,12 +57,11 @@ abstract class BaseFragment<P : Presenter<V>, in V, VM : BaseViewModel<P>> : Fra
                     }
                 }
                 .setNegativeButton(R.string.exit_app) { _, _ -> activity?.finish() }
-                .setCancelable(false)
+                .setCancelable(cancelable)
                 .show()
     }
 
-    override fun hideKeyboard() 
-    {
+    override fun hideKeyboard() {
         this.activity?.window?.setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
         )

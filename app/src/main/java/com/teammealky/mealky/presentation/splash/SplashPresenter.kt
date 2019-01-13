@@ -16,7 +16,12 @@ class SplashPresenter @Inject constructor(
         private val getTokenUseCase: GetTokenUseCase
 ) : BasePresenter<SplashPresenter.UI>() {
 
-    fun validateToken() {
+    override fun attach(ui: UI) {
+        super.attach(ui)
+        validateToken()
+    }
+
+    private fun validateToken() {
         disposable.add(getTokenUseCase.execute(
                 { token ->
                     if (token == Token.emptyToken())
@@ -25,7 +30,7 @@ class SplashPresenter @Inject constructor(
                         sendToken(token.token)
                 },
                 { e ->
-                    Timber.e("KUBA_LOG Method:sendToken ***** ERROR: $e *****")
+                    Timber.e("KUBA_LOG Method:sendToken ***** $e *****")
                     ui().perform { it.toSignIn() }
                 })
         )
@@ -38,7 +43,7 @@ class SplashPresenter @Inject constructor(
                     saveUser(user)
                 },
                 { e ->
-                    Timber.e("KUBA_LOG Method:sendToken ***** ERROR: $e *****")
+                    Timber.e("KUBA_LOG Method:sendToken ***** $e *****")
                     ui().perform { it.toSignIn() }
                 })
         )
