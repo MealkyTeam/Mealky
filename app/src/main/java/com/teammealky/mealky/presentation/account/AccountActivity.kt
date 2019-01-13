@@ -2,7 +2,6 @@ package com.teammealky.mealky.presentation.account
 
 import android.content.Context
 import android.os.Bundle
-import android.transition.TransitionValues
 import androidx.fragment.app.Fragment
 import com.teammealky.mealky.R
 import com.teammealky.mealky.presentation.App
@@ -27,10 +26,10 @@ class AccountActivity : BaseActivity<AccountPresenter, AccountPresenter.UI, Acco
     override fun getContext(): Context = this
 
     override fun navigateTo(fragment: Fragment, cleanStack: Boolean) {
-        setContent(fragment, cleanStack)
+        setContent(fragment)
     }
 
-    override fun setContent(fragment: Fragment, cleanStack: Boolean, transitionValues: List<TransitionValues>?) {
+    private fun setContent(fragment: Fragment) {
         val fm = supportFragmentManager
         val ft = fm.beginTransaction()
         ft.setReorderingAllowed(true)
