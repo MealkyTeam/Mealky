@@ -21,18 +21,13 @@ class AccountActivity : BaseActivity<AccountPresenter, AccountPresenter.UI, Acco
     }
 
     override fun toSignIn() {
-        setContent(SignInFragment())
-    }
-
-    override fun toMainActivity() {
-        Navigator.from(getContext() as Navigator.Navigable).openActivity(Navigator.ACTIVITY_MAIN)
-        this.finish()
+        navigateTo(SignInFragment(), true)
     }
 
     override fun getContext(): Context = this
 
     override fun navigateTo(fragment: Fragment, cleanStack: Boolean) {
-        presenter?.setContent(fragment, cleanStack)
+        setContent(fragment, cleanStack)
     }
 
     override fun setContent(fragment: Fragment, cleanStack: Boolean, transitionValues: List<TransitionValues>?) {

@@ -51,15 +51,15 @@ class SplashPresenter @Inject constructor(
 
     private fun saveUser(user: User) {
         disposable.add(saveUserUseCase.execute(
-                user, {},
+                user,
+                {
+                    ui().perform { ui -> ui.toMainActivity() }
+                },
                 { e ->
-                    ui().perform { it.showErrorMessage({ saveUser(user) }, e) }
+                    Timber.e("KUBA_LOG Method:saveUser ***** $e *****")
+                    ui().perform { it.toSignIn() }
                 })
         )
-
-        ui().perform {
-            it.toMainActivity()
-        }
     }
 
     interface UI : BaseUI {

@@ -13,13 +13,8 @@ class AccountPresenter @Inject constructor() : BasePresenter<AccountPresenter.UI
         ui().perform { it.toSignIn() }
     }
 
-    fun setContent(fragment: Fragment, cleanStack: Boolean, transitionValues: List<TransitionValues>? = null) {
-        ui().perform { it.setContent(fragment, cleanStack, transitionValues) }
-    }
-
     interface UI : BaseUI {
         fun setContent(fragment: Fragment, cleanStack: Boolean = false, transitionValues: List<TransitionValues>? = null)
         fun toSignIn()
-        fun toMainActivity()
     }
 }
