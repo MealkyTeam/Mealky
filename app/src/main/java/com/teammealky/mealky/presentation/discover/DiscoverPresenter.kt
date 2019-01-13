@@ -28,7 +28,12 @@ class DiscoverPresenter @Inject constructor(private val getMealsUseCase: ListMea
     }
 
     fun swipedRight() {
-        ui().perform { it.openItem(meals[currentMealId]) }
+        ui().perform {
+            if (meals.size > currentMealId)
+                it.openItem(meals[currentMealId])
+            else
+                loadMore()
+        }
     }
 
     private fun invalidate() {
@@ -74,7 +79,7 @@ class DiscoverPresenter @Inject constructor(private val getMealsUseCase: ListMea
         disposable.add(getMealsUseCase.execute(
                 ListMealsUseCase.Params(WITHOUT_CATEGORY, pageNumber, LIMIT),
                 { page ->
-                    meals.addAll(page.items)
+                    meals.addAll(page.items.shuffled())
                     ui().perform {
                         it.setMeals(page.items)
                         it.isLoading(false)
@@ -82,7 +87,7 @@ class DiscoverPresenter @Inject constructor(private val getMealsUseCase: ListMea
                     pageNumber++
                 },
                 { e ->
-                    Timber.e("KUBA_LOG Method:loadMore ***** $e *****")
+                    ui().perform { it.showErrorMessage({ loadMore() }, e) }
                 }))
     }
 
