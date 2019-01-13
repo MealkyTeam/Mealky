@@ -4,6 +4,7 @@ import com.teammealky.mealky.domain.model.Category
 import com.teammealky.mealky.domain.model.Ingredient
 import com.teammealky.mealky.domain.model.Meal
 import com.teammealky.mealky.domain.model.Page
+import com.teammealky.mealky.domain.model.Token
 import com.teammealky.mealky.domain.model.Unit
 import com.teammealky.mealky.domain.model.User
 import com.teammealky.mealky.presentation.shoppinglist.model.ShoppingListItemViewModel
@@ -60,5 +61,8 @@ class MockDataTest {
 
         val SHOPPING_LIST_ITEM_VIEW_MODEL =
                 INGREDIENTS.map { item -> ShoppingListItemViewModel(item, false) }
+
+        val CORRECT_TOKEN = Token("Correct token")
+        val WRONG_TOKEN = Token("Wrong token")
     }
 }
