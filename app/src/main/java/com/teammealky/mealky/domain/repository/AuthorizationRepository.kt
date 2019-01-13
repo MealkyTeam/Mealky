@@ -13,4 +13,6 @@ interface AuthorizationRepository {
     fun signUp(username: String,
                email: String,
                password: String): Completable
+
+    fun resetPassword(email: String): Completable
 }

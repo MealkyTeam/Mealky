@@ -5,6 +5,7 @@ import com.teammealky.mealky.domain.usecase.meals.ListMealsUseCase
 import com.teammealky.mealky.presentation.commons.extension.genRandomIntExcept
 import com.teammealky.mealky.presentation.commons.presenter.BasePresenter
 import com.teammealky.mealky.presentation.commons.presenter.BaseUI
+import timber.log.Timber
 import javax.inject.Inject
 
 class DiscoverPresenter @Inject constructor(private val getMealsUseCase: ListMealsUseCase
@@ -52,7 +53,7 @@ class DiscoverPresenter @Inject constructor(private val getMealsUseCase: ListMea
                         loadMore()
                     },
                     { e ->
-                        ui().perform { it.showErrorMessage({ firstRequest() }, e) }
+                        ui().perform { it.showErrorMessage({ firstRequest() }, e, false) }
                     })
             )
         } else
@@ -81,7 +82,7 @@ class DiscoverPresenter @Inject constructor(private val getMealsUseCase: ListMea
                     pageNumber++
                 },
                 { e ->
-                    ui().perform { it.showErrorMessage({ loadMore() }, e) }
+                    Timber.e("KUBA_LOG Method:loadMore ***** $e *****")
                 }))
     }
 

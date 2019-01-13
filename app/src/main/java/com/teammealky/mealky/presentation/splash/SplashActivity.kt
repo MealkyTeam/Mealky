@@ -17,12 +17,6 @@ class SplashActivity : BaseActivity<SplashPresenter, SplashPresenter.UI, SplashV
         App.get(this).getComponent().inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
-
-        setupView()
-    }
-
-    private fun setupView() {
-        presenter?.validateToken()
     }
 
     override fun toSignIn() {

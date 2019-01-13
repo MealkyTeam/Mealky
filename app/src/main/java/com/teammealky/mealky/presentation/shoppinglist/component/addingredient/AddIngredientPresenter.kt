@@ -30,7 +30,7 @@ class AddIngredientPresenter @Inject constructor(
                     searchUnits(page.items)
                 },
                 { e ->
-                    Timber.d("KUBA_LOG Method:fetchAll ***** $e *****")
+                    Timber.e("KUBA_LOG Method:fetchAll ***** $e *****")
                     searchUnits(emptyList())
                 }
         ))
@@ -49,7 +49,7 @@ class AddIngredientPresenter @Inject constructor(
                     initialSetup(ingredients, page.items)
                 },
                 { e ->
-                    Timber.d("KUBA_LOG Method:searchUnits ***** $e *****")
+                    Timber.e("KUBA_LOG Method:searchUnits ***** $e *****")
                     ui().perform {
                         it.setupAutocompleteAdapters(ingredients, emptyList())
                         it.isLoading(false)
