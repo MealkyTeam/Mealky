@@ -34,9 +34,9 @@ class MockDataTest {
         )
 
         val USERS = listOf(
-                User(1, "email1", "password1", "username1", "token1"),
+                User(1, "validEmail@wp.com", "password1", "username1", "token1"),
                 User(2, null, null, "username2", "token2"),
-                User(3, "email3", null, "username3", "token3")
+                User(3, "invalidEmail", "PsInv", "username3", "token3")
         )
 
         val MEALS = listOf(
