@@ -46,25 +46,29 @@ class SignInPresenter @Inject constructor(
                         it.isLoading(false)
                     }
                     if (e is APIError) {
-                        when (e.type) {
-                            APIError.ErrorType.CONFIRM_EMAIL -> {
-                                ui().perform { it.showErrorInfo(APIError.ErrorType.CONFIRM_EMAIL) }
-                            }
-                            APIError.ErrorType.NO_SUCH_USER -> {
-                                ui().perform { it.showErrorInfo(APIError.ErrorType.NO_SUCH_USER) }
-                            }
-                            APIError.ErrorType.WRONG_PASSWORD -> {
-                                ui().perform { it.showErrorInfo(APIError.ErrorType.WRONG_PASSWORD) }
-                            }
-                            else -> {
-                                ui().perform { it.showErrorMessage({ signInButtonClicked() }, e) }
-                            }
-                        }
+                        showError(e)
                     } else {
                         ui().perform { it.showErrorMessage({ signInButtonClicked() }, e) }
                     }
                 })
         )
+    }
+
+    private fun showError(e: APIError) {
+        when (e.type) {
+            APIError.ErrorType.CONFIRM_EMAIL -> {
+                ui().perform { it.showErrorInfo(APIError.ErrorType.CONFIRM_EMAIL) }
+            }
+            APIError.ErrorType.NO_SUCH_USER -> {
+                ui().perform { it.showErrorInfo(APIError.ErrorType.NO_SUCH_USER) }
+            }
+            APIError.ErrorType.WRONG_PASSWORD -> {
+                ui().perform { it.showErrorInfo(APIError.ErrorType.WRONG_PASSWORD) }
+            }
+            else -> {
+                ui().perform { it.showErrorMessage({ signInButtonClicked() }, e) }
+            }
+        }
     }
 
     private fun changeActivity() {
