@@ -314,7 +314,7 @@ class SignInPresenterTest {
      * Then go to sign up fragment
      */
     @Test
-    fun `Click sign uplink`() {
+    fun `Click sign up link`() {
         //Given
         presenter.attach(view)
 
