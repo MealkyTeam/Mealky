@@ -5,6 +5,7 @@ import com.teammealky.mealky.domain.usecase.meals.ListMealsUseCase
 import com.teammealky.mealky.presentation.commons.extension.genRandomIntExcept
 import com.teammealky.mealky.presentation.commons.presenter.BasePresenter
 import com.teammealky.mealky.presentation.commons.presenter.BaseUI
+import timber.log.Timber
 import javax.inject.Inject
 
 class DiscoverPresenter @Inject constructor(private val getMealsUseCase: ListMealsUseCase
@@ -27,7 +28,12 @@ class DiscoverPresenter @Inject constructor(private val getMealsUseCase: ListMea
     }
 
     fun swipedRight() {
-        ui().perform { it.openItem(meals[currentMealId]) }
+        ui().perform {
+            if (meals.size > currentMealId)
+                it.openItem(meals[currentMealId])
+            else
+                loadMore()
+        }
     }
 
     private fun invalidate() {
@@ -52,7 +58,7 @@ class DiscoverPresenter @Inject constructor(private val getMealsUseCase: ListMea
                         loadMore()
                     },
                     { e ->
-                        ui().perform { it.showErrorMessage({ firstRequest() }, e) }
+                        ui().perform { it.showErrorMessage({ firstRequest() }, e, false) }
                     })
             )
         } else
@@ -73,7 +79,7 @@ class DiscoverPresenter @Inject constructor(private val getMealsUseCase: ListMea
         disposable.add(getMealsUseCase.execute(
                 ListMealsUseCase.Params(WITHOUT_CATEGORY, pageNumber, LIMIT),
                 { page ->
-                    meals.addAll(page.items)
+                    meals.addAll(page.items.shuffled())
                     ui().perform {
                         it.setMeals(page.items)
                         it.isLoading(false)

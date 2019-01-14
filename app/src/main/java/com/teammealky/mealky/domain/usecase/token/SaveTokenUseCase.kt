@@ -5,7 +5,7 @@ import com.teammealky.mealky.domain.repository.TokenRepository
 import com.teammealky.mealky.domain.usecase.SingleUseCase
 import javax.inject.Inject
 
-open class SaveTokenUseCase @Inject constructor(
+ class SaveTokenUseCase @Inject constructor(
         private val repo: TokenRepository
 ) : SingleUseCase<Token, Boolean>() {
 

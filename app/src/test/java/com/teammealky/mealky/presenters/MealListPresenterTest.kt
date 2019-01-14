@@ -26,7 +26,8 @@ class MealListPresenterTest {
         every { view.isLoading(any()) } just Runs
         every { view.fillList(any()) } just Runs
         every { view.setVisibleItem(any()) } just Runs
-        every { view.showErrorMessage(any(),any()) } just Runs
+        every { view.showErrorMessage(any(), any()) } just Runs
+        every { view.showErrorMessage(any(), any(), false) } just Runs
 
         presenter = MealListPresenter(mockUseCase)
     }
@@ -99,7 +100,7 @@ class MealListPresenterTest {
         verifySequence {
             //attach
             view.isLoading(true)
-            view.showErrorMessage(any(), error)
+            view.showErrorMessage(any(), error, false)
         }
     }
 
@@ -108,10 +109,10 @@ class MealListPresenterTest {
      * Given there is fail in connection
      * When I attach presenter
      * And I will scroll down
-     * Then it will show error.
+     * Then do nothing
      */
     @Test
-    fun `Show error if something went wrong on load more`() {
+    fun `Do nothing if something went wrong on load more`() {
         //Given
         val error = Exception("Some error occurred")
 
@@ -130,7 +131,6 @@ class MealListPresenterTest {
 
             //loadMore
             view.isLoading(true)
-            view.showErrorMessage(any(), error)
         }
     }
 

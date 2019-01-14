@@ -18,6 +18,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
 
+
+        <activity
+            android:name="com.teammealky.mealky.presentation.splash.SplashActivity"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="stateHidden|adjustPan">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name="com.teammealky.mealky.presentation.main.MainActivity"
             android:launchMode="singleTask"
@@ -32,13 +47,8 @@
             android:name="com.teammealky.mealky.presentation.account.AccountActivity"
             android:launchMode="singleTask"
             android:windowSoftInputMode="stateHidden|adjustPan">
-
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 

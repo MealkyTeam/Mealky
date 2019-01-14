@@ -52,8 +52,8 @@ class SignUpFragment : BaseFragment<SignUpPresenter, SignUpPresenter.UI, SignUpV
         progressBar.isVisible(isLoading)
     }
 
-    override fun toSignInFragment() {
-        Navigator.from(context as Navigator.Navigable).openSignIn(true)
+    override fun toSignInFragment(withError: Boolean) {
+        Navigator.from(context as Navigator.Navigable).openSignIn(withError)
     }
 
     override fun showErrorInInfo(error: APIError.ErrorType) {

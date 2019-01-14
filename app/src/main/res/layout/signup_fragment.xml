@@ -1,20 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:fitsSystemWindows="true"
     android:padding="16dp">
-
-    <com.teammealky.mealky.presentation.commons.view.AspectRatioImageView
-        android:id="@+id/logo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:contentDescription="@string/logo"
-        android:src="@drawable/logo"
-        app:aspectRatio="0.66" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -28,7 +18,6 @@
         android:id="@+id/userInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/logo"
         android:orientation="vertical">
 
         <TextView
