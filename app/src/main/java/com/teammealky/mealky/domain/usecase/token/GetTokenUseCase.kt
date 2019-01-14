@@ -6,7 +6,7 @@ import com.teammealky.mealky.domain.usecase.ParamLessUseCase
 import io.reactivex.Single
 import javax.inject.Inject
 
-open class GetTokenUseCase @Inject constructor(
+ class GetTokenUseCase @Inject constructor(
         private val repo: TokenRepository
 ) : ParamLessUseCase<Token>() {
 

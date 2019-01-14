@@ -7,7 +7,7 @@ import com.teammealky.mealky.domain.usecase.SingleUseCase
 import io.reactivex.Single
 import javax.inject.Inject
 
-open class SearchUnitsUseCase @Inject constructor(
+ class SearchUnitsUseCase @Inject constructor(
         private val repo: UnitsRepository
 ) : SingleUseCase<SearchUnitsUseCase.Params, Page<Unit>>() {
 

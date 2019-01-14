@@ -54,4 +54,7 @@
     <string name="confirm">Confirm</string>
     <string name="go_back">Go back</string>
     <string name="you_already_have_ingredient">You already have such an ingredient on the list </string>
+    <string name="reset_password">Reset your password</string>
+    <string name="password_reseted">Password has been reseted. Check your email!</string>
+    <string name="go_back_to_sign_in">Go back to sign in</string>
 </resources>

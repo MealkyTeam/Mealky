@@ -49,9 +49,6 @@ class SignInFragment : BaseFragment<SignInPresenter, SignInPresenter.UI, SignInV
         val showError = arguments?.getBoolean(EMAIL_ERROR_KEY) ?: false
         infoTv.isVisible(showError)
         infoTv.text = getString(R.string.you_need_to_confirm_email)
-
-        //todo it's not implemented yet that's why it's hidden
-        forgottenPasswordTv.isVisible(false)
     }
 
     override fun toMainActivity() {

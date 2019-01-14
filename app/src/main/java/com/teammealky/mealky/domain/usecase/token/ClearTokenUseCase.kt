@@ -5,7 +5,7 @@ import com.teammealky.mealky.domain.usecase.ParamLessUseCase
 import io.reactivex.Single
 import javax.inject.Inject
 
-open class ClearTokenUseCase @Inject constructor(
+ class ClearTokenUseCase @Inject constructor(
         private val repo: TokenRepository
 ) : ParamLessUseCase<Boolean>() {
 

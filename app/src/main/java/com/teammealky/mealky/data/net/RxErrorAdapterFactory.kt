@@ -46,7 +46,7 @@ class RxErrorAdapterFactory : CallAdapter.Factory() {
         private fun buildError(call: Call<R>): String {
             var url = ""
             try {
-                url = call.request()?.url()?.toString() ?: ""
+                url = call.request().url().toString()
             } catch (ignored: Exception) {
             }
             return url
