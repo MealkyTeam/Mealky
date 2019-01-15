@@ -11,10 +11,10 @@ import javax.inject.Inject
         private val repo: MealsRepository
 ) : SingleUseCase<ListMealsUseCase.Params, Page<Meal>>() {
 
-    override fun doWork(param: Params): Single<Page<Meal>> = repo.getMealsByPage(param.categoryId, param.page, param.limit)
+    override fun doWork(param: Params): Single<Page<Meal>> = repo.searchMeals(param.query, param.page, param.limit)
 
     data class Params(
-            val categoryId: Int,
+            val query: String = "",
             val page: Int,
             val limit: Int
     )
