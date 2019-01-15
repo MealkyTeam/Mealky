@@ -134,7 +134,7 @@ class SignInPresenterTest {
             mockSignInWithPasswordUseCase.asSingle(
                     SignInWithPasswordUseCase.Params(user.email!!, user.password!!)
             )
-        } returns Single.error(APIError("Wrong password."))
+        } returns Single.error(APIError(APIError.WRONG_PASSWORD))
 
         //When
         presenter.attach(view)
@@ -175,7 +175,7 @@ class SignInPresenterTest {
             mockSignInWithPasswordUseCase.asSingle(
                     SignInWithPasswordUseCase.Params(user.email!!, user.password!!)
             )
-        } returns Single.error(APIError("User with this email does not exists."))
+        } returns Single.error(APIError(APIError.NO_SUCH_USER))
 
         //When
         presenter.attach(view)
@@ -216,7 +216,7 @@ class SignInPresenterTest {
             mockSignInWithPasswordUseCase.asSingle(
                     SignInWithPasswordUseCase.Params(user.email!!, user.password!!)
             )
-        } returns Single.error(APIError("This account is not confirmed."))
+        } returns Single.error(APIError(APIError.CONFIRM_EMAIL))
 
 
         //When

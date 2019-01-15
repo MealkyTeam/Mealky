@@ -110,7 +110,7 @@ class ForgottenPasswordPresenterTest {
         val user = MockDataTest.USERS[0]
         every {
             mockUseCase.asSingle(user.email!!)
-        } returns Single.error(APIError("User with this email does not exists."))
+        } returns Single.error(APIError(APIError.NO_SUCH_USER))
 
         //When
         presenter.attach(view)
