@@ -65,15 +65,15 @@ class RxErrorAdapterFactory : CallAdapter.Factory() {
             try {
                 response = httpException.response()
                 errorBody = (response?.errorBody()
-                        ?: (return Exception("Error occurred during parsing API error response")))
+                        ?: (return Exception(APIError.PARSING_API_ERROR)))
             } catch (e: Exception) {
-                return Exception("Error occurred during parsing API error response")
+                return Exception(APIError.PARSING_API_ERROR)
             }
             return try {
                 val converter = retrofit.responseBodyConverter<APIError>(APIError::class.java, arrayOfNulls(0))
-                converter.convert(errorBody) ?: APIError("Something went wrong.")
+                converter.convert(errorBody) ?: APIError(APIError.SOMETHING_WENT_WRONG)
             } catch (e: Exception) {
-                APIError("Something went wrong.")
+                APIError(APIError.SOMETHING_WENT_WRONG)
             }
         }
     }
