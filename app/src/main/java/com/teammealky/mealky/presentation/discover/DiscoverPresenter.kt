@@ -51,7 +51,7 @@ class DiscoverPresenter @Inject constructor(private val getMealsUseCase: ListMea
         ui().perform { it.isLoading(true) }
         if (meals.isEmpty()) {
             disposable.add(getMealsUseCase.execute(
-                    ListMealsUseCase.Params(WITHOUT_CATEGORY, 0, LIMIT),
+                    ListMealsUseCase.Params(page = 0, limit = LIMIT),
                     { page ->
                         maxPages = page.totalPages
                         totalElements = page.totalElements
@@ -77,7 +77,7 @@ class DiscoverPresenter @Inject constructor(private val getMealsUseCase: ListMea
         excluded.add(pageNumber)
 
         disposable.add(getMealsUseCase.execute(
-                ListMealsUseCase.Params(WITHOUT_CATEGORY, pageNumber, LIMIT),
+                ListMealsUseCase.Params(page = pageNumber, limit = LIMIT),
                 { page ->
                     meals.addAll(page.items.shuffled())
                     ui().perform {
@@ -106,6 +106,5 @@ class DiscoverPresenter @Inject constructor(private val getMealsUseCase: ListMea
     companion object {
         const val LIMIT = 8
         private const val LOAD_MORE_AFTER = 6
-        private const val WITHOUT_CATEGORY = -1
     }
 }

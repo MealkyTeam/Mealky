@@ -30,7 +30,7 @@ class MealListPresenter @Inject constructor(
         ui().perform { it.isLoading(true) }
         if (meals.isEmpty()) {
             disposable.add(getMealsUseCase.execute(
-                    ListMealsUseCase.Params(WITHOUT_CATEGORY, 0, LIMIT),
+                    ListMealsUseCase.Params(page = 0, limit = LIMIT),
                     { page ->
                         maxPages = page.totalPages
                         loadMore()
@@ -51,10 +51,10 @@ class MealListPresenter @Inject constructor(
         }
     }
 
-    fun loadMore() {
+    fun loadMore(query: String = "") {
         ui().perform { it.isLoading(true) }
         disposable.add(getMealsUseCase.execute(
-                ListMealsUseCase.Params(WITHOUT_CATEGORY, pageNumber, LIMIT),
+                ListMealsUseCase.Params(query, pageNumber, LIMIT),
                 { page ->
                     ui().perform {
                         meals += page.items
@@ -71,6 +71,7 @@ class MealListPresenter @Inject constructor(
                 }))
     }
 
+
     fun onPaused(itemPosition: Int) {
         this.visibleItemId = itemPosition
     }
@@ -85,6 +86,5 @@ class MealListPresenter @Inject constructor(
 
     companion object {
         const val LIMIT = 8
-        private const val WITHOUT_CATEGORY = -1
     }
 }
