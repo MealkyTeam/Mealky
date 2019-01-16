@@ -20,7 +20,7 @@ class MealListPresenterTest {
 
     @Before
     fun setUp() {
-        every { mockUseCase.asSingle(ListMealsUseCase.Params(-1, 0, 8)) } returns Single.just(MockDataTest.MEALS_PAGE)
+        every { mockUseCase.asSingle(ListMealsUseCase.Params("", 0, 8)) } returns Single.just(MockDataTest.MEALS_PAGE)
         every { view.setupRecyclerView() } just Runs
         every { view.openItem(any()) } just Runs
         every { view.isLoading(any()) } just Runs
@@ -91,7 +91,7 @@ class MealListPresenterTest {
     fun `Show error if something went wrong on first fetch`() {
         //Given
         val error = Exception("Some error occurred")
-        every { mockUseCase.asSingle(ListMealsUseCase.Params(-1, 0, MealListPresenter.LIMIT)) } returns Single.error(error)
+        every { mockUseCase.asSingle(ListMealsUseCase.Params("", 0, MealListPresenter.LIMIT)) } returns Single.error(error)
 
         //When
         presenter.attach(view)
@@ -118,7 +118,7 @@ class MealListPresenterTest {
 
         //When
         presenter.attach(view)
-        every { mockUseCase.asSingle(ListMealsUseCase.Params(-1, 0, 8)) } returns Single.error(error)
+        every { mockUseCase.asSingle(ListMealsUseCase.Params("", 0, 8)) } returns Single.error(error)
         presenter.loadMore()
 
         //Then
