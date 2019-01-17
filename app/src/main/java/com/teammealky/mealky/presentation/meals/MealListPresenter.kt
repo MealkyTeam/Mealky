@@ -74,6 +74,7 @@ class MealListPresenter @Inject constructor(
                         meals += page.items
                         it.fillList(page.items)
                         it.isLoading(false)
+                        it.showEmptyView(meals.isEmpty(), currentQuery)
                     }
                     if (shouldResetPages())
                         pageNumber = 0
@@ -141,6 +142,7 @@ class MealListPresenter @Inject constructor(
         fun setVisibleItem(visibleItemId: Int)
         fun clearList()
         fun scrollToTop()
+        fun showEmptyView(isVisible: Boolean, query: String = "")
     }
 
     companion object {

@@ -20,6 +20,8 @@ import com.teammealky.mealky.presentation.commons.listener.PaginationScrollListe
 import com.teammealky.mealky.presentation.commons.presenter.BaseFragment
 import com.teammealky.mealky.presentation.meals.MealListPresenter.Companion.LIMIT
 import com.teammealky.mealky.presentation.meals.adapter.MealsAdapter
+import kotlinx.android.synthetic.main.empty_item.*
+import kotlinx.android.synthetic.main.empty_item.view.*
 import kotlinx.android.synthetic.main.meals_fragment.*
 import kotlinx.android.synthetic.main.search_toolbar.*
 import timber.log.Timber
@@ -46,6 +48,11 @@ class MealListFragment : BaseFragment<MealListPresenter, MealListPresenter.UI, M
 
         setupSearch()
         setupRecyclerView()
+    }
+
+    override fun showEmptyView(isVisible: Boolean, query: String) {
+        emptyItemLayout.isVisible(isVisible)
+        emptyItemLayout.emptyItemTv.text = getString(R.string.empty_search_for, query)
     }
 
     private fun setupSearch() {
