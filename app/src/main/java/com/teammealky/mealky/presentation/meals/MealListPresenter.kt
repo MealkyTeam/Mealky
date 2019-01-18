@@ -130,7 +130,7 @@ class MealListPresenter @Inject constructor(
             ui().perform { it.hideKeyboard() }
     }
 
-    fun isLastPage(): Boolean {
+    fun shouldStopLoadMore(): Boolean {
         return allPagesFetched() && currentQuery != ""
     }
 

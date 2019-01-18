@@ -70,7 +70,7 @@ class MealListFragment : BaseFragment<MealListPresenter, MealListPresenter.UI, M
 
         mealListRv.addOnScrollListener(object : PaginationScrollListener(layoutManager as LinearLayoutManager, LIMIT - 2) {
             override fun isLastPage(): Boolean {
-                return presenter?.isLastPage() ?: true
+                return presenter?.shouldStopLoadMore() ?: true
             }
 
             override fun isLoading(): Boolean {

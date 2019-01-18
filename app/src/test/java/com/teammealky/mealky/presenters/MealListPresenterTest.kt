@@ -1,6 +1,9 @@
 package com.teammealky.mealky.presenters
 
+import androidx.recyclerview.widget.RecyclerView
 import com.teammealky.mealky.MockDataTest
+import com.teammealky.mealky.MockDataTest.Companion.NOT_EMPTY_QUERY_WITHOUT_RESULT
+import com.teammealky.mealky.MockDataTest.Companion.NOT_EMPTY_QUERY_WITH_RESULT
 import com.teammealky.mealky.data.repository.MealsDataRepository
 import com.teammealky.mealky.domain.usecase.meals.ListMealsUseCase
 import com.teammealky.mealky.presentation.meals.MealListPresenter
@@ -8,6 +11,7 @@ import io.reactivex.Single
 import org.junit.Before
 import org.junit.Test
 import io.mockk.*
+import org.junit.Assert.assertEquals
 
 class MealListPresenterTest {
 
@@ -21,6 +25,9 @@ class MealListPresenterTest {
     @Before
     fun setUp() {
         every { mockUseCase.asSingle(ListMealsUseCase.Params("", 0, 8)) } returns Single.just(MockDataTest.MEALS_PAGE)
+        every { mockUseCase.asSingle(ListMealsUseCase.Params(NOT_EMPTY_QUERY_WITH_RESULT, 0, 8)) } returns Single.just(MockDataTest.MEALS_PAGE2)
+        every { mockUseCase.asSingle(ListMealsUseCase.Params(NOT_EMPTY_QUERY_WITHOUT_RESULT, 0, 8)) } returns Single.just(MockDataTest.MEALS_EMPTY_PAGE)
+
         every { view.setupRecyclerView() } just Runs
         every { view.openItem(any()) } just Runs
         every { view.isLoading(any()) } just Runs
@@ -28,6 +35,10 @@ class MealListPresenterTest {
         every { view.setVisibleItem(any()) } just Runs
         every { view.showErrorMessage(any(), any()) } just Runs
         every { view.showErrorMessage(any(), any(), false) } just Runs
+        every { view.showEmptyView(any(), any()) } just Runs
+        every { view.clearList() } just Runs
+        every { view.scrollToTop() } just Runs
+        every { view.hideKeyboard() } just Runs
 
         presenter = MealListPresenter(mockUseCase)
     }
@@ -49,6 +60,7 @@ class MealListPresenterTest {
             view.isLoading(true)
             view.fillList(MockDataTest.MEALS)
             view.isLoading(false)
+            view.showEmptyView(false, "")
         }
     }
 
@@ -72,6 +84,7 @@ class MealListPresenterTest {
             view.isLoading(true)
             view.fillList(MockDataTest.MEALS)
             view.isLoading(false)
+            view.showEmptyView(false, "")
 
             //attach
             view.isLoading(true)
@@ -128,9 +141,84 @@ class MealListPresenterTest {
             view.isLoading(true)
             view.fillList(MockDataTest.MEALS)
             view.isLoading(false)
+            view.showEmptyView(false, "")
 
             //loadMore
             view.isLoading(true)
+        }
+    }
+
+    /**
+     * Scenario: User enters data to search and api returns meals
+     * Given there is presenter attached
+     * When I enter data to search
+     * Then display fetched meals
+     */
+    @Test
+    fun `Search which returns some data`() {
+        //Given
+        presenter.attach(view)
+
+        //When
+        presenter.currentQuery = NOT_EMPTY_QUERY_WITH_RESULT
+        presenter.search()
+
+        //Then
+        verifySequence {
+            //attach
+            view.isLoading(true)
+            view.isLoading(true)
+            view.fillList(MockDataTest.MEALS)
+            view.isLoading(false)
+            view.showEmptyView(false, "")
+
+            //search
+            view.isLoading(true)
+            view.clearList()
+            view.scrollToTop()
+
+            //loadMore
+            view.isLoading(true)
+            view.fillList(MockDataTest.MEALS.reversed())
+            view.isLoading(false)
+            view.showEmptyView(false, NOT_EMPTY_QUERY_WITH_RESULT)
+        }
+    }
+
+    /**
+     * Scenario: User enters data to search and api returns empty page
+     * Given there is presenter attached
+     * When I enter data to search
+     * Then display empty item
+     */
+    @Test
+    fun `Search which returns empty page`() {
+        //Given
+        presenter.attach(view)
+
+        //When
+        presenter.currentQuery = NOT_EMPTY_QUERY_WITHOUT_RESULT
+        presenter.search()
+
+        //Then
+        verifySequence {
+            //attach
+            view.isLoading(true)
+            view.isLoading(true)
+            view.fillList(MockDataTest.MEALS)
+            view.isLoading(false)
+            view.showEmptyView(false, "")
+
+            //search
+            view.isLoading(true)
+            view.clearList()
+            view.scrollToTop()
+
+            //loadMore
+            view.isLoading(true)
+            view.fillList(emptyList())
+            view.isLoading(false)
+            view.showEmptyView(true, NOT_EMPTY_QUERY_WITHOUT_RESULT)
         }
     }
 
@@ -155,10 +243,102 @@ class MealListPresenterTest {
             view.isLoading(true)
             view.fillList(MockDataTest.MEALS)
             view.isLoading(false)
+            view.showEmptyView(false, "")
 
             //onItemClick
             view.openItem(MockDataTest.MEALS.first())
         }
+    }
+
+    /**
+     * Scenario: Hide keyboard on scroll state changed to drag
+     * Given there is filled presenter
+     * When I try to scroll list
+     * Then it will hide keyboard
+     */
+    @Test
+    fun `Hide keyboard on list dragged`() {
+        //Given
+        presenter.attach(view)
+
+        //When
+        presenter.scrolled(RecyclerView.SCROLL_STATE_DRAGGING)
+
+        //Then
+        verifySequence {
+            //attach
+            view.isLoading(true)
+            view.isLoading(true)
+            view.fillList(MockDataTest.MEALS)
+            view.isLoading(false)
+            view.showEmptyView(false, "")
+
+            //onItemClick
+            view.hideKeyboard()
+        }
+    }
+
+    /**
+     * Scenario: Don't hide keyboard on scroll state changed from drag
+     * Given there is filled presenter
+     * When I stop scrolling
+     * Then do nothing
+     */
+    @Test
+    fun `Do nothing on different scroll state`() {
+        //Given
+        presenter.attach(view)
+
+        //When
+        presenter.scrolled(RecyclerView.SCROLL_STATE_IDLE)
+
+        //Then
+        verifySequence {
+            //attach
+            view.isLoading(true)
+            view.isLoading(true)
+            view.fillList(MockDataTest.MEALS)
+            view.isLoading(false)
+            view.showEmptyView(false, "")
+        }
+    }
+
+    /**
+     * Scenario: Check if is last page and it is
+     * Given there is filled presenter
+     * When I scroll to bottom
+     * Then presenter must check if is last page and say yes
+     */
+    @Test
+    fun `Check if last page (YES)`() {
+        //Given
+        presenter.attach(view)
+        presenter.currentQuery = NOT_EMPTY_QUERY_WITHOUT_RESULT
+
+        //When
+        //scrolled
+
+        //Then
+        assertEquals(true, presenter.shouldStopLoadMore())
+    }
+
+    /**
+     * Scenario: Check if is last page and there is more pages left
+     * Given there is filled presenter
+     * When I scroll to bottom
+     * Then presenter must check if is last page and say nop
+     */
+    @Test
+    fun `Check if last page (NO)`() {
+        //Given
+        every { mockUseCase.asSingle(ListMealsUseCase.Params("", 0, 8)) } returns Single.just(MockDataTest.MEALS_PAGE2)
+        presenter.attach(view)
+
+        //When
+        //scrolled
+
+        //Then
+        assertEquals(false, presenter.shouldStopLoadMore())
     }
 
     /**
@@ -184,6 +364,7 @@ class MealListPresenterTest {
             view.isLoading(true)
             view.fillList(MockDataTest.MEALS)
             view.isLoading(false)
+            view.showEmptyView(false, "")
 
             //attach
             view.isLoading(true)
