@@ -1,5 +1,6 @@
 package com.teammealky.mealky.presentation.commons.presenter
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
@@ -9,6 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.teammealky.mealky.R
 import timber.log.Timber
 import javax.inject.Inject
+import android.view.inputmethod.InputMethodManager
 
 abstract class BaseFragment<P : Presenter<V>, in V, VM : BaseViewModel<P>> : Fragment(), BaseUI {
 
@@ -62,6 +64,11 @@ abstract class BaseFragment<P : Presenter<V>, in V, VM : BaseViewModel<P>> : Fra
     }
 
     override fun hideKeyboard() {
+        Timber.d("KUBA_LOG Method:hideKeyboard *****  *****")
+
+        val imm = context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view?.windowToken, 0)
+
         this.activity?.window?.setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
         )
