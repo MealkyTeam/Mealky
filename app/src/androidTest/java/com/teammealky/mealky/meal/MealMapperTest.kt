@@ -25,5 +25,4 @@ class MealMapperTest{
         assertEquals(meal2,mealFromBundle2)
         assertEquals(meal3,mealFromBundle3)
     }
-
 }

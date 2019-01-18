@@ -10,10 +10,6 @@ import javax.inject.Singleton
 @Singleton
 class MealsRemoteSource @Inject constructor(private val api: RestService) {
 
-    fun listMealsByPage(categoryId: Int,
-                        offset: Int,
-                        limit: Int): Single<Page<Meal>> = api.client().listMeals(categoryId,offset,limit)
-
     fun search(query: String,
                offset: Int,
                limit: Int): Single<Page<Meal>> = api.client().searchMeals(query,offset,limit)

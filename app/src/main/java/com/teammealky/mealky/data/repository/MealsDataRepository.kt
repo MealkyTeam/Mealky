@@ -11,5 +11,6 @@ import javax.inject.Singleton
 @Singleton
 class MealsDataRepository @Inject constructor(private val remote: MealsRemoteSource) : MealsRepository {
 
-    override fun getMealsByPage(categoryId: Int, page: Int, limit: Int): Single<Page<Meal>> = remote.listMealsByPage(categoryId, page, limit)
+    override fun searchMeals(query: String, page: Int, limit: Int): Single<Page<Meal>>
+            = remote.search(query, page, limit)
 }
