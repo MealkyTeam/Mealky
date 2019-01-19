@@ -51,8 +51,11 @@ class MealListPresenterTest {
      */
     @Test
     fun `Attach presenter if empty`() {
-        //When
+        //Given
         presenter.attach(view)
+
+        //When
+        presenter.firstRequest()
 
         //Then
         verifySequence {
@@ -77,6 +80,7 @@ class MealListPresenterTest {
 
         //When
         presenter.attach(view)
+        presenter.firstRequest()
 
         //Then
         verifySequence {
@@ -86,7 +90,7 @@ class MealListPresenterTest {
             view.isLoading(false)
             view.showEmptyView(false, "")
 
-            //attach
+            //firstRequest
             view.isLoading(true)
             view.fillList(MockDataTest.MEALS)
             view.setVisibleItem(any())
@@ -108,10 +112,11 @@ class MealListPresenterTest {
 
         //When
         presenter.attach(view)
+        presenter.firstRequest()
 
         //Then
         verifySequence {
-            //attach
+            //firstRequest
             view.isLoading(true)
             view.showErrorMessage(any(), error, false)
         }
@@ -131,12 +136,13 @@ class MealListPresenterTest {
 
         //When
         presenter.attach(view)
+        presenter.firstRequest()
         every { mockUseCase.asSingle(ListMealsUseCase.Params("", 0, 8)) } returns Single.error(error)
         presenter.loadMore()
 
         //Then
         verifySequence {
-            //attach
+            //firstRequest
             view.isLoading(true)
             view.isLoading(true)
             view.fillList(MockDataTest.MEALS)
@@ -158,6 +164,7 @@ class MealListPresenterTest {
     fun `Search which returns some data`() {
         //Given
         presenter.attach(view)
+        presenter.firstRequest()
 
         //When
         presenter.currentQuery = NOT_EMPTY_QUERY_WITH_RESULT
@@ -165,7 +172,7 @@ class MealListPresenterTest {
 
         //Then
         verifySequence {
-            //attach
+            //firstRequest
             view.isLoading(true)
             view.isLoading(true)
             view.fillList(MockDataTest.MEALS)
@@ -195,6 +202,7 @@ class MealListPresenterTest {
     fun `Search which returns empty page`() {
         //Given
         presenter.attach(view)
+        presenter.firstRequest()
 
         //When
         presenter.currentQuery = NOT_EMPTY_QUERY_WITHOUT_RESULT
@@ -202,7 +210,7 @@ class MealListPresenterTest {
 
         //Then
         verifySequence {
-            //attach
+            //firstRequest
             view.isLoading(true)
             view.isLoading(true)
             view.fillList(MockDataTest.MEALS)
@@ -232,13 +240,14 @@ class MealListPresenterTest {
     fun `Open meal details`() {
         //Given
         presenter.attach(view)
+        presenter.firstRequest()
 
         //When
         presenter.onItemClicked(MockDataTest.MEALS.first())
 
         //Then
         verifySequence {
-            //attach
+            //firstRequest
             view.isLoading(true)
             view.isLoading(true)
             view.fillList(MockDataTest.MEALS)
@@ -260,13 +269,14 @@ class MealListPresenterTest {
     fun `Hide keyboard on list dragged`() {
         //Given
         presenter.attach(view)
+        presenter.firstRequest()
 
         //When
         presenter.scrolled(RecyclerView.SCROLL_STATE_DRAGGING)
 
         //Then
         verifySequence {
-            //attach
+            //firstRequest
             view.isLoading(true)
             view.isLoading(true)
             view.fillList(MockDataTest.MEALS)
@@ -288,13 +298,14 @@ class MealListPresenterTest {
     fun `Do nothing on different scroll state`() {
         //Given
         presenter.attach(view)
+        presenter.firstRequest()
 
         //When
         presenter.scrolled(RecyclerView.SCROLL_STATE_IDLE)
 
         //Then
         verifySequence {
-            //attach
+            //firstRequest
             view.isLoading(true)
             view.isLoading(true)
             view.fillList(MockDataTest.MEALS)
@@ -352,21 +363,23 @@ class MealListPresenterTest {
     fun `Save item position`() {
         //Given
         presenter.attach(view)
+        presenter.firstRequest()
 
         //When
         presenter.onPaused(2)
         presenter.attach(view)
+        presenter.firstRequest()
 
         //Then
         verifySequence {
-            //attach
+            //firstRequest
             view.isLoading(true)
             view.isLoading(true)
             view.fillList(MockDataTest.MEALS)
             view.isLoading(false)
             view.showEmptyView(false, "")
 
-            //attach
+            //firstRequest
             view.isLoading(true)
             view.fillList(MockDataTest.MEALS)
             view.setVisibleItem(2)
