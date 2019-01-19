@@ -32,6 +32,6 @@ class SplashActivity : BaseActivity<SplashPresenter, SplashPresenter.UI, SplashV
     override fun getContext(): Context = this
 
     override fun navigateTo(fragment: Fragment, cleanStack: Boolean) {
-        Timber.d("KUBA_LOG Method:navigateTo ***** NOT IMPLEMENTED *****")
+        Timber.tag("KUBA").v("navigateTo NOT IMPLEMENTED")
     }
 }

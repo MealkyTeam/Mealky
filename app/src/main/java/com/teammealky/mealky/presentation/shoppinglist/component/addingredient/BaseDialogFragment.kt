@@ -44,6 +44,6 @@ abstract class BaseDialogFragment<P : Presenter<V>, in V, VM : BaseViewModel<P>>
     }
 
     override fun showErrorMessage(retry: () -> Unit, e: Throwable, cancelable: Boolean) {
-        Timber.d("KUBA_LOG Method:showErrorMessage ***** NOT IMPLEMENTED *****")
+        Timber.tag("KUBA").v("showErrorMessage NOT IMPLEMENTED")
     }
 }

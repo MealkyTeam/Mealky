@@ -86,12 +86,12 @@ fun View.isInvisible(isInvisible: Boolean) {
 
 fun genRandomIntExcept(start: Int, end: Int, excluded: List<Int>): Int {
     val rand = Random()
-    val range = end - start
-    if (range <= excluded.size)
-        return 0
-    var random = rand.nextInt(range)
-    while (excluded.contains(random)) {
-        random = rand.nextInt(range)
+    var random = start + rand.nextInt(end - start - excluded.size)
+    for (ex in excluded) {
+        if (random < ex) {
+            break
+        }
+        random++
     }
     return random
 }
