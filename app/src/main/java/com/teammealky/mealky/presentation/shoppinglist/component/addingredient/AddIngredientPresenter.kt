@@ -17,13 +17,7 @@ class AddIngredientPresenter @Inject constructor(
     var model: Ingredient = Ingredient.defaultIngredient()
     var ingredientsInList = emptyList<Ingredient>()
 
-    override fun attach(ui: UI) {
-        super.attach(ui)
-
-        fetchAll()
-    }
-
-    private fun fetchAll() {
+    fun fetchAll() {
         ui().perform { it.isLoading(true) }
         disposable.add(searchIngredientsUseCase.execute(SearchIngredientsUseCase.Params("", LIMIT),
                 { page ->

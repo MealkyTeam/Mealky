@@ -17,9 +17,10 @@ class AccountActivity : BaseActivity<AccountPresenter, AccountPresenter.UI, Acco
         App.get(this).getComponent().inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_account)
+        toSignIn()
     }
 
-    override fun toSignIn() {
+    private fun toSignIn() {
         navigateTo(SignInFragment(), true)
     }
 
