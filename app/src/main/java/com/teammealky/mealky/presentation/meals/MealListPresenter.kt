@@ -26,17 +26,12 @@ class MealListPresenter @Inject constructor(
         ui().perform { it.openItem(model) }
     }
 
-    override fun attach(ui: UI) {
-        super.attach(ui)
-        firstRequest()
-    }
-
     override fun destroy() {
         super.destroy()
         searchDisposable.clear()
     }
 
-    private fun firstRequest() {
+    fun firstRequest() {
         ui().perform { it.isLoading(true) }
         if (meals.isEmpty()) {
             searchDisposable.add(getMealsUseCase.execute(

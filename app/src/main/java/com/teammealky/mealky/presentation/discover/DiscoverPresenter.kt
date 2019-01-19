@@ -41,7 +41,7 @@ class DiscoverPresenter @Inject constructor(private val getMealsUseCase: ListMea
         currentMealId = 0
         meals = mutableListOf()
         excluded = mutableListOf()
-        loadMore()
+//        loadMore()
     }
 
     private fun shouldLoadMore() = currentMealId == (meals.size - (LIMIT - LOAD_MORE_AFTER) - 1)
