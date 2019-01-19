@@ -46,6 +46,7 @@ class MealListFragment : BaseFragment<MealListPresenter, MealListPresenter.UI, M
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        presenter?.firstRequest()
         setupSearch()
         setupRecyclerView()
     }
@@ -127,7 +128,6 @@ class MealListFragment : BaseFragment<MealListPresenter, MealListPresenter.UI, M
 
     override fun afterTextChanged(editable: Editable?) {
         if (presenter?.currentQuery == searchEditText.text.toString()) {
-            Timber.d("KUBA_LOG Method:afterTextChanged ***** ${presenter?.currentQuery} *****")
             return
         }
         presenter?.currentQuery = searchEditText.text.toString()
