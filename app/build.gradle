@@ -33,11 +33,25 @@ android {
         versionName "0.3.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    signingConfigs {
+        release {
+            storeFile file("$rootDir/config/signing/release/release.jks")
+            storePassword System.getenv("MEALKY_KEYSTORE_PASSWORD")
+            keyAlias System.getenv("MEALKY_KEY_ALIAS")
+            keyPassword System.getenv("MEALKY_KEY_PASSWORD")
+        }
+    }
+
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             buildConfigField "String", "CENTRAL_URL", rootProject.ext.api.release.central
             buildConfigField "String", "CENTRAL_LOGIN", rootProject.ext.api.release.login
             buildConfigField "String", "CENTRAL_PASSWORD", rootProject.ext.api.release.password
+            ext.betaDistributionGroupAliases = 'Team, family-and-friends'
+            ext.betaDistributionNotifications = false
+            ext.betaDistributionReleaseNotesFilePath = 'config/release-notes.txt'
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             testCoverageEnabled false
@@ -143,7 +157,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
         html.enabled = true
     }
 
-    def fileFilter = [ '**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*' ]
+    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
     def debugTree = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/debug", excludes: fileFilter)
     def mainSrc = "$project.projectDir/src/main/kotlin"
 
