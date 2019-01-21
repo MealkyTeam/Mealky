@@ -41,7 +41,6 @@ class DiscoverPresenter @Inject constructor(private val getMealsUseCase: ListMea
         currentMealId = 0
         meals = mutableListOf()
         excluded = mutableListOf()
-//        loadMore()
     }
 
     private fun shouldLoadMore() = currentMealId == (meals.size - (LIMIT - LOAD_MORE_AFTER) - 1)
@@ -79,9 +78,10 @@ class DiscoverPresenter @Inject constructor(private val getMealsUseCase: ListMea
         disposable.add(getMealsUseCase.execute(
                 ListMealsUseCase.Params(page = pageNumber, limit = LIMIT),
                 { page ->
-                    meals.addAll(page.items.shuffled())
+                    val shuffled = page.items.shuffled()
+                    meals.addAll(shuffled)
                     ui().perform {
-                        it.setMeals(page.items)
+                        it.setMeals(shuffled)
                         it.isLoading(false)
                     }
                     pageNumber++
