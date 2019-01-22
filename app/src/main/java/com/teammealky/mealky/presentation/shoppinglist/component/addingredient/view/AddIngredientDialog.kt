@@ -39,12 +39,12 @@ class AddIngredientDialog : BaseDialogFragment<AddIngredientPresenter, AddIngred
     private var ingredientsAdapter: ArrayAdapter<String>? = null
     private var unitsAdapter: ArrayAdapter<String>? = null
 
-    var ingredientInput: AutoCompleteTextView? = null
-    var quantityInput: TextInputEditText? = null
-    var unitInput: AutoCompleteTextView? = null
+    private var ingredientInput: AutoCompleteTextView? = null
+    private var quantityInput: TextInputEditText? = null
+    private var unitInput: AutoCompleteTextView? = null
     var progressBar: ProgressBar? = null
-    var userInputLayout: LinearLayout? = null
-    var infoTv: TextView? = null
+    private var userInputLayout: LinearLayout? = null
+    private var infoTv: TextView? = null
 
     @SuppressLint("InflateParams")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -58,6 +58,7 @@ class AddIngredientDialog : BaseDialogFragment<AddIngredientPresenter, AddIngred
         App.get(requireContext()).getComponent().inject(this)
         super.onCreate(savedInstanceState)
 
+        presenter?.fetchAll()
         arguments?.let {
             presenter?.ingredientsInList = MealMapper.readIngredients(it)
         }

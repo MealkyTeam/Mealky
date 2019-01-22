@@ -6,5 +6,5 @@ import io.reactivex.Single
 
 
 interface MealsRepository{
-    fun getMealsByPage(categoryId: Int, page: Int, limit: Int): Single<Page<Meal>>
+    fun searchMeals(query: String, page: Int, limit: Int): Single<Page<Meal>>
 }

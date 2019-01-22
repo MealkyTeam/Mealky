@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import com.teammealky.mealky.domain.model.Meal
 import com.teammealky.mealky.presentation.App
 import com.teammealky.mealky.presentation.account.AccountActivity
+import com.teammealky.mealky.presentation.account.forgottenPassword.ForgottenPasswordFragment
 import com.teammealky.mealky.presentation.account.signin.SignInFragment
 import com.teammealky.mealky.presentation.account.signup.SignUpFragment
 import com.teammealky.mealky.presentation.discover.DiscoverFragment
@@ -35,7 +36,7 @@ class Navigator(private val nav: Navigable) {
                 FRAG_DISCOVER -> openDiscover()
                 FRAG_SETTINGS -> openSettings()
 
-                FRAG_SIGNIN -> openSignIn(false)
+                FRAG_SIGNIN -> openSignIn()
                 FRAG_SIGNUP -> openSignUp()
                 FRAG_FORGOTTEN_PASSWORD -> openForgottenPassword()
                 else -> {
@@ -68,7 +69,7 @@ class Navigator(private val nav: Navigable) {
         nav.navigateTo(fragment)
     }
 
-    fun openSignIn(withError: Boolean) {
+    fun openSignIn(withError: Boolean = false) {
         val fragment = SignInFragment.newInstance(withError)
 
         nav.navigateTo(fragment)
@@ -81,7 +82,9 @@ class Navigator(private val nav: Navigable) {
     }
 
     fun openForgottenPassword() {
-        //todo add ForgottenPasswordFragment
+        val fragment = ForgottenPasswordFragment()
+
+        nav.navigateTo(fragment)
     }
 
     fun openHome() {

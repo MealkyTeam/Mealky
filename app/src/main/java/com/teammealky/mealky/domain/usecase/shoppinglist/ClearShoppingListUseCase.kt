@@ -5,7 +5,7 @@ import com.teammealky.mealky.domain.usecase.ParamLessUseCase
 import io.reactivex.Single
 import javax.inject.Inject
 
-open class ClearShoppingListUseCase @Inject constructor(
+ class ClearShoppingListUseCase @Inject constructor(
         private val repo: ShoppingListRepository
 ) : ParamLessUseCase<Boolean>() {
 

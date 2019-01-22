@@ -33,6 +33,7 @@ class ShoppingListItemView @JvmOverloads constructor(
     init {
         inflate(R.layout.shopping_list_item, true)
         shoppingListItemLayout.foreground = null
+        quantityTv.addTextChangedListener(this)
     }
 
     @SuppressLint("SetTextI18n")
@@ -46,7 +47,6 @@ class ShoppingListItemView @JvmOverloads constructor(
 
             ingredientNameTv.text = model?.item?.name?.capitalize() + ":"
             quantityTv.setText(model?.item?.quantity?.toString(), TextView.BufferType.EDITABLE)
-            quantityTv.addTextChangedListener(this)
             unitTv.text = model?.item?.unit?.name
 
             strikethrough.isVisible(it.isGreyedOut)

@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'jacoco'
+apply plugin: 'io.fabric'
 
 buildscript {
     repositories {
@@ -10,9 +11,11 @@ buildscript {
         maven { url 'https://maven.google.com' }
         jcenter()
         mavenCentral()
+        maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
         classpath 'org.jacoco:org.jacoco.core:0.8.2'
+        classpath 'io.fabric.tools:gradle:1.27.0'
     }
 }
 
@@ -27,14 +30,28 @@ android {
         minSdkVersion 23
         targetSdkVersion 28
         versionCode 1
-        versionName "0.3.0"
+        versionName "1.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    signingConfigs {
+        release {
+            storeFile file("$rootDir/config/signing/release/release.jks")
+            storePassword System.getenv("MEALKY_KEYSTORE_PASSWORD")
+            keyAlias System.getenv("MEALKY_KEY_ALIAS")
+            keyPassword System.getenv("MEALKY_KEY_PASSWORD")
+        }
+    }
+
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             buildConfigField "String", "CENTRAL_URL", rootProject.ext.api.release.central
             buildConfigField "String", "CENTRAL_LOGIN", rootProject.ext.api.release.login
             buildConfigField "String", "CENTRAL_PASSWORD", rootProject.ext.api.release.password
+            ext.betaDistributionGroupAliases = 'Team, family-and-friends'
+            ext.betaDistributionNotifications = false
+            ext.betaDistributionReleaseNotesFilePath = 'config/release-notes.txt'
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             testCoverageEnabled false
@@ -42,6 +59,8 @@ android {
 
         debug {
             testCoverageEnabled true
+            ext.betaDistributionGroupAliases ='Family and friends'
+            ext.betaDistributionGroupAliases ='Team'
             buildConfigField "String", "CENTRAL_URL", rootProject.ext.api.release.central
             buildConfigField "String", "CENTRAL_LOGIN", rootProject.ext.api.release.login
             buildConfigField "String", "CENTRAL_PASSWORD", rootProject.ext.api.release.password
@@ -81,15 +100,17 @@ dependencies {
     compileOnly 'javax.annotation:jsr250-api:1.0'
 
     testImplementation 'androidx.test:runner:1.1.1'
-    testImplementation 'org.robolectric:robolectric:3.3.2'
+    testImplementation 'org.robolectric:robolectric:4.1'
     testImplementation 'junit:junit:4.12'
     implementation "io.mockk:mockk-common:1.8.13.kotlin13"
     testImplementation "io.mockk:mockk:1.8.13.kotlin13"
 
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    implementation('com.crashlytics.sdk.android:crashlytics:2.9.8@aar') {
+        transitive = true
+    }
 }
-
 
 androidExtensions {
     experimental = true
@@ -136,7 +157,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
         html.enabled = true
     }
 
-    def fileFilter = [ '**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*' ]
+    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
     def debugTree = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/debug", excludes: fileFilter)
     def mainSrc = "$project.projectDir/src/main/kotlin"
 
@@ -150,4 +171,9 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
 jacoco {
     toolVersion = '0.8.2'
     reportsDir = file("$buildDir/reports")
+}
+
+repositories {
+    mavenCentral()
+    maven { url 'https://maven.fabric.io/public' }
 }

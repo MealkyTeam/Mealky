@@ -17,20 +17,14 @@ class AddIngredientPresenter @Inject constructor(
     var model: Ingredient = Ingredient.defaultIngredient()
     var ingredientsInList = emptyList<Ingredient>()
 
-    override fun attach(ui: UI) {
-        super.attach(ui)
-
-        fetchAll()
-    }
-
-    private fun fetchAll() {
+    fun fetchAll() {
         ui().perform { it.isLoading(true) }
         disposable.add(searchIngredientsUseCase.execute(SearchIngredientsUseCase.Params("", LIMIT),
                 { page ->
                     searchUnits(page.items)
                 },
                 { e ->
-                    Timber.d("KUBA_LOG Method:fetchAll ***** $e *****")
+                    Timber.e("KUBA_LOG Method:fetchAll ***** $e *****")
                     searchUnits(emptyList())
                 }
         ))
@@ -49,7 +43,7 @@ class AddIngredientPresenter @Inject constructor(
                     initialSetup(ingredients, page.items)
                 },
                 { e ->
-                    Timber.d("KUBA_LOG Method:searchUnits ***** $e *****")
+                    Timber.e("KUBA_LOG Method:searchUnits ***** $e *****")
                     ui().perform {
                         it.setupAutocompleteAdapters(ingredients, emptyList())
                         it.isLoading(false)

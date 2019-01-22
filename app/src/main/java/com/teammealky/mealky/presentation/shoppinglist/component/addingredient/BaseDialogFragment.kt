@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.teammealky.mealky.presentation.commons.presenter.BaseUI
 import com.teammealky.mealky.presentation.commons.presenter.BaseViewModel
 import com.teammealky.mealky.presentation.commons.presenter.Presenter
+import timber.log.Timber
 import javax.inject.Inject
 
 abstract class BaseDialogFragment<P : Presenter<V>, in V, VM : BaseViewModel<P>> : androidx.fragment.app.DialogFragment(), BaseUI {
@@ -42,6 +43,7 @@ abstract class BaseDialogFragment<P : Presenter<V>, in V, VM : BaseViewModel<P>>
         imm.hideSoftInputFromWindow(view?.windowToken, 0)
     }
 
-    override fun showErrorMessage(retry: () -> Unit, e: Throwable) {
+    override fun showErrorMessage(retry: () -> Unit, e: Throwable, cancelable: Boolean) {
+        Timber.tag("KUBA").v("showErrorMessage NOT IMPLEMENTED")
     }
 }

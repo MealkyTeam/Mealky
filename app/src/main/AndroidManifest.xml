@@ -12,11 +12,26 @@
     <application
         android:name="com.teammealky.mealky.presentation.App"
         android:allowBackup="false"
-        android:icon="@drawable/logo"
+        android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/logo"
+        android:roundIcon="@drawable/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
+
+
+        <activity
+            android:name="com.teammealky.mealky.presentation.splash.SplashActivity"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="stateHidden|adjustPan">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name="com.teammealky.mealky.presentation.main.MainActivity"
@@ -32,16 +47,15 @@
             android:name="com.teammealky.mealky.presentation.account.AccountActivity"
             android:launchMode="singleTask"
             android:windowSoftInputMode="stateHidden|adjustPan">
-
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="43c7cfafe6dcbd391133145d3c1488846d914684"
+            />
     </application>
 
 </manifest>

@@ -31,7 +31,7 @@ class SignUpPresenter @Inject constructor(
                 SignUpUseCase.Params(model.username, model.email ?: "", model.password ?: ""),
                 {
                     ui().perform { ui ->
-                        ui.toSignInFragment()
+                        ui.toSignInFragment(true)
                     }
                 },
                 { e ->
@@ -110,7 +110,7 @@ class SignUpPresenter @Inject constructor(
 
     interface UI : BaseUI {
         fun isLoading(isLoading: Boolean)
-        fun toSignInFragment()
+        fun toSignInFragment(withError: Boolean = false)
         fun showErrorInInfo(error: APIError.ErrorType)
         fun showInfoTv(isVisible: Boolean)
         fun toggleSignUpButton(isToggled: Boolean)

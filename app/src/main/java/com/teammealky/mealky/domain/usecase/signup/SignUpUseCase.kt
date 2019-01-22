@@ -5,7 +5,7 @@ import com.teammealky.mealky.domain.usecase.SingleUseCase
 import io.reactivex.Single
 import javax.inject.Inject
 
-open class SignUpUseCase @Inject constructor(
+class SignUpUseCase @Inject constructor(
         private val repo: AuthorizationRepository
 ) : SingleUseCase<SignUpUseCase.Params, Boolean>() {
 

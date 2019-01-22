@@ -6,8 +6,10 @@ import com.teammealky.mealky.BuildConfig
 import okhttp3.Cache
 import okhttp3.Credentials
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import timber.log.Timber
 import java.io.File
 import java.util.concurrent.TimeUnit
 
@@ -17,6 +19,13 @@ object RestClient {
     private fun getHttpClientBuilder(timeoutSec: Long): OkHttpClient.Builder {
 
         val okBuilder = OkHttpClient.Builder()
+
+        if (BuildConfig.DEBUG) {
+            val loggingInterceptor = HttpLoggingInterceptor(
+                    HttpLoggingInterceptor.Logger { Timber.tag("HTTP").v(it) })
+            loggingInterceptor.level = HttpLoggingInterceptor.Level.BASIC
+            okBuilder.addInterceptor(loggingInterceptor)
+        }
 
         okBuilder.connectTimeout(timeoutSec, TimeUnit.SECONDS)
         okBuilder.readTimeout(timeoutSec, TimeUnit.SECONDS)

@@ -5,7 +5,7 @@ import com.teammealky.mealky.domain.repository.UserRepository
 import com.teammealky.mealky.domain.usecase.SingleUseCase
 import javax.inject.Inject
 
-open class SaveUserUseCase @Inject constructor(
+ class SaveUserUseCase @Inject constructor(
         private val repo: UserRepository
 ) : SingleUseCase<User, Boolean>() {
 

@@ -3,11 +3,11 @@ package com.teammealky.mealky.data.net.service
 import com.teammealky.mealky.domain.model.Ingredient
 import com.teammealky.mealky.domain.model.Meal
 import com.teammealky.mealky.domain.model.Page
-import com.teammealky.mealky.domain.model.PasswordSignInRequest
-import com.teammealky.mealky.domain.model.SignUpRequest
-import com.teammealky.mealky.domain.model.TokenSignInRequest
 import com.teammealky.mealky.domain.model.User
 import com.teammealky.mealky.domain.model.Unit
+import com.teammealky.mealky.domain.model.request.PasswordSignInRequest
+import com.teammealky.mealky.domain.model.request.SignUpRequest
+import com.teammealky.mealky.domain.model.request.TokenSignInRequest
 import io.reactivex.Completable
 import io.reactivex.Single
 import retrofit2.http.Body
@@ -20,14 +20,6 @@ interface MealkyService {
 
     @GET("meals/{id}")
     fun getMeal(@Path("id") id: Int): Single<Meal>
-
-    @GET("meals")
-    fun listMeals(
-            @Query("category") categoryId: Int,
-            @Query("page") offset: Int,
-            @Query("size") limit: Int,
-            @Query("sort") sort: String? = "id,desc"
-    ): Single<Page<Meal>>
 
     @GET("meals")
     fun searchMeals(
@@ -56,4 +48,7 @@ interface MealkyService {
 
     @POST("/sec/signup")
     fun signUp(@Body request: SignUpRequest): Completable
+
+    @POST("resetpassword")
+    fun resetPassword(@Query("email") email: String): Completable
 }

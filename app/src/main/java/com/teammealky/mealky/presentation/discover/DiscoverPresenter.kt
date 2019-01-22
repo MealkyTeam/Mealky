@@ -5,6 +5,7 @@ import com.teammealky.mealky.domain.usecase.meals.ListMealsUseCase
 import com.teammealky.mealky.presentation.commons.extension.genRandomIntExcept
 import com.teammealky.mealky.presentation.commons.presenter.BasePresenter
 import com.teammealky.mealky.presentation.commons.presenter.BaseUI
+import timber.log.Timber
 import javax.inject.Inject
 
 class DiscoverPresenter @Inject constructor(private val getMealsUseCase: ListMealsUseCase
@@ -27,7 +28,12 @@ class DiscoverPresenter @Inject constructor(private val getMealsUseCase: ListMea
     }
 
     fun swipedRight() {
-        ui().perform { it.openItem(meals[currentMealId]) }
+        ui().perform {
+            if (meals.size > currentMealId)
+                it.openItem(meals[currentMealId])
+            else
+                loadMore()
+        }
     }
 
     private fun invalidate() {
@@ -35,7 +41,6 @@ class DiscoverPresenter @Inject constructor(private val getMealsUseCase: ListMea
         currentMealId = 0
         meals = mutableListOf()
         excluded = mutableListOf()
-        loadMore()
     }
 
     private fun shouldLoadMore() = currentMealId == (meals.size - (LIMIT - LOAD_MORE_AFTER) - 1)
@@ -45,14 +50,14 @@ class DiscoverPresenter @Inject constructor(private val getMealsUseCase: ListMea
         ui().perform { it.isLoading(true) }
         if (meals.isEmpty()) {
             disposable.add(getMealsUseCase.execute(
-                    ListMealsUseCase.Params(WITHOUT_CATEGORY, 0, LIMIT),
+                    ListMealsUseCase.Params(page = 0, limit = LIMIT),
                     { page ->
                         maxPages = page.totalPages
                         totalElements = page.totalElements
                         loadMore()
                     },
                     { e ->
-                        ui().perform { it.showErrorMessage({ firstRequest() }, e) }
+                        ui().perform { it.showErrorMessage({ firstRequest() }, e, false) }
                     })
             )
         } else
@@ -71,11 +76,12 @@ class DiscoverPresenter @Inject constructor(private val getMealsUseCase: ListMea
         excluded.add(pageNumber)
 
         disposable.add(getMealsUseCase.execute(
-                ListMealsUseCase.Params(WITHOUT_CATEGORY, pageNumber, LIMIT),
+                ListMealsUseCase.Params(page = pageNumber, limit = LIMIT),
                 { page ->
-                    meals.addAll(page.items)
+                    val shuffled = page.items.shuffled()
+                    meals.addAll(shuffled)
                     ui().perform {
-                        it.setMeals(page.items)
+                        it.setMeals(shuffled)
                         it.isLoading(false)
                     }
                     pageNumber++
@@ -100,6 +106,5 @@ class DiscoverPresenter @Inject constructor(private val getMealsUseCase: ListMea
     companion object {
         const val LIMIT = 8
         private const val LOAD_MORE_AFTER = 6
-        private const val WITHOUT_CATEGORY = -1
     }
 }

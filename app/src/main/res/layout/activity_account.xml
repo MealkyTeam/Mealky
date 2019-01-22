@@ -1,23 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:clipToPadding="false"
-    tools:ignore="MergeRootFrame">
+    android:layout_height="match_parent">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/containerAccount"
+    <RelativeLayout
+        android:id="@+id/coordinatorLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorPrimaryDark"
-        android:clipToPadding="false" >
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        tools:ignore="MergeRootFrame">
+
         <ImageView
-            android:id="@+id/mainLogo"
+            android:id="@+id/logo"
+            android:layout_width="256dp"
+            android:layout_height="256dp"
+            android:layout_centerHorizontal="true"
+            android:contentDescription="@string/logo"
+            android:src="@drawable/logo" />
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/containerAccount"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/main_logo"
-            android:contentDescription="@string/logo" />
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
-</FrameLayout>
+            android:layout_below="@id/logo"
+            android:clipToPadding="false" />
+
+    </RelativeLayout>
+</ScrollView>
+
