@@ -45,6 +45,15 @@ Biblioteki:
 -------------------------------------------------------------------
 Lista zmian:
 
+Wersja 1.0.0
+- Wdrożenie systemu Continuous integration (bitrise.io), który automatyzuje proces testowania i wydawania aplikacji do użytkowników.
+- Wdrożenie systemu Crashlytics wraz z aplikacją Beta, aby w łatwy sposób można było mierzyć statystyki aplikacji i rozprowadzać aplikację po testerach.
+- Dodano kilkadziesiąt testów jednostkowych do aplikacji, oraz kilka integracyjnych.
+- Zaimplementowano szukanie w aplikacji wraz z mechanizmami debounce aby zminimalizować ilość requestów wysyłanych do API.
+- Dodano możliwość resetowania hasła w aplikacji.
+- Poprawiono błąd z brakiem możliwości scrollowania aplikacji na ekranie z rejestracją przy małych urządzeniach.
+- Poprawiono inne pomniejsze błędy.
+
 Wersja 0.3.0 
 - Aktualizacja bibliotek projektu.
 - Nowy pasek postępu na liście posiłków.
