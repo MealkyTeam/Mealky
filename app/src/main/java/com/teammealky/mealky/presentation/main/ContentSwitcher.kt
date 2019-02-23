@@ -17,11 +17,6 @@ class ContentSwitcher(private val fm: FragmentManager) {
         if(currentFragment?.javaClass == newFragment.javaClass)
             return
 
-        if (isFirstLevel(newFragment) && null != currentFragment) {
-            performRewind()
-            return
-        }
-
         val ft = fm.beginTransaction()
         ft.setReorderingAllowed(true)
         if (cleanStack) {
@@ -31,10 +26,6 @@ class ContentSwitcher(private val fm: FragmentManager) {
         ft.replace(R.id.containerMain, newFragment)
         ft.addToBackStack(null)
         ft.commit()
-    }
-
-    private fun performRewind() {
-        cleanBackStack(1, true)
     }
 
     private fun isSecondLevel(fragment: Fragment): Boolean {

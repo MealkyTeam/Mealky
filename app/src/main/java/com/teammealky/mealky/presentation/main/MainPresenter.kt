@@ -24,7 +24,7 @@ class MainPresenter @Inject constructor(
             R.id.navDiscover -> fragment = DiscoverFragment()
             R.id.navSettings -> fragment = SettingsFragment()
         }
-        fragment?.let { setContent(it, true) }
+        fragment?.let { setContent(it, false) }
     }
 
     fun setContent(fragment: Fragment, cleanStack: Boolean, transitionValues: List<TransitionValues>? = null) {
