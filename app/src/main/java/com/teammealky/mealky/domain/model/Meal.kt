@@ -11,4 +11,11 @@ data class Meal(val id: Int,
                 val author: User,
                 val categories: List<Category>,
                 val ingredients: List<Ingredient>
-)
+) {
+    companion object {
+        fun basicMeal(): Meal {
+            return Meal(-1, "", -1, "", emptyList(),
+                    false, User.defaultUser(), emptyList(), emptyList())
+        }
+    }
+}

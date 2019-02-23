@@ -8,13 +8,13 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.teammealky.mealky.R
-import com.teammealky.mealky.domain.model.Ingredient
 import com.teammealky.mealky.domain.model.Meal
 import com.teammealky.mealky.presentation.App
 import com.teammealky.mealky.presentation.commons.extension.isVisible
 import com.teammealky.mealky.presentation.commons.presenter.BaseFragment
 import com.teammealky.mealky.presentation.meal.adapter.GalleryAdapter
 import com.teammealky.mealky.presentation.meal.adapter.IngredientsAdapter
+import com.teammealky.mealky.presentation.meal.model.IngredientViewModel
 import kotlinx.android.synthetic.main.meal_fragment.*
 
 class MealFragment : BaseFragment<MealPresenter, MealPresenter.UI, MealViewModel>(), MealPresenter.UI,
@@ -29,54 +29,48 @@ class MealFragment : BaseFragment<MealPresenter, MealPresenter.UI, MealViewModel
         super.onCreate(savedInstanceState)
 
         arguments?.let {
-            presenter?.meal = MealMapper.readExtra(it)
+            presenter?.onCreated(MealMapper.readExtra(it))
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = inflater.inflate(R.layout.meal_fragment, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+            inflater.inflate(R.layout.meal_fragment, container, false)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        setupView()
-    }
-
-    private fun setupView() {
-        setupRecyclerView()
-        setupImages()
-        setupTexts()
-
+    override fun setupView(meal: Meal, ingredientsViewModels: List<IngredientViewModel>) {
+        setupRecyclerView(ingredientsViewModels)
+        setupImages(meal)
+        setupTexts(meal)
         ingredientsBtn.setOnClickListener(this)
     }
 
-    private fun setupRecyclerView() {
+    private fun setupRecyclerView(ingredientsViewModels: List<IngredientViewModel>) {
         layoutManager = LinearLayoutManager(context)
-        adapter = IngredientsAdapter(presenter?.meal?.ingredients ?: emptyList(), this)
+        adapter = IngredientsAdapter(ingredientsViewModels, this)
 
         ingredientListRv.adapter = adapter
         ingredientListRv.setHasFixedSize(true)
         ingredientListRv.layoutManager = layoutManager
     }
 
-    private fun setupImages() {
-        val images = presenter?.meal?.images ?: emptyList()
+    private fun setupImages(meal: Meal) {
+        val images = meal.images
         imagePager.adapter = GalleryAdapter(requireContext(), images)
     }
 
-    private fun setupTexts() {
-        if (presenter?.meal?.author?.username.isNullOrEmpty()) {
+    private fun setupTexts(meal: Meal) {
+        if (meal.author.username.isEmpty()) {
             author.isVisible(false)
         } else {
-            author.text = presenter?.meal?.author?.username
+            author.text = meal.author.username
             author.isVisible(true)
         }
-        mealName.text = presenter?.meal?.name
-        prepTime.text = getString(R.string.prep_time, presenter?.meal?.prepTime.toString())
-        preparation.text = presenter?.meal?.preparation
+        mealName.text = meal.name
+        prepTime.text = getString(R.string.prep_time, meal.prepTime.toString())
+        preparation.text = meal.preparation
     }
 
-    override fun onItemClick(item: Ingredient, isChecked: Boolean) {
-        presenter?.onIngredientClicked(item, isChecked)
+    override fun onItemClick(model: IngredientViewModel) {
+        presenter?.onIngredientClicked(model)
     }
 
     override fun onClick(view: View?) {
