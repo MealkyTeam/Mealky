@@ -14,30 +14,52 @@
         app:contentInsetLeft="0dp"
         app:contentInsetStart="0dp">
 
-        <androidx.cardview.widget.CardView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="42dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            app:cardBackgroundColor="@android:color/white"
-            app:cardCornerRadius="4dp"
-            app:cardPreventCornerOverlap="true"
-            app:cardUseCompatPadding="false">
+            android:layout_height="match_parent">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/searchEditText"
-                android:layout_width="match_parent"
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="42dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_toStartOf="@id/addMealBtn"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="4dp"
+                app:cardPreventCornerOverlap="true"
+                app:cardUseCompatPadding="false">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/searchEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|start"
+                    android:background="@android:color/transparent"
+                    android:hint="@string/search"
+                    android:imeOptions="actionSearch"
+                    android:inputType="textNoSuggestions"
+                    android:maxLines="1"
+                    android:paddingLeft="9dp"
+                    android:paddingRight="9dp"
+                    android:textColor="@color/text_primary"
+                    android:theme="@style/TextLabel" />
+            </androidx.cardview.widget.CardView>
+
+            <ImageView
+                android:id="@+id/addMealBtn"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|start"
-                android:background="@android:color/transparent"
-                android:hint="@string/search"
-                android:imeOptions="actionSearch"
-                android:inputType="textNoSuggestions"
-                android:maxLines="1"
-                android:paddingLeft="9dp"
-                android:paddingRight="9dp"
-                android:textColor="@color/text_primary"
-                android:theme="@style/TextLabel" />
-        </androidx.cardview.widget.CardView>
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="8dp"
+                android:layout_centerVertical="true"
+                android:clickable="true"
+                android:contentDescription="@string/plus_button"
+                android:focusable="true"
+                android:foreground="?android:attr/actionBarItemBackground"
+                android:src="@drawable/ic_add_box_40dp" />
+        </RelativeLayout>
+
     </androidx.appcompat.widget.Toolbar>
 </com.google.android.material.appbar.AppBarLayout>
