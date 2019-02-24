@@ -9,6 +9,7 @@ import com.teammealky.mealky.presentation.account.AccountActivity
 import com.teammealky.mealky.presentation.account.forgottenPassword.ForgottenPasswordFragment
 import com.teammealky.mealky.presentation.account.signin.SignInFragment
 import com.teammealky.mealky.presentation.account.signup.SignUpFragment
+import com.teammealky.mealky.presentation.addMeal.AddMealFragment
 import com.teammealky.mealky.presentation.discover.DiscoverFragment
 import com.teammealky.mealky.presentation.main.MainActivity
 import com.teammealky.mealky.presentation.meal.MealFragment
@@ -36,6 +37,8 @@ class Navigator(private val nav: Navigable) {
                 FRAG_DISCOVER -> openDiscover()
                 FRAG_SETTINGS -> openSettings()
 
+                FRAG_ADD_MEAL -> openAddMeal()
+
                 FRAG_SIGNIN -> openSignIn()
                 FRAG_SIGNUP -> openSignUp()
                 FRAG_FORGOTTEN_PASSWORD -> openForgottenPassword()
@@ -47,37 +50,36 @@ class Navigator(private val nav: Navigable) {
 
     fun openMeal(meal: Meal) {
         val fragment = MealFragment.newInstance(meal)
+        nav.navigateTo(fragment)
+    }
 
+    fun openAddMeal() {
+        val fragment = AddMealFragment()
         nav.navigateTo(fragment)
     }
 
     fun openShoppingList() {
         val fragment = ShoppingListFragment()
-
         nav.navigateTo(fragment)
     }
 
     fun openDiscover() {
         val fragment = DiscoverFragment()
-
         nav.navigateTo(fragment)
     }
 
     fun openSettings() {
         val fragment = SettingsFragment()
-
         nav.navigateTo(fragment)
     }
 
     fun openSignIn(withError: Boolean = false) {
         val fragment = SignInFragment.newInstance(withError)
-
         nav.navigateTo(fragment)
     }
 
     fun openSignUp() {
         val fragment = SignUpFragment()
-
         nav.navigateTo(fragment)
     }
 
@@ -108,6 +110,7 @@ class Navigator(private val nav: Navigable) {
         const val FRAG_SHOPPING_LIST = "shopping_list"
         const val FRAG_DISCOVER = "discover"
         const val FRAG_SETTINGS = "settings"
+        const val FRAG_ADD_MEAL = "add_meal"
 
         const val FRAG_SIGNIN = "signin"
         const val FRAG_SIGNUP = "signup"
