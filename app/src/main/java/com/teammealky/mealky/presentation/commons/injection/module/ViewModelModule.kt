@@ -6,6 +6,7 @@ import com.teammealky.mealky.presentation.account.AccountViewModel
 import com.teammealky.mealky.presentation.account.forgottenPassword.ForgottenPasswordViewModel
 import com.teammealky.mealky.presentation.account.signin.SignInViewModel
 import com.teammealky.mealky.presentation.account.signup.SignUpViewModel
+import com.teammealky.mealky.presentation.addMeal.AddMealViewModel
 import com.teammealky.mealky.presentation.commons.injection.ViewModelFactory
 import com.teammealky.mealky.presentation.commons.injection.ViewModelKey
 import com.teammealky.mealky.presentation.discover.DiscoverViewModel
@@ -52,6 +53,9 @@ abstract class ViewModelModule {
 
     @Binds @IntoMap @ViewModelKey(MealViewModel::class)
     internal abstract fun meal(vm: MealViewModel): ViewModel
+
+    @Binds @IntoMap @ViewModelKey(AddMealViewModel::class)
+    internal abstract fun addMeal(vm: AddMealViewModel): ViewModel
 
     @Binds @IntoMap @ViewModelKey(SignInViewModel::class)
     internal abstract fun signIn(vm: SignInViewModel): ViewModel
