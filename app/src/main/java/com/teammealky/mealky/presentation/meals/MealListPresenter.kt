@@ -66,7 +66,7 @@ class MealListPresenter @Inject constructor(
                 { page ->
                     ui().perform {
                         isLoading = false
-                        meals += page.items
+                        meals = meals + page.items
                         it.fillList(page.items)
                         it.isLoading(false)
                         it.showEmptyView(meals.isEmpty(), currentQuery)
@@ -129,6 +129,10 @@ class MealListPresenter @Inject constructor(
         return allPagesFetched() && currentQuery != ""
     }
 
+    fun addMealBtnClicked() {
+        ui().perform { it.openAddMeal() }
+    }
+
     interface UI : BaseUI {
         fun setupRecyclerView()
         fun openItem(meal: Meal)
@@ -138,6 +142,7 @@ class MealListPresenter @Inject constructor(
         fun clearList()
         fun scrollToTop()
         fun showEmptyView(isVisible: Boolean, query: String = "")
+        fun openAddMeal()
     }
 
     companion object {
