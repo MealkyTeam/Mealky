@@ -129,7 +129,7 @@ class MealListPresenter @Inject constructor(
         return allPagesFetched() && currentQuery != ""
     }
 
-    fun addMealBtnClicked() {
+    fun onAddMealBtnClicked() {
         ui().perform { it.openAddMeal() }
     }
 

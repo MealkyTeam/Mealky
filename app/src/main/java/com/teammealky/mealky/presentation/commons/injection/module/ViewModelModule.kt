@@ -15,7 +15,7 @@ import com.teammealky.mealky.presentation.meal.MealViewModel
 import com.teammealky.mealky.presentation.meals.MealListViewModel
 import com.teammealky.mealky.presentation.settings.SettingsViewModel
 import com.teammealky.mealky.presentation.shoppinglist.ShoppingListViewModel
-import com.teammealky.mealky.presentation.shoppinglist.component.addingredient.AddIngredientViewModel
+import com.teammealky.mealky.presentation.commons.component.addingredient.AddIngredientViewModel
 import com.teammealky.mealky.presentation.splash.SplashViewModel
 import dagger.Binds
 import dagger.Module

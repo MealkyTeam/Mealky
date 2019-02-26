@@ -24,7 +24,6 @@ import kotlinx.android.synthetic.main.empty_item.*
 import kotlinx.android.synthetic.main.empty_item.view.*
 import kotlinx.android.synthetic.main.meals_fragment.*
 import kotlinx.android.synthetic.main.search_toolbar.*
-import timber.log.Timber
 
 class MealListFragment : BaseFragment<MealListPresenter, MealListPresenter.UI, MealListViewModel>(),
         MealListPresenter.UI, MealsAdapter.OnItemClickListener,
@@ -152,7 +151,7 @@ class MealListFragment : BaseFragment<MealListPresenter, MealListPresenter.UI, M
 
     override fun onClick(v: View?) {
         when(v?.id){
-            R.id.addMealBtn -> presenter?.addMealBtnClicked()
+            R.id.addMealBtn -> presenter?.onAddMealBtnClicked()
         }
     }
 

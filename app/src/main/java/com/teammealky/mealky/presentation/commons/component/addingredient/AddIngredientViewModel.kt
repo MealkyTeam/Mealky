@@ -1,4 +1,4 @@
-package com.teammealky.mealky.presentation.shoppinglist.component.addingredient
+package com.teammealky.mealky.presentation.commons.component.addingredient
 
 import com.teammealky.mealky.presentation.commons.presenter.BaseViewModel
 import javax.inject.Inject

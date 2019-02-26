@@ -1,4 +1,4 @@
-package com.teammealky.mealky.presentation.shoppinglist.component.addingredient.view
+package com.teammealky.mealky.presentation.commons.component.addingredient.view
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
@@ -25,9 +25,9 @@ import com.teammealky.mealky.presentation.App
 import com.teammealky.mealky.presentation.commons.extension.isInvisible
 import com.teammealky.mealky.presentation.commons.extension.isVisible
 import com.teammealky.mealky.presentation.meal.MealMapper
-import com.teammealky.mealky.presentation.shoppinglist.component.addingredient.AddIngredientPresenter
-import com.teammealky.mealky.presentation.shoppinglist.component.addingredient.AddIngredientViewModel
-import com.teammealky.mealky.presentation.shoppinglist.component.addingredient.BaseDialogFragment
+import com.teammealky.mealky.presentation.commons.component.addingredient.AddIngredientPresenter
+import com.teammealky.mealky.presentation.commons.component.addingredient.AddIngredientViewModel
+import com.teammealky.mealky.presentation.commons.component.addingredient.BaseDialogFragment
 import kotlinx.android.synthetic.main.add_ingredient_dialog.*
 import java.lang.Exception
 import android.view.inputmethod.InputMethodManager
