@@ -58,4 +58,11 @@
     <string name="reset_password">Reset your password</string>
     <string name="password_reseted">Password has been reseted. Check your email!</string>
     <string name="go_back_to_sign_in">Go back to sign in</string>
+    <string name="preparation_time">Preparation time</string>
+    <string name="title">Title</string>
+    <string name="add_new_recipe">Add new recipe</string>
+    <string name="description">Description</string>
+    <string name="add_images">Add images</string>
+    <string name="add_ingredient">Add ingredient</string>
+    <string name="remove_button">Remove button</string>
 </resources>

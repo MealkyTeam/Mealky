@@ -49,5 +49,5 @@
         android:contentDescription="@string/dislike"
         android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
-        android:src="@drawable/ic_baseline_x_24px" />
+        android:src="@drawable/ic_baseline_x_48px" />
 </RelativeLayout>

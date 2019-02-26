@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.shopping_toolbar.view.*
 import com.teammealky.mealky.domain.model.Ingredient
 import com.teammealky.mealky.presentation.commons.extension.isVisible
 import com.teammealky.mealky.presentation.shoppinglist.adapter.ShoppingListAdapter
-import com.teammealky.mealky.presentation.shoppinglist.component.addingredient.view.AddIngredientDialog
+import com.teammealky.mealky.presentation.commons.component.addingredient.view.AddIngredientDialog
 import com.teammealky.mealky.presentation.shoppinglist.model.ShoppingListItemViewModel
 import kotlinx.android.synthetic.main.empty_item.*
 
