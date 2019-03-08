@@ -9,7 +9,7 @@ import com.teammealky.mealky.presentation.account.AccountActivity
 import com.teammealky.mealky.presentation.account.forgottenPassword.ForgottenPasswordFragment
 import com.teammealky.mealky.presentation.account.signin.SignInFragment
 import com.teammealky.mealky.presentation.account.signup.SignUpFragment
-import com.teammealky.mealky.presentation.addMeal.AddMealFragment
+import com.teammealky.mealky.presentation.addmeal.AddMealFragment
 import com.teammealky.mealky.presentation.discover.DiscoverFragment
 import com.teammealky.mealky.presentation.main.MainActivity
 import com.teammealky.mealky.presentation.meal.MealFragment

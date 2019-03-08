@@ -2,7 +2,7 @@ package com.teammealky.mealky.domain.model
 
 class APIError(override val message: String) : Exception() {
 
-    var type: ErrorType = ErrorType.SOMETHING_WENT_WRONG
+    val type: ErrorType
         get() {
             return when (message) {
                 CONFIRM_EMAIL -> ErrorType.CONFIRM_EMAIL

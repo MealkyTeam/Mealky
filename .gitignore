@@ -92,3 +92,6 @@ com_crashlytics_export_strings.xml
 
 # Built application files
 /*/build/
+
+fabric.properties
+author-amend.sh
