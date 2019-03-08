@@ -6,7 +6,7 @@ import com.teammealky.mealky.presentation.account.AccountViewModel
 import com.teammealky.mealky.presentation.account.forgottenPassword.ForgottenPasswordViewModel
 import com.teammealky.mealky.presentation.account.signin.SignInViewModel
 import com.teammealky.mealky.presentation.account.signup.SignUpViewModel
-import com.teammealky.mealky.presentation.addMeal.AddMealViewModel
+import com.teammealky.mealky.presentation.addmeal.AddMealViewModel
 import com.teammealky.mealky.presentation.commons.injection.ViewModelFactory
 import com.teammealky.mealky.presentation.commons.injection.ViewModelKey
 import com.teammealky.mealky.presentation.discover.DiscoverViewModel

@@ -4,6 +4,7 @@ import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Point
 import android.graphics.drawable.Drawable
+import android.text.Editable
 import android.view.View
 import android.widget.ImageView
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -115,3 +116,9 @@ fun getResizedImageHeight(aspectRatio: Float): Int {
 }
 
 fun getScreenWidth(): Int = Resources.getSystem().displayMetrics.widthPixels
+
+fun Editable?.toInt(): Int {
+    val text = this.toString()
+
+    return text.toIntOrNull() ?: 0
+}

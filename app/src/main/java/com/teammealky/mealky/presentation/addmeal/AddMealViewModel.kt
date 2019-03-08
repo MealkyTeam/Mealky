@@ -1,4 +1,4 @@
-package com.teammealky.mealky.presentation.addMeal
+package com.teammealky.mealky.presentation.addmeal
 
 import com.teammealky.mealky.presentation.commons.presenter.BaseViewModel
 import javax.inject.Inject
