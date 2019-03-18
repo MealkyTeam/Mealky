@@ -115,7 +115,7 @@ class AddMealFragment : BaseFragment<AddMealPresenter, AddMealPresenter.UI, AddM
     }
 
     override fun afterTextChanged(editable: Editable?) {
-        presenter?.fieldsChanged(titleInput.text, preparationTimeInput.text, preparationInput.text)
+        presenter?.fieldsChanged(titleInput.text?.toString(), preparationTimeInput.text?.toString(), preparationInput.text?.toString())
     }
 
     override fun onClick(v: View?) {

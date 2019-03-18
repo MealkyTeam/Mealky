@@ -114,14 +114,11 @@ class AddIngredientDialog : BaseDialogFragment<AddIngredientPresenter, AddIngred
     }
 
     override fun afterTextChanged(editable: Editable?) {
-        try {
-            presenter?.model = Ingredient.defaultIngredient().copy(
-                    name = ingredientInput?.text.toString(),
-                    quantity = quantityInput?.text.toString().toDouble(),
-                    unit = Unit.defaultUnit().copy(name = unitInput?.text.toString())
-            )
-        } catch (ignored: Exception) {
-        }
+        presenter?.model = Ingredient.defaultIngredient().copy(
+                name = ingredientInput?.text.toString(),
+                quantity = quantityInput?.text.toString().toDoubleOrNull() ?: 0.0,
+                unit = Unit.defaultUnit().copy(name = unitInput?.text.toString())
+        )
         presenter?.fieldsChanged()
     }
 
