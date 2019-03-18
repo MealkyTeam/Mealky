@@ -16,6 +16,11 @@ import com.teammealky.mealky.presentation.App
 import com.teammealky.mealky.presentation.commons.Navigator
 import com.teammealky.mealky.presentation.commons.presenter.BaseFragment
 import kotlinx.android.synthetic.main.add_meal_fragment.*
+import com.teammealky.mealky.presentation.addmeal.AddMealPresenter.ValidationResult.*
+import com.teammealky.mealky.presentation.addmeal.AddMealPresenter.ValidationResult
+import com.teammealky.mealky.presentation.commons.extension.isInvisible
+import com.teammealky.mealky.presentation.commons.extension.isVisible
+import kotlinx.android.synthetic.main.meals_fragment.*
 
 
 class AddMealFragment : BaseFragment<AddMealPresenter, AddMealPresenter.UI, AddMealViewModel>(),
@@ -66,14 +71,48 @@ class AddMealFragment : BaseFragment<AddMealPresenter, AddMealPresenter.UI, AddM
         Navigator.from(context as Navigator.Navigable).openHome()
     }
 
-    override fun showErrors() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun showErrors(errors: List<ValidationResult>) {
+        errors.forEach { error ->
+            when (error) {
+                TITLE_ERROR -> {
+                    titleInput.error = getString(R.string.title_error)
+                }
+                PREP_ERROR -> {
+                    preparationInput.error = getString(R.string.prep_error)
+                }
+                PREP_TIME_ERROR -> {
+                    preparationTimeInput.error = getString(R.string.prep_time_error)
+                }
+                INGREDIENTS_ERROR -> {
+                    ingredientsErrorTv.isVisible(true)
+                }
+                IMAGES_ERROR -> {
+                    imagesErrorTv.isVisible(true)
+                }
+
+                else -> {
+
+                }
+            }
+        }
+    }
+
+    override fun clearErrors() {
+        titleInput.error = null
+        preparationInput.error = null
+        preparationTimeInput.error = null
+        ingredientsErrorTv.isVisible(false)
+        imagesErrorTv.isVisible(false)
     }
 
     override fun showToast() {
         Toast.makeText(context, getString(R.string.meal_added), Toast.LENGTH_LONG).show()
     }
 
+    override fun isLoading(isLoading: Boolean) {
+        addMealLayout.isInvisible(isLoading)
+        progressBar.isVisible(!isLoading)
+    }
 
     override fun afterTextChanged(editable: Editable?) {
         presenter?.fieldsChanged(titleInput.text, preparationTimeInput.text, preparationInput.text)
