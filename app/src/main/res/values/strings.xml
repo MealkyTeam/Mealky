@@ -64,6 +64,11 @@
     <string name="description">Description</string>
     <string name="add_images">Add images</string>
     <string name="add_ingredient">Add ingredient</string>
+    <string name="title_error">Title cannot be empty!</string>
+    <string name="prep_error">Description cannot be empty!</string>
+    <string name="prep_time_error">Preparation time must be greater than zero!</string>
+    <string name="ingredients_error">You have to add at least one ingredient!</string>
+    <string name="images_error">You have to add at least one image!</string>
     <string name="remove_button">Remove button</string>
     <string name="meal_added">Your meal waits for verification. You will receive an email when recipe will be confirmed.</string>
 </resources>
