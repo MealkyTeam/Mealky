@@ -1,8 +1,6 @@
 package com.teammealky.mealky.presentation.addmeal
 
-import android.text.Editable
 import com.teammealky.mealky.presentation.addmeal.model.MealViewModel
-import com.teammealky.mealky.presentation.commons.extension.toInt
 import com.teammealky.mealky.presentation.commons.presenter.BasePresenter
 import com.teammealky.mealky.presentation.commons.presenter.BaseUI
 import com.teammealky.mealky.presentation.addmeal.AddMealPresenter.ValidationResult.*
@@ -13,10 +11,10 @@ class AddMealPresenter @Inject constructor() : BasePresenter<AddMealPresenter.UI
 
     var model: MealViewModel = MealViewModel.basicMealViewModel()
 
-    fun fieldsChanged(title: Editable?, preparationTime: Editable?, description: Editable?) {
-        val titleString = title?.toString() ?: ""
-        val preparationTimeString = (preparationTime?.toInt() ?: 0).toString()
-        val descriptionString = description?.toString() ?: ""
+    fun fieldsChanged(title: String?, preparationTime: String?, description: String?) {
+        val titleString = title ?: ""
+        val preparationTimeString = preparationTime?.toIntOrNull()?.toString() ?: ""
+        val descriptionString = description ?: ""
 
         model = MealViewModel(titleString, preparationTimeString, descriptionString)
 
@@ -57,7 +55,7 @@ class AddMealPresenter @Inject constructor() : BasePresenter<AddMealPresenter.UI
             errors.add(TITLE_ERROR)
         if (model.description.isEmpty())
             errors.add(PREP_ERROR)
-        if (model.preparationTime.isEmpty())
+        if (model.preparationTime.isEmpty() || model.preparationTime.toInt() <= 0)
             errors.add(PREP_TIME_ERROR)
 
         if (errors.isEmpty())

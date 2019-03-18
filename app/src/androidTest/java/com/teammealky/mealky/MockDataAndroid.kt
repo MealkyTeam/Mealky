@@ -16,9 +16,9 @@ class MockDataAndroid {
                 Unit("unit3")
         )
         val INGREDIENTS = listOf(
-                Ingredient("ingr1", UNITS[0], 1.toDouble()),
-                Ingredient("ingr2", UNITS[1], 2.toDouble()),
-                Ingredient("ingr3", UNITS[2], 3.toDouble())
+                Ingredient("ingr1", UNITS[0], 1.0),
+                Ingredient("ingr2", UNITS[1], 2.0),
+                Ingredient("ingr3", UNITS[2], 3.0)
         )
         val CATEGORIES = listOf(
                 Category(1, "category1"),
