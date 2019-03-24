@@ -1,13 +1,10 @@
-package com.teammealky.mealky.presentation.commons.component.addingredient
+package com.teammealky.mealky.presentation.commons.presenter
 
 import android.app.Activity
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import com.teammealky.mealky.presentation.commons.presenter.BaseUI
-import com.teammealky.mealky.presentation.commons.presenter.BaseViewModel
-import com.teammealky.mealky.presentation.commons.presenter.Presenter
 import timber.log.Timber
 import javax.inject.Inject
 

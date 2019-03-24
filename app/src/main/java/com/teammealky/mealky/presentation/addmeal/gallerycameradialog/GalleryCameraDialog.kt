@@ -1,0 +1,202 @@
+package com.teammealky.mealky.presentation.addmeal.gallerycameradialog
+
+import android.Manifest
+import android.annotation.SuppressLint
+import android.app.Activity.RESULT_OK
+import android.app.AlertDialog
+import android.app.Dialog
+import android.net.Uri
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import com.teammealky.mealky.presentation.App
+import com.teammealky.mealky.presentation.commons.presenter.BaseDialogFragment
+import kotlinx.android.synthetic.main.gallery_camera_dialog.*
+import android.content.pm.PackageManager
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.MultiplePermissionsReport
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.listener.PermissionRequest
+import android.content.Intent
+import android.graphics.Bitmap
+import android.os.Environment
+import android.provider.MediaStore
+import android.provider.Settings
+import android.widget.ImageView
+import androidx.core.content.FileProvider
+import com.squareup.picasso.Picasso
+import com.teammealky.mealky.R
+import timber.log.Timber
+import java.io.File
+import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
+
+class GalleryCameraDialog : BaseDialogFragment<GalleryCameraPresenter, GalleryCameraPresenter.UI, GalleryCameraViewModel>(),
+        GalleryCameraPresenter.UI, View.OnClickListener {
+
+    override val vmClass = GalleryCameraViewModel::class.java
+    private var currentPhotoPath: String? = null
+    @SuppressLint("InflateParams")
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val view = LayoutInflater.from(context).inflate(R.layout.gallery_camera_dialog, null)
+        return AlertDialog.Builder(context)
+                .setView(view)
+                .create()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        App.get(requireContext()).getComponent().inject(this)
+        super.onCreate(savedInstanceState)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        dialog.openCameraBtn.setOnClickListener(this)
+        dialog.openGalleryBtn.setOnClickListener(this)
+    }
+
+    override fun checkPermission() {
+        if (context == null) return
+        val result = ActivityCompat.checkSelfPermission(context!!, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        if (result == PackageManager.PERMISSION_DENIED) {
+            presenter?.hasPermission = false
+            return
+        }
+
+        presenter?.hasPermission = true
+    }
+
+    override fun showPermissionDialog() {
+        Dexter.withActivity(activity).withPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .withListener(object : MultiplePermissionsListener {
+                    override fun onPermissionsChecked(report: MultiplePermissionsReport) {
+                        if (report.isAnyPermissionPermanentlyDenied) {
+                            presenter?.permissionDenied()
+                        }
+                    }
+
+                    override fun onPermissionRationaleShouldBeShown(permissions: MutableList<PermissionRequest>?, token: PermissionToken?) {
+                        token?.continuePermissionRequest()
+                    }
+
+                }).withErrorListener { presenter?.errorOccurred() }
+                .onSameThread()
+                .check()
+    }
+
+    override fun showSettingsDialog() {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle(getString(R.string.message_need_permission))
+        builder.setMessage(getString(R.string.message_grant_permission))
+        builder.setPositiveButton(getString(R.string.label_setting)) { dialog, _ ->
+            dialog.cancel()
+            presenter?.goToSettingsClicked()
+        }
+        builder.setNegativeButton(getString(R.string.cancel)) { dialog, _ -> dialog.cancel() }
+        builder.show()
+    }
+
+    override fun openSettings() {
+        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+        val uri = Uri.fromParts("package", activity?.packageName, null)
+        intent.data = uri
+        startActivityForResult(intent, 101)
+    }
+
+    override fun showNoSpaceToast() {
+        Toast.makeText(context, getString(R.string.error_message_insufficient_space), Toast.LENGTH_LONG).show()
+    }
+
+    override fun showErrorToast() {
+        Toast.makeText(context, getString(R.string.error_message), Toast.LENGTH_SHORT).show()
+    }
+
+    private fun createImageFile(): File? {
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(Date())
+        val storageDir: File = activity?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+                ?: return null
+        return File.createTempFile(
+                "JPEG_${timeStamp}_",
+                ".jpg",
+                storageDir
+        ).apply {
+            currentPhotoPath = "file://$absolutePath"
+        }
+    }
+
+    override fun openCamera() {
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+            takePictureIntent.resolveActivity(activity!!.packageManager)?.also {
+                val photoFile: File? = try {
+                    createImageFile()
+                } catch (ex: IOException) {
+                    presenter?.errorOccurred()
+                    null
+                }
+
+                photoFile?.also {
+                    val photoURI: Uri = FileProvider.getUriForFile(context!!, getString(R.string.fileProviderAuthorities), it)
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                    startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO)
+                }
+            }
+        }
+    }
+
+    override fun openGallery() {
+        val intent = Intent()
+        intent.type = "image/*"
+        intent.action = Intent.ACTION_GET_CONTENT
+        startActivityForResult(intent, REQUEST_GALLERY_PHOTO)
+    }
+
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            R.id.openCameraBtn -> presenter?.openCameraClicked()
+            R.id.openGalleryBtn -> presenter?.openGalleryClicked()
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_TAKE_PHOTO) {
+                //todo return photo to fragment
+                //todo dissmis dialog
+                loadImageWithFit(dialog.tempImageView, currentPhotoPath ?: "")
+                Timber.tag("KUBA").v("onActivityResult  camera $currentPhotoPath")
+            }
+            if (requestCode == REQUEST_GALLERY_PHOTO) {
+                val selectedImageUri = data?.data
+                currentPhotoPath = selectedImageUri.toString()
+                Timber.tag("KUBA").v("onActivityResult  gallery $currentPhotoPath")
+                loadImageWithFit(dialog.tempImageView, currentPhotoPath ?: "")
+            }
+        }
+    }
+
+    //todo move that method to thumbnail image view
+    private fun loadImageWithFit(target: ImageView, filePath: String) {
+        val picasso = Picasso
+                .get()
+                .load(filePath)
+                .config(Bitmap.Config.RGB_565)
+                .centerCrop()
+                .fit()
+                .error(R.drawable.broken_image)
+        picasso.into(target)
+    }
+
+    interface GalleryCameraListener {
+        fun onInformationPassed(uri: Uri?)
+    }
+
+    companion object {
+        const val REQUEST_TAKE_PHOTO = 101
+        const val REQUEST_GALLERY_PHOTO = 102
+    }
+}

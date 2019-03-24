@@ -2,6 +2,7 @@ ext {
     api = [
             "release": [
                     "central" : '"https://mealkyapp.herokuapp.com/"',
+                    "fileProviderAuthorities": "com.teammealky.mealky.dev.fileprovider",
                     "login"   : '"mealkyappandroid!@#$KJNSDSDFJkj"',
                     "password": '"aKUd2@34jjasdbj@#$jn4jS!@#jhsnda&jhasjdhj@#"'
             ]

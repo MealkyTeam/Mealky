@@ -10,6 +10,7 @@ import com.teammealky.mealky.presentation.account.forgottenPassword.ForgottenPas
 import com.teammealky.mealky.presentation.account.signin.SignInFragment
 import com.teammealky.mealky.presentation.account.signup.SignUpFragment
 import com.teammealky.mealky.presentation.addmeal.AddMealFragment
+import com.teammealky.mealky.presentation.addmeal.gallerycameradialog.GalleryCameraDialog
 import com.teammealky.mealky.presentation.commons.Navigator
 import com.teammealky.mealky.presentation.commons.injection.ApplicationContext
 import com.teammealky.mealky.presentation.commons.injection.module.ApplicationModule
@@ -21,7 +22,7 @@ import com.teammealky.mealky.presentation.meal.MealFragment
 import com.teammealky.mealky.presentation.meals.MealListFragment
 import com.teammealky.mealky.presentation.settings.SettingsFragment
 import com.teammealky.mealky.presentation.shoppinglist.ShoppingListFragment
-import com.teammealky.mealky.presentation.commons.component.addingredient.view.AddIngredientDialog
+import com.teammealky.mealky.presentation.commons.component.addingredient.AddIngredientDialog
 import com.teammealky.mealky.presentation.splash.SplashActivity
 import dagger.Component
 import javax.inject.Singleton
@@ -59,5 +60,5 @@ interface ApplicationComponent {
     fun inject(app: AddMealFragment)
 
     fun inject(dialog: AddIngredientDialog)
-
+    fun inject(app: GalleryCameraDialog)
 }

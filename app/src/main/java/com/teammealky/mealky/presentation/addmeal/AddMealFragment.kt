@@ -21,20 +21,29 @@ import com.teammealky.mealky.presentation.addmeal.AddMealPresenter.ValidationRes
 import com.teammealky.mealky.presentation.commons.extension.isInvisible
 import com.teammealky.mealky.presentation.commons.extension.isVisible
 import kotlinx.android.synthetic.main.meals_fragment.*
+import android.net.Uri
+import com.teammealky.mealky.domain.model.Ingredient
+import com.teammealky.mealky.presentation.addmeal.gallerycameradialog.GalleryCameraDialog
+import com.teammealky.mealky.presentation.commons.component.addingredient.AddIngredientDialog
 
 
 class AddMealFragment : BaseFragment<AddMealPresenter, AddMealPresenter.UI, AddMealViewModel>(),
-        AddMealPresenter.UI, View.OnClickListener, TextWatcher, TextView.OnEditorActionListener {
+        AddMealPresenter.UI, View.OnClickListener, TextWatcher, TextView.OnEditorActionListener,
+        AddIngredientDialog.AddIngredientListener, GalleryCameraDialog.GalleryCameraListener {
 
     override val vmClass = AddMealViewModel::class.java
+    private var addIngredientDialog: AddIngredientDialog? = null
+    private var galleryCameraDialog: GalleryCameraDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         App.get(requireContext()).getComponent().inject(this)
         super.onCreate(savedInstanceState)
+
+        dialogRestoration(savedInstanceState)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-            inflater.inflate(com.teammealky.mealky.R.layout.add_meal_fragment, container, false)
+            inflater.inflate(R.layout.add_meal_fragment, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -114,6 +123,38 @@ class AddMealFragment : BaseFragment<AddMealPresenter, AddMealPresenter.UI, AddM
         progressBar.isVisible(!isLoading)
     }
 
+    override fun showAddIngredientDialog(ingredients: List<Ingredient>) {
+        addIngredientDialog = AddIngredientDialog.newInstance(ingredients)
+        addIngredientDialog?.setTargetFragment(this, ADD_DIALOG_ID)
+        addIngredientDialog?.show(fragmentManager, ADD_DIALOG)
+    }
+
+    override fun showGalleryCameraDialog() {
+        galleryCameraDialog = GalleryCameraDialog()
+        galleryCameraDialog?.setTargetFragment(this, GALLERY_DIALOG_ID)
+        galleryCameraDialog?.show(fragmentManager, GALLERY_DIALOG)
+    }
+
+    private fun dialogRestoration(savedInstanceState: Bundle?) {
+        if (null != savedInstanceState) {
+            val prevDialog = childFragmentManager.findFragmentByTag(ADD_DIALOG)
+            if (prevDialog is AddIngredientDialog) {
+                addIngredientDialog = prevDialog
+                addIngredientDialog?.setTargetFragment(this, ADD_DIALOG_ID)
+            }
+        }
+    }
+
+    override fun onInformationPassed(ingredient: Ingredient) {
+        addIngredientDialog?.dismiss()
+        presenter?.onInformationPassed(ingredient)
+    }
+
+    override fun onInformationPassed(uri: Uri?) {
+        galleryCameraDialog?.dismiss()
+        presenter?.onInformationPassed(uri)
+    }
+
     override fun afterTextChanged(editable: Editable?) {
         presenter?.fieldsChanged(titleInput.text?.toString(), preparationTimeInput.text?.toString(), preparationInput.text?.toString())
     }
@@ -140,6 +181,14 @@ class AddMealFragment : BaseFragment<AddMealPresenter, AddMealPresenter.UI, AddM
     }
 
     override fun onTextChanged(text: CharSequence?, p1: Int, p2: Int, p3: Int) {
+    }
+
+    companion object {
+        private const val ADD_DIALOG = "add_dialog"
+        private const val ADD_DIALOG_ID = 200
+
+        private const val GALLERY_DIALOG = "gallery_dialog"
+        private const val GALLERY_DIALOG_ID = 300
     }
 }
 
