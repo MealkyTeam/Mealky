@@ -1,17 +1,18 @@
 package com.teammealky.mealky.presentation.addmeal
 
-import android.net.Uri
 import com.teammealky.mealky.domain.model.Ingredient
 import com.teammealky.mealky.presentation.addmeal.model.MealViewModel
 import com.teammealky.mealky.presentation.commons.presenter.BasePresenter
 import com.teammealky.mealky.presentation.commons.presenter.BaseUI
 import com.teammealky.mealky.presentation.addmeal.AddMealPresenter.ValidationResult.*
+import com.teammealky.mealky.presentation.addmeal.model.ThumbnailImage
 import javax.inject.Inject
 import timber.log.Timber
 
 class AddMealPresenter @Inject constructor() : BasePresenter<AddMealPresenter.UI>() {
 
     var model: MealViewModel = MealViewModel.basicMealViewModel()
+    var attachments = mutableListOf<ThumbnailImage>()
 
     fun fieldsChanged(title: String?, preparationTime: String?, description: String?) {
         val titleString = title ?: ""
@@ -74,9 +75,12 @@ class AddMealPresenter @Inject constructor() : BasePresenter<AddMealPresenter.UI
         Timber.tag("KUBA").v("addIngredientsBtnClicked ")
     }
 
-    fun onInformationPassed(uri: Uri?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    fun onInformationPassed(imagePath: String) {
+        attachments.add(ThumbnailImage(getNewId(), imagePath))
+        ui().perform { it.showImagesQueue(attachments) }
     }
+
+    private fun getNewId() = ((attachments.maxBy { it.id }?.id) ?: attachments.size) + 1
 
     fun onInformationPassed(ingredient: Ingredient) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -91,6 +95,7 @@ class AddMealPresenter @Inject constructor() : BasePresenter<AddMealPresenter.UI
         fun isLoading(isLoading: Boolean)
         fun showGalleryCameraDialog()
         fun showAddIngredientDialog(ingredients: List<Ingredient>)
+        fun showImagesQueue(attachments: MutableList<ThumbnailImage>)
     }
 
     enum class ValidationResult {

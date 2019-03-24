@@ -81,4 +81,6 @@
     <string name="error_message">Error occurred!</string>
     <string name="message_need_permission">Need Permissions</string>
     <string name="message_grant_permission">This app needs permission to use this feature. You can grant them in app settings.</string>
+    <string name="remove_item">Remove item button</string>
+    <string name="thumbnail">Thumbnail</string>
 </resources>

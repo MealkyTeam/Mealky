@@ -21,9 +21,9 @@ import com.teammealky.mealky.presentation.addmeal.AddMealPresenter.ValidationRes
 import com.teammealky.mealky.presentation.commons.extension.isInvisible
 import com.teammealky.mealky.presentation.commons.extension.isVisible
 import kotlinx.android.synthetic.main.meals_fragment.*
-import android.net.Uri
 import com.teammealky.mealky.domain.model.Ingredient
 import com.teammealky.mealky.presentation.addmeal.gallerycameradialog.GalleryCameraDialog
+import com.teammealky.mealky.presentation.addmeal.model.ThumbnailImage
 import com.teammealky.mealky.presentation.commons.component.addingredient.AddIngredientDialog
 
 
@@ -145,14 +145,18 @@ class AddMealFragment : BaseFragment<AddMealPresenter, AddMealPresenter.UI, AddM
         }
     }
 
+    override fun showImagesQueue(attachments: MutableList<ThumbnailImage>) {
+        addMealThumbnailsView.showQueue(attachments)
+    }
+
     override fun onInformationPassed(ingredient: Ingredient) {
         addIngredientDialog?.dismiss()
         presenter?.onInformationPassed(ingredient)
     }
 
-    override fun onInformationPassed(uri: Uri?) {
+    override fun onInformationPassed(imagePath: String) {
         galleryCameraDialog?.dismiss()
-        presenter?.onInformationPassed(uri)
+        presenter?.onInformationPassed(imagePath)
     }
 
     override fun afterTextChanged(editable: Editable?) {

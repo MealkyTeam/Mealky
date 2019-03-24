@@ -24,10 +24,5 @@
         android:layout_marginRight="24dp"
         android:text="@string/open_camera" />
 
-    <ImageView
-        android:id="@+id/tempImageView"
-        android:layout_width="150dp"
-        android:layout_height="150dp" />
-
 </LinearLayout>
 

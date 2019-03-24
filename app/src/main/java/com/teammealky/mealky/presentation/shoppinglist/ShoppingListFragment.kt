@@ -118,7 +118,6 @@ class ShoppingListFragment : BaseFragment<ShoppingListPresenter, ShoppingListPre
     }
 
     override fun onInformationPassed(ingredient: Ingredient) {
-        addIngredientDialog?.dismiss()
         presenter?.onInformationPassed(ingredient)
     }
 

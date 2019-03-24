@@ -62,36 +62,17 @@
                 android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:gravity="center_vertical"
-                android:padding="4dp"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
                 android:text="@string/add_images"
                 android:textSize="20sp" />
 
-            <LinearLayout
+            <com.teammealky.mealky.presentation.addmeal.view.AddMealThumbnailsView
+                android:id="@+id/addMealThumbnailsView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingLeft="4dp">
-                <ImageView
-                    android:layout_width="96dp"
-                    android:scaleType="centerCrop"
-                    android:layout_height="64dp"
-                    android:src="@drawable/pancakes"
-                    android:paddingRight="16dp"/>
-
-                <ImageView
-                    android:layout_width="96dp"
-                    android:scaleType="centerCrop"
-                    android:layout_height="64dp"
-                    android:src="@drawable/pancakes"
-                    android:paddingRight="16dp"/>
-
-                <ImageView
-                    android:layout_width="96dp"
-                    android:scaleType="centerCrop"
-                    android:layout_height="64dp"
-                    android:paddingRight="16dp"
-                    android:src="@drawable/pancakes" />
-            </LinearLayout>
+                android:layout_marginBottom="16dp"
+                android:clipToPadding="false" />
 
             <TextView
                 android:id="@+id/imagesErrorTv"
