@@ -17,12 +17,12 @@ import kotlinx.android.synthetic.main.shopping_toolbar.view.*
 import com.teammealky.mealky.domain.model.Ingredient
 import com.teammealky.mealky.presentation.commons.extension.isVisible
 import com.teammealky.mealky.presentation.shoppinglist.adapter.ShoppingListAdapter
-import com.teammealky.mealky.presentation.commons.component.addingredient.view.AddIngredientDialog
+import com.teammealky.mealky.presentation.commons.component.addingredient.AddIngredientDialog
 import com.teammealky.mealky.presentation.shoppinglist.model.ShoppingListItemViewModel
 import kotlinx.android.synthetic.main.empty_item.*
 
 class ShoppingListFragment : BaseFragment<ShoppingListPresenter, ShoppingListPresenter.UI, ShoppingListViewModel>(), ShoppingListPresenter.UI,
-        ShoppingListAdapter.ShoppingListItemListener, View.OnClickListener,AddIngredientDialog.AddIngredientListener {
+        ShoppingListAdapter.ShoppingListItemListener, View.OnClickListener, AddIngredientDialog.AddIngredientListener {
 
     override val vmClass = ShoppingListViewModel::class.java
     private lateinit var adapter: ShoppingListAdapter
@@ -129,7 +129,7 @@ class ShoppingListFragment : BaseFragment<ShoppingListPresenter, ShoppingListPre
     }
 
     companion object {
-        private const val ADD_DIALOG = "info_dialog"
+        private const val ADD_DIALOG = "add_dialog"
         private const val ADD_DIALOG_ID = 200
     }
 

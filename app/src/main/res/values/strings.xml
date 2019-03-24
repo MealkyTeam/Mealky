@@ -71,4 +71,14 @@
     <string name="images_error">You have to add at least one image!</string>
     <string name="remove_button">Remove button</string>
     <string name="meal_added">Your meal waits for verification. You will receive an email when recipe will be confirmed.</string>
+    <string name="open_gallery">Open gallery</string>
+    <string name="open_camera">Open camera</string>
+    <string name="error_message_no_more_space">Your storage is unavailable.</string>
+    <string name="error_message_insufficient_space">You have few space available, please make sure your have more than 5MB on disk to take pictures!</string>
+    <string name="ok">OK</string>
+    <string name="label_setting">GOTO SETTINGS</string>
+    <string name="cancel">Cancel</string>
+    <string name="error_message">Error occurred!</string>
+    <string name="message_need_permission">Need Permissions</string>
+    <string name="message_grant_permission">This app needs permission to use this feature. You can grant them in app settings.</string>
 </resources>

@@ -49,6 +49,8 @@ android {
             buildConfigField "String", "CENTRAL_URL", rootProject.ext.api.release.central
             buildConfigField "String", "CENTRAL_LOGIN", rootProject.ext.api.release.login
             buildConfigField "String", "CENTRAL_PASSWORD", rootProject.ext.api.release.password
+            resValue "string", "fileProviderAuthorities", rootProject.ext.api.release.fileProviderAuthorities
+
             ext.betaDistributionGroupAliases = 'Team, family-and-friends'
             ext.betaDistributionNotifications = false
             ext.betaDistributionReleaseNotesFilePath = 'config/release-notes.txt'
@@ -64,6 +66,8 @@ android {
             buildConfigField "String", "CENTRAL_URL", rootProject.ext.api.release.central
             buildConfigField "String", "CENTRAL_LOGIN", rootProject.ext.api.release.login
             buildConfigField "String", "CENTRAL_PASSWORD", rootProject.ext.api.release.password
+            resValue "string", "fileProviderAuthorities", rootProject.ext.api.release.fileProviderAuthorities
+
         }
     }
     testOptions {
@@ -88,7 +92,10 @@ dependencies {
     implementation 'androidx.room:room-runtime:2.0.0'
     implementation "io.reactivex.rxjava2:rxjava:2.2.2"
     implementation "io.reactivex.rxjava2:rxandroid:2.1.0"
+
     implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation "com.karumi:dexter:5.0.0"
+
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'

@@ -9,7 +9,6 @@
     android:foreground="?android:attr/selectableItemBackground"
     android:orientation="horizontal"
     android:paddingStart="4dp"
-    android:background="@drawable/rounded_border"
     tools:ignore="RtlSymmetry">
 
     <ImageView

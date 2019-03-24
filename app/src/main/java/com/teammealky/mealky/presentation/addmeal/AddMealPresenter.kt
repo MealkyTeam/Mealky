@@ -1,5 +1,7 @@
 package com.teammealky.mealky.presentation.addmeal
 
+import android.net.Uri
+import com.teammealky.mealky.domain.model.Ingredient
 import com.teammealky.mealky.presentation.addmeal.model.MealViewModel
 import com.teammealky.mealky.presentation.commons.presenter.BasePresenter
 import com.teammealky.mealky.presentation.commons.presenter.BaseUI
@@ -65,11 +67,19 @@ class AddMealPresenter @Inject constructor() : BasePresenter<AddMealPresenter.UI
     }
 
     fun addImagesBtnClicked() {
-        Timber.tag("KUBA").v("addImagesBtnClicked")
+        ui().perform { it.showGalleryCameraDialog() }
     }
 
     fun addIngredientsBtnClicked() {
         Timber.tag("KUBA").v("addIngredientsBtnClicked ")
+    }
+
+    fun onInformationPassed(uri: Uri?) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    fun onInformationPassed(ingredient: Ingredient) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     interface UI : BaseUI {
@@ -79,6 +89,8 @@ class AddMealPresenter @Inject constructor() : BasePresenter<AddMealPresenter.UI
         fun showToast()
         fun clearErrors()
         fun isLoading(isLoading: Boolean)
+        fun showGalleryCameraDialog()
+        fun showAddIngredientDialog(ingredients: List<Ingredient>)
     }
 
     enum class ValidationResult {
