@@ -21,15 +21,11 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.listener.PermissionRequest
 import android.content.Intent
-import android.graphics.Bitmap
 import android.os.Environment
 import android.provider.MediaStore
 import android.provider.Settings
-import android.widget.ImageView
 import androidx.core.content.FileProvider
-import com.squareup.picasso.Picasso
 import com.teammealky.mealky.R
-import timber.log.Timber
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -39,7 +35,7 @@ class GalleryCameraDialog : BaseDialogFragment<GalleryCameraPresenter, GalleryCa
         GalleryCameraPresenter.UI, View.OnClickListener {
 
     override val vmClass = GalleryCameraViewModel::class.java
-    private var currentPhotoPath: String? = null
+    private var currentPhotoPath: String = ""
     @SuppressLint("InflateParams")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val view = LayoutInflater.from(context).inflate(R.layout.gallery_camera_dialog, null)
@@ -161,38 +157,30 @@ class GalleryCameraDialog : BaseDialogFragment<GalleryCameraPresenter, GalleryCa
         }
     }
 
+    override fun passImageToAddMealFragment(photoPath: String) {
+        if (targetFragment is GalleryCameraDialog.GalleryCameraListener) {
+            (targetFragment as GalleryCameraDialog.GalleryCameraListener).onInformationPassed(currentPhotoPath)
+        }
+
+        dismiss()
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_TAKE_PHOTO) {
-                //todo return photo to fragment
-                //todo dissmis dialog
-                loadImageWithFit(dialog.tempImageView, currentPhotoPath ?: "")
-                Timber.tag("KUBA").v("onActivityResult  camera $currentPhotoPath")
+                presenter?.imageReceived(currentPhotoPath)
             }
             if (requestCode == REQUEST_GALLERY_PHOTO) {
                 val selectedImageUri = data?.data
                 currentPhotoPath = selectedImageUri.toString()
-                Timber.tag("KUBA").v("onActivityResult  gallery $currentPhotoPath")
-                loadImageWithFit(dialog.tempImageView, currentPhotoPath ?: "")
+                presenter?.imageReceived(currentPhotoPath)
             }
         }
     }
 
-    //todo move that method to thumbnail image view
-    private fun loadImageWithFit(target: ImageView, filePath: String) {
-        val picasso = Picasso
-                .get()
-                .load(filePath)
-                .config(Bitmap.Config.RGB_565)
-                .centerCrop()
-                .fit()
-                .error(R.drawable.broken_image)
-        picasso.into(target)
-    }
-
     interface GalleryCameraListener {
-        fun onInformationPassed(uri: Uri?)
+        fun onInformationPassed(imagePath: String)
     }
 
     companion object {

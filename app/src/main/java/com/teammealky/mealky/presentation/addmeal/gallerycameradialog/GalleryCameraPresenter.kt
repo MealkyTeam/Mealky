@@ -42,6 +42,10 @@ class GalleryCameraPresenter @Inject constructor() : BasePresenter<GalleryCamera
         ui().perform { it.showErrorToast() }
     }
 
+    fun imageReceived(photoPath: String) {
+        ui().perform { it.passImageToAddMealFragment(photoPath) }
+    }
+
     interface UI : BaseUI {
         fun openCamera()
         fun openGallery()
@@ -51,5 +55,6 @@ class GalleryCameraPresenter @Inject constructor() : BasePresenter<GalleryCamera
         fun showSettingsDialog()
         fun showErrorToast()
         fun showNoSpaceToast()
+        fun passImageToAddMealFragment(photoPath: String)
     }
 }
