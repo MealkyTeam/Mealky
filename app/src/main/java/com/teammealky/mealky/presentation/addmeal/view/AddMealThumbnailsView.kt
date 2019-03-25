@@ -38,7 +38,6 @@ class AddMealThumbnailsView @JvmOverloads constructor(
         if (items.isNotEmpty()) {
             photos.addAll(items)
             items.forEach { addPhoto(it) }
-            postDelayed({ fullScroll(HorizontalScrollView.FOCUS_RIGHT) }, 1000)
         } else {
             visibility = View.GONE
         }

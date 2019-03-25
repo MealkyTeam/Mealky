@@ -16,8 +16,14 @@ class AddMealPresenter @Inject constructor() : BasePresenter<AddMealPresenter.UI
 
     override fun attach(ui: UI) {
         super.attach(ui)
-        ui().perform { it.showImagesQueue(attachments) }
+
+        ui().perform {
+            it.showImagesQueue(attachments)
+            it.enableImagesBtn(!areAttachmentsFull())
+        }
     }
+
+    private fun areAttachmentsFull() = attachments.size >= MAX_NUMBER_OF_ATTACHMENTS
 
     fun fieldsChanged(title: String?, preparationTime: String?, description: String?) {
         val titleString = title ?: ""
@@ -82,7 +88,10 @@ class AddMealPresenter @Inject constructor() : BasePresenter<AddMealPresenter.UI
 
     fun onInformationPassed(imagePath: String) {
         attachments.add(ThumbnailImage(getNewId(), imagePath))
-        ui().perform { it.showImagesQueue(attachments) }
+        ui().perform {
+            it.showImagesQueue(attachments)
+            it.enableImagesBtn(!areAttachmentsFull())
+        }
     }
 
     private fun getNewId() = ((attachments.maxBy { it.id }?.id) ?: attachments.size) + 1
@@ -93,7 +102,10 @@ class AddMealPresenter @Inject constructor() : BasePresenter<AddMealPresenter.UI
 
     fun onImageDeleteClicked(image: ThumbnailImage) {
         attachments.remove(image)
-        ui().perform { it.showImagesQueue(attachments) }
+        ui().perform {
+            it.showImagesQueue(attachments)
+            it.enableImagesBtn(!areAttachmentsFull())
+        }
     }
 
     interface UI : BaseUI {
@@ -106,6 +118,7 @@ class AddMealPresenter @Inject constructor() : BasePresenter<AddMealPresenter.UI
         fun showGalleryCameraDialog()
         fun showAddIngredientDialog(ingredients: List<Ingredient>)
         fun showImagesQueue(attachments: MutableList<ThumbnailImage>)
+        fun enableImagesBtn(isEnabled: Boolean)
     }
 
     enum class ValidationResult {
@@ -115,5 +128,9 @@ class AddMealPresenter @Inject constructor() : BasePresenter<AddMealPresenter.UI
         INGREDIENTS_ERROR,
         IMAGES_ERROR,
         CORRECT
+    }
+
+    companion object {
+        const val MAX_NUMBER_OF_ATTACHMENTS = 5
     }
 }
