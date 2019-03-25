@@ -20,7 +20,6 @@ import com.teammealky.mealky.presentation.addmeal.AddMealPresenter.ValidationRes
 import com.teammealky.mealky.presentation.addmeal.AddMealPresenter.ValidationResult
 import com.teammealky.mealky.presentation.commons.extension.isInvisible
 import com.teammealky.mealky.presentation.commons.extension.isVisible
-import kotlinx.android.synthetic.main.meals_fragment.*
 import com.teammealky.mealky.domain.model.Ingredient
 import com.teammealky.mealky.presentation.addmeal.gallerycameradialog.GalleryCameraDialog
 import com.teammealky.mealky.presentation.addmeal.model.ThumbnailImage
@@ -122,7 +121,7 @@ class AddMealFragment : BaseFragment<AddMealPresenter, AddMealPresenter.UI, AddM
 
     override fun isLoading(isLoading: Boolean) {
         addMealLayout.isInvisible(isLoading)
-        progressBar.isVisible(!isLoading)
+        addMealProgressBar.isVisible(!isLoading)
     }
 
     override fun showAddIngredientDialog(ingredients: List<Ingredient>) {
