@@ -24,12 +24,13 @@ import kotlinx.android.synthetic.main.meals_fragment.*
 import com.teammealky.mealky.domain.model.Ingredient
 import com.teammealky.mealky.presentation.addmeal.gallerycameradialog.GalleryCameraDialog
 import com.teammealky.mealky.presentation.addmeal.model.ThumbnailImage
+import com.teammealky.mealky.presentation.addmeal.view.AddMealThumbnailsView
 import com.teammealky.mealky.presentation.commons.component.addingredient.AddIngredientDialog
 
 
 class AddMealFragment : BaseFragment<AddMealPresenter, AddMealPresenter.UI, AddMealViewModel>(),
         AddMealPresenter.UI, View.OnClickListener, TextWatcher, TextView.OnEditorActionListener,
-        AddIngredientDialog.AddIngredientListener, GalleryCameraDialog.GalleryCameraListener {
+        AddIngredientDialog.AddIngredientListener, GalleryCameraDialog.GalleryCameraListener, AddMealThumbnailsView.OnImageDeleteListener {
 
     override val vmClass = AddMealViewModel::class.java
     private var addIngredientDialog: AddIngredientDialog? = null
@@ -50,6 +51,7 @@ class AddMealFragment : BaseFragment<AddMealPresenter, AddMealPresenter.UI, AddM
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         setupEditTexts()
         setupOnClick()
+        addMealThumbnailsView.deleteListener = this
 
         scrollView.setOnTouchListener { _, _ ->
             presenter?.touchedOutside()
@@ -169,6 +171,10 @@ class AddMealFragment : BaseFragment<AddMealPresenter, AddMealPresenter.UI, AddM
             R.id.addImagesTv -> presenter?.addImagesBtnClicked()
             R.id.addIngredientsTv -> presenter?.addIngredientsBtnClicked()
         }
+    }
+
+    override fun onImageDelete(image: ThumbnailImage) {
+        presenter?.onImageDeleteClicked(image)
     }
 
     override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
