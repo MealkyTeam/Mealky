@@ -1,7 +1,9 @@
 package com.teammealky.mealky.presenters
 
+import com.teammealky.mealky.MockDataTest.Companion.THUMBNAIL_IMAGE
 import com.teammealky.mealky.presentation.addmeal.AddMealPresenter
 import com.teammealky.mealky.presentation.addmeal.AddMealPresenter.ValidationResult.*
+import com.teammealky.mealky.presentation.addmeal.model.ThumbnailImage
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
@@ -13,7 +15,6 @@ import org.junit.Test
 class AddMealPresenterTest {
 
     private val view = mockk<AddMealPresenter.UI>()
-
     private lateinit var presenter: AddMealPresenter
 
     @Before
@@ -26,6 +27,10 @@ class AddMealPresenterTest {
         every { view.showToast() } just Runs
         every { view.clearErrors() } just Runs
         every { view.isLoading(any()) } just Runs
+        every { view.showGalleryCameraDialog() } just Runs
+        every { view.showAddIngredientDialog(any()) } just Runs
+        every { view.showImagesQueue(any()) } just Runs
+        every { view.enableImagesBtn(any()) } just Runs
     }
 
     /**
@@ -48,6 +53,8 @@ class AddMealPresenterTest {
 
         //Then
         verifySequence {
+            view.showImagesQueue(mutableListOf())
+            view.enableImagesBtn(true)
             view.enableConfirmBtn(true)
         }
     }
@@ -72,6 +79,8 @@ class AddMealPresenterTest {
 
         //Then
         verifySequence {
+            view.showImagesQueue(mutableListOf())
+            view.enableImagesBtn(true)
             view.enableConfirmBtn(false)
         }
     }
@@ -97,6 +106,8 @@ class AddMealPresenterTest {
 
         //Then
         verifySequence {
+            view.showImagesQueue(mutableListOf())
+            view.enableImagesBtn(true)
             view.enableConfirmBtn(false)
             view.clearErrors()
             view.isLoading(true)
@@ -125,6 +136,8 @@ class AddMealPresenterTest {
 
         //Then
         verifySequence {
+            view.showImagesQueue(mutableListOf())
+            view.enableImagesBtn(true)
             view.enableConfirmBtn(false)
             view.clearErrors()
             view.isLoading(true)
@@ -153,6 +166,8 @@ class AddMealPresenterTest {
 
         //Then
         verifySequence {
+            view.showImagesQueue(mutableListOf())
+            view.enableImagesBtn(true)
             view.enableConfirmBtn(false)
             view.clearErrors()
             view.isLoading(true)
@@ -181,10 +196,71 @@ class AddMealPresenterTest {
 
         //Then
         verifySequence {
+            view.showImagesQueue(mutableListOf())
+            view.enableImagesBtn(true)
             view.enableConfirmBtn(false)
             view.clearErrors()
             view.isLoading(true)
             view.showErrors(listOf(PREP_ERROR, PREP_TIME_ERROR))
+        }
+    }
+
+    /**
+     * Scenario: Disable add images button when 5 images has been added
+     * Given presenter with 4 attachments
+     * When I add one more
+     * Then disable add images button
+     */
+    @Test
+    fun `Disable add images button`() {
+        //Given
+        presenter.attach(view)
+        val queue = mutableListOf(THUMBNAIL_IMAGE.copy(id = 1),
+                THUMBNAIL_IMAGE.copy(id = 2), THUMBNAIL_IMAGE.copy(id = 3), THUMBNAIL_IMAGE.copy(id = 4))
+        val queueCopy = queue.toMutableList()
+        presenter.attachments = queue
+        val newThumbnailPath = "newThumbnailPath"
+        val newThumbnail = ThumbnailImage(5, newThumbnailPath)
+
+        //When
+        presenter.onInformationPassed(newThumbnailPath)
+
+        //Then
+        verifySequence {
+            view.showImagesQueue(mutableListOf())
+            view.enableImagesBtn(true)
+
+            view.showImagesQueue((queueCopy + newThumbnail) as MutableList)
+            view.enableImagesBtn(false)
+        }
+    }
+
+    /**
+     * Scenario: Enable add images button when there is less than 5 images
+     * Given presenter with 5 attachments
+     * When I remove one
+     * Then enable add images button
+     */
+    @Test
+    fun `Enable add images button`() {
+        //Given
+        val queue = mutableListOf(THUMBNAIL_IMAGE.copy(id = 1), THUMBNAIL_IMAGE.copy(id = 2),
+                THUMBNAIL_IMAGE.copy(id = 3), THUMBNAIL_IMAGE.copy(id = 4),THUMBNAIL_IMAGE.copy(id = 4))
+        presenter.attachments = queue
+        presenter.attach(view)
+        val queueWithFour = queue.toMutableList()
+        queueWithFour.remove(queue.last())
+
+        //When
+        presenter.onImageDeleteClicked(queue.last())
+
+        //Then
+        verifySequence {
+            view.showImagesQueue(queue)
+            view.enableImagesBtn(false)
+
+            view.showImagesQueue(queueWithFour)
+            view.enableImagesBtn(true)
         }
     }
 }

@@ -7,6 +7,7 @@ import com.teammealky.mealky.domain.model.Page
 import com.teammealky.mealky.domain.model.Token
 import com.teammealky.mealky.domain.model.Unit
 import com.teammealky.mealky.domain.model.User
+import com.teammealky.mealky.presentation.addmeal.model.ThumbnailImage
 import com.teammealky.mealky.presentation.shoppinglist.model.ShoppingListItemViewModel
 
 class MockDataTest {
@@ -80,6 +81,8 @@ class MockDataTest {
                 0,
                 0
         )
+
+        val THUMBNAIL_IMAGE = ThumbnailImage(-1,"filepath")
 
         val SHOPPING_LIST_ITEM_VIEW_MODEL =
                 INGREDIENTS.map { item -> ShoppingListItemViewModel(item, false) }
