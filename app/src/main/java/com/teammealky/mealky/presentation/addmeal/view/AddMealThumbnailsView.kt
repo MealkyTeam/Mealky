@@ -30,15 +30,6 @@ class AddMealThumbnailsView @JvmOverloads constructor(
         addView(containerView)
     }
 
-    fun updateQueue(item: ThumbnailImage) {
-        val updateIndex = photos.indexOf(item)
-        photoViews.getOrNull(updateIndex)?.let {
-            val imageView: ImageView = it.thumbnailIv
-            imageView.visibility = View.VISIBLE
-            loadImageWithFit(imageView, item.uri)
-        }
-    }
-
     fun showQueue(items: List<ThumbnailImage>) {
         containerView.removeAllViews()
         photoViews.clear()

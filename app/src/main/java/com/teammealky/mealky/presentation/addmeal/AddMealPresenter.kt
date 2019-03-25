@@ -14,6 +14,11 @@ class AddMealPresenter @Inject constructor() : BasePresenter<AddMealPresenter.UI
     var model: MealViewModel = MealViewModel.basicMealViewModel()
     var attachments = mutableListOf<ThumbnailImage>()
 
+    override fun attach(ui: UI) {
+        super.attach(ui)
+        ui().perform { it.showImagesQueue(attachments) }
+    }
+
     fun fieldsChanged(title: String?, preparationTime: String?, description: String?) {
         val titleString = title ?: ""
         val preparationTimeString = preparationTime?.toIntOrNull()?.toString() ?: ""
@@ -84,6 +89,11 @@ class AddMealPresenter @Inject constructor() : BasePresenter<AddMealPresenter.UI
 
     fun onInformationPassed(ingredient: Ingredient) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    fun onImageDeleteClicked(image: ThumbnailImage) {
+        attachments.remove(image)
+        ui().perform { it.showImagesQueue(attachments) }
     }
 
     interface UI : BaseUI {
