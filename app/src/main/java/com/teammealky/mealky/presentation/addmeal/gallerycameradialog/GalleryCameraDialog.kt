@@ -15,16 +15,12 @@ import kotlinx.android.synthetic.main.gallery_camera_dialog.*
 import android.content.pm.PackageManager
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import com.karumi.dexter.PermissionToken
-import com.karumi.dexter.MultiplePermissionsReport
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.karumi.dexter.Dexter
-import com.karumi.dexter.listener.PermissionRequest
 import android.content.Intent
 import android.os.Environment
 import android.provider.MediaStore
-import android.provider.Settings
 import androidx.core.content.FileProvider
+import com.karumi.dexter.listener.multi.BaseMultiplePermissionsListener
 import com.teammealky.mealky.R
 import java.io.File
 import java.io.IOException
@@ -36,6 +32,7 @@ class GalleryCameraDialog : BaseDialogFragment<GalleryCameraPresenter, GalleryCa
 
     override val vmClass = GalleryCameraViewModel::class.java
     private var currentPhotoPath: String = ""
+
     @SuppressLint("InflateParams")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val view = LayoutInflater.from(context).inflate(R.layout.gallery_camera_dialog, null)
@@ -51,6 +48,7 @@ class GalleryCameraDialog : BaseDialogFragment<GalleryCameraPresenter, GalleryCa
 
     override fun onStart() {
         super.onStart()
+
         dialog.openCameraBtn.setOnClickListener(this)
         dialog.openGalleryBtn.setOnClickListener(this)
     }
@@ -67,44 +65,10 @@ class GalleryCameraDialog : BaseDialogFragment<GalleryCameraPresenter, GalleryCa
     }
 
     override fun showPermissionDialog() {
-        Dexter.withActivity(activity).withPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                .withListener(object : MultiplePermissionsListener {
-                    override fun onPermissionsChecked(report: MultiplePermissionsReport) {
-                        if (report.isAnyPermissionPermanentlyDenied) {
-                            presenter?.permissionDenied()
-                        }
-                    }
-
-                    override fun onPermissionRationaleShouldBeShown(permissions: MutableList<PermissionRequest>?, token: PermissionToken?) {
-                        token?.continuePermissionRequest()
-                    }
-
-                }).withErrorListener { presenter?.errorOccurred() }
+        Dexter.withActivity(activity).withPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE).withListener(BaseMultiplePermissionsListener())
+                .withErrorListener { presenter?.errorOccurred() }
                 .onSameThread()
                 .check()
-    }
-
-    override fun showSettingsDialog() {
-        val builder = AlertDialog.Builder(context)
-        builder.setTitle(getString(R.string.message_need_permission))
-        builder.setMessage(getString(R.string.message_grant_permission))
-        builder.setPositiveButton(getString(R.string.label_setting)) { dialog, _ ->
-            dialog.cancel()
-            presenter?.goToSettingsClicked()
-        }
-        builder.setNegativeButton(getString(R.string.cancel)) { dialog, _ -> dialog.cancel() }
-        builder.show()
-    }
-
-    override fun openSettings() {
-        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-        val uri = Uri.fromParts("package", activity?.packageName, null)
-        intent.data = uri
-        startActivityForResult(intent, 101)
-    }
-
-    override fun showNoSpaceToast() {
-        Toast.makeText(context, getString(R.string.error_message_insufficient_space), Toast.LENGTH_LONG).show()
     }
 
     override fun showErrorToast() {

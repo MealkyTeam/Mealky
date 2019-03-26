@@ -15,14 +15,15 @@ class GalleryCameraPresenterTest {
     fun setUp() {
         every { view.openCamera() } just Runs
         every { view.openGallery() } just Runs
-        every { view.openSettings() } just Runs
         every { view.showPermissionDialog() } just Runs
         every { view.checkPermission() } just Runs
-        every { view.showSettingsDialog() } just Runs
         every { view.showErrorToast() } just Runs
-        every { view.showNoSpaceToast() } just Runs
         every { view.passImageToAddMealFragment(any()) } just Runs
     }
-
+//todo openCamera with permission
+//todo openGallery with permission
+//todo openCamera without permission
+//todo openCamera without permission
+//todo pass imageToAddMeal
 
 }

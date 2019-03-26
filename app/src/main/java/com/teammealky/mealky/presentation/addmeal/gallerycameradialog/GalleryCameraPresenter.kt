@@ -30,14 +30,6 @@ class GalleryCameraPresenter @Inject constructor() : BasePresenter<GalleryCamera
         }
     }
 
-    fun goToSettingsClicked() {
-        ui().perform { it.openSettings() }
-    }
-
-    fun permissionDenied() {
-        ui().perform { it.showSettingsDialog() }
-    }
-
     fun errorOccurred() {
         ui().perform { it.showErrorToast() }
     }
@@ -49,12 +41,9 @@ class GalleryCameraPresenter @Inject constructor() : BasePresenter<GalleryCamera
     interface UI : BaseUI {
         fun openCamera()
         fun openGallery()
-        fun openSettings()
         fun showPermissionDialog()
         fun checkPermission()
-        fun showSettingsDialog()
         fun showErrorToast()
-        fun showNoSpaceToast()
         fun passImageToAddMealFragment(photoPath: String)
     }
 }

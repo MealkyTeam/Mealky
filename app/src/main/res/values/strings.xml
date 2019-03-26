@@ -8,7 +8,6 @@
     <string name="like">like</string>
     <string name="dislike">dislike</string>
     <string name="version">Version %s</string>
-    <string name="about_version">About version</string>
     <string name="prep_time">%s min</string>
     <string name="sign_up">Sign up</string>
     <string name="sign_in">Sign in</string>
@@ -38,8 +37,6 @@
     <string name="clear_list">Clear list</string>
     <string name="empty_shopping_list">Your shopping list is empty. You can add something to it!</string>
     <string name="empty_search_for">No results found for \"%1$s\"</string>
-    <string name="shopping_list_snackbar_text">Do you want to recover your list?</string>
-    <string name="click">Click!</string>
     <string name="save_ingredients_text">Saving ingredients to shopping list succeeded!</string>
     <string name="list_cleared">The list had been cleared</string>
     <string name="just_a_moment">Just a moment…</string>
@@ -73,14 +70,8 @@
     <string name="meal_added">Your meal waits for verification. You will receive an email when recipe will be confirmed.</string>
     <string name="open_gallery">Open gallery</string>
     <string name="open_camera">Open camera</string>
-    <string name="error_message_no_more_space">Your storage is unavailable.</string>
-    <string name="error_message_insufficient_space">You have few space available, please make sure your have more than 5MB on disk to take pictures!</string>
-    <string name="ok">OK</string>
-    <string name="label_setting">GOTO SETTINGS</string>
-    <string name="cancel">Cancel</string>
     <string name="error_message">Error occurred!</string>
-    <string name="message_need_permission">Need Permissions</string>
-    <string name="message_grant_permission">This app needs permission to use this feature. You can grant them in app settings.</string>
     <string name="remove_item">Remove item button</string>
     <string name="thumbnail">Thumbnail</string>
+    <string name="discovery">Discovery</string>
 </resources>
