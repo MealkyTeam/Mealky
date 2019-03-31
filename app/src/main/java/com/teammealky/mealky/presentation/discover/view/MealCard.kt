@@ -18,18 +18,19 @@ import com.teammealky.mealky.presentation.commons.extension.loadImage
 import com.teammealky.mealky.presentation.discover.DiscoverPresenter
 
 @Layout(R.layout.meal_card)
-class MealCard(private val meal: Meal,
-               private val swipeView: SwipePlaceHolderView, private val listener: DiscoverPresenter.SwipeListener) {
+open class MealCard(private val meal: Meal,
+                    private val swipeView: SwipePlaceHolderView, private val listener: DiscoverPresenter.SwipeListener) {
 
     @View(R.id.imageView)
-    private lateinit var imageView: ImageView
+    lateinit var imageView: ImageView
     @View(R.id.mealName)
-    private lateinit var mealName: TextView
+    lateinit var mealName: TextView
     @View(R.id.cardView)
-    private lateinit var cardView: MaterialCardView
+    lateinit var cardView: MaterialCardView
+    var ASPECT_RATIO = 0.83f
 
     @Resolve
-    private fun onResolved() {
+    fun onResolved() {
         cardView.strokeColor = Color.BLACK
         cardView.strokeWidth = 1
         mealName.text = meal.name
@@ -43,16 +44,12 @@ class MealCard(private val meal: Meal,
     }
 
     @SwipeOut
-    private fun onSwipedOut() {
+    fun onSwipedOut() {
         listener.swipedLeft()
     }
 
     @SwipeIn
-    private fun onSwipeIn() {
+    fun onSwipeIn() {
         listener.swipedRight()
-    }
-
-    companion object {
-        private const val ASPECT_RATIO = 0.83f
     }
 }

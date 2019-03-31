@@ -14,8 +14,8 @@ buildscript {
         maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
-        classpath 'org.jacoco:org.jacoco.core:0.8.2'
-        classpath 'io.fabric.tools:gradle:1.27.0'
+        classpath 'org.jacoco:org.jacoco.core:0.8.3'
+        classpath 'io.fabric.tools:gradle:1.28.1'
     }
 }
 
@@ -61,8 +61,8 @@ android {
 
         debug {
             testCoverageEnabled true
-            ext.betaDistributionGroupAliases ='Family and friends'
-            ext.betaDistributionGroupAliases ='Team'
+            ext.betaDistributionGroupAliases = 'Family and friends'
+            ext.betaDistributionGroupAliases = 'Team'
             buildConfigField "String", "CENTRAL_URL", rootProject.ext.api.release.central
             buildConfigField "String", "CENTRAL_LOGIN", rootProject.ext.api.release.login
             buildConfigField "String", "CENTRAL_PASSWORD", rootProject.ext.api.release.password
@@ -81,17 +81,15 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'com.google.android.material:material:1.0.0'
 
-    implementation 'androidx.lifecycle:lifecycle-livedata:2.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.0.0'
     implementation 'androidx.appcompat:appcompat:1.0.2'
 
-    implementation 'com.mindorks:placeholderview:0.7.1'
+    implementation 'com.mindorks.android:placeholderview:1.0.3'
+    kapt 'com.mindorks.android:placeholderview-compiler:1.0.3'
     implementation 'com.jakewharton.timber:timber:4.7.1'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
-    implementation 'androidx.room:room-runtime:2.0.0'
-    implementation "io.reactivex.rxjava2:rxjava:2.2.2"
-    implementation "io.reactivex.rxjava2:rxandroid:2.1.0"
+    implementation "io.reactivex.rxjava2:rxjava:2.2.6"
+    implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
 
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation "com.karumi:dexter:5.0.0"
@@ -176,7 +174,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
 }
 
 jacoco {
-    toolVersion = '0.8.2'
+    toolVersion = '0.8.3'
     reportsDir = file("$buildDir/reports")
 }
 
