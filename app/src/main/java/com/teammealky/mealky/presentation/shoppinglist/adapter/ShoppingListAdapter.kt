@@ -1,25 +1,23 @@
 package com.teammealky.mealky.presentation.shoppinglist.adapter
 
 import android.annotation.SuppressLint
-import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
-import com.teammealky.mealky.presentation.shoppinglist.model.ShoppingListItemViewModel
+import com.teammealky.mealky.presentation.meal.adapter.IngredientsAdapter
+import com.teammealky.mealky.presentation.meal.model.IngredientViewModel
 import com.teammealky.mealky.presentation.shoppinglist.view.ShoppingListItemView
 
-class ShoppingListAdapter(var models: List<ShoppingListItemViewModel> = emptyList(), private val listener: ShoppingListItemListener) :
-        RecyclerView.Adapter<ShoppingListAdapter.ViewHolder>() {
+class ShoppingListAdapter(models: List<IngredientViewModel> = emptyList(),
+                          private val fieldChangedListener: FieldChangedListener,
+                          onClickListener: IngredientsAdapter.OnItemClickListener)
+    : IngredientsAdapter(models, onClickListener) {
 
-    interface ShoppingListItemListener {
-        fun onItemClick(model: ShoppingListItemViewModel)
-        fun fieldChanged(model: ShoppingListItemViewModel, quantity: Double)
+    interface FieldChangedListener {
+        fun fieldChanged(model: IngredientViewModel, quantity: Double)
     }
-
-    class ViewHolder(val view: View) : RecyclerView.ViewHolder(view)
 
     override fun onCreateViewHolder(parent: ViewGroup,
                                     viewType: Int): ViewHolder {
-        return ViewHolder(ShoppingListItemView(parent.context, listener))
+        return ViewHolder(ShoppingListItemView(parent.context, listener, fieldChangedListener))
     }
 
     @SuppressLint("SetTextI18n")
@@ -28,7 +26,7 @@ class ShoppingListAdapter(var models: List<ShoppingListItemViewModel> = emptyLis
         (holder.view as ShoppingListItemView).model = model
     }
 
-    fun fillAdapter(models: List<ShoppingListItemViewModel>) {
+    fun fillAdapter(models: List<IngredientViewModel>) {
         this.models = models
         notifyDataSetChanged()
     }

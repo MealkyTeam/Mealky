@@ -3,21 +3,21 @@ package com.teammealky.mealky.presentation.meal.view
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
 import android.widget.RelativeLayout
 import com.teammealky.mealky.R
 import com.teammealky.mealky.presentation.commons.extension.inflate
 import com.teammealky.mealky.presentation.meal.adapter.IngredientsAdapter
 import com.teammealky.mealky.presentation.meal.model.IngredientViewModel
 import kotlinx.android.synthetic.main.ingredient_item.view.*
-import timber.log.Timber
 
 @SuppressLint("ViewConstructor")
-class IngredientView @JvmOverloads constructor(
+open class IngredientView @JvmOverloads constructor(
         context: Context,
         private val listener: IngredientsAdapter.OnItemClickListener,
         attrs: AttributeSet? = null,
         defStyle: Int = 0
-) : RelativeLayout(context, attrs, defStyle) {
+) : RelativeLayout(context, attrs, defStyle), View.OnClickListener {
 
     var model: IngredientViewModel? = null
         set(value) {
@@ -26,11 +26,15 @@ class IngredientView @JvmOverloads constructor(
         }
 
     init {
+        this.inflateLayout()
+    }
+
+    open fun inflateLayout() {
         inflate(R.layout.ingredient_item, true)
     }
 
     @SuppressLint("SetTextI18n")
-    private fun bind() {
+    open fun bind() {
         model?.let { vm ->
             val ingredient = vm.item
 
@@ -41,7 +45,14 @@ class IngredientView @JvmOverloads constructor(
                 checkbox.performClick()
             }
 
-            checkbox.setOnClickListener { listener.onItemClick(vm) }
+            checkbox.setOnClickListener(this)
+        }
+    }
+
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            R.id.checkbox -> listener.onItemClick(model!!)
+            else -> checkbox.performClick()
         }
     }
 }

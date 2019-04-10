@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.teammealky.mealky.presentation.meal.model.IngredientViewModel
 import com.teammealky.mealky.presentation.meal.view.IngredientView
 
-class IngredientsAdapter(var models: List<IngredientViewModel> = emptyList(), private val listener: OnItemClickListener) :
+open class IngredientsAdapter(var models: List<IngredientViewModel> = emptyList(), val listener: OnItemClickListener) :
         RecyclerView.Adapter<IngredientsAdapter.ViewHolder>() {
 
     interface OnItemClickListener {

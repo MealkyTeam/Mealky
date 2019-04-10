@@ -8,7 +8,7 @@ import com.teammealky.mealky.domain.model.Token
 import com.teammealky.mealky.domain.model.Unit
 import com.teammealky.mealky.domain.model.User
 import com.teammealky.mealky.presentation.addmeal.model.ThumbnailImage
-import com.teammealky.mealky.presentation.shoppinglist.model.ShoppingListItemViewModel
+import com.teammealky.mealky.presentation.meal.model.IngredientViewModel
 
 class MockDataTest {
     companion object {
@@ -84,8 +84,8 @@ class MockDataTest {
 
         val THUMBNAIL_IMAGE = ThumbnailImage(-1,"filepath")
 
-        val SHOPPING_LIST_ITEM_VIEW_MODEL =
-                INGREDIENTS.map { item -> ShoppingListItemViewModel(item, false) }
+        val INGREDIENT_VIEW_MODEL =
+                INGREDIENTS.map { item -> IngredientViewModel(item, false) }
 
         val CORRECT_TOKEN = Token("Correct token")
         val WRONG_TOKEN = Token("Wrong token")
