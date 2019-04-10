@@ -1,7 +1,6 @@
-package com.teammealky.mealky.presentation.meal
+package com.teammealky.mealky.presentation.meal.mapper
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import com.teammealky.mealky.domain.model.Category
 import com.teammealky.mealky.domain.model.Ingredient
 import com.teammealky.mealky.domain.model.Meal

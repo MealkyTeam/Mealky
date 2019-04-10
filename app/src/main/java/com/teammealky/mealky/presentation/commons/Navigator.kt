@@ -13,7 +13,7 @@ import com.teammealky.mealky.presentation.addmeal.AddMealFragment
 import com.teammealky.mealky.presentation.discover.DiscoverFragment
 import com.teammealky.mealky.presentation.main.MainActivity
 import com.teammealky.mealky.presentation.meal.MealFragment
-import com.teammealky.mealky.presentation.meal.MealMapper
+import com.teammealky.mealky.presentation.meal.mapper.MealMapper
 import com.teammealky.mealky.presentation.meals.MealListFragment
 import com.teammealky.mealky.presentation.settings.SettingsFragment
 import com.teammealky.mealky.presentation.shoppinglist.ShoppingListFragment

@@ -24,7 +24,7 @@ import com.teammealky.mealky.domain.model.Unit
 import com.teammealky.mealky.presentation.App
 import com.teammealky.mealky.presentation.commons.extension.isInvisible
 import com.teammealky.mealky.presentation.commons.extension.isVisible
-import com.teammealky.mealky.presentation.meal.MealMapper
+import com.teammealky.mealky.presentation.meal.mapper.MealMapper
 import com.teammealky.mealky.presentation.commons.presenter.BaseDialogFragment
 import kotlinx.android.synthetic.main.add_ingredient_dialog.*
 import android.view.inputmethod.InputMethodManager

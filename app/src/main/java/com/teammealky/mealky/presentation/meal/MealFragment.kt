@@ -14,8 +14,10 @@ import com.teammealky.mealky.presentation.commons.extension.isVisible
 import com.teammealky.mealky.presentation.commons.presenter.BaseFragment
 import com.teammealky.mealky.presentation.meal.adapter.GalleryAdapter
 import com.teammealky.mealky.presentation.meal.adapter.IngredientsAdapter
+import com.teammealky.mealky.presentation.meal.mapper.MealMapper
 import com.teammealky.mealky.presentation.meal.model.IngredientViewModel
 import kotlinx.android.synthetic.main.meal_fragment.*
+import timber.log.Timber
 
 class MealFragment : BaseFragment<MealPresenter, MealPresenter.UI, MealViewModel>(), MealPresenter.UI,
         IngredientsAdapter.OnItemClickListener, View.OnClickListener {

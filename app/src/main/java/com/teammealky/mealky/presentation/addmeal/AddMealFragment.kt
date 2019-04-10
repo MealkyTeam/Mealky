@@ -186,6 +186,10 @@ class AddMealFragment : BaseFragment<AddMealPresenter, AddMealPresenter.UI, AddM
         return false
     }
 
+    override fun updateIngredients(ingredients: List<Ingredient>) {
+
+    }
+
     override fun enableImagesBtn(isEnabled: Boolean) {
         addImagesTv.isEnabled = isEnabled
     }

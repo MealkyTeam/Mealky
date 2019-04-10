@@ -5,7 +5,7 @@ import com.teammealky.mealky.MockDataTest
 import org.junit.Test
 import com.teammealky.mealky.presentation.App
 import org.junit.Assert.*
-import com.teammealky.mealky.presentation.meal.MealMapper
+import com.teammealky.mealky.presentation.meal.mapper.MealMapper
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config

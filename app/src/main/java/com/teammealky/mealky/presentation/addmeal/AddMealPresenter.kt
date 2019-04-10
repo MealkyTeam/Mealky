@@ -7,12 +7,12 @@ import com.teammealky.mealky.presentation.commons.presenter.BaseUI
 import com.teammealky.mealky.presentation.addmeal.AddMealPresenter.ValidationResult.*
 import com.teammealky.mealky.presentation.addmeal.model.ThumbnailImage
 import javax.inject.Inject
-import timber.log.Timber
 
 class AddMealPresenter @Inject constructor() : BasePresenter<AddMealPresenter.UI>() {
 
     var model: MealViewModel = MealViewModel.basicMealViewModel()
     var attachments = mutableListOf<ThumbnailImage>()
+    var ingredients = mutableListOf<Ingredient>()
 
     override fun attach(ui: UI) {
         super.attach(ui)
@@ -83,7 +83,7 @@ class AddMealPresenter @Inject constructor() : BasePresenter<AddMealPresenter.UI
     }
 
     fun addIngredientsBtnClicked() {
-        Timber.tag("KUBA").v("addIngredientsBtnClicked ")
+        ui().perform { it.showAddIngredientDialog(ingredients) }
     }
 
     fun onInformationPassed(imagePath: String) {
@@ -97,7 +97,12 @@ class AddMealPresenter @Inject constructor() : BasePresenter<AddMealPresenter.UI
     private fun getNewId() = ((attachments.maxBy { it.id }?.id) ?: attachments.size) + 1
 
     fun onInformationPassed(ingredient: Ingredient) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        ingredients.add(ingredient)
+
+        ui().perform {
+            it.updateIngredients(ingredients)
+            it.hideKeyboard()
+        }
     }
 
     fun onImageDeleteClicked(image: ThumbnailImage) {
@@ -119,6 +124,7 @@ class AddMealPresenter @Inject constructor() : BasePresenter<AddMealPresenter.UI
         fun showAddIngredientDialog(ingredients: List<Ingredient>)
         fun showImagesQueue(attachments: MutableList<ThumbnailImage>)
         fun enableImagesBtn(isEnabled: Boolean)
+        fun updateIngredients(ingredients: List<Ingredient>)
     }
 
     enum class ValidationResult {
