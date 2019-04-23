@@ -345,9 +345,9 @@ class AddMealPresenterTest {
     @Test
     fun `Remove ingredient on user click on remove button`() {
         //Given
-        val models = MockDataTest.INGREDIENTS.map { IngredientViewModel(it, false) }
+        val models = generateIngredientMocks()
         val middleItem = models[1]
-        presenter.ingredientModels = models.toMutableList()
+        presenter.ingredientModels = models
         presenter.attach(view)
         verifySequence {
             view.showImagesQueue(mutableListOf())
@@ -373,7 +373,7 @@ class AddMealPresenterTest {
     @Test
     fun `Update presenter's list of ingredients when ingredient quantity is changed`() {
         //Given
-        val initialModels = MockDataTest.INGREDIENTS.map { IngredientViewModel(it, false) }
+        val initialModels = generateIngredientMocks()
         val resultModels = initialModels.mapIndexed { index, model ->
             return@mapIndexed if (index == 1)
                 model.copy(item = model.item.copy(quantity = 25.0))
@@ -382,7 +382,7 @@ class AddMealPresenterTest {
         }
 
         val middleItem = initialModels[1]
-        presenter.ingredientModels = initialModels.toMutableList()
+        presenter.ingredientModels = initialModels
         presenter.attach(view)
         verifySequence {
             view.showImagesQueue(mutableListOf())
@@ -396,4 +396,66 @@ class AddMealPresenterTest {
         //Then
         assert(presenter.ingredientModels == resultModels)
     }
+
+    /**
+     * Scenario: Show error on images
+     * Given filled all text fields and added at least one ingredient
+     * When user clicks on confirm button
+     * Then show error on images.
+     */
+    @Test
+    fun `Show error on images`() {
+        //Given
+        val title = "Test"
+        val description = "Description"
+        val prepTime = "30"
+        presenter.ingredientModels = generateIngredientMocks()
+        presenter.attach(view)
+        presenter.fieldsChanged(title, prepTime, description)
+
+        //When
+        presenter.confirmBtnClicked()
+
+        //Then
+        verifyOrder {
+            view.clearErrors()
+            view.isLoading(true)
+            view.isLoading(false)
+            view.showErrors(listOf(IMAGES_ERROR))
+        }
+    }
+
+    /**
+     * Scenario: Show error on ingredients
+     * Given filled all text fields and added at least one image
+     * When user clicks on confirm button
+     * Then show error on ingredients.
+     */
+    @Test
+    fun `Show error on ingredients`() {
+        //Given
+        val title = "Test"
+        val description = "Description"
+        val prepTime = "30"
+        presenter.attachments = generateThumbnailMocks()
+        presenter.attach(view)
+        presenter.fieldsChanged(title, prepTime, description)
+
+        //When
+        presenter.confirmBtnClicked()
+
+        //Then
+        verifyOrder {
+            view.clearErrors()
+            view.isLoading(true)
+            view.isLoading(false)
+            view.showErrors(listOf(INGREDIENTS_ERROR))
+        }
+    }
+
+    private fun generateIngredientMocks() =
+            MockDataTest.INGREDIENTS.map { IngredientViewModel(it, false) }.toMutableList()
+
+    private fun generateThumbnailMocks() =
+            mutableListOf(ThumbnailImage(1, "urlToImage"))
 }
