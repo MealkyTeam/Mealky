@@ -53,11 +53,15 @@ class AddMealPresenter @Inject constructor() : BasePresenter<AddMealPresenter.UI
         if (allAreCorrect(result)) {
             //todo send request to api
             ui().perform {
+                it.isLoading(false)
                 it.showToast()
                 it.toMealsFragment()
             }
         } else {
-            ui().perform { it.showErrors(result) }
+            ui().perform {
+                it.isLoading(false)
+                it.showErrors(result)
+            }
         }
     }
 
@@ -73,6 +77,12 @@ class AddMealPresenter @Inject constructor() : BasePresenter<AddMealPresenter.UI
             errors.add(PREP_ERROR)
         if (model.preparationTime.isEmpty() || model.preparationTime.toInt() <= 0)
             errors.add(PREP_TIME_ERROR)
+
+        if (attachments.isEmpty())
+            errors.add(IMAGES_ERROR)
+
+        if (ingredientModels.isEmpty())
+            errors.add(INGREDIENTS_ERROR)
 
         if (errors.isEmpty())
             errors.add(CORRECT)

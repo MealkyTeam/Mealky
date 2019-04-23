@@ -137,7 +137,7 @@ class AddMealFragment : BaseFragment<AddMealPresenter, AddMealPresenter.UI, AddM
 
     override fun isLoading(isLoading: Boolean) {
         addMealLayout.isInvisible(isLoading)
-        addMealProgressBar.isVisible(!isLoading)
+        addMealProgressBar.isVisible(isLoading)
     }
 
     override fun showAddIngredientDialog(ingredients: List<Ingredient>) {
