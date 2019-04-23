@@ -1,14 +1,21 @@
 package com.teammealky.mealky.presenters
 
+import com.teammealky.mealky.MockDataTest
 import com.teammealky.mealky.MockDataTest.Companion.THUMBNAIL_IMAGE
+import com.teammealky.mealky.MockDataTest.Companion.UNITS
+import com.teammealky.mealky.domain.model.Ingredient
 import com.teammealky.mealky.presentation.addmeal.AddMealPresenter
 import com.teammealky.mealky.presentation.addmeal.AddMealPresenter.ValidationResult.*
 import com.teammealky.mealky.presentation.addmeal.model.ThumbnailImage
+import com.teammealky.mealky.presentation.meal.model.IngredientViewModel
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
+import io.mockk.verifyOrder
 import io.mockk.verifySequence
+import org.bouncycastle.asn1.x500.style.RFC4519Style.description
+import org.bouncycastle.asn1.x500.style.RFC4519Style.title
 import org.junit.Before
 import org.junit.Test
 
@@ -32,6 +39,8 @@ class AddMealPresenterTest {
         every { view.showImagesQueue(any()) } just Runs
         every { view.enableImagesBtn(any()) } just Runs
         every { view.setupAdapter(any()) } just Runs
+        every { view.updateIngredients(any()) } just Runs
+        every { view.hideKeyboard() } just Runs
     }
 
     /**
@@ -253,7 +262,7 @@ class AddMealPresenterTest {
     fun `Enable add images button`() {
         //Given
         val queue = mutableListOf(THUMBNAIL_IMAGE.copy(id = 1), THUMBNAIL_IMAGE.copy(id = 2),
-                THUMBNAIL_IMAGE.copy(id = 3), THUMBNAIL_IMAGE.copy(id = 4),THUMBNAIL_IMAGE.copy(id = 4))
+                THUMBNAIL_IMAGE.copy(id = 3), THUMBNAIL_IMAGE.copy(id = 4), THUMBNAIL_IMAGE.copy(id = 4))
         presenter.attachments = queue
         presenter.attach(view)
         val queueWithFour = queue.toMutableList()
@@ -271,5 +280,120 @@ class AddMealPresenterTest {
             view.showImagesQueue(queueWithFour)
             view.enableImagesBtn(true)
         }
+    }
+
+    /**
+     * Scenario: Show dialog on ingredient button clicked
+     * Given attached presenter
+     * When user clicks on ingredient button
+     * Then show add ingredient dialog
+     */
+    @Test
+    fun `Show dialog on ingredient button clicked`() {
+        //Given
+        presenter.attach(view)
+
+        //When
+        presenter.addIngredientsBtnClicked()
+
+        //Then
+        verifySequence {
+            view.showImagesQueue(mutableListOf())
+            view.enableImagesBtn(true)
+            view.setupAdapter(emptyList())
+
+            view.showAddIngredientDialog(emptyList())
+        }
+    }
+
+    /**
+     * Scenario: Add ingredient from dialog to list
+     * Given attached presenter with empty ingredient list
+     * When finish add ingredient dialog
+     * Then add now ingredient to list
+     */
+    @Test
+    fun `Add ingredient from dialog to list`() {
+        //Given
+        presenter.attach(view)
+
+        verifySequence {
+            view.showImagesQueue(mutableListOf())
+            view.enableImagesBtn(true)
+            view.setupAdapter(emptyList())
+        }
+
+        val ingredient = MockDataTest.INGREDIENTS[0]
+        val models = listOf(IngredientViewModel(ingredient.copy(), false))
+
+        //When
+        presenter.onInformationPassed(ingredient)
+
+        //Then
+        verifyOrder {
+            view.updateIngredients(models)
+            view.hideKeyboard()
+        }
+    }
+
+    /**
+     * Scenario: Remove ingredient on user click on remove button
+     * Given attached presenter with some ingredients
+     * When user clicks on remove ingredient button
+     * Then remove that ingredient from list
+     */
+    @Test
+    fun `Remove ingredient on user click on remove button`() {
+        //Given
+        val models = MockDataTest.INGREDIENTS.map { IngredientViewModel(it, false) }
+        val middleItem = models[1]
+        presenter.ingredientModels = models.toMutableList()
+        presenter.attach(view)
+        verifySequence {
+            view.showImagesQueue(mutableListOf())
+            view.enableImagesBtn(true)
+            view.setupAdapter(models)
+        }
+
+        //When
+        presenter.onIngredientDeleteClicked(middleItem)
+
+        //Then
+        verifyOrder {
+            view.setupAdapter(models.minusElement(middleItem))
+        }
+    }
+
+    /**
+     * Scenario: Update presenter's list of ingredients when ingredient quantity is changed
+     * Given attached presenter with some ingredients
+     * When user changes quantity
+     * Then update list of ingredients
+     */
+    @Test
+    fun `Update presenter's list of ingredients when ingredient quantity is changed`() {
+        //Given
+        val initialModels = MockDataTest.INGREDIENTS.map { IngredientViewModel(it, false) }
+        val resultModels = initialModels.mapIndexed { index, model ->
+            return@mapIndexed if (index == 1)
+                model.copy(item = model.item.copy(quantity = 25.0))
+            else
+                model
+        }
+
+        val middleItem = initialModels[1]
+        presenter.ingredientModels = initialModels.toMutableList()
+        presenter.attach(view)
+        verifySequence {
+            view.showImagesQueue(mutableListOf())
+            view.enableImagesBtn(true)
+            view.setupAdapter(initialModels)
+        }
+
+        //When
+        presenter.onIngredientChanged(middleItem, 25.0)
+
+        //Then
+        assert(presenter.ingredientModels == resultModels)
     }
 }

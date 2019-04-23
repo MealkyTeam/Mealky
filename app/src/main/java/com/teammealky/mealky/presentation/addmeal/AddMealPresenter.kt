@@ -13,7 +13,7 @@ class AddMealPresenter @Inject constructor() : BasePresenter<AddMealPresenter.UI
 
     var model: MealViewModel = MealViewModel.basicMealViewModel()
     var attachments = mutableListOf<ThumbnailImage>()
-    var models = mutableListOf<IngredientViewModel>()
+    var ingredientModels = mutableListOf<IngredientViewModel>()
 
     override fun attach(ui: UI) {
         super.attach(ui)
@@ -21,7 +21,7 @@ class AddMealPresenter @Inject constructor() : BasePresenter<AddMealPresenter.UI
         ui().perform {
             it.showImagesQueue(attachments)
             it.enableImagesBtn(!areAttachmentsFull())
-            it.setupAdapter(models)
+            it.setupAdapter(ingredientModels)
         }
     }
 
@@ -85,7 +85,7 @@ class AddMealPresenter @Inject constructor() : BasePresenter<AddMealPresenter.UI
     }
 
     fun addIngredientsBtnClicked() {
-        ui().perform { it.showAddIngredientDialog(models.map { model -> model.item }) }
+        ui().perform { it.showAddIngredientDialog(ingredientModels.map { model -> model.item }) }
     }
 
     fun onInformationPassed(imagePath: String) {
@@ -99,10 +99,10 @@ class AddMealPresenter @Inject constructor() : BasePresenter<AddMealPresenter.UI
     private fun getNewId() = ((attachments.maxBy { it.id }?.id) ?: attachments.size) + 1
 
     fun onInformationPassed(ingredient: Ingredient) {
-        models.add(IngredientViewModel(ingredient, false))
+        ingredientModels.add(IngredientViewModel(ingredient, false))
 
         ui().perform {
-            it.updateIngredients(models)
+            it.updateIngredients(ingredientModels)
             it.hideKeyboard()
         }
     }
@@ -116,12 +116,12 @@ class AddMealPresenter @Inject constructor() : BasePresenter<AddMealPresenter.UI
     }
 
     fun onIngredientDeleteClicked(model: IngredientViewModel) {
-        models.remove(model)
-        ui().perform { it.setupAdapter(models) }
+        ingredientModels.remove(model)
+        ui().perform { it.setupAdapter(ingredientModels) }
     }
 
     fun onIngredientChanged(model: IngredientViewModel, quantity: Double) {
-        val list = models.map {
+        val list = ingredientModels.map {
             if (Ingredient.isSameIngredientWithDifferentQuantity(model.item, it.item)) {
                 val updatedIngredient = model.item.copy(quantity = quantity)
                 return@map model.copy(item = updatedIngredient)
@@ -129,7 +129,7 @@ class AddMealPresenter @Inject constructor() : BasePresenter<AddMealPresenter.UI
                 return@map it
         }.toMutableList()
 
-        models = list
+        ingredientModels = list
     }
 
     interface UI : BaseUI {
