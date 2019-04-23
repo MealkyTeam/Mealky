@@ -31,6 +31,7 @@ class AddMealPresenterTest {
         every { view.showAddIngredientDialog(any()) } just Runs
         every { view.showImagesQueue(any()) } just Runs
         every { view.enableImagesBtn(any()) } just Runs
+        every { view.setupAdapter(any()) } just Runs
     }
 
     /**
@@ -55,6 +56,7 @@ class AddMealPresenterTest {
         verifySequence {
             view.showImagesQueue(mutableListOf())
             view.enableImagesBtn(true)
+            view.setupAdapter(emptyList())
             view.enableConfirmBtn(true)
         }
     }
@@ -81,6 +83,7 @@ class AddMealPresenterTest {
         verifySequence {
             view.showImagesQueue(mutableListOf())
             view.enableImagesBtn(true)
+            view.setupAdapter(emptyList())
             view.enableConfirmBtn(false)
         }
     }
@@ -108,6 +111,7 @@ class AddMealPresenterTest {
         verifySequence {
             view.showImagesQueue(mutableListOf())
             view.enableImagesBtn(true)
+            view.setupAdapter(emptyList())
             view.enableConfirmBtn(false)
             view.clearErrors()
             view.isLoading(true)
@@ -138,6 +142,7 @@ class AddMealPresenterTest {
         verifySequence {
             view.showImagesQueue(mutableListOf())
             view.enableImagesBtn(true)
+            view.setupAdapter(emptyList())
             view.enableConfirmBtn(false)
             view.clearErrors()
             view.isLoading(true)
@@ -168,6 +173,7 @@ class AddMealPresenterTest {
         verifySequence {
             view.showImagesQueue(mutableListOf())
             view.enableImagesBtn(true)
+            view.setupAdapter(emptyList())
             view.enableConfirmBtn(false)
             view.clearErrors()
             view.isLoading(true)
@@ -198,6 +204,7 @@ class AddMealPresenterTest {
         verifySequence {
             view.showImagesQueue(mutableListOf())
             view.enableImagesBtn(true)
+            view.setupAdapter(emptyList())
             view.enableConfirmBtn(false)
             view.clearErrors()
             view.isLoading(true)
@@ -229,6 +236,7 @@ class AddMealPresenterTest {
         verifySequence {
             view.showImagesQueue(mutableListOf())
             view.enableImagesBtn(true)
+            view.setupAdapter(emptyList())
 
             view.showImagesQueue((queueCopy + newThumbnail) as MutableList)
             view.enableImagesBtn(false)
@@ -258,6 +266,7 @@ class AddMealPresenterTest {
         verifySequence {
             view.showImagesQueue(queue)
             view.enableImagesBtn(false)
+            view.setupAdapter(emptyList())
 
             view.showImagesQueue(queueWithFour)
             view.enableImagesBtn(true)

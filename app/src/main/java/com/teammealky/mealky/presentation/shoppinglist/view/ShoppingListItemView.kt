@@ -16,21 +16,19 @@ import com.teammealky.mealky.presentation.shoppinglist.adapter.ShoppingListAdapt
 import kotlinx.android.synthetic.main.shopping_list_item.view.*
 
 @SuppressLint("ViewConstructor")
-class ShoppingListItemView @JvmOverloads constructor(
+open class ShoppingListItemView @JvmOverloads constructor(
         context: Context,
-        onClickListener: IngredientsAdapter.OnItemClickListener,
+        val onClickListener: IngredientsAdapter.OnItemClickListener,
         private val fieldChangedListener: ShoppingListAdapter.FieldChangedListener,
         attrs: AttributeSet? = null,
         defStyle: Int = 0
 ) : IngredientView(context, onClickListener, attrs, defStyle), TextWatcher {
 
-    init {
-        shoppingListItemLayout.foreground = null
-        quantityTv.addTextChangedListener(this)
-    }
 
     override fun inflateLayout() {
         inflate(R.layout.shopping_list_item, true)
+        shoppingListItemLayout.foreground = null
+        quantityTv.addTextChangedListener(this)
     }
 
     @SuppressLint("SetTextI18n")

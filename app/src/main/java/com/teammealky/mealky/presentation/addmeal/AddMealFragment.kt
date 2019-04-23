@@ -11,6 +11,8 @@ import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.teammealky.mealky.R
 import com.teammealky.mealky.presentation.App
 import com.teammealky.mealky.presentation.commons.Navigator
@@ -21,19 +23,26 @@ import com.teammealky.mealky.presentation.addmeal.AddMealPresenter.ValidationRes
 import com.teammealky.mealky.presentation.commons.extension.isInvisible
 import com.teammealky.mealky.presentation.commons.extension.isVisible
 import com.teammealky.mealky.domain.model.Ingredient
+import com.teammealky.mealky.presentation.addmeal.adapter.AddedIngredientsAdapter
 import com.teammealky.mealky.presentation.addmeal.gallerycameradialog.GalleryCameraDialog
 import com.teammealky.mealky.presentation.addmeal.model.ThumbnailImage
 import com.teammealky.mealky.presentation.addmeal.view.AddMealThumbnailsView
 import com.teammealky.mealky.presentation.commons.component.addingredient.AddIngredientDialog
+import com.teammealky.mealky.presentation.meal.adapter.IngredientsAdapter
+import com.teammealky.mealky.presentation.meal.model.IngredientViewModel
+import com.teammealky.mealky.presentation.shoppinglist.adapter.ShoppingListAdapter
+import kotlinx.android.synthetic.main.shopping_list_fragment.*
 
 
 class AddMealFragment : BaseFragment<AddMealPresenter, AddMealPresenter.UI, AddMealViewModel>(),
         AddMealPresenter.UI, View.OnClickListener, TextWatcher, TextView.OnEditorActionListener,
-        AddIngredientDialog.AddIngredientListener, GalleryCameraDialog.GalleryCameraListener, AddMealThumbnailsView.OnImageDeleteListener {
+        AddIngredientDialog.AddIngredientListener, GalleryCameraDialog.GalleryCameraListener, AddMealThumbnailsView.OnImageDeleteListener, ShoppingListAdapter.FieldChangedListener, IngredientsAdapter.OnItemClickListener {
 
     override val vmClass = AddMealViewModel::class.java
     private var addIngredientDialog: AddIngredientDialog? = null
     private var galleryCameraDialog: GalleryCameraDialog? = null
+    private lateinit var adapter: AddedIngredientsAdapter
+    private lateinit var layoutManager: RecyclerView.LayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         App.get(requireContext()).getComponent().inject(this)
@@ -51,11 +60,18 @@ class AddMealFragment : BaseFragment<AddMealPresenter, AddMealPresenter.UI, AddM
         setupEditTexts()
         setupOnClick()
         addMealThumbnailsView.deleteListener = this
+        setupRecyclerView()
 
         scrollView.setOnTouchListener { _, _ ->
             presenter?.touchedOutside()
             false
         }
+    }
+
+    private fun setupRecyclerView() {
+        layoutManager = LinearLayoutManager(context)
+        ingredientListRv.setHasFixedSize(true)
+        ingredientListRv.layoutManager = layoutManager
     }
 
     private fun setupOnClick() {
@@ -172,6 +188,12 @@ class AddMealFragment : BaseFragment<AddMealPresenter, AddMealPresenter.UI, AddM
         }
     }
 
+    override fun setupAdapter(ingredients: List<IngredientViewModel>) {
+        adapter = AddedIngredientsAdapter(ingredients, this, this)
+
+        ingredientListRv.adapter = adapter
+    }
+
     override fun onImageDelete(image: ThumbnailImage) {
         presenter?.onImageDeleteClicked(image)
     }
@@ -186,8 +208,8 @@ class AddMealFragment : BaseFragment<AddMealPresenter, AddMealPresenter.UI, AddM
         return false
     }
 
-    override fun updateIngredients(ingredients: List<Ingredient>) {
-
+    override fun updateIngredients(ingredients: List<IngredientViewModel>) {
+        adapter.fillAdapter(ingredients)
     }
 
     override fun enableImagesBtn(isEnabled: Boolean) {
@@ -198,6 +220,14 @@ class AddMealFragment : BaseFragment<AddMealPresenter, AddMealPresenter.UI, AddM
     }
 
     override fun onTextChanged(text: CharSequence?, p1: Int, p2: Int, p3: Int) {
+    }
+
+    override fun onItemClick(model: IngredientViewModel) {
+        presenter?.onIngredientDeleteClicked(model)
+    }
+
+    override fun fieldChanged(model: IngredientViewModel, quantity: Double) {
+        presenter?.onIngredientChanged(model, quantity)
     }
 
     companion object {

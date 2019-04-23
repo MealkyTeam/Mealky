@@ -6,9 +6,9 @@ import com.teammealky.mealky.presentation.meal.adapter.IngredientsAdapter
 import com.teammealky.mealky.presentation.meal.model.IngredientViewModel
 import com.teammealky.mealky.presentation.shoppinglist.view.ShoppingListItemView
 
-class ShoppingListAdapter(models: List<IngredientViewModel> = emptyList(),
-                          private val fieldChangedListener: FieldChangedListener,
-                          onClickListener: IngredientsAdapter.OnItemClickListener)
+open class ShoppingListAdapter(models: List<IngredientViewModel> = emptyList(),
+                               val fieldChangedListener: FieldChangedListener,
+                               onClickListener: OnItemClickListener)
     : IngredientsAdapter(models, onClickListener) {
 
     interface FieldChangedListener {
@@ -37,5 +37,4 @@ class ShoppingListAdapter(models: List<IngredientViewModel> = emptyList(),
     }
 
     override fun getItemCount() = models.size
-
 }

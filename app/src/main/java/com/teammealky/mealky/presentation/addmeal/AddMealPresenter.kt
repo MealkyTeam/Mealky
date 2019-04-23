@@ -6,13 +6,14 @@ import com.teammealky.mealky.presentation.commons.presenter.BasePresenter
 import com.teammealky.mealky.presentation.commons.presenter.BaseUI
 import com.teammealky.mealky.presentation.addmeal.AddMealPresenter.ValidationResult.*
 import com.teammealky.mealky.presentation.addmeal.model.ThumbnailImage
+import com.teammealky.mealky.presentation.meal.model.IngredientViewModel
 import javax.inject.Inject
 
 class AddMealPresenter @Inject constructor() : BasePresenter<AddMealPresenter.UI>() {
 
     var model: MealViewModel = MealViewModel.basicMealViewModel()
     var attachments = mutableListOf<ThumbnailImage>()
-    var ingredients = mutableListOf<Ingredient>()
+    var models = mutableListOf<IngredientViewModel>()
 
     override fun attach(ui: UI) {
         super.attach(ui)
@@ -20,6 +21,7 @@ class AddMealPresenter @Inject constructor() : BasePresenter<AddMealPresenter.UI
         ui().perform {
             it.showImagesQueue(attachments)
             it.enableImagesBtn(!areAttachmentsFull())
+            it.setupAdapter(models)
         }
     }
 
@@ -83,7 +85,7 @@ class AddMealPresenter @Inject constructor() : BasePresenter<AddMealPresenter.UI
     }
 
     fun addIngredientsBtnClicked() {
-        ui().perform { it.showAddIngredientDialog(ingredients) }
+        ui().perform { it.showAddIngredientDialog(models.map { model -> model.item }) }
     }
 
     fun onInformationPassed(imagePath: String) {
@@ -97,10 +99,10 @@ class AddMealPresenter @Inject constructor() : BasePresenter<AddMealPresenter.UI
     private fun getNewId() = ((attachments.maxBy { it.id }?.id) ?: attachments.size) + 1
 
     fun onInformationPassed(ingredient: Ingredient) {
-        ingredients.add(ingredient)
+        models.add(IngredientViewModel(ingredient, false))
 
         ui().perform {
-            it.updateIngredients(ingredients)
+            it.updateIngredients(models)
             it.hideKeyboard()
         }
     }
@@ -111,6 +113,23 @@ class AddMealPresenter @Inject constructor() : BasePresenter<AddMealPresenter.UI
             it.showImagesQueue(attachments)
             it.enableImagesBtn(!areAttachmentsFull())
         }
+    }
+
+    fun onIngredientDeleteClicked(model: IngredientViewModel) {
+        models.remove(model)
+        ui().perform { it.setupAdapter(models) }
+    }
+
+    fun onIngredientChanged(model: IngredientViewModel, quantity: Double) {
+        val list = models.map {
+            if (Ingredient.isSameIngredientWithDifferentQuantity(model.item, it.item)) {
+                val updatedIngredient = model.item.copy(quantity = quantity)
+                return@map model.copy(item = updatedIngredient)
+            } else
+                return@map it
+        }.toMutableList()
+
+        models = list
     }
 
     interface UI : BaseUI {
@@ -124,7 +143,8 @@ class AddMealPresenter @Inject constructor() : BasePresenter<AddMealPresenter.UI
         fun showAddIngredientDialog(ingredients: List<Ingredient>)
         fun showImagesQueue(attachments: MutableList<ThumbnailImage>)
         fun enableImagesBtn(isEnabled: Boolean)
-        fun updateIngredients(ingredients: List<Ingredient>)
+        fun updateIngredients(ingredients: List<IngredientViewModel>)
+        fun setupAdapter(ingredients: List<IngredientViewModel>)
     }
 
     enum class ValidationResult {
