@@ -41,6 +41,8 @@ class AddMealPresenterTest {
         every { view.setupAdapter(any()) } just Runs
         every { view.updateIngredients(any()) } just Runs
         every { view.hideKeyboard() } just Runs
+        every { view.forceGoBack() } just Runs
+        every { view.showGoBackDialog() } just Runs
     }
 
     /**
@@ -454,6 +456,54 @@ class AddMealPresenterTest {
             view.isLoading(true)
             view.isLoading(false)
             view.showErrors(listOf(INGREDIENTS_ERROR))
+        }
+    }
+
+    /**
+     * Scenario: Show dialog on go back
+     * Given attached presenter
+     * When user clicks on go back
+     * Then show dialog.
+     */
+    @Test
+    fun `Show dialog on go back`() {
+        //Given
+        presenter.attach(view)
+
+        //When
+        presenter.onBackPressed()
+
+        //Then
+        verifySequence {
+            view.showImagesQueue(mutableListOf())
+            view.enableImagesBtn(true)
+            view.setupAdapter(emptyList())
+
+            view.showGoBackDialog()
+        }
+    }
+
+    /**
+     * Scenario: Go back if is confirmed
+     * Given attached presenter with displayed dialog
+     * When user clicks on confirm button
+     * Then go back
+     */
+    @Test
+    fun `Go back if is confirmed`() {
+        //Given
+        presenter.attach(view)
+
+        //When
+        presenter.goBackConfirmed()
+
+        //Then
+        verifySequence {
+            view.showImagesQueue(mutableListOf())
+            view.enableImagesBtn(true)
+            view.setupAdapter(emptyList())
+
+            view.forceGoBack()
         }
     }
 
