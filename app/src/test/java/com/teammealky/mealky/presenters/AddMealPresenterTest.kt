@@ -124,7 +124,8 @@ class AddMealPresenterTest {
             view.enableConfirmBtn(false)
             view.clearErrors()
             view.isLoading(true)
-            view.showErrors(listOf(TITLE_ERROR))
+            view.isLoading(false)
+            view.showErrors(listOf(TITLE_ERROR,IMAGES_ERROR,INGREDIENTS_ERROR))
         }
     }
 
@@ -155,7 +156,8 @@ class AddMealPresenterTest {
             view.enableConfirmBtn(false)
             view.clearErrors()
             view.isLoading(true)
-            view.showErrors(listOf(PREP_ERROR))
+            view.isLoading(false)
+            view.showErrors(listOf(PREP_ERROR,IMAGES_ERROR,INGREDIENTS_ERROR))
         }
     }
 
@@ -186,7 +188,8 @@ class AddMealPresenterTest {
             view.enableConfirmBtn(false)
             view.clearErrors()
             view.isLoading(true)
-            view.showErrors(listOf(PREP_TIME_ERROR))
+            view.isLoading(false)
+            view.showErrors(listOf(PREP_TIME_ERROR,IMAGES_ERROR,INGREDIENTS_ERROR))
         }
     }
 
@@ -217,7 +220,8 @@ class AddMealPresenterTest {
             view.enableConfirmBtn(false)
             view.clearErrors()
             view.isLoading(true)
-            view.showErrors(listOf(PREP_ERROR, PREP_TIME_ERROR))
+            view.isLoading(false)
+            view.showErrors(listOf(PREP_ERROR, PREP_TIME_ERROR,IMAGES_ERROR,INGREDIENTS_ERROR))
         }
     }
 
