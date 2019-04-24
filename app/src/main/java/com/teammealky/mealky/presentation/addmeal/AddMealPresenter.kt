@@ -14,6 +14,7 @@ class AddMealPresenter @Inject constructor() : BasePresenter<AddMealPresenter.UI
     var model: MealViewModel = MealViewModel.basicMealViewModel()
     var attachments = mutableListOf<ThumbnailImage>()
     var ingredientModels = mutableListOf<IngredientViewModel>()
+    var canGoBack = false
 
     override fun attach(ui: UI) {
         super.attach(ui)
@@ -142,6 +143,16 @@ class AddMealPresenter @Inject constructor() : BasePresenter<AddMealPresenter.UI
         ingredientModels = list
     }
 
+    fun onBackPressed() {
+        if (!canGoBack)
+            ui().perform { it.showGoBackDialog() }
+    }
+
+    fun goBackConfirmed() {
+        canGoBack = true
+        ui().perform { it.forceGoBack() }
+    }
+
     interface UI : BaseUI {
         fun enableConfirmBtn(isEnabled: Boolean)
         fun toMealsFragment()
@@ -150,6 +161,8 @@ class AddMealPresenter @Inject constructor() : BasePresenter<AddMealPresenter.UI
         fun clearErrors()
         fun isLoading(isLoading: Boolean)
         fun showGalleryCameraDialog()
+        fun showGoBackDialog()
+        fun forceGoBack()
         fun showAddIngredientDialog(ingredients: List<Ingredient>)
         fun showImagesQueue(attachments: MutableList<ThumbnailImage>)
         fun enableImagesBtn(isEnabled: Boolean)

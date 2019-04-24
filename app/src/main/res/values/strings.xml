@@ -74,4 +74,7 @@
     <string name="remove_item">Remove item button</string>
     <string name="thumbnail">Thumbnail</string>
     <string name="discovery">Discovery</string>
+    <string name="add_meal_exit_message">Are you sure do you want to go back? Your recipe won\'t be saved!</string>
+    <string name="be_careful">Be careful!</string>
+    <string name="cancel">Cancel</string>
 </resources>

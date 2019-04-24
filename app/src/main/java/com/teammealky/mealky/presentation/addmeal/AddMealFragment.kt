@@ -1,5 +1,6 @@
 package com.teammealky.mealky.presentation.addmeal
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -28,15 +29,17 @@ import com.teammealky.mealky.presentation.addmeal.gallerycameradialog.GalleryCam
 import com.teammealky.mealky.presentation.addmeal.model.ThumbnailImage
 import com.teammealky.mealky.presentation.addmeal.view.AddMealThumbnailsView
 import com.teammealky.mealky.presentation.commons.component.addingredient.AddIngredientDialog
+import com.teammealky.mealky.presentation.commons.listener.OnBackPressedListener
 import com.teammealky.mealky.presentation.meal.adapter.IngredientsAdapter
 import com.teammealky.mealky.presentation.meal.model.IngredientViewModel
 import com.teammealky.mealky.presentation.shoppinglist.adapter.ShoppingListAdapter
-import kotlinx.android.synthetic.main.shopping_list_fragment.*
 
 
 class AddMealFragment : BaseFragment<AddMealPresenter, AddMealPresenter.UI, AddMealViewModel>(),
         AddMealPresenter.UI, View.OnClickListener, TextWatcher, TextView.OnEditorActionListener,
-        AddIngredientDialog.AddIngredientListener, GalleryCameraDialog.GalleryCameraListener, AddMealThumbnailsView.OnImageDeleteListener, ShoppingListAdapter.FieldChangedListener, IngredientsAdapter.OnItemClickListener {
+        AddIngredientDialog.AddIngredientListener, GalleryCameraDialog.GalleryCameraListener,
+        OnBackPressedListener, AddMealThumbnailsView.OnImageDeleteListener,
+        ShoppingListAdapter.FieldChangedListener, IngredientsAdapter.OnItemClickListener {
 
     override val vmClass = AddMealViewModel::class.java
     private var addIngredientDialog: AddIngredientDialog? = null
@@ -228,6 +231,34 @@ class AddMealFragment : BaseFragment<AddMealPresenter, AddMealPresenter.UI, AddM
 
     override fun fieldChanged(model: IngredientViewModel, quantity: Double) {
         presenter?.onIngredientChanged(model, quantity)
+    }
+
+    override fun onBackPressed(): Boolean {
+        val canGoBack = presenter?.canGoBack ?: false
+
+        if (canGoBack)
+            return true
+        else
+            presenter?.onBackPressed()
+
+        return false
+    }
+
+    override fun showGoBackDialog() {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle(getString(R.string.be_careful))
+        builder.setMessage(getString(R.string.add_meal_exit_message))
+        builder.setPositiveButton(getString(R.string.confirm)) { _, _ ->
+            presenter?.goBackConfirmed()
+        }
+        builder.setNeutralButton(getString(R.string.cancel)) { _, _ ->
+
+        }
+        builder.show()
+    }
+
+    override fun forceGoBack() {
+        activity?.onBackPressed()
     }
 
     companion object {

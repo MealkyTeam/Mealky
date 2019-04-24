@@ -10,6 +10,7 @@ import com.teammealky.mealky.R
 import com.teammealky.mealky.presentation.App
 import com.teammealky.mealky.presentation.commons.Navigator
 import com.teammealky.mealky.presentation.commons.extension.*
+import com.teammealky.mealky.presentation.commons.listener.OnBackPressedListener
 import com.teammealky.mealky.presentation.commons.presenter.BaseActivity
 import com.teammealky.mealky.presentation.discover.DiscoverFragment
 import com.teammealky.mealky.presentation.meal.MealFragment
@@ -65,6 +66,9 @@ class MainActivity : BaseActivity<MainPresenter, MainPresenter.UI, MainViewModel
     }
 
     override fun onBackPressed() {
+        val f = contentSwitcher.getCurrentFragment()
+        if (f is OnBackPressedListener && !f.onBackPressed()) return
+
         if (supportFragmentManager.backStackEntryCount > 1) {
             try {
                 supportFragmentManager.popBackStackImmediate()
