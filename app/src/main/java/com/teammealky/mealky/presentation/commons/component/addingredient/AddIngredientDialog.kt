@@ -89,9 +89,8 @@ class AddIngredientDialog : BaseDialogFragment<AddIngredientPresenter, AddIngred
     }
 
     override fun setupAutocompleteAdapters(ingredients: List<Ingredient>, units: List<Unit>) {
-        if (context == null) return
-        ingredientsAdapter = ArrayAdapter(context!!, android.R.layout.simple_list_item_1, ingredients.map { it.name.capitalize() })
-        unitsAdapter = ArrayAdapter(context!!, android.R.layout.simple_list_item_1, units.map { it.name })
+        ingredientsAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, ingredients.map { it.name.capitalize() })
+        unitsAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, units.map { it.name })
 
         ingredientInput?.setAdapter(ingredientsAdapter)
         unitInput?.setAdapter(unitsAdapter)

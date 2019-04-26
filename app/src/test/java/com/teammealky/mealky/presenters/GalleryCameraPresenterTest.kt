@@ -8,6 +8,7 @@ import io.mockk.mockk
 import io.mockk.verifySequence
 import org.junit.Before
 import org.junit.Test
+import java.io.File
 
 class GalleryCameraPresenterTest {
     private val view = mockk<GalleryCameraPresenter.UI>()
@@ -119,13 +120,13 @@ class GalleryCameraPresenterTest {
         //Given
         presenter.attach(view)
         presenter.hasPermission = true
-        val imagePath = "imagePath"
+        val image = File("imagePath")
         //When
-        presenter.imageReceived(imagePath)
+        presenter.imageReceived(image)
 
         //Then
         verifySequence {
-            view.passImageToAddMealFragment(imagePath)
+            view.passImageToAddMealFragment(image)
         }
     }
 }

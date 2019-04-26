@@ -1,6 +1,7 @@
 package com.teammealky.mealky.presentation.main
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.transition.TransitionValues
 import android.view.MenuItem
@@ -105,6 +106,11 @@ class MainActivity : BaseActivity<MainPresenter, MainPresenter.UI, MainViewModel
         if (setDefaultContent) {
             presenter?.setContent(R.id.navHome)
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        contentSwitcher.getCurrentFragment()?.onActivityResult(requestCode, resultCode, data)
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
     companion object {

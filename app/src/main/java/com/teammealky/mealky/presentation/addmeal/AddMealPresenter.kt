@@ -1,15 +1,22 @@
 package com.teammealky.mealky.presentation.addmeal
 
 import com.teammealky.mealky.domain.model.Ingredient
+import com.teammealky.mealky.domain.model.User
+import com.teammealky.mealky.domain.usecase.addmeal.AddMealUseCase
+import com.teammealky.mealky.domain.usecase.user.GetUserUseCase
 import com.teammealky.mealky.presentation.addmeal.model.MealViewModel
 import com.teammealky.mealky.presentation.commons.presenter.BasePresenter
 import com.teammealky.mealky.presentation.commons.presenter.BaseUI
 import com.teammealky.mealky.presentation.addmeal.AddMealPresenter.ValidationResult.*
 import com.teammealky.mealky.presentation.addmeal.model.ThumbnailImage
 import com.teammealky.mealky.presentation.meal.model.IngredientViewModel
+import java.io.File
 import javax.inject.Inject
 
-class AddMealPresenter @Inject constructor() : BasePresenter<AddMealPresenter.UI>() {
+class AddMealPresenter @Inject constructor(
+        private val addMealUseCase: AddMealUseCase,
+        private val getUserUseCase: GetUserUseCase
+) : BasePresenter<AddMealPresenter.UI>() {
 
     var model: MealViewModel = MealViewModel.basicMealViewModel()
     var attachments = mutableListOf<ThumbnailImage>()
@@ -52,18 +59,56 @@ class AddMealPresenter @Inject constructor() : BasePresenter<AddMealPresenter.UI
         }
         val result = fieldsValidated()
         if (allAreCorrect(result)) {
-            //todo send request to api
-            ui().perform {
-                it.isLoading(false)
-                it.showToast()
-                it.toMealsFragment()
-            }
+            getUser { user -> sendMeal(user) }
         } else {
             ui().perform {
                 it.isLoading(false)
                 it.showErrors(result)
             }
         }
+    }
+
+    private fun getUser(onComplete: (User) -> Unit) {
+        disposable.add(getUserUseCase.execute(
+                {
+                    onComplete(it)
+                },
+                { e ->
+                    ui().perform {
+                        it.showErrorMessage({
+                            getUser { user -> sendMeal(user) }
+                        }, e)
+                    }
+                }
+        ))
+    }
+
+    private fun sendMeal(user: User) {
+        val params = AddMealUseCase.Params(
+                model.title,
+                model.preparationTime.toIntOrNull() ?: 0,
+                model.description,
+                user,
+                ingredientModels.map { it.item },
+                attachments.map { it.file }
+        )
+
+        disposable.add(addMealUseCase.execute(params,
+                {
+                    ui().perform {
+                        it.isLoading(false)
+                        it.showToast()
+                        it.toMealsFragment()
+                    }
+                },
+                { e ->
+                    ui().perform {
+                        it.showErrorMessage({
+                            getUser { user -> sendMeal(user) }
+                        }, e)
+                    }
+                }
+        ))
     }
 
     private fun allAreCorrect(result: List<ValidationResult>): Boolean {
@@ -99,7 +144,7 @@ class AddMealPresenter @Inject constructor() : BasePresenter<AddMealPresenter.UI
         ui().perform { it.showAddIngredientDialog(ingredientModels.map { model -> model.item }) }
     }
 
-    fun onInformationPassed(imagePath: String) {
+    fun onInformationPassed(imagePath: File) {
         attachments.add(ThumbnailImage(getNewId(), imagePath))
         ui().perform {
             it.showImagesQueue(attachments)

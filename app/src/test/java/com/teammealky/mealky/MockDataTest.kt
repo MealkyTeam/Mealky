@@ -9,6 +9,7 @@ import com.teammealky.mealky.domain.model.Unit
 import com.teammealky.mealky.domain.model.User
 import com.teammealky.mealky.presentation.addmeal.model.ThumbnailImage
 import com.teammealky.mealky.presentation.meal.model.IngredientViewModel
+import java.io.File
 
 class MockDataTest {
     companion object {
@@ -82,7 +83,7 @@ class MockDataTest {
                 0
         )
 
-        val THUMBNAIL_IMAGE = ThumbnailImage(-1,"filepath")
+        val THUMBNAIL_IMAGE = ThumbnailImage(-1, File("filepath"))
 
         val INGREDIENT_VIEW_MODEL =
                 INGREDIENTS.map { item -> IngredientViewModel(item, false) }

@@ -33,6 +33,8 @@ import com.teammealky.mealky.presentation.commons.listener.OnBackPressedListener
 import com.teammealky.mealky.presentation.meal.adapter.IngredientsAdapter
 import com.teammealky.mealky.presentation.meal.model.IngredientViewModel
 import com.teammealky.mealky.presentation.shoppinglist.adapter.ShoppingListAdapter
+import android.content.Intent
+import java.io.File
 
 
 class AddMealFragment : BaseFragment<AddMealPresenter, AddMealPresenter.UI, AddMealViewModel>(),
@@ -174,9 +176,9 @@ class AddMealFragment : BaseFragment<AddMealPresenter, AddMealPresenter.UI, AddM
         presenter?.onInformationPassed(ingredient)
     }
 
-    override fun onInformationPassed(imagePath: String) {
+    override fun onInformationPassed(file: File) {
         galleryCameraDialog?.dismiss()
-        presenter?.onInformationPassed(imagePath)
+        presenter?.onInformationPassed(file)
     }
 
     override fun afterTextChanged(editable: Editable?) {
@@ -242,6 +244,10 @@ class AddMealFragment : BaseFragment<AddMealPresenter, AddMealPresenter.UI, AddM
             presenter?.onBackPressed()
 
         return false
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        galleryCameraDialog?.onActivityResult(requestCode,resultCode,data)
     }
 
     override fun showGoBackDialog() {

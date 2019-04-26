@@ -4,7 +4,6 @@ import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Point
 import android.graphics.drawable.Drawable
-import android.text.Editable
 import android.view.View
 import android.widget.ImageView
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -17,19 +16,6 @@ import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.WindowManager
-
-fun Int.toTime(): String {
-    val originalValue = this
-    val numOfHours = (originalValue / 60)
-    val numOfMinutes = originalValue - numOfHours * 60
-
-    return when {
-        numOfHours > 0 && numOfMinutes > 0 -> "${numOfHours}h ${numOfMinutes}m"
-        numOfHours > 0 && numOfMinutes == 0 -> "${numOfHours}h"
-        numOfHours == 0 && numOfMinutes > 0 -> "${numOfMinutes}m"
-        else -> ""
-    }
-}
 
 fun BottomNavigationView.clearSelection() {
     for (i in 0 until menu.size()) {
@@ -116,9 +102,3 @@ fun getResizedImageHeight(aspectRatio: Float): Int {
 }
 
 fun getScreenWidth(): Int = Resources.getSystem().displayMetrics.widthPixels
-
-fun Editable?.toInt(): Int {
-    val text = this.toString()
-
-    return text.toIntOrNull() ?: 0
-}

@@ -2,10 +2,8 @@ package com.teammealky.mealky.presentation.addmeal.gallerycameradialog
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
 import android.app.Dialog
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,21 +15,19 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.karumi.dexter.Dexter
 import android.content.Intent
-import android.os.Environment
-import android.provider.MediaStore
-import androidx.core.content.FileProvider
 import com.karumi.dexter.listener.multi.BaseMultiplePermissionsListener
 import com.teammealky.mealky.R
+import pl.aprilapps.easyphotopicker.DefaultCallback
+import pl.aprilapps.easyphotopicker.EasyImage
+import pl.aprilapps.easyphotopicker.MediaFile
+import pl.aprilapps.easyphotopicker.MediaSource
 import java.io.File
-import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.*
 
 class GalleryCameraDialog : BaseDialogFragment<GalleryCameraPresenter, GalleryCameraPresenter.UI, GalleryCameraViewModel>(),
         GalleryCameraPresenter.UI, View.OnClickListener {
 
     override val vmClass = GalleryCameraViewModel::class.java
-    private var currentPhotoPath: String = ""
+    private lateinit var easyImage: EasyImage
 
     @SuppressLint("InflateParams")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -51,21 +47,26 @@ class GalleryCameraDialog : BaseDialogFragment<GalleryCameraPresenter, GalleryCa
 
         dialog.openCameraBtn.setOnClickListener(this)
         dialog.openGalleryBtn.setOnClickListener(this)
+        easyImage = EasyImage.Builder(requireContext())
+                .setCopyImagesToPublicGalleryFolder(false)
+                .allowMultiple(false)
+                .build()
     }
 
     override fun checkPermission() {
-        if (context == null) return
-        val result = ActivityCompat.checkSelfPermission(context!!, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-        if (result == PackageManager.PERMISSION_DENIED) {
-            presenter?.hasPermission = false
-            return
+        PERMISSIONS.forEach { permission ->
+            val result = ActivityCompat.checkSelfPermission(requireContext(), permission)
+            if (result == PackageManager.PERMISSION_DENIED) {
+                presenter?.hasPermission = false
+                return
+            }
         }
 
         presenter?.hasPermission = true
     }
 
     override fun showPermissionDialog() {
-        Dexter.withActivity(activity).withPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE).withListener(BaseMultiplePermissionsListener())
+        Dexter.withActivity(activity).withPermissions(PERMISSIONS).withListener(BaseMultiplePermissionsListener())
                 .withErrorListener { presenter?.errorOccurred() }
                 .onSameThread()
                 .check()
@@ -75,43 +76,12 @@ class GalleryCameraDialog : BaseDialogFragment<GalleryCameraPresenter, GalleryCa
         Toast.makeText(context, getString(R.string.error_message), Toast.LENGTH_SHORT).show()
     }
 
-    private fun createImageFile(): File? {
-        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(Date())
-        val storageDir: File = activity?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-                ?: return null
-        return File.createTempFile(
-                "JPEG_${timeStamp}_",
-                ".jpg",
-                storageDir
-        ).apply {
-            currentPhotoPath = "file://$absolutePath"
-        }
-    }
-
     override fun openCamera() {
-        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-            takePictureIntent.resolveActivity(activity!!.packageManager)?.also {
-                val photoFile: File? = try {
-                    createImageFile()
-                } catch (ex: IOException) {
-                    presenter?.errorOccurred()
-                    null
-                }
-
-                photoFile?.also {
-                    val photoURI: Uri = FileProvider.getUriForFile(context!!, getString(R.string.fileProviderAuthorities), it)
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                    startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO)
-                }
-            }
-        }
+        easyImage.openCameraForImage(this)
     }
 
     override fun openGallery() {
-        val intent = Intent()
-        intent.type = "image/*"
-        intent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(intent, REQUEST_GALLERY_PHOTO)
+        easyImage.openGallery(this)
     }
 
     override fun onClick(v: View?) {
@@ -121,34 +91,35 @@ class GalleryCameraDialog : BaseDialogFragment<GalleryCameraPresenter, GalleryCa
         }
     }
 
-    override fun passImageToAddMealFragment(photoPath: String) {
-        if (targetFragment is GalleryCameraDialog.GalleryCameraListener) {
-            (targetFragment as GalleryCameraDialog.GalleryCameraListener).onInformationPassed(currentPhotoPath)
+    override fun passImageToAddMealFragment(file: File) {
+        if (targetFragment is GalleryCameraListener) {
+            (targetFragment as GalleryCameraListener).onInformationPassed(file)
         }
 
         dismiss()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == RESULT_OK) {
-            if (requestCode == REQUEST_TAKE_PHOTO) {
-                presenter?.imageReceived(currentPhotoPath)
+        easyImage.handleActivityResult(requestCode, resultCode, data, this.requireActivity(), object : DefaultCallback() {
+            override fun onMediaFilesPicked(imageFiles: Array<MediaFile>, source: MediaSource) {
+                presenter?.imageReceived(imageFiles[0].file)
             }
-            if (requestCode == REQUEST_GALLERY_PHOTO) {
-                val selectedImageUri = data?.data
-                currentPhotoPath = selectedImageUri.toString()
-                presenter?.imageReceived(currentPhotoPath)
+
+            override fun onImagePickerError(error: Throwable, source: MediaSource) {
+                presenter?.errorOccurred()
             }
-        }
+        })
     }
 
     interface GalleryCameraListener {
-        fun onInformationPassed(imagePath: String)
+        fun onInformationPassed(file: File)
     }
 
     companion object {
-        const val REQUEST_TAKE_PHOTO = 101
-        const val REQUEST_GALLERY_PHOTO = 102
+        private val PERMISSIONS = listOf(
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.CAMERA
+        )
     }
 }

@@ -2,6 +2,7 @@ package com.teammealky.mealky.presentation.addmeal.gallerycameradialog
 
 import com.teammealky.mealky.presentation.commons.presenter.BasePresenter
 import com.teammealky.mealky.presentation.commons.presenter.BaseUI
+import java.io.File
 import javax.inject.Inject
 
 class GalleryCameraPresenter @Inject constructor() : BasePresenter<GalleryCameraPresenter.UI>() {
@@ -34,8 +35,8 @@ class GalleryCameraPresenter @Inject constructor() : BasePresenter<GalleryCamera
         ui().perform { it.showErrorToast() }
     }
 
-    fun imageReceived(photoPath: String) {
-        ui().perform { it.passImageToAddMealFragment(photoPath) }
+    fun imageReceived(file: File) {
+        ui().perform { it.passImageToAddMealFragment(file) }
     }
 
     interface UI : BaseUI {
@@ -44,6 +45,6 @@ class GalleryCameraPresenter @Inject constructor() : BasePresenter<GalleryCamera
         fun showPermissionDialog()
         fun checkPermission()
         fun showErrorToast()
-        fun passImageToAddMealFragment(photoPath: String)
+        fun passImageToAddMealFragment(file: File)
     }
 }

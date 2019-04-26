@@ -2,8 +2,10 @@ package com.teammealky.mealky.presenters
 
 import com.teammealky.mealky.MockDataTest
 import com.teammealky.mealky.MockDataTest.Companion.THUMBNAIL_IMAGE
-import com.teammealky.mealky.MockDataTest.Companion.UNITS
-import com.teammealky.mealky.domain.model.Ingredient
+import com.teammealky.mealky.domain.repository.AddMealRepository
+import com.teammealky.mealky.domain.repository.UserRepository
+import com.teammealky.mealky.domain.usecase.addmeal.AddMealUseCase
+import com.teammealky.mealky.domain.usecase.user.GetUserUseCase
 import com.teammealky.mealky.presentation.addmeal.AddMealPresenter
 import com.teammealky.mealky.presentation.addmeal.AddMealPresenter.ValidationResult.*
 import com.teammealky.mealky.presentation.addmeal.model.ThumbnailImage
@@ -12,21 +14,26 @@ import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
+import io.mockk.spyk
 import io.mockk.verifyOrder
 import io.mockk.verifySequence
-import org.bouncycastle.asn1.x500.style.RFC4519Style.description
-import org.bouncycastle.asn1.x500.style.RFC4519Style.title
 import org.junit.Before
 import org.junit.Test
+import java.io.File
 
 class AddMealPresenterTest {
+    private val addMealRepository = mockk<AddMealRepository>()
+    private val userRepository = mockk<UserRepository>()
+
+    private val addMealUseCase = spyk(AddMealUseCase(addMealRepository))
+    private val getUsersUseCase = spyk(GetUserUseCase(userRepository))
 
     private val view = mockk<AddMealPresenter.UI>()
     private lateinit var presenter: AddMealPresenter
 
     @Before
     fun setUp() {
-        presenter = AddMealPresenter()
+        presenter = AddMealPresenter(addMealUseCase, getUsersUseCase)
 
         every { view.enableConfirmBtn(any()) } just Runs
         every { view.toMealsFragment() } just Runs
@@ -127,7 +134,7 @@ class AddMealPresenterTest {
             view.clearErrors()
             view.isLoading(true)
             view.isLoading(false)
-            view.showErrors(listOf(TITLE_ERROR,IMAGES_ERROR,INGREDIENTS_ERROR))
+            view.showErrors(listOf(TITLE_ERROR, IMAGES_ERROR, INGREDIENTS_ERROR))
         }
     }
 
@@ -159,7 +166,7 @@ class AddMealPresenterTest {
             view.clearErrors()
             view.isLoading(true)
             view.isLoading(false)
-            view.showErrors(listOf(PREP_ERROR,IMAGES_ERROR,INGREDIENTS_ERROR))
+            view.showErrors(listOf(PREP_ERROR, IMAGES_ERROR, INGREDIENTS_ERROR))
         }
     }
 
@@ -191,7 +198,7 @@ class AddMealPresenterTest {
             view.clearErrors()
             view.isLoading(true)
             view.isLoading(false)
-            view.showErrors(listOf(PREP_TIME_ERROR,IMAGES_ERROR,INGREDIENTS_ERROR))
+            view.showErrors(listOf(PREP_TIME_ERROR, IMAGES_ERROR, INGREDIENTS_ERROR))
         }
     }
 
@@ -223,7 +230,7 @@ class AddMealPresenterTest {
             view.clearErrors()
             view.isLoading(true)
             view.isLoading(false)
-            view.showErrors(listOf(PREP_ERROR, PREP_TIME_ERROR,IMAGES_ERROR,INGREDIENTS_ERROR))
+            view.showErrors(listOf(PREP_ERROR, PREP_TIME_ERROR, IMAGES_ERROR, INGREDIENTS_ERROR))
         }
     }
 
@@ -241,11 +248,11 @@ class AddMealPresenterTest {
                 THUMBNAIL_IMAGE.copy(id = 2), THUMBNAIL_IMAGE.copy(id = 3), THUMBNAIL_IMAGE.copy(id = 4))
         val queueCopy = queue.toMutableList()
         presenter.attachments = queue
-        val newThumbnailPath = "newThumbnailPath"
-        val newThumbnail = ThumbnailImage(5, newThumbnailPath)
+        val newThumbnailFile = File("newThumbnailPath")
+        val newThumbnail = ThumbnailImage(5, newThumbnailFile)
 
         //When
-        presenter.onInformationPassed(newThumbnailPath)
+        presenter.onInformationPassed(newThumbnailFile)
 
         //Then
         verifySequence {
@@ -497,7 +504,7 @@ class AddMealPresenterTest {
         //When
         presenter.goBackConfirmed()
 
-        //Then
+        //Then`
         verifySequence {
             view.showImagesQueue(mutableListOf())
             view.enableImagesBtn(true)
@@ -511,5 +518,5 @@ class AddMealPresenterTest {
             MockDataTest.INGREDIENTS.map { IngredientViewModel(it, false) }.toMutableList()
 
     private fun generateThumbnailMocks() =
-            mutableListOf(ThumbnailImage(1, "urlToImage"))
+            mutableListOf(ThumbnailImage(1, File("urlToImage")))
 }

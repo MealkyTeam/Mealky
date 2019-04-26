@@ -12,6 +12,7 @@ import com.squareup.picasso.Picasso
 import com.teammealky.mealky.R
 import com.teammealky.mealky.presentation.addmeal.model.ThumbnailImage
 import kotlinx.android.synthetic.main.add_meal_image.view.*
+import java.io.File
 
 class AddMealThumbnailsView @JvmOverloads constructor(
         context: Context,
@@ -50,7 +51,7 @@ class AddMealThumbnailsView @JvmOverloads constructor(
         val imageView = thumbView.thumbnailIv
         val deleteBtn = thumbView.thumbnailDelete
 
-        loadImageWithFit(imageView, photo.uri)
+        loadImageWithFit(imageView, photo.file)
         deleteBtn.tag = photo.id
         deleteBtn.setOnClickListener(this)
 
@@ -67,10 +68,10 @@ class AddMealThumbnailsView @JvmOverloads constructor(
         }
     }
 
-    private fun loadImageWithFit(target: ImageView, filePath: String) {
+    private fun loadImageWithFit(target: ImageView, file: File) {
         val picasso = Picasso
                 .get()
-                .load(filePath)
+                .load(file)
                 .config(Bitmap.Config.RGB_565)
                 .centerCrop()
                 .fit()

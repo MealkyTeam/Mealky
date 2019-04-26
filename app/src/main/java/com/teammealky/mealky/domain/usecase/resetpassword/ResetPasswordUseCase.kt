@@ -1,4 +1,4 @@
-package com.teammealky.mealky.domain.usecase.resetPassword
+package com.teammealky.mealky.domain.usecase.resetpassword
 
 import com.teammealky.mealky.domain.repository.AuthorizationRepository
 import com.teammealky.mealky.domain.usecase.SingleUseCase
