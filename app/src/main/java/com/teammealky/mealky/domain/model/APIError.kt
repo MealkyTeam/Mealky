@@ -16,6 +16,13 @@ class APIError(override val message: String) : Exception() {
                 INVALID_USERNAME -> ErrorType.INVALID_USERNAME
                 INVALID_PASSWORD -> ErrorType.INVALID_PASSWORD
 
+                MEAL_NAME_EMPTY -> ErrorType.MEAL_NAME_EMPTY
+                MEAL_PREP_TIME -> ErrorType.MEAL_PREP_TIME
+                MEAL_DESCRIPTION -> ErrorType.MEAL_DESCRIPTION
+                MEAL_INGREDIENT -> ErrorType.MEAL_INGREDIENT
+                MEAL_IMAGE -> ErrorType.MEAL_IMAGE
+                MEAL_USER -> ErrorType.MEAL_USER
+
                 else -> ErrorType.SOMETHING_WENT_WRONG
             }
         }
@@ -29,6 +36,11 @@ class APIError(override val message: String) : Exception() {
         EMAIL_TAKEN,
         USERNAME_TAKEN,
         INVALID_EMAIL, INVALID_USERNAME, INVALID_PASSWORD,
+
+        //Add meal
+        MEAL_NAME_EMPTY,
+        MEAL_PREP_TIME, MEAL_DESCRIPTION,
+        MEAL_INGREDIENT, MEAL_IMAGE, MEAL_USER,
 
         //General:
         SOMETHING_WENT_WRONG
@@ -45,6 +57,13 @@ class APIError(override val message: String) : Exception() {
         const val INVALID_EMAIL = "This email is invalid."
         const val INVALID_USERNAME = "Username should contain only alphanumerics."
         const val INVALID_PASSWORD = "Password length should be longer than 5."
+
+        const val MEAL_NAME_EMPTY = "Meal name can not be empty."
+        const val MEAL_PREP_TIME = "Meal preparation time lower can not be lower than 1."
+        const val MEAL_DESCRIPTION = "Meal description can not be empty."
+        const val MEAL_INGREDIENT = "Meal should contain atleast one ingredient."
+        const val MEAL_IMAGE = "Meal should contain atleast one image, maximum five images."
+        const val MEAL_USER = "This user does not exists."
 
         const val SOMETHING_WENT_WRONG = "Something went wrong."
         const val PARSING_API_ERROR = "Error occurred during parsing API error response."

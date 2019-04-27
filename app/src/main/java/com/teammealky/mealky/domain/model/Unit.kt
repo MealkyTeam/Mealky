@@ -1,7 +1,8 @@
 package com.teammealky.mealky.domain.model
 
 data class Unit(
-        val name: String
+        val name: String,
+        val id: Int = -1
 ) {
     override fun equals(other: Any?): Boolean {
         if (other !is Unit) return false
@@ -15,7 +16,7 @@ data class Unit(
 
     companion object {
         fun defaultUnit(): Unit {
-            return Unit("")
+            return Unit(name= "")
         }
     }
 }

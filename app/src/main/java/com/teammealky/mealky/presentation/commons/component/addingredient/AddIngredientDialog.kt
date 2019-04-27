@@ -139,9 +139,9 @@ class AddIngredientDialog : BaseDialogFragment<AddIngredientPresenter, AddIngred
 
     override fun addIngredient(ingredient: Ingredient) {
         dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
-        if (targetFragment is AddIngredientListener) {
-            (targetFragment as AddIngredientListener).onInformationPassed(presenter?.model!!)
-        }
+
+        (targetFragment as? AddIngredientListener)?.onInformationPassed(presenter?.model!!)
+        (activity as? AddIngredientListener)?.onInformationPassed(presenter?.model!!)
 
         dismiss()
     }

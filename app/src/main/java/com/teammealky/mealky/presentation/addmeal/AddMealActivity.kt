@@ -5,9 +5,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.KeyEvent
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
@@ -16,9 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.teammealky.mealky.R
 import com.teammealky.mealky.presentation.App
-import com.teammealky.mealky.presentation.commons.Navigator
-import com.teammealky.mealky.presentation.commons.presenter.BaseFragment
-import kotlinx.android.synthetic.main.add_meal_fragment.*
+import kotlinx.android.synthetic.main.activity_add_meal.*
 import com.teammealky.mealky.presentation.addmeal.AddMealPresenter.ValidationResult.*
 import com.teammealky.mealky.presentation.addmeal.AddMealPresenter.ValidationResult
 import com.teammealky.mealky.presentation.commons.extension.isInvisible
@@ -29,18 +25,21 @@ import com.teammealky.mealky.presentation.addmeal.gallerycameradialog.GalleryCam
 import com.teammealky.mealky.presentation.addmeal.model.ThumbnailImage
 import com.teammealky.mealky.presentation.addmeal.view.AddMealThumbnailsView
 import com.teammealky.mealky.presentation.commons.component.addingredient.AddIngredientDialog
-import com.teammealky.mealky.presentation.commons.listener.OnBackPressedListener
 import com.teammealky.mealky.presentation.meal.adapter.IngredientsAdapter
 import com.teammealky.mealky.presentation.meal.model.IngredientViewModel
 import com.teammealky.mealky.presentation.shoppinglist.adapter.ShoppingListAdapter
 import android.content.Intent
+import androidx.fragment.app.Fragment
+import com.teammealky.mealky.presentation.commons.Navigator
+import com.teammealky.mealky.presentation.commons.presenter.BaseActivity
+import timber.log.Timber
 import java.io.File
 
 
-class AddMealFragment : BaseFragment<AddMealPresenter, AddMealPresenter.UI, AddMealViewModel>(),
+class AddMealActivity : BaseActivity<AddMealPresenter, AddMealPresenter.UI, AddMealViewModel>(),
         AddMealPresenter.UI, View.OnClickListener, TextWatcher, TextView.OnEditorActionListener,
         AddIngredientDialog.AddIngredientListener, GalleryCameraDialog.GalleryCameraListener,
-        OnBackPressedListener, AddMealThumbnailsView.OnImageDeleteListener,
+        AddMealThumbnailsView.OnImageDeleteListener, Navigator.Navigable,
         ShoppingListAdapter.FieldChangedListener, IngredientsAdapter.OnItemClickListener {
 
     override val vmClass = AddMealViewModel::class.java
@@ -50,18 +49,16 @@ class AddMealFragment : BaseFragment<AddMealPresenter, AddMealPresenter.UI, AddM
     private lateinit var layoutManager: RecyclerView.LayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        App.get(requireContext()).getComponent().inject(this)
+        App.get(this).getComponent().inject(this)
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_add_meal)
 
         dialogRestoration(savedInstanceState)
+        initUI()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-            inflater.inflate(R.layout.add_meal_fragment, container, false)
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+   private fun initUI(){
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         setupEditTexts()
         setupOnClick()
         addMealThumbnailsView.deleteListener = this
@@ -74,7 +71,7 @@ class AddMealFragment : BaseFragment<AddMealPresenter, AddMealPresenter.UI, AddM
     }
 
     private fun setupRecyclerView() {
-        layoutManager = LinearLayoutManager(context)
+        layoutManager = LinearLayoutManager(this)
         ingredientListRv.setHasFixedSize(true)
         ingredientListRv.layoutManager = layoutManager
     }
@@ -99,7 +96,7 @@ class AddMealFragment : BaseFragment<AddMealPresenter, AddMealPresenter.UI, AddM
     }
 
     override fun toMealsFragment() {
-        Navigator.from(context as Navigator.Navigable).openHome()
+        Navigator.from(this as Navigator.Navigable).openActivity(Navigator.ACTIVITY_MAIN)
     }
 
     override fun showErrors(errors: List<ValidationResult>) {
@@ -137,7 +134,7 @@ class AddMealFragment : BaseFragment<AddMealPresenter, AddMealPresenter.UI, AddM
     }
 
     override fun showToast() {
-        Toast.makeText(context, getString(R.string.meal_added), Toast.LENGTH_LONG).show()
+        Toast.makeText(this, getString(R.string.meal_added), Toast.LENGTH_LONG).show()
     }
 
     override fun isLoading(isLoading: Boolean) {
@@ -147,22 +144,19 @@ class AddMealFragment : BaseFragment<AddMealPresenter, AddMealPresenter.UI, AddM
 
     override fun showAddIngredientDialog(ingredients: List<Ingredient>) {
         addIngredientDialog = AddIngredientDialog.newInstance(ingredients)
-        addIngredientDialog?.setTargetFragment(this, ADD_DIALOG_ID)
-        addIngredientDialog?.show(fragmentManager, ADD_DIALOG)
+        addIngredientDialog?.show(supportFragmentManager, ADD_DIALOG)
     }
 
     override fun showGalleryCameraDialog() {
         galleryCameraDialog = GalleryCameraDialog()
-        galleryCameraDialog?.setTargetFragment(this, GALLERY_DIALOG_ID)
-        galleryCameraDialog?.show(fragmentManager, GALLERY_DIALOG)
+        galleryCameraDialog?.show(supportFragmentManager, GALLERY_DIALOG)
     }
 
     private fun dialogRestoration(savedInstanceState: Bundle?) {
         if (null != savedInstanceState) {
-            val prevDialog = childFragmentManager.findFragmentByTag(ADD_DIALOG)
+            val prevDialog = supportFragmentManager.findFragmentByTag(ADD_DIALOG)
             if (prevDialog is AddIngredientDialog) {
                 addIngredientDialog = prevDialog
-                addIngredientDialog?.setTargetFragment(this, ADD_DIALOG_ID)
             }
         }
     }
@@ -172,12 +166,10 @@ class AddMealFragment : BaseFragment<AddMealPresenter, AddMealPresenter.UI, AddM
     }
 
     override fun onInformationPassed(ingredient: Ingredient) {
-        addIngredientDialog?.dismiss()
         presenter?.onInformationPassed(ingredient)
     }
 
     override fun onInformationPassed(file: File) {
-        galleryCameraDialog?.dismiss()
         presenter?.onInformationPassed(file)
     }
 
@@ -235,15 +227,13 @@ class AddMealFragment : BaseFragment<AddMealPresenter, AddMealPresenter.UI, AddM
         presenter?.onIngredientChanged(model, quantity)
     }
 
-    override fun onBackPressed(): Boolean {
+    override fun onBackPressed(){
         val canGoBack = presenter?.canGoBack ?: false
 
         if (canGoBack)
-            return true
+            super.onBackPressed()
         else
             presenter?.onBackPressed()
-
-        return false
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -251,7 +241,7 @@ class AddMealFragment : BaseFragment<AddMealPresenter, AddMealPresenter.UI, AddM
     }
 
     override fun showGoBackDialog() {
-        val builder = AlertDialog.Builder(context)
+        val builder = AlertDialog.Builder(this)
         builder.setTitle(getString(R.string.be_careful))
         builder.setMessage(getString(R.string.add_meal_exit_message))
         builder.setPositiveButton(getString(R.string.confirm)) { _, _ ->
@@ -263,8 +253,13 @@ class AddMealFragment : BaseFragment<AddMealPresenter, AddMealPresenter.UI, AddM
         builder.show()
     }
 
+    override fun getContext() = this
+
+    override fun navigateTo(fragment: Fragment, cleanStack: Boolean) {
+        Timber.tag("KUBA").v("navigateTo NOT IMPLEMENTED")
+    }
     override fun forceGoBack() {
-        activity?.onBackPressed()
+        onBackPressed()
     }
 
     companion object {

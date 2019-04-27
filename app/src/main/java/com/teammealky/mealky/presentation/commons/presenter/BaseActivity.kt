@@ -62,7 +62,7 @@ abstract class BaseActivity<P : Presenter<V>, in V, VM : BaseViewModel<P>> : App
                     } catch (ignored: Exception) {
                     }
                 }
-                .setNegativeButton(R.string.exit_app) { _, _ -> this.finish() }
+                .setNegativeButton(R.string.exit) { _, _ -> this.finish() }
                 .setCancelable(cancelable)
                 .show()
     }

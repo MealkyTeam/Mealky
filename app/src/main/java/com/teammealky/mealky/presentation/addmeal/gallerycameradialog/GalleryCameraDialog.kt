@@ -91,10 +91,9 @@ class GalleryCameraDialog : BaseDialogFragment<GalleryCameraPresenter, GalleryCa
         }
     }
 
-    override fun passImageToAddMealFragment(file: File) {
-        if (targetFragment is GalleryCameraListener) {
-            (targetFragment as GalleryCameraListener).onInformationPassed(file)
-        }
+    override fun passImageToAddMealActivity(file: File) {
+        (targetFragment as? GalleryCameraListener)?.onInformationPassed(file)
+        (activity as? GalleryCameraListener)?.onInformationPassed(file)
 
         dismiss()
     }

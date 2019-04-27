@@ -9,7 +9,7 @@ import com.teammealky.mealky.presentation.account.AccountActivity
 import com.teammealky.mealky.presentation.account.forgottenPassword.ForgottenPasswordFragment
 import com.teammealky.mealky.presentation.account.signin.SignInFragment
 import com.teammealky.mealky.presentation.account.signup.SignUpFragment
-import com.teammealky.mealky.presentation.addmeal.AddMealFragment
+import com.teammealky.mealky.presentation.addmeal.AddMealActivity
 import com.teammealky.mealky.presentation.addmeal.gallerycameradialog.GalleryCameraDialog
 import com.teammealky.mealky.presentation.commons.Navigator
 import com.teammealky.mealky.presentation.commons.injection.ApplicationContext
@@ -47,6 +47,7 @@ interface ApplicationComponent {
     fun inject(activity: MainActivity)
     fun inject(activity: SplashActivity)
     fun inject(activity: AccountActivity)
+    fun inject(activity: AddMealActivity)
 
     fun inject(app: MealListFragment)
     fun inject(app: ShoppingListFragment)
@@ -55,9 +56,7 @@ interface ApplicationComponent {
     fun inject(app: SignInFragment)
     fun inject(app: SignUpFragment)
     fun inject(app: ForgottenPasswordFragment)
-
     fun inject(app: MealFragment)
-    fun inject(app: AddMealFragment)
 
     fun inject(dialog: AddIngredientDialog)
     fun inject(app: GalleryCameraDialog)

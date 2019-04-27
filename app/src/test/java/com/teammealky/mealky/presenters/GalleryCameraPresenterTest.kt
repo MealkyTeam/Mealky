@@ -21,7 +21,7 @@ class GalleryCameraPresenterTest {
         every { view.showPermissionDialog() } just Runs
         every { view.checkPermission() } just Runs
         every { view.showErrorToast() } just Runs
-        every { view.passImageToAddMealFragment(any()) } just Runs
+        every { view.passImageToAddMealActivity(any()) } just Runs
     }
 
 
@@ -126,7 +126,7 @@ class GalleryCameraPresenterTest {
 
         //Then
         verifySequence {
-            view.passImageToAddMealFragment(image)
+            view.passImageToAddMealActivity(image)
         }
     }
 }

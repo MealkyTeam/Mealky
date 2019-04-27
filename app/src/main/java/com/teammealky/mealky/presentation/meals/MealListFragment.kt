@@ -156,6 +156,6 @@ class MealListFragment : BaseFragment<MealListPresenter, MealListPresenter.UI, M
     }
 
     override fun openAddMeal() {
-        Navigator.from(context as Navigator.Navigable).openAddMeal()
+        Navigator.from(context as Navigator.Navigable).openActivity(Navigator.ACTIVITY_ADD_MEAL)
     }
 }

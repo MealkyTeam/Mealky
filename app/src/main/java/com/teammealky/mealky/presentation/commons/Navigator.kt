@@ -9,7 +9,7 @@ import com.teammealky.mealky.presentation.account.AccountActivity
 import com.teammealky.mealky.presentation.account.forgottenPassword.ForgottenPasswordFragment
 import com.teammealky.mealky.presentation.account.signin.SignInFragment
 import com.teammealky.mealky.presentation.account.signup.SignUpFragment
-import com.teammealky.mealky.presentation.addmeal.AddMealFragment
+import com.teammealky.mealky.presentation.addmeal.AddMealActivity
 import com.teammealky.mealky.presentation.discover.DiscoverFragment
 import com.teammealky.mealky.presentation.main.MainActivity
 import com.teammealky.mealky.presentation.meal.MealFragment
@@ -37,8 +37,6 @@ class Navigator(private val nav: Navigable) {
                 FRAG_DISCOVER -> openDiscover()
                 FRAG_SETTINGS -> openSettings()
 
-                FRAG_ADD_MEAL -> openAddMeal()
-
                 FRAG_SIGNIN -> openSignIn()
                 FRAG_SIGNUP -> openSignUp()
                 FRAG_FORGOTTEN_PASSWORD -> openForgottenPassword()
@@ -50,11 +48,6 @@ class Navigator(private val nav: Navigable) {
 
     fun openMeal(meal: Meal) {
         val fragment = MealFragment.newInstance(meal)
-        nav.navigateTo(fragment)
-    }
-
-    fun openAddMeal() {
-        val fragment = AddMealFragment()
         nav.navigateTo(fragment)
     }
 
@@ -97,6 +90,7 @@ class Navigator(private val nav: Navigable) {
         val context = nav.getContext()
         val activity = when (activityString) {
             ACTIVITY_ACCOUNT -> AccountActivity::class.java
+            ACTIVITY_ADD_MEAL -> AddMealActivity::class.java
             else -> MainActivity::class.java
         }
         val intent = Intent(context, activity)
@@ -110,7 +104,6 @@ class Navigator(private val nav: Navigable) {
         const val FRAG_SHOPPING_LIST = "shopping_list"
         const val FRAG_DISCOVER = "discover"
         const val FRAG_SETTINGS = "settings"
-        const val FRAG_ADD_MEAL = "add_meal"
 
         const val FRAG_SIGNIN = "signin"
         const val FRAG_SIGNUP = "signup"
@@ -118,7 +111,8 @@ class Navigator(private val nav: Navigable) {
 
         const val ACTIVITY_MAIN = "main"
         const val ACTIVITY_ACCOUNT = "account"
+        const val ACTIVITY_ADD_MEAL= "add_meal"
 
-        fun from(navigable: Navigator.Navigable): Navigator = Navigator(navigable)
+        fun from(navigable: Navigable): Navigator = Navigator(navigable)
     }
 }

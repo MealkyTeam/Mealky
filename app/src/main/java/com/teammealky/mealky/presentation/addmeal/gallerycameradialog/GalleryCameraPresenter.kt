@@ -36,7 +36,7 @@ class GalleryCameraPresenter @Inject constructor() : BasePresenter<GalleryCamera
     }
 
     fun imageReceived(file: File) {
-        ui().perform { it.passImageToAddMealFragment(file) }
+        ui().perform { it.passImageToAddMealActivity(file) }
     }
 
     interface UI : BaseUI {
@@ -45,6 +45,6 @@ class GalleryCameraPresenter @Inject constructor() : BasePresenter<GalleryCamera
         fun showPermissionDialog()
         fun checkPermission()
         fun showErrorToast()
-        fun passImageToAddMealFragment(file: File)
+        fun passImageToAddMealActivity(file: File)
     }
 }

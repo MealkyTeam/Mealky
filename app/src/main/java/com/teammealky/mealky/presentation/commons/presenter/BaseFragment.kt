@@ -56,7 +56,7 @@ abstract class BaseFragment<P : Presenter<V>, in V, VM : BaseViewModel<P>> : Fra
                     } catch (ignored: Exception) {
                     }
                 }
-                .setNegativeButton(R.string.exit_app) { _, _ -> activity?.finish() }
+                .setNegativeButton(R.string.exit) { _, _ -> activity?.finish() }
                 .setCancelable(cancelable)
                 .show()
     }

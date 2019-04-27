@@ -69,11 +69,7 @@ object MealMapper {
             val ingredients = mutableListOf<Ingredient>()
             for (i in names.indices)
                 ingredients.add(
-                        Ingredient(
-                                names[i],
-                                units[i],
-                                quantities[i]
-                        )
+                        Ingredient(names[i], units[i], quantities[i])
                 )
 
             return ingredients

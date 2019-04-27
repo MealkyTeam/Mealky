@@ -23,8 +23,8 @@ class AddMealDataRepository @Inject constructor(private val api: RestService) : 
             return@map MultipartBody.Part.createFormData("file", file.name, request)
         }
 
-        val imagesFromApi = api.client().addImages(parts).blockingGet().urls
-
-        return api.client().addMeal(meal.copy(images = imagesFromApi))
+        return api.client().addImages(parts).flatMapCompletable { imagesFromApi ->
+            api.client().addMeal(meal.copy(images = imagesFromApi.urls))
+        }
     }
 }
