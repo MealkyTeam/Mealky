@@ -52,7 +52,7 @@ class AddMealPresenter @Inject constructor(
         ui().perform { it.hideKeyboard() }
     }
 
-    fun confirmBtnClicked() {
+    fun onConfirmBtnClicked() {
         ui().perform {
             it.clearErrors()
             it.isLoading(true)
@@ -98,7 +98,7 @@ class AddMealPresenter @Inject constructor(
                     ui().perform {
                         it.isLoading(false)
                         it.showToast()
-                        it.toMealsFragment()
+                        it.toMainActivity()
                     }
                 },
                 { e ->
@@ -200,7 +200,7 @@ class AddMealPresenter @Inject constructor(
 
     interface UI : BaseUI {
         fun enableConfirmBtn(isEnabled: Boolean)
-        fun toMealsFragment()
+        fun toMainActivity()
         fun showErrors(errors: List<ValidationResult>)
         fun showToast()
         fun clearErrors()

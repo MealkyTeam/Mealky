@@ -95,7 +95,7 @@ class AddMealActivity : BaseActivity<AddMealPresenter, AddMealPresenter.UI, AddM
         confirmBtn.isEnabled = isEnabled
     }
 
-    override fun toMealsFragment() {
+    override fun toMainActivity() {
         Navigator.from(this as Navigator.Navigable).openActivity(Navigator.ACTIVITY_MAIN)
     }
 
@@ -179,7 +179,7 @@ class AddMealActivity : BaseActivity<AddMealPresenter, AddMealPresenter.UI, AddM
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.confirmBtn -> presenter?.confirmBtnClicked()
+            R.id.confirmBtn -> presenter?.onConfirmBtnClicked()
             R.id.addImagesTv -> presenter?.addImagesBtnClicked()
             R.id.addIngredientsTv -> presenter?.addIngredientsBtnClicked()
         }

@@ -16,12 +16,12 @@ class APIError(override val message: String) : Exception() {
                 INVALID_USERNAME -> ErrorType.INVALID_USERNAME
                 INVALID_PASSWORD -> ErrorType.INVALID_PASSWORD
 
-                MEAL_NAME_EMPTY -> ErrorType.MEAL_NAME_EMPTY
-                MEAL_PREP_TIME -> ErrorType.MEAL_PREP_TIME
-                MEAL_DESCRIPTION -> ErrorType.MEAL_DESCRIPTION
-                MEAL_INGREDIENT -> ErrorType.MEAL_INGREDIENT
-                MEAL_IMAGE -> ErrorType.MEAL_IMAGE
-                MEAL_USER -> ErrorType.MEAL_USER
+                INVALID_MEAL_NAME -> ErrorType.MEAL_NAME_EMPTY
+                INVALID_PREP_TIME -> ErrorType.INVALID_PREP_TIME
+                INVALID_DESCRIPTION -> ErrorType.INVALID_DESCRIPTION
+                INVALID_INGREDIENTS -> ErrorType.INVALID_INGREDIENTS
+                INVALID_IMAGES -> ErrorType.INVALID_IMAGES
+                USER_NOT_EXITS -> ErrorType.MEAL_USER
 
                 else -> ErrorType.SOMETHING_WENT_WRONG
             }
@@ -39,8 +39,8 @@ class APIError(override val message: String) : Exception() {
 
         //Add meal
         MEAL_NAME_EMPTY,
-        MEAL_PREP_TIME, MEAL_DESCRIPTION,
-        MEAL_INGREDIENT, MEAL_IMAGE, MEAL_USER,
+        INVALID_PREP_TIME, INVALID_DESCRIPTION,
+        INVALID_INGREDIENTS, INVALID_IMAGES, MEAL_USER,
 
         //General:
         SOMETHING_WENT_WRONG
@@ -58,12 +58,12 @@ class APIError(override val message: String) : Exception() {
         const val INVALID_USERNAME = "Username should contain only alphanumerics."
         const val INVALID_PASSWORD = "Password length should be longer than 5."
 
-        const val MEAL_NAME_EMPTY = "Meal name can not be empty."
-        const val MEAL_PREP_TIME = "Meal preparation time lower can not be lower than 1."
-        const val MEAL_DESCRIPTION = "Meal description can not be empty."
-        const val MEAL_INGREDIENT = "Meal should contain atleast one ingredient."
-        const val MEAL_IMAGE = "Meal should contain atleast one image, maximum five images."
-        const val MEAL_USER = "This user does not exists."
+        const val INVALID_MEAL_NAME = "Meal name can not be empty."
+        const val INVALID_PREP_TIME = "Meal preparation time lower can not be lower than 1."
+        const val INVALID_DESCRIPTION = "Meal description can not be empty."
+        const val INVALID_INGREDIENTS = "Meal should contain at least one ingredient."
+        const val INVALID_IMAGES = "Meal should contain at least one image, maximum five images."
+        const val USER_NOT_EXITS = "This user does not exists."
 
         const val SOMETHING_WENT_WRONG = "Something went wrong."
         const val PARSING_API_ERROR = "Error occurred during parsing API error response."

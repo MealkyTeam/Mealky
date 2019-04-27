@@ -17,6 +17,7 @@ import io.mockk.mockk
 import io.mockk.spyk
 import io.mockk.verifyOrder
 import io.mockk.verifySequence
+import io.reactivex.Single
 import org.junit.Before
 import org.junit.Test
 import java.io.File
@@ -36,7 +37,7 @@ class AddMealPresenterTest {
         presenter = AddMealPresenter(addMealUseCase, getUsersUseCase)
 
         every { view.enableConfirmBtn(any()) } just Runs
-        every { view.toMealsFragment() } just Runs
+        every { view.toMainActivity() } just Runs
         every { view.showErrors(any()) } just Runs
         every { view.showToast() } just Runs
         every { view.clearErrors() } just Runs
@@ -50,6 +51,7 @@ class AddMealPresenterTest {
         every { view.hideKeyboard() } just Runs
         every { view.forceGoBack() } just Runs
         every { view.showGoBackDialog() } just Runs
+        every { view.showErrorMessage(any(),any()) } just Runs
     }
 
     /**
@@ -123,7 +125,7 @@ class AddMealPresenterTest {
         //When
         presenter.attach(view)
         presenter.fieldsChanged(title, prepTime, description)
-        presenter.confirmBtnClicked()
+        presenter.onConfirmBtnClicked()
 
         //Then
         verifySequence {
@@ -155,7 +157,7 @@ class AddMealPresenterTest {
         //When
         presenter.attach(view)
         presenter.fieldsChanged(title, prepTime, description)
-        presenter.confirmBtnClicked()
+        presenter.onConfirmBtnClicked()
 
         //Then
         verifySequence {
@@ -187,7 +189,7 @@ class AddMealPresenterTest {
         //When
         presenter.attach(view)
         presenter.fieldsChanged(title, prepTime, description)
-        presenter.confirmBtnClicked()
+        presenter.onConfirmBtnClicked()
 
         //Then
         verifySequence {
@@ -219,7 +221,7 @@ class AddMealPresenterTest {
         //When
         presenter.attach(view)
         presenter.fieldsChanged(title, prepTime, description)
-        presenter.confirmBtnClicked()
+        presenter.onConfirmBtnClicked()
 
         //Then
         verifySequence {
@@ -427,7 +429,7 @@ class AddMealPresenterTest {
         presenter.fieldsChanged(title, prepTime, description)
 
         //When
-        presenter.confirmBtnClicked()
+        presenter.onConfirmBtnClicked()
 
         //Then
         verifyOrder {
@@ -455,7 +457,7 @@ class AddMealPresenterTest {
         presenter.fieldsChanged(title, prepTime, description)
 
         //When
-        presenter.confirmBtnClicked()
+        presenter.onConfirmBtnClicked()
 
         //Then
         verifyOrder {
@@ -514,9 +516,96 @@ class AddMealPresenterTest {
         }
     }
 
+    /**
+     * Scenario: Send meal if everything is filled correctly
+     * Given attached presenter with all data filled correctly
+     * When user clicks on confirm button
+     * Then display toast and go to main activity
+     */
+    @Test
+    fun `Send meal if everything is filled correctly`() {
+        //Given
+        val title = "Title"
+        val description = "preparation"
+        val prepTime = "30"
+        val user = MockDataTest.USERS[0]
+        presenter.attach(view)
+        presenter.attachments = generateThumbnailMocks()
+        presenter.ingredientModels = generateIngredientMocks()
+        presenter.fieldsChanged(title, prepTime, description)
+
+        every {
+            getUsersUseCase.asSingle()
+        } returns Single.just(user)
+
+        every {
+            addMealUseCase.asSingle(generateMockAddMealParams())
+        } returns Single.just(true)
+
+        //When
+        presenter.onConfirmBtnClicked()
+
+        //Then`
+        verifyOrder {
+            view.clearErrors()
+            view.isLoading(true)
+
+            view.isLoading(false)
+            view.showToast()
+            view.toMainActivity()
+        }
+    }
+
+    /**
+     * Scenario: Send meal and something went wrong
+     * Given attached presenter with all data filled correctly
+     * When user clicks on confirm button
+     * Then display error that some error from api occurred
+     */
+    @Test
+    fun `Send meal and something went wrong`() {
+        //Given
+        val title = "Title"
+        val description = "preparation"
+        val prepTime = "30"
+        val user = MockDataTest.USERS[0]
+        presenter.attach(view)
+        presenter.attachments = generateThumbnailMocks()
+        presenter.ingredientModels = generateIngredientMocks()
+        presenter.fieldsChanged(title, prepTime, description)
+        val error = Exception("Meal should contain at least one ingredient.")
+
+
+        every {
+            getUsersUseCase.asSingle()
+        } returns Single.just(user)
+
+        every {
+            addMealUseCase.asSingle(generateMockAddMealParams())
+        } returns Single.error(error)
+
+        //When
+        presenter.onConfirmBtnClicked()
+
+        //Then`
+        verifyOrder {
+            view.clearErrors()
+            view.isLoading(true)
+
+            view.showErrorMessage(any(), error)
+        }
+    }
+
     private fun generateIngredientMocks() =
             MockDataTest.INGREDIENTS.map { IngredientViewModel(it, false) }.toMutableList()
 
     private fun generateThumbnailMocks() =
             mutableListOf(ThumbnailImage(1, File("urlToImage")))
+
+    private fun generateMockAddMealParams() = AddMealUseCase.Params(
+            "Title", 30,
+            "preparation", MockDataTest.USERS[0], MockDataTest.INGREDIENTS, generateFilesMocks()
+    )
+
+    private fun generateFilesMocks() = listOf(File("urlToImage"))
 }
