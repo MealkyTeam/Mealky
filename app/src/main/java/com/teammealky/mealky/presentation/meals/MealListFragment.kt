@@ -24,11 +24,10 @@ import kotlinx.android.synthetic.main.empty_item.*
 import kotlinx.android.synthetic.main.empty_item.view.*
 import kotlinx.android.synthetic.main.meals_fragment.*
 import kotlinx.android.synthetic.main.search_toolbar.*
-import timber.log.Timber
 
 class MealListFragment : BaseFragment<MealListPresenter, MealListPresenter.UI, MealListViewModel>(),
         MealListPresenter.UI, MealsAdapter.OnItemClickListener,
-        TextWatcher, TextView.OnEditorActionListener {
+        TextWatcher, TextView.OnEditorActionListener, View.OnClickListener {
 
     override val vmClass = MealListViewModel::class.java
 
@@ -57,6 +56,7 @@ class MealListFragment : BaseFragment<MealListPresenter, MealListPresenter.UI, M
     }
 
     private fun setupSearch() {
+        addMealBtn.setOnClickListener(this)
         searchEditText.addTextChangedListener(this)
         searchEditText.setOnEditorActionListener(this)
     }
@@ -147,5 +147,15 @@ class MealListFragment : BaseFragment<MealListPresenter, MealListPresenter.UI, M
         }
 
         return false
+    }
+
+    override fun onClick(v: View?) {
+        when(v?.id){
+            R.id.addMealBtn -> presenter?.onAddMealBtnClicked()
+        }
+    }
+
+    override fun openAddMeal() {
+        Navigator.from(context as Navigator.Navigable).openActivity(Navigator.ACTIVITY_ADD_MEAL)
     }
 }

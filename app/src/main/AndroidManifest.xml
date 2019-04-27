@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-feature
         android:name="android.hardware.camera2"
@@ -18,6 +20,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
 
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="@string/fileProviderAuthorities"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"/>
+        </provider>
 
         <activity
             android:name="com.teammealky.mealky.presentation.splash.SplashActivity"
@@ -45,6 +56,14 @@
 
         <activity
             android:name="com.teammealky.mealky.presentation.account.AccountActivity"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="stateHidden|adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.teammealky.mealky.presentation.addmeal.AddMealActivity"
             android:launchMode="singleTask"
             android:windowSoftInputMode="stateHidden|adjustPan">
             <intent-filter>

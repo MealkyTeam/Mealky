@@ -10,7 +10,6 @@ import retrofit2.HttpException
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import timber.log.Timber
 import java.lang.reflect.Type
 
 class RxErrorAdapterFactory : CallAdapter.Factory() {
@@ -29,8 +28,7 @@ class RxErrorAdapterFactory : CallAdapter.Factory() {
     ) : CallAdapter<R, Any> {
 
         override fun adapt(call: Call<R>): Any {
-            val adapt = wrapped.adapt(call)
-            return when (adapt) {
+            return when (val adapt = wrapped.adapt(call)) {
                 is Single<*> -> {
                     adapt.onErrorResumeNext { Single.error(asException(it, buildError(call))) }
                 }
@@ -55,7 +53,7 @@ class RxErrorAdapterFactory : CallAdapter.Factory() {
         override fun responseType(): Type = wrapped.responseType()
 
         private fun asException(throwable: Throwable, url: String? = null): Exception = when (throwable) {
-            is retrofit2.HttpException -> buildError(throwable)
+            is HttpException -> buildError(throwable)
             else -> Exception((if (url?.isNotEmpty() == true) "$url " else "") + throwable.message, throwable)
         }
 

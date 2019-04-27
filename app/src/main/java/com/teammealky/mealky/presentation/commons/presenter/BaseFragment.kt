@@ -46,10 +46,8 @@ abstract class BaseFragment<P : Presenter<V>, in V, VM : BaseViewModel<P>> : Fra
     }
 
     override fun showErrorMessage(retry: () -> Unit, e: Throwable, cancelable: Boolean) {
-        if (context == null) return
-
         Timber.e("KUBA_LOG Method:showErrorMessage ***** $e *****")
-        alertDialog = AlertDialog.Builder(context!!)
+        alertDialog = AlertDialog.Builder(requireContext())
                 .setTitle(R.string.just_a_moment)
                 .setMessage(R.string.service_unavailable)
                 .setPositiveButton(R.string.retry) { _, _ ->
@@ -58,7 +56,7 @@ abstract class BaseFragment<P : Presenter<V>, in V, VM : BaseViewModel<P>> : Fra
                     } catch (ignored: Exception) {
                     }
                 }
-                .setNegativeButton(R.string.exit_app) { _, _ -> activity?.finish() }
+                .setNegativeButton(R.string.exit) { _, _ -> activity?.finish() }
                 .setCancelable(cancelable)
                 .show()
     }

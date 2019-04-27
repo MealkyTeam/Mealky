@@ -14,8 +14,8 @@ buildscript {
         maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
-        classpath 'org.jacoco:org.jacoco.core:0.8.2'
-        classpath 'io.fabric.tools:gradle:1.27.0'
+        classpath 'org.jacoco:org.jacoco.core:0.8.3'
+        classpath 'io.fabric.tools:gradle:1.28.1'
     }
 }
 
@@ -49,6 +49,8 @@ android {
             buildConfigField "String", "CENTRAL_URL", rootProject.ext.api.release.central
             buildConfigField "String", "CENTRAL_LOGIN", rootProject.ext.api.release.login
             buildConfigField "String", "CENTRAL_PASSWORD", rootProject.ext.api.release.password
+            resValue "string", "fileProviderAuthorities", rootProject.ext.api.release.fileProviderAuthorities
+
             ext.betaDistributionGroupAliases = 'Team, family-and-friends'
             ext.betaDistributionNotifications = false
             ext.betaDistributionReleaseNotesFilePath = 'config/release-notes.txt'
@@ -59,15 +61,18 @@ android {
 
         debug {
             testCoverageEnabled true
-            ext.betaDistributionGroupAliases ='Family and friends'
-            ext.betaDistributionGroupAliases ='Team'
+            ext.betaDistributionGroupAliases = 'Family and friends'
+            ext.betaDistributionGroupAliases = 'Team'
             buildConfigField "String", "CENTRAL_URL", rootProject.ext.api.release.central
             buildConfigField "String", "CENTRAL_LOGIN", rootProject.ext.api.release.login
             buildConfigField "String", "CENTRAL_PASSWORD", rootProject.ext.api.release.password
+            resValue "string", "fileProviderAuthorities", rootProject.ext.api.release.fileProviderAuthorities
+
         }
     }
     testOptions {
         unitTests.returnDefaultValues = true
+        testOptions.unitTests.includeAndroidResources = true
     }
 }
 
@@ -77,18 +82,20 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'com.google.android.material:material:1.0.0'
 
-    implementation 'androidx.lifecycle:lifecycle-livedata:2.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.0.0'
     implementation 'androidx.appcompat:appcompat:1.0.2'
 
-    implementation 'com.mindorks:placeholderview:0.7.1'
+    implementation 'com.mindorks.android:placeholderview:1.0.3'
+    kapt 'com.mindorks.android:placeholderview-compiler:1.0.3'
     implementation 'com.jakewharton.timber:timber:4.7.1'
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
-    implementation 'androidx.room:room-runtime:2.0.0'
-    implementation "io.reactivex.rxjava2:rxjava:2.2.2"
-    implementation "io.reactivex.rxjava2:rxandroid:2.1.0"
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.12.1'
+    implementation "io.reactivex.rxjava2:rxjava:2.2.6"
+    implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
+
     implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation "com.karumi:dexter:5.0.0"
+    implementation 'com.github.jkwiecien:EasyImage:3.0.1'
+
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
@@ -116,8 +123,6 @@ androidExtensions {
     experimental = true
 }
 
-def testCounter = 0
-
 tasks.withType(Test) {
     jacoco.includeNoLocationClasses = true
 
@@ -143,8 +148,6 @@ tasks.withType(Test) {
                 def startItem = '|  ', endItem = '  |'
                 def repeatLength = startItem.length() + output.length() + endItem.length()
                 println('\n' + ('-' * repeatLength) + '\n' + startItem + output + endItem + '\n' + ('-' * repeatLength))
-
-                testCounter = result.testCount
             }
         }
     }
@@ -161,15 +164,15 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
     def debugTree = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/debug", excludes: fileFilter)
     def mainSrc = "$project.projectDir/src/main/kotlin"
 
-    sourceDirectories = files([mainSrc])
-    classDirectories = files([debugTree])
-    executionData = fileTree(dir: project.buildDir, includes: [
+    sourceDirectories.setFrom(files([mainSrc]))
+    classDirectories.setFrom(files([debugTree]))
+    executionData.setFrom(fileTree(dir: project.buildDir, includes: [
             'jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec'
-    ])
+    ]))
 }
 
 jacoco {
-    toolVersion = '0.8.2'
+    toolVersion = '0.8.3'
     reportsDir = file("$buildDir/reports")
 }
 

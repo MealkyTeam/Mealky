@@ -9,10 +9,11 @@ import com.teammealky.mealky.presentation.account.AccountActivity
 import com.teammealky.mealky.presentation.account.forgottenPassword.ForgottenPasswordFragment
 import com.teammealky.mealky.presentation.account.signin.SignInFragment
 import com.teammealky.mealky.presentation.account.signup.SignUpFragment
+import com.teammealky.mealky.presentation.addmeal.AddMealActivity
 import com.teammealky.mealky.presentation.discover.DiscoverFragment
 import com.teammealky.mealky.presentation.main.MainActivity
 import com.teammealky.mealky.presentation.meal.MealFragment
-import com.teammealky.mealky.presentation.meal.MealMapper
+import com.teammealky.mealky.presentation.meal.mapper.MealMapper
 import com.teammealky.mealky.presentation.meals.MealListFragment
 import com.teammealky.mealky.presentation.settings.SettingsFragment
 import com.teammealky.mealky.presentation.shoppinglist.ShoppingListFragment
@@ -47,37 +48,31 @@ class Navigator(private val nav: Navigable) {
 
     fun openMeal(meal: Meal) {
         val fragment = MealFragment.newInstance(meal)
-
         nav.navigateTo(fragment)
     }
 
     fun openShoppingList() {
         val fragment = ShoppingListFragment()
-
         nav.navigateTo(fragment)
     }
 
     fun openDiscover() {
         val fragment = DiscoverFragment()
-
         nav.navigateTo(fragment)
     }
 
     fun openSettings() {
         val fragment = SettingsFragment()
-
         nav.navigateTo(fragment)
     }
 
     fun openSignIn(withError: Boolean = false) {
         val fragment = SignInFragment.newInstance(withError)
-
         nav.navigateTo(fragment)
     }
 
     fun openSignUp() {
         val fragment = SignUpFragment()
-
         nav.navigateTo(fragment)
     }
 
@@ -95,6 +90,7 @@ class Navigator(private val nav: Navigable) {
         val context = nav.getContext()
         val activity = when (activityString) {
             ACTIVITY_ACCOUNT -> AccountActivity::class.java
+            ACTIVITY_ADD_MEAL -> AddMealActivity::class.java
             else -> MainActivity::class.java
         }
         val intent = Intent(context, activity)
@@ -115,7 +111,8 @@ class Navigator(private val nav: Navigable) {
 
         const val ACTIVITY_MAIN = "main"
         const val ACTIVITY_ACCOUNT = "account"
+        const val ACTIVITY_ADD_MEAL= "add_meal"
 
-        fun from(navigable: Navigator.Navigable): Navigator = Navigator(navigable)
+        fun from(navigable: Navigable): Navigator = Navigator(navigable)
     }
 }

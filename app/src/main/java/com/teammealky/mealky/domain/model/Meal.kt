@@ -8,7 +8,7 @@ data class Meal(val id: Int,
                 val preparation: String,
                 val images: List<String>,
                 val confirmed: Boolean,
-                val author: User,
+                @SerializedName("user") val author: User,
                 val categories: List<Category>,
                 val ingredients: List<Ingredient>
 ) {

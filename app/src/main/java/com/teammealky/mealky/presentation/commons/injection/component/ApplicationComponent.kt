@@ -9,6 +9,8 @@ import com.teammealky.mealky.presentation.account.AccountActivity
 import com.teammealky.mealky.presentation.account.forgottenPassword.ForgottenPasswordFragment
 import com.teammealky.mealky.presentation.account.signin.SignInFragment
 import com.teammealky.mealky.presentation.account.signup.SignUpFragment
+import com.teammealky.mealky.presentation.addmeal.AddMealActivity
+import com.teammealky.mealky.presentation.addmeal.gallerycameradialog.GalleryCameraDialog
 import com.teammealky.mealky.presentation.commons.Navigator
 import com.teammealky.mealky.presentation.commons.injection.ApplicationContext
 import com.teammealky.mealky.presentation.commons.injection.module.ApplicationModule
@@ -20,7 +22,7 @@ import com.teammealky.mealky.presentation.meal.MealFragment
 import com.teammealky.mealky.presentation.meals.MealListFragment
 import com.teammealky.mealky.presentation.settings.SettingsFragment
 import com.teammealky.mealky.presentation.shoppinglist.ShoppingListFragment
-import com.teammealky.mealky.presentation.shoppinglist.component.addingredient.view.AddIngredientDialog
+import com.teammealky.mealky.presentation.commons.component.addingredient.AddIngredientDialog
 import com.teammealky.mealky.presentation.splash.SplashActivity
 import dagger.Component
 import javax.inject.Singleton
@@ -45,6 +47,7 @@ interface ApplicationComponent {
     fun inject(activity: MainActivity)
     fun inject(activity: SplashActivity)
     fun inject(activity: AccountActivity)
+    fun inject(activity: AddMealActivity)
 
     fun inject(app: MealListFragment)
     fun inject(app: ShoppingListFragment)
@@ -53,9 +56,8 @@ interface ApplicationComponent {
     fun inject(app: SignInFragment)
     fun inject(app: SignUpFragment)
     fun inject(app: ForgottenPasswordFragment)
-
     fun inject(app: MealFragment)
 
     fun inject(dialog: AddIngredientDialog)
-
+    fun inject(app: GalleryCameraDialog)
 }

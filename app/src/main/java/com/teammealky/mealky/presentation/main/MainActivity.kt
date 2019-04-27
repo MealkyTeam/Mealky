@@ -1,6 +1,7 @@
 package com.teammealky.mealky.presentation.main
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.transition.TransitionValues
 import android.view.MenuItem
@@ -10,6 +11,7 @@ import com.teammealky.mealky.R
 import com.teammealky.mealky.presentation.App
 import com.teammealky.mealky.presentation.commons.Navigator
 import com.teammealky.mealky.presentation.commons.extension.*
+import com.teammealky.mealky.presentation.commons.listener.OnBackPressedListener
 import com.teammealky.mealky.presentation.commons.presenter.BaseActivity
 import com.teammealky.mealky.presentation.discover.DiscoverFragment
 import com.teammealky.mealky.presentation.meal.MealFragment
@@ -65,6 +67,9 @@ class MainActivity : BaseActivity<MainPresenter, MainPresenter.UI, MainViewModel
     }
 
     override fun onBackPressed() {
+        val f = contentSwitcher.getCurrentFragment()
+        if (f is OnBackPressedListener && !f.onBackPressed()) return
+
         if (supportFragmentManager.backStackEntryCount > 1) {
             try {
                 supportFragmentManager.popBackStackImmediate()
@@ -101,6 +106,11 @@ class MainActivity : BaseActivity<MainPresenter, MainPresenter.UI, MainViewModel
         if (setDefaultContent) {
             presenter?.setContent(R.id.navHome)
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        contentSwitcher.getCurrentFragment()?.onActivityResult(requestCode, resultCode, data)
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
     companion object {
