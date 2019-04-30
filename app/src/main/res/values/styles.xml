@@ -6,12 +6,21 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:alertDialogTheme">@style/AlertDialogCustom</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowBackground">@android:color/white</item>
+    </style>
+
+    <style name="AlertDialogCustom" parent="android:Theme.Material.Light.Dialog.Alert">
+        <item name="android:buttonBarButtonStyle">@style/AlertButtonStyle</item>
+    </style>
+
+    <style name="AlertButtonStyle" parent="android:Theme.Material.Light.Dialog.Alert">
+        <item name="android:textColor">#FFF</item>
     </style>
 
     <style name="TextLabel" parent="@android:style/TextAppearance.Widget.TextView">
