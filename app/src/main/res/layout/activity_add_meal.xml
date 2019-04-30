@@ -48,6 +48,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/preparation_time_min"
+                    android:maxLength="3"
                     android:inputType="number" />
             </com.google.android.material.textfield.TextInputLayout>
 
