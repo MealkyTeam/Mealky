@@ -4,62 +4,17 @@
     android:id="@+id/addIngredientItemLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:clickable="true"
-    android:focusable="true"
-    android:foreground="?android:attr/selectableItemBackground"
     android:orientation="horizontal"
     android:paddingStart="4dp"
+    android:layout_marginBottom="8dp"
     tools:ignore="RtlSymmetry">
 
-    <ImageView
-        android:id="@+id/bullet"
-        android:layout_width="12dp"
-        android:layout_height="12dp"
-        android:layout_centerVertical="true"
-        android:contentDescription="@string/bullet"
-        android:src="@drawable/ic_bullet_black_16dp" />
-
-    <TextView
-        android:id="@+id/ingredientNameTv"
+    <com.teammealky.mealky.presentation.commons.view.IngredientQuantityView
+        android:id="@+id/quantityView"
+        android:layout_alignParentStart="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toEndOf="@id/bullet"
-        android:maxLines="1"
-        android:paddingStart="16dp"
-        android:textColor="@android:color/black"
-        android:textSize="16sp"
-        tools:ignore="RtlSymmetry"
-        tools:text="Flour:" />
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/quantityTv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toEndOf="@id/ingredientNameTv"
-        android:inputType="numberDecimal"
-        android:maxLength="8"
-        android:maxLines="1"
-        android:paddingStart="4dp"
-        android:textColor="@android:color/black"
-        android:textSize="14sp"
-        tools:ignore="RtlSymmetry"
-        tools:text="22032.52323" />
-
-    <TextView
-        android:id="@+id/unitTv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toEndOf="@id/quantityTv"
-        android:maxLines="1"
-        android:paddingStart="4dp"
-        android:paddingEnd="16dp"
-        android:textColor="@android:color/black"
-        android:textSize="16sp"
-        tools:ignore="RelativeOverlap"
-        tools:text="pound" />
+        android:layout_toStartOf="@id/removeBtn"
+        android:layout_height="wrap_content"/>
 
     <ImageView
         android:id="@+id/removeBtn"
@@ -67,6 +22,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
         android:contentDescription="@string/remove_button"
         android:src="@drawable/ic_baseline_x_red_32px" />
 

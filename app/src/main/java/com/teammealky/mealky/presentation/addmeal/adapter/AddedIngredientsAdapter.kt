@@ -6,6 +6,7 @@ import com.teammealky.mealky.presentation.addmeal.view.AddIngredientListItemView
 import com.teammealky.mealky.presentation.meal.model.IngredientViewModel
 import com.teammealky.mealky.presentation.shoppinglist.adapter.ShoppingListAdapter
 import com.teammealky.mealky.presentation.shoppinglist.view.ShoppingListItemView
+import com.teammealky.mealky.presentation.commons.view.IngredientQuantityView.Companion.FieldChangedListener
 
 class AddedIngredientsAdapter(models: List<IngredientViewModel> = emptyList(),
                               fieldChangedListener: FieldChangedListener,

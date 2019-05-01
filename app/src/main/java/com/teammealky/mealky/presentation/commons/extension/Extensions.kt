@@ -40,12 +40,12 @@ fun ImageView.loadImage(url: String, transformation: Transformation? = null,
                         callback: Callback? = null,
                         placeholder: Drawable? = null,
                         fit: Boolean = false) {
-    if (url.isEmpty()) return
-    tag = url
+    val usableUrl = if (url.isEmpty()) "errorUrl" else url
+    tag = usableUrl
 
     val picasso = Picasso
             .get()
-            .load(url)
+            .load(usableUrl)
             .config(Bitmap.Config.RGB_565)
             .error(R.drawable.broken_image)
 

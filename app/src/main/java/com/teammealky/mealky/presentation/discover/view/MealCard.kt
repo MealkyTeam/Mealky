@@ -5,7 +5,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.google.android.material.card.MaterialCardView
-import com.mindorks.placeholderview.SwipePlaceHolderView
 import com.mindorks.placeholderview.annotations.Layout
 import com.mindorks.placeholderview.annotations.Resolve
 import com.mindorks.placeholderview.annotations.View
@@ -15,11 +14,10 @@ import com.teammealky.mealky.R
 import com.teammealky.mealky.domain.model.Meal
 import com.teammealky.mealky.presentation.commons.extension.getResizedImageHeight
 import com.teammealky.mealky.presentation.commons.extension.loadImage
-import com.teammealky.mealky.presentation.discover.DiscoverPresenter
+import com.teammealky.mealky.presentation.discover.DiscoverPresenter.SwipeListener
 
 @Layout(R.layout.meal_card)
-open class MealCard(private val meal: Meal,
-                    private val swipeView: SwipePlaceHolderView, private val listener: DiscoverPresenter.SwipeListener) {
+open class MealCard(private val meal: Meal, private val listener: SwipeListener) {
 
     @View(R.id.imageView)
     lateinit var imageView: ImageView
@@ -27,7 +25,7 @@ open class MealCard(private val meal: Meal,
     lateinit var mealName: TextView
     @View(R.id.cardView)
     lateinit var cardView: MaterialCardView
-    var ASPECT_RATIO = 0.83f
+    private val ratio = 0.83f
 
     @Resolve
     fun onResolved() {
@@ -37,7 +35,7 @@ open class MealCard(private val meal: Meal,
 
         imageView.layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
-                getResizedImageHeight(ASPECT_RATIO)
+                getResizedImageHeight(ratio)
         )
         val url = if (meal.images.isNotEmpty()) meal.images[0] else ""
         imageView.loadImage(url)

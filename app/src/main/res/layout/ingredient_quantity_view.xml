@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="16dp">
+
+    <ImageView
+        android:id="@+id/bullet"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:contentDescription="@string/bullet"
+        android:src="@drawable/ic_bullet_black_16dp" />
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:alignItems="center"
+        app:flexDirection="row"
+        app:flexWrap="wrap">
+
+        <TextView
+            android:id="@+id/ingredientNameTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/bullet"
+            android:maxLength="25"
+            android:paddingTop="2dp"
+            android:paddingEnd="4dp"
+            android:paddingBottom="6dp"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            tools:ignore="RtlSymmetry"
+            tools:text="Flour:" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/quantityTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:inputType="numberDecimal"
+            android:maxLength="8"
+            android:paddingTop="4dp"
+            android:paddingBottom="8dp"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            app:layout_flexShrink="1"
+            tools:text="22032.52" />
+
+        <TextView
+            android:id="@+id/unitTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/quantityTv"
+            android:paddingTop="2dp"
+            android:paddingBottom="6dp"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            app:layout_flexShrink="1"
+            tools:text="pounds" />
+
+    </com.google.android.flexbox.FlexboxLayout>
+
+</LinearLayout>
+

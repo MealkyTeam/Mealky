@@ -5,10 +5,11 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.KeyEvent
+import android.view.View.OnClickListener
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
-import android.widget.TextView
+import android.widget.TextView.OnEditorActionListener
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,26 +22,27 @@ import com.teammealky.mealky.presentation.commons.extension.isInvisible
 import com.teammealky.mealky.presentation.commons.extension.isVisible
 import com.teammealky.mealky.domain.model.Ingredient
 import com.teammealky.mealky.presentation.addmeal.adapter.AddedIngredientsAdapter
-import com.teammealky.mealky.presentation.addmeal.gallerycameradialog.GalleryCameraDialog
+import com.teammealky.mealky.presentation.addmeal.gallerycameradialog.GalleryCameraDialog.GalleryCameraListener
 import com.teammealky.mealky.presentation.addmeal.model.ThumbnailImage
-import com.teammealky.mealky.presentation.addmeal.view.AddMealThumbnailsView
-import com.teammealky.mealky.presentation.commons.component.addingredient.AddIngredientDialog
-import com.teammealky.mealky.presentation.meal.adapter.IngredientsAdapter
+import com.teammealky.mealky.presentation.addmeal.view.AddMealThumbnailsView.OnImageDeleteListener
+import com.teammealky.mealky.presentation.commons.component.addingredient.AddIngredientDialog.AddIngredientListener
+import com.teammealky.mealky.presentation.meal.adapter.IngredientsAdapter.OnItemClickListener
 import com.teammealky.mealky.presentation.meal.model.IngredientViewModel
-import com.teammealky.mealky.presentation.shoppinglist.adapter.ShoppingListAdapter
+import com.teammealky.mealky.presentation.commons.view.IngredientQuantityView.Companion.FieldChangedListener
 import android.content.Intent
+import android.widget.TextView
 import androidx.fragment.app.Fragment
+import com.teammealky.mealky.presentation.addmeal.gallerycameradialog.GalleryCameraDialog
 import com.teammealky.mealky.presentation.commons.Navigator
+import com.teammealky.mealky.presentation.commons.component.addingredient.AddIngredientDialog
 import com.teammealky.mealky.presentation.commons.presenter.BaseActivity
 import timber.log.Timber
 import java.io.File
 
 
 class AddMealActivity : BaseActivity<AddMealPresenter, AddMealPresenter.UI, AddMealViewModel>(),
-        AddMealPresenter.UI, View.OnClickListener, TextWatcher, TextView.OnEditorActionListener,
-        AddIngredientDialog.AddIngredientListener, GalleryCameraDialog.GalleryCameraListener,
-        AddMealThumbnailsView.OnImageDeleteListener, Navigator.Navigable,
-        ShoppingListAdapter.FieldChangedListener, IngredientsAdapter.OnItemClickListener {
+        AddMealPresenter.UI, OnClickListener, TextWatcher, OnEditorActionListener, AddIngredientListener,
+        GalleryCameraListener, OnImageDeleteListener, Navigator.Navigable, FieldChangedListener, OnItemClickListener {
 
     override val vmClass = AddMealViewModel::class.java
     private var addIngredientDialog: AddIngredientDialog? = null
