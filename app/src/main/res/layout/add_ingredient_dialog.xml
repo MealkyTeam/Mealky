@@ -43,6 +43,7 @@
                 android:completionThreshold="1"
                 android:focusable="true"
                 android:hint="@string/ingredient"
+                android:imeOptions="actionNext"
                 android:maxLength="25"
                 android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -58,6 +59,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/quantity"
                 android:inputType="numberDecimal"
+                android:imeOptions="actionNext"
                 android:maxLength="7" />
         </com.google.android.material.textfield.TextInputLayout>
 

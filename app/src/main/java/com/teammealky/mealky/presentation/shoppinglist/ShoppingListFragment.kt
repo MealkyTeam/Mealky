@@ -15,15 +15,18 @@ import kotlinx.android.synthetic.main.shopping_list_fragment.*
 import kotlinx.android.synthetic.main.shopping_toolbar.*
 import kotlinx.android.synthetic.main.shopping_toolbar.view.*
 import com.teammealky.mealky.domain.model.Ingredient
+import com.teammealky.mealky.presentation.commons.component.addingredient.AddIngredientDialog
 import com.teammealky.mealky.presentation.commons.extension.isVisible
 import com.teammealky.mealky.presentation.shoppinglist.adapter.ShoppingListAdapter
-import com.teammealky.mealky.presentation.commons.component.addingredient.AddIngredientDialog
-import com.teammealky.mealky.presentation.meal.adapter.IngredientsAdapter
+import com.teammealky.mealky.presentation.commons.component.addingredient.AddIngredientDialog.AddIngredientListener
 import com.teammealky.mealky.presentation.meal.model.IngredientViewModel
 import kotlinx.android.synthetic.main.empty_item.*
+import com.teammealky.mealky.presentation.commons.view.IngredientQuantityView.Companion.FieldChangedListener
+import com.teammealky.mealky.presentation.meal.adapter.IngredientsAdapter.OnItemClickListener
 
-class ShoppingListFragment : BaseFragment<ShoppingListPresenter, ShoppingListPresenter.UI, ShoppingListViewModel>(), ShoppingListPresenter.UI,
-        ShoppingListAdapter.FieldChangedListener, IngredientsAdapter.OnItemClickListener, View.OnClickListener, AddIngredientDialog.AddIngredientListener {
+class ShoppingListFragment : BaseFragment<ShoppingListPresenter, ShoppingListPresenter.UI, ShoppingListViewModel>(),
+        ShoppingListPresenter.UI, FieldChangedListener, OnItemClickListener,
+        View.OnClickListener, AddIngredientListener {
 
     override val vmClass = ShoppingListViewModel::class.java
     private lateinit var adapter: ShoppingListAdapter
