@@ -31,7 +31,6 @@ class AddIngredientListItemView @JvmOverloads constructor(
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.removeBtn -> onClickListener.onItemClick(model!!)
-            else -> removeBtn.performClick()
         }
     }
 
