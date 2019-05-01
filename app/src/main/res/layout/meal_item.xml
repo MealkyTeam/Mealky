@@ -18,7 +18,7 @@
         android:contentDescription="@string/meal_image"
         android:outlineProvider="background"
         android:scaleType="fitXY"
-        android:src="@drawable/pancakes" />
+        tools:src="@drawable/pancakes" />
 
     <LinearLayout
         android:layout_width="match_parent"

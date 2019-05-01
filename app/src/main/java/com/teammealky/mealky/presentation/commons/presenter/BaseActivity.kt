@@ -54,8 +54,8 @@ abstract class BaseActivity<P : Presenter<V>, in V, VM : BaseViewModel<P>> : App
     override fun showErrorMessage(retry: () -> Unit, e: Throwable, cancelable: Boolean) {
         Timber.e("KUBA_LOG Method:showErrorMessage ***** $e *****")
         alertDialog = AlertDialog.Builder(this)
-                .setTitle(R.string.just_a_moment)
-                .setMessage(R.string.service_unavailable)
+                .setTitle(R.string.something_went_wrong)
+                .setMessage(e.message)
                 .setPositiveButton(R.string.retry) { _, _ ->
                     try {
                         retry.invoke()
