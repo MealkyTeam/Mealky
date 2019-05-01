@@ -119,7 +119,6 @@ class AddMealActivity : BaseActivity<AddMealPresenter, AddMealPresenter.UI, AddM
                 }
 
                 else -> {
-
                 }
             }
         }
@@ -264,10 +263,7 @@ class AddMealActivity : BaseActivity<AddMealPresenter, AddMealPresenter.UI, AddM
 
     companion object {
         private const val ADD_DIALOG = "add_dialog"
-        private const val ADD_DIALOG_ID = 200
-
         private const val GALLERY_DIALOG = "gallery_dialog"
-        private const val GALLERY_DIALOG_ID = 300
     }
 }
 

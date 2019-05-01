@@ -75,6 +75,7 @@ class AddMealPresenter @Inject constructor(
                 },
                 { e ->
                     ui().perform {
+                        it.isLoading(false)
                         it.showErrorMessage({
                             getUser { user -> sendMeal(user) }
                         }, e)
@@ -103,6 +104,7 @@ class AddMealPresenter @Inject constructor(
                 },
                 { e ->
                     ui().perform {
+                        it.isLoading(false)
                         it.showErrorMessage({
                             getUser { user -> sendMeal(user) }
                         }, e)
