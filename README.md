@@ -37,6 +37,12 @@ Biblioteki:
 -------------------------------------------------------------------
 Lista zmian:
 
+Wersja 1.1.0
+- Dodano funkcję “Dodaj posiłek”. 
+- Zmieniono poruszanie się w aplikacji. Kliknięcie przycisku “wstecz” cofa tam gdzie powinno.
+- Usprawnienie kodu aplikacji.
+- Poprawki błędów.
+
 Wersja 1.0.0
 - Wdrożenie systemu Continuous integration (bitrise.io), który automatyzuje proces testowania i wydawania aplikacji do użytkowników.
 - Wdrożenie systemu Crashlytics wraz z aplikacją Beta, aby w łatwy sposób można było mierzyć statystyki aplikacji i rozprowadzać aplikację po testerach.
