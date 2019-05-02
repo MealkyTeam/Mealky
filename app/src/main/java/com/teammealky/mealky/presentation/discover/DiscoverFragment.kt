@@ -75,7 +75,7 @@ class DiscoverFragment : BaseFragment<DiscoverPresenter, DiscoverPresenter.UI, D
 
     override fun setMeals(meals: List<Meal>) {
         for (meal in meals) {
-            swipeView.addView(MealCard(meal, swipeView, this))
+            swipeView.addView(MealCard(meal, this))
         }
     }
 
@@ -96,5 +96,4 @@ class DiscoverFragment : BaseFragment<DiscoverPresenter, DiscoverPresenter.UI, D
     override fun swipedRight() {
         presenter?.swipedRight()
     }
-
 }

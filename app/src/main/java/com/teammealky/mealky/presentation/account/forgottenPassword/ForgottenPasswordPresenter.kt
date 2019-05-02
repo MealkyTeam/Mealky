@@ -2,7 +2,7 @@ package com.teammealky.mealky.presentation.account.forgottenPassword
 
 import com.teammealky.mealky.domain.model.APIError
 import com.teammealky.mealky.domain.model.User
-import com.teammealky.mealky.domain.usecase.resetPassword.ResetPasswordUseCase
+import com.teammealky.mealky.domain.usecase.resetpassword.ResetPasswordUseCase
 import com.teammealky.mealky.presentation.commons.presenter.BasePresenter
 import com.teammealky.mealky.presentation.commons.presenter.BaseUI
 import javax.inject.Inject

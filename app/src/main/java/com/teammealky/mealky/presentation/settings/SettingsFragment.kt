@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.teammealky.mealky.BuildConfig
 import com.teammealky.mealky.R
 import com.teammealky.mealky.domain.model.User
@@ -14,8 +15,9 @@ import com.teammealky.mealky.presentation.commons.presenter.BaseFragment
 import kotlinx.android.synthetic.main.settings_fragment.*
 import kotlinx.android.synthetic.main.signout_layout.*
 
-class SettingsFragment : BaseFragment<SettingsPresenter, SettingsPresenter.UI, SettingsViewModel>(), SettingsPresenter.UI, SettingsPresenter.SignOutListener {
-
+class SettingsFragment : BaseFragment<SettingsPresenter, SettingsPresenter.UI,
+        SettingsViewModel>(), SettingsPresenter.UI, SettingsPresenter.SignOutListener,
+        View.OnLongClickListener {
     override val vmClass = SettingsViewModel::class.java
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,6 +36,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter, SettingsPresenter.UI, S
 
     override fun setupView(user: User) {
         settingInfo.text = getString(R.string.version, BuildConfig.VERSION_NAME)
+        settingInfo.setOnLongClickListener(this)
         val username = user.username
 
         usernameTv.text = username
@@ -52,4 +55,18 @@ class SettingsFragment : BaseFragment<SettingsPresenter, SettingsPresenter.UI, S
         presenter?.signOutClicked()
     }
 
+    override fun onLongClick(v: View?): Boolean {
+        when (v?.id) {
+            R.id.settingInfo -> {
+                presenter?.onSettingsInfoLongClicked()
+                return true
+            }
+        }
+        return false
+    }
+
+    override fun showToast() {
+        val message = "Build number: ${BuildConfig.VERSION_CODE}"
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+    }
 }

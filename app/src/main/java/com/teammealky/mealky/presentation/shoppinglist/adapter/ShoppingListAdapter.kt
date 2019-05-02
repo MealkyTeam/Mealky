@@ -1,25 +1,20 @@
 package com.teammealky.mealky.presentation.shoppinglist.adapter
 
 import android.annotation.SuppressLint
-import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
-import com.teammealky.mealky.presentation.shoppinglist.model.ShoppingListItemViewModel
+import com.teammealky.mealky.presentation.meal.adapter.IngredientsAdapter
+import com.teammealky.mealky.presentation.meal.model.IngredientViewModel
 import com.teammealky.mealky.presentation.shoppinglist.view.ShoppingListItemView
+import com.teammealky.mealky.presentation.commons.view.IngredientQuantityView.Companion.FieldChangedListener
 
-class ShoppingListAdapter(var models: List<ShoppingListItemViewModel> = emptyList(), private val listener: ShoppingListItemListener) :
-        RecyclerView.Adapter<ShoppingListAdapter.ViewHolder>() {
-
-    interface ShoppingListItemListener {
-        fun onItemClick(model: ShoppingListItemViewModel)
-        fun fieldChanged(model: ShoppingListItemViewModel, quantity: Double)
-    }
-
-    class ViewHolder(val view: View) : RecyclerView.ViewHolder(view)
+open class ShoppingListAdapter(models: List<IngredientViewModel> = emptyList(),
+                               val fieldChangedListener: FieldChangedListener,
+                               onClickListener: OnItemClickListener)
+    : IngredientsAdapter(models, onClickListener) {
 
     override fun onCreateViewHolder(parent: ViewGroup,
                                     viewType: Int): ViewHolder {
-        return ViewHolder(ShoppingListItemView(parent.context, listener))
+        return ViewHolder(ShoppingListItemView(parent.context, listener, fieldChangedListener))
     }
 
     @SuppressLint("SetTextI18n")
@@ -28,7 +23,7 @@ class ShoppingListAdapter(var models: List<ShoppingListItemViewModel> = emptyLis
         (holder.view as ShoppingListItemView).model = model
     }
 
-    fun fillAdapter(models: List<ShoppingListItemViewModel>) {
+    fun fillAdapter(models: List<IngredientViewModel>) {
         this.models = models
         notifyDataSetChanged()
     }
@@ -39,5 +34,4 @@ class ShoppingListAdapter(var models: List<ShoppingListItemViewModel> = emptyLis
     }
 
     override fun getItemCount() = models.size
-
 }

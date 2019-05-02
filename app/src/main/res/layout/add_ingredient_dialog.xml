@@ -20,7 +20,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-
         <TextView
             android:id="@+id/infoTv"
             android:layout_width="match_parent"
@@ -34,7 +33,6 @@
             tools:visibility="visible" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/ingredientHint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -45,11 +43,12 @@
                 android:completionThreshold="1"
                 android:focusable="true"
                 android:hint="@string/ingredient"
+                android:imeOptions="actionNext"
+                android:maxLength="25"
                 android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/quantityHint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="8dp">
@@ -60,11 +59,11 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/quantity"
                 android:inputType="numberDecimal"
-                android:maxLength="8" />
+                android:imeOptions="actionNext"
+                android:maxLength="7" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/unitHint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="8dp">
@@ -76,6 +75,7 @@
                 android:completionThreshold="1"
                 android:hint="@string/unit"
                 android:imeOptions="actionDone"
+                android:maxLength="25"
                 android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
 

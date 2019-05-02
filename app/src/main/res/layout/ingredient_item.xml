@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/ingredientItemLayout"
+    android:id="@+id/ingredientLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="8dp"
@@ -17,7 +17,7 @@
         android:id="@+id/bullet"
         android:layout_width="12dp"
         android:layout_height="12dp"
-        android:layout_centerVertical="true"
+        android:layout_marginTop="8dp"
         android:contentDescription="@string/bullet"
         android:src="@drawable/ic_bullet_black_16dp" />
 
@@ -28,9 +28,8 @@
         android:layout_centerVertical="true"
         android:layout_toStartOf="@id/checkbox"
         android:layout_toEndOf="@id/bullet"
-        android:maxLines="1"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:textColor="@android:color/black"
         android:textSize="16sp"
         tools:text="Flour: 0.5 pound" />

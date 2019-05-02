@@ -51,6 +51,10 @@ class SettingsPresenter @Inject constructor(
         ))
     }
 
+    fun onSettingsInfoLongClicked() {
+        ui().perform { it.showToast() }
+    }
+
     interface SignOutListener {
         fun signOutBtnClicked()
     }
@@ -58,5 +62,6 @@ class SettingsPresenter @Inject constructor(
     interface UI : BaseUI {
         fun toAccountActivity()
         fun setupView(user: User)
+        fun showToast()
     }
 }

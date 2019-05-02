@@ -15,14 +15,18 @@ import kotlinx.android.synthetic.main.shopping_list_fragment.*
 import kotlinx.android.synthetic.main.shopping_toolbar.*
 import kotlinx.android.synthetic.main.shopping_toolbar.view.*
 import com.teammealky.mealky.domain.model.Ingredient
+import com.teammealky.mealky.presentation.commons.component.addingredient.AddIngredientDialog
 import com.teammealky.mealky.presentation.commons.extension.isVisible
 import com.teammealky.mealky.presentation.shoppinglist.adapter.ShoppingListAdapter
-import com.teammealky.mealky.presentation.shoppinglist.component.addingredient.view.AddIngredientDialog
-import com.teammealky.mealky.presentation.shoppinglist.model.ShoppingListItemViewModel
+import com.teammealky.mealky.presentation.commons.component.addingredient.AddIngredientDialog.AddIngredientListener
+import com.teammealky.mealky.presentation.meal.model.IngredientViewModel
 import kotlinx.android.synthetic.main.empty_item.*
+import com.teammealky.mealky.presentation.commons.view.IngredientQuantityView.Companion.FieldChangedListener
+import com.teammealky.mealky.presentation.meal.adapter.IngredientsAdapter.OnItemClickListener
 
-class ShoppingListFragment : BaseFragment<ShoppingListPresenter, ShoppingListPresenter.UI, ShoppingListViewModel>(), ShoppingListPresenter.UI,
-        ShoppingListAdapter.ShoppingListItemListener, View.OnClickListener,AddIngredientDialog.AddIngredientListener {
+class ShoppingListFragment : BaseFragment<ShoppingListPresenter, ShoppingListPresenter.UI, ShoppingListViewModel>(),
+        ShoppingListPresenter.UI, FieldChangedListener, OnItemClickListener,
+        View.OnClickListener, AddIngredientListener {
 
     override val vmClass = ShoppingListViewModel::class.java
     private lateinit var adapter: ShoppingListAdapter
@@ -50,16 +54,16 @@ class ShoppingListFragment : BaseFragment<ShoppingListPresenter, ShoppingListPre
         shoppingListToolbar.plusBtn.setOnClickListener(this)
     }
 
-    override fun setupRecyclerView(ingredients: List<ShoppingListItemViewModel>) {
+    override fun setupRecyclerView(ingredients: List<IngredientViewModel>) {
         layoutManager = LinearLayoutManager(context)
-        adapter = ShoppingListAdapter(ingredients, this)
+        adapter = ShoppingListAdapter(ingredients, this, this)
 
         shopListRv.adapter = adapter
         shopListRv.setHasFixedSize(true)
         shopListRv.layoutManager = layoutManager
     }
 
-    override fun onItemClick(model: ShoppingListItemViewModel) {
+    override fun onItemClick(model: IngredientViewModel) {
         presenter?.onItemClicked(model)
     }
 
@@ -87,7 +91,7 @@ class ShoppingListFragment : BaseFragment<ShoppingListPresenter, ShoppingListPre
         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 
-    override fun fillList(ingredients: List<ShoppingListItemViewModel>) {
+    override fun fillList(ingredients: List<IngredientViewModel>) {
         adapter.fillAdapter(ingredients)
     }
 
@@ -103,7 +107,7 @@ class ShoppingListFragment : BaseFragment<ShoppingListPresenter, ShoppingListPre
         emptyItemLayout.isVisible(isEnabled)
     }
 
-    override fun fieldChanged(model: ShoppingListItemViewModel, quantity: Double) {
+    override fun fieldChanged(model: IngredientViewModel, quantity: Double) {
         presenter?.fieldChanged(model, quantity)
     }
 
@@ -118,7 +122,6 @@ class ShoppingListFragment : BaseFragment<ShoppingListPresenter, ShoppingListPre
     }
 
     override fun onInformationPassed(ingredient: Ingredient) {
-        addIngredientDialog?.dismiss()
         presenter?.onInformationPassed(ingredient)
     }
 
@@ -129,7 +132,7 @@ class ShoppingListFragment : BaseFragment<ShoppingListPresenter, ShoppingListPre
     }
 
     companion object {
-        private const val ADD_DIALOG = "info_dialog"
+        private const val ADD_DIALOG = "add_dialog"
         private const val ADD_DIALOG_ID = 200
     }
 

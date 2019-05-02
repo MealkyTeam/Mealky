@@ -6,6 +6,8 @@ import com.teammealky.mealky.presentation.account.AccountViewModel
 import com.teammealky.mealky.presentation.account.forgottenPassword.ForgottenPasswordViewModel
 import com.teammealky.mealky.presentation.account.signin.SignInViewModel
 import com.teammealky.mealky.presentation.account.signup.SignUpViewModel
+import com.teammealky.mealky.presentation.addmeal.AddMealViewModel
+import com.teammealky.mealky.presentation.addmeal.gallerycameradialog.GalleryCameraViewModel
 import com.teammealky.mealky.presentation.commons.injection.ViewModelFactory
 import com.teammealky.mealky.presentation.commons.injection.ViewModelKey
 import com.teammealky.mealky.presentation.discover.DiscoverViewModel
@@ -14,7 +16,7 @@ import com.teammealky.mealky.presentation.meal.MealViewModel
 import com.teammealky.mealky.presentation.meals.MealListViewModel
 import com.teammealky.mealky.presentation.settings.SettingsViewModel
 import com.teammealky.mealky.presentation.shoppinglist.ShoppingListViewModel
-import com.teammealky.mealky.presentation.shoppinglist.component.addingredient.AddIngredientViewModel
+import com.teammealky.mealky.presentation.commons.component.addingredient.AddIngredientViewModel
 import com.teammealky.mealky.presentation.splash.SplashViewModel
 import dagger.Binds
 import dagger.Module
@@ -52,6 +54,12 @@ abstract class ViewModelModule {
 
     @Binds @IntoMap @ViewModelKey(MealViewModel::class)
     internal abstract fun meal(vm: MealViewModel): ViewModel
+
+    @Binds @IntoMap @ViewModelKey(AddMealViewModel::class)
+    internal abstract fun addMeal(vm: AddMealViewModel): ViewModel
+
+    @Binds @IntoMap @ViewModelKey(GalleryCameraViewModel::class)
+    internal abstract fun galleryCamera(vm: GalleryCameraViewModel): ViewModel
 
     @Binds @IntoMap @ViewModelKey(SignInViewModel::class)
     internal abstract fun signIn(vm: SignInViewModel): ViewModel

@@ -8,7 +8,7 @@ import com.teammealky.mealky.domain.usecase.shoppinglist.ShoppingListUseCase
 import com.teammealky.mealky.domain.usecase.shoppinglist.UpdateShoppingListItemUseCase
 import com.teammealky.mealky.presentation.commons.presenter.BasePresenter
 import com.teammealky.mealky.presentation.commons.presenter.BaseUI
-import com.teammealky.mealky.presentation.shoppinglist.model.ShoppingListItemViewModel
+import com.teammealky.mealky.presentation.meal.model.IngredientViewModel
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -20,7 +20,7 @@ class ShoppingListPresenter @Inject constructor(
         private val removeFromShoppingListUseCase: RemoveFromShoppingListUseCase
 ) : BasePresenter<ShoppingListPresenter.UI>() {
 
-    private var models = mutableListOf<ShoppingListItemViewModel>()
+    private var models = mutableListOf<IngredientViewModel>()
 
     override fun attach(ui: UI) {
         super.attach(ui)
@@ -31,7 +31,7 @@ class ShoppingListPresenter @Inject constructor(
             disposable.add(shoppingListUseCase.execute(
                     { ingredients ->
 
-                        models = ingredients.map { item -> ShoppingListItemViewModel(item, false) }.toMutableList()
+                        models = ingredients.map { item -> IngredientViewModel(item, false) }.toMutableList()
                         models = mergeDuplicates()
 
                         saveMergedToMemory()
@@ -44,7 +44,7 @@ class ShoppingListPresenter @Inject constructor(
         }
     }
 
-    private fun mergeDuplicates(): MutableList<ShoppingListItemViewModel> {
+    private fun mergeDuplicates(): MutableList<IngredientViewModel> {
         val groups = models.map {
             models.filter { current ->
                 Ingredient.isSameIngredientWithDifferentQuantity(current.item, it.item)
@@ -66,7 +66,7 @@ class ShoppingListPresenter @Inject constructor(
         clearMemory(onSuccess = { saveToMemory(models) })
     }
 
-    private fun saveToMemory(models: MutableList<ShoppingListItemViewModel>) {
+    private fun saveToMemory(models: MutableList<IngredientViewModel>) {
         disposable.add(addToShoppingListUseCase.execute(models.map { it.item },
                 {},
                 { e ->
@@ -75,7 +75,7 @@ class ShoppingListPresenter @Inject constructor(
         ))
     }
 
-    private fun setupInitialState(models: List<ShoppingListItemViewModel>) {
+    private fun setupInitialState(models: List<IngredientViewModel>) {
         ui().perform {
             it.setupRecyclerView(models)
 
@@ -85,21 +85,20 @@ class ShoppingListPresenter @Inject constructor(
         }
     }
 
-    fun onItemClicked(item: ShoppingListItemViewModel) {
-        if (!item.isGreyedOut)
+    fun onItemClicked(item: IngredientViewModel) {
+        if (!item.isChecked)
             removeFromShoppingList(item)
         else
             addToShoppingList(item)
     }
 
-    private fun removeFromShoppingList(model: ShoppingListItemViewModel) {
+    private fun removeFromShoppingList(model: IngredientViewModel) {
         val removedModel = models.firstOrNull { currentModel ->
             Ingredient.isSameIngredientWithDifferentQuantity(currentModel.item, model.item)
         } ?: return
 
         models.remove(removedModel)
-        model.isGreyedOut = true
-        models.add(model)
+        models.add(model.copy(isChecked = true))
 
         disposable.add(removeFromShoppingListUseCase.execute(model.item,
                 {
@@ -113,10 +112,10 @@ class ShoppingListPresenter @Inject constructor(
         )
     }
 
-    private fun addToShoppingList(model: ShoppingListItemViewModel) {
+    private fun addToShoppingList(model: IngredientViewModel) {
         val currentModel = models.firstOrNull { item -> item == model }
         currentModel?.let { viewModel ->
-            viewModel.isGreyedOut = false
+            viewModel.isChecked = false
             viewModel.item = model.item.copy(quantity = model.item.quantity)
         }
 
@@ -135,7 +134,7 @@ class ShoppingListPresenter @Inject constructor(
     }
 
     private fun getRemovedToBottom() {
-        val removed = models.filter { item -> (item.isGreyedOut) }
+        val removed = models.filter { item -> (item.isChecked) }
         models.removeAll(removed)
         models.addAll(removed)
     }
@@ -170,8 +169,8 @@ class ShoppingListPresenter @Inject constructor(
         }
     }
 
-    fun fieldChanged(model: ShoppingListItemViewModel, quantity: Double) {
-        if (model.isGreyedOut) return
+    fun fieldChanged(model: IngredientViewModel, quantity: Double) {
+        if (model.isChecked) return
 
         var updatedModel = model
         var previousQuantity = 0.0
@@ -190,7 +189,7 @@ class ShoppingListPresenter @Inject constructor(
         updateModel(updatedModel, previousQuantity)
     }
 
-    private fun updateModel(updatedModel: ShoppingListItemViewModel, previousQuantity: Double) {
+    private fun updateModel(updatedModel: IngredientViewModel, previousQuantity: Double) {
         models = models.map { currentModel ->
             return@map if (Ingredient.isSameIngredientWithDifferentQuantity(currentModel.item, updatedModel.item))
                 updatedModel
@@ -207,7 +206,7 @@ class ShoppingListPresenter @Inject constructor(
     }
 
     fun onInformationPassed(ingredient: Ingredient) {
-        val model = ShoppingListItemViewModel(ingredient, false)
+        val model = IngredientViewModel(ingredient, false)
         models.add(model)
 
         ui().perform {
@@ -223,10 +222,10 @@ class ShoppingListPresenter @Inject constructor(
     }
 
     interface UI : BaseUI {
-        fun setupRecyclerView(ingredients: List<ShoppingListItemViewModel>)
+        fun setupRecyclerView(ingredients: List<IngredientViewModel>)
         fun showDialog()
         fun showToast(succeeded: Boolean)
-        fun fillList(ingredients: List<ShoppingListItemViewModel>)
+        fun fillList(ingredients: List<IngredientViewModel>)
         fun clearList()
         fun enableClearListBtn(isEnabled: Boolean)
         fun showEmptyView(isEnabled: Boolean)

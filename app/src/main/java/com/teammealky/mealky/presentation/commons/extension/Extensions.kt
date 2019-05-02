@@ -17,19 +17,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.WindowManager
 
-fun Int.toTime(): String {
-    val originalValue = this
-    val numOfHours = (originalValue / 60)
-    val numOfMinutes = originalValue - numOfHours * 60
-
-    return when {
-        numOfHours > 0 && numOfMinutes > 0 -> "${numOfHours}h ${numOfMinutes}m"
-        numOfHours > 0 && numOfMinutes == 0 -> "${numOfHours}h"
-        numOfHours == 0 && numOfMinutes > 0 -> "${numOfMinutes}m"
-        else -> ""
-    }
-}
-
 fun BottomNavigationView.clearSelection() {
     for (i in 0 until menu.size()) {
         menu.getItem(i).apply {
@@ -53,12 +40,12 @@ fun ImageView.loadImage(url: String, transformation: Transformation? = null,
                         callback: Callback? = null,
                         placeholder: Drawable? = null,
                         fit: Boolean = false) {
-    if (url.isEmpty()) return
-    tag = url
+    val usableUrl = if (url.isEmpty()) "errorUrl" else url
+    tag = usableUrl
 
     val picasso = Picasso
             .get()
-            .load(url)
+            .load(usableUrl)
             .config(Bitmap.Config.RGB_565)
             .error(R.drawable.broken_image)
 

@@ -39,6 +39,7 @@ class MealListPresenterTest {
         every { view.clearList() } just Runs
         every { view.scrollToTop() } just Runs
         every { view.hideKeyboard() } just Runs
+        every { view.openAddMeal() } just Runs
 
         presenter = MealListPresenter(mockUseCase)
     }
@@ -256,6 +257,35 @@ class MealListPresenterTest {
 
             //onItemClick
             view.openItem(MockDataTest.MEALS.first())
+        }
+    }
+
+    /**
+     * Scenario: On plus button click
+     * Given there is filled presenter
+     * When I click on plus button
+     * Then it will show new fragment
+     */
+    @Test
+    fun `Open add meal fragment`() {
+        //Given
+        presenter.attach(view)
+        presenter.firstRequest()
+
+        //When
+        presenter.onAddMealBtnClicked()
+
+        //Then
+        verifySequence {
+            //firstRequest
+            view.isLoading(true)
+            view.isLoading(true)
+            view.fillList(MockDataTest.MEALS)
+            view.isLoading(false)
+            view.showEmptyView(false, "")
+
+            //onAddMealBtnClicked
+            view.openAddMeal()
         }
     }
 

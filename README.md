@@ -31,19 +31,17 @@ Biblioteki:
 - org.robolectric  
 
 
-[Diagram ERD](documentation/diagram_ERD.png)  
-
-[Diagram przypadków użycia](documentation/diagram_przypadków_użycia.jpg)  
-
-[Planowany spis funkcjonalności](documentation/planowany_spis_funkcjonalności.txt)  
-
-[Podział obowiązków](documentation/podział_obowiązków.txt)  
-
-[Przypadki wrażliwe](documentation/przypadki_wrazliwe.txt)  
+[Opis](documentation/Opis.pdf)  
 
 
 -------------------------------------------------------------------
 Lista zmian:
+
+Wersja 1.1.0
+- Dodano funkcję “Dodaj posiłek”. 
+- Zmieniono poruszanie się w aplikacji. Kliknięcie przycisku “wstecz” cofa tam gdzie powinno.
+- Usprawnienie kodu aplikacji.
+- Poprawki błędów.
 
 Wersja 1.0.0
 - Wdrożenie systemu Continuous integration (bitrise.io), który automatyzuje proces testowania i wydawania aplikacji do użytkowników.
@@ -82,7 +80,6 @@ Wersja 0.2.0
 - Rejestracja z potwierdzeniem maila.  
 - Dodano logowanie.  
 - Dodano autoryzację.  
-- Pierwsza iteracja strony administratora skończona. (Logowanie, szablony CRUD-ów).  
 
 Wersja 0.1.0  
 - Prosta lista posiłków pobierana z internetu  

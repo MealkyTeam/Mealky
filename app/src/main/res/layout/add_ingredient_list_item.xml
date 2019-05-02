@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/addIngredientItemLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingStart="4dp"
+    android:layout_marginBottom="8dp"
+    tools:ignore="RtlSymmetry">
+
+    <com.teammealky.mealky.presentation.commons.view.IngredientQuantityView
+        android:id="@+id/quantityView"
+        android:layout_alignParentStart="true"
+        android:layout_width="wrap_content"
+        android:layout_toStartOf="@id/removeBtn"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        android:id="@+id/removeBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:contentDescription="@string/remove_button"
+        android:src="@drawable/ic_baseline_x_red_32px" />
+
+</RelativeLayout>

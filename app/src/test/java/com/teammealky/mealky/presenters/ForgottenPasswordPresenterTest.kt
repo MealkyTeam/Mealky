@@ -3,7 +3,7 @@ package com.teammealky.mealky.presenters
 import com.teammealky.mealky.MockDataTest
 import com.teammealky.mealky.domain.model.APIError
 import com.teammealky.mealky.domain.repository.AuthorizationRepository
-import com.teammealky.mealky.domain.usecase.resetPassword.ResetPasswordUseCase
+import com.teammealky.mealky.domain.usecase.resetpassword.ResetPasswordUseCase
 import com.teammealky.mealky.presentation.account.forgottenPassword.ForgottenPasswordPresenter
 import org.junit.Before
 import io.mockk.*
