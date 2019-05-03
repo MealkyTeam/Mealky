@@ -20,6 +20,7 @@ class MealListPresenter @Inject constructor(
     private var visibleItemId = 0
     private var searchDisposable = CompositeDisposable()
     var isLoading = false
+    private var isLast = false
     var currentQuery = ""
 
     fun onItemClicked(model: Meal) {
@@ -64,6 +65,7 @@ class MealListPresenter @Inject constructor(
         searchDisposable.add(getMealsUseCase.execute(
                 ListMealsUseCase.Params(currentQuery, pageNumber, LIMIT),
                 { page ->
+                    isLast = page.last
                     ui().perform {
                         isLoading = false
                         meals = meals + page.items
@@ -81,9 +83,7 @@ class MealListPresenter @Inject constructor(
                 }))
     }
 
-    private fun shouldResetPages() = allPagesFetched() && currentQuery == ""
-
-    private fun allPagesFetched() = pageNumber >= totalPages - 1
+    private fun shouldResetPages() = isLast && currentQuery == ""
 
     fun search() {
         invalidate()
@@ -112,6 +112,7 @@ class MealListPresenter @Inject constructor(
         pageNumber = 0
         meals = emptyList()
         visibleItemId = 0
+        isLast = false
         searchDisposable.clear()
     }
 
@@ -126,7 +127,7 @@ class MealListPresenter @Inject constructor(
     }
 
     fun shouldStopLoadMore(): Boolean {
-        return allPagesFetched() && currentQuery != ""
+        return isLast && currentQuery != ""
     }
 
     fun onAddMealBtnClicked() {
