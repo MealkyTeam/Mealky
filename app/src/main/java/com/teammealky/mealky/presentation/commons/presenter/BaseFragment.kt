@@ -11,6 +11,7 @@ import com.teammealky.mealky.R
 import timber.log.Timber
 import javax.inject.Inject
 import android.view.inputmethod.InputMethodManager
+import com.teammealky.mealky.domain.model.APIError
 
 abstract class BaseFragment<P : Presenter<V>, in V, VM : BaseViewModel<P>> : Fragment(), BaseUI {
 
@@ -47,9 +48,10 @@ abstract class BaseFragment<P : Presenter<V>, in V, VM : BaseViewModel<P>> : Fra
 
     override fun showErrorMessage(retry: () -> Unit, e: Throwable, cancelable: Boolean) {
         Timber.e("KUBA_LOG Method:showErrorMessage ***** $e *****")
+        val message = if(e is APIError) e.message else getString(R.string.service_unavailable)
         alertDialog = AlertDialog.Builder(requireContext())
                 .setTitle(R.string.just_a_moment)
-                .setMessage(R.string.service_unavailable)
+                .setMessage(message)
                 .setPositiveButton(R.string.retry) { _, _ ->
                     try {
                         retry.invoke()

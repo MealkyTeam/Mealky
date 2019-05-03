@@ -73,7 +73,7 @@ class GalleryCameraDialog : BaseDialogFragment<GalleryCameraPresenter, GalleryCa
     }
 
     override fun showErrorToast() {
-        Toast.makeText(context, getString(R.string.error_message), Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show()
     }
 
     override fun openCamera() {

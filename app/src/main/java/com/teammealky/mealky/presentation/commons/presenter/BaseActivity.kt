@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.teammealky.mealky.R
+import com.teammealky.mealky.domain.model.APIError
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -53,9 +54,10 @@ abstract class BaseActivity<P : Presenter<V>, in V, VM : BaseViewModel<P>> : App
 
     override fun showErrorMessage(retry: () -> Unit, e: Throwable, cancelable: Boolean) {
         Timber.e("KUBA_LOG Method:showErrorMessage ***** $e *****")
+        val message = if(e is APIError) e.message else getString(R.string.service_unavailable)
         alertDialog = AlertDialog.Builder(this)
                 .setTitle(R.string.something_went_wrong)
-                .setMessage(e.message)
+                .setMessage(message)
                 .setPositiveButton(R.string.retry) { _, _ ->
                     try {
                         retry.invoke()
