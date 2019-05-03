@@ -78,12 +78,12 @@ class Navigator(private val nav: Navigable) {
 
     fun openForgottenPassword() {
         val fragment = ForgottenPasswordFragment()
-
         nav.navigateTo(fragment)
     }
 
     fun openHome() {
-        nav.navigateTo(MealListFragment(), true)
+        val fragment = MealListFragment()
+        nav.navigateTo(fragment)
     }
 
     fun openActivity(activityString: String) {
@@ -100,6 +100,7 @@ class Navigator(private val nav: Navigable) {
     companion object {
         const val NAVIGATE = "navigate_to"
 
+        const val FRAG_HOME = "home"
         const val FRAG_MEAL = "meal"
         const val FRAG_SHOPPING_LIST = "shopping_list"
         const val FRAG_DISCOVER = "discover"

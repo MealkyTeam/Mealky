@@ -83,6 +83,22 @@ class MainActivity : BaseActivity<MainPresenter, MainPresenter.UI, MainViewModel
         }
     }
 
+    override fun openHome() {
+        Navigator.from(this).openHome()
+    }
+
+    override fun openShoppingList() {
+        Navigator.from(this).openShoppingList()
+    }
+
+    override fun openDiscover() {
+        Navigator.from(this).openDiscover()
+    }
+
+    override fun openSettings() {
+        Navigator.from(this).openSettings()
+    }
+
     private fun updateBottomBarSelection(fragment: Fragment): Boolean {
         var isBottomBarFragment = true
         var menuItemPosition = BOTTOM_BAR_NONE
