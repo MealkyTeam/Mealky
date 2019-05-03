@@ -4,8 +4,7 @@ package com.teammealky.mealky.domain.model
 data class Ingredient(
         val name: String,
         val unit: Unit,
-        val quantity: Double,
-        val id: Int = -1
+        val quantity: Double
 ) {
 
     companion object {
