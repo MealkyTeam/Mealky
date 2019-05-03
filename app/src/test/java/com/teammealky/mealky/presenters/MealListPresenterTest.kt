@@ -1,5 +1,6 @@
 package com.teammealky.mealky.presenters
 
+import android.os.Bundle
 import androidx.recyclerview.widget.RecyclerView
 import com.teammealky.mealky.MockDataTest
 import com.teammealky.mealky.MockDataTest.Companion.NOT_EMPTY_QUERY_WITHOUT_RESULT
@@ -12,7 +13,10 @@ import org.junit.Before
 import org.junit.Test
 import io.mockk.*
 import org.junit.Assert.assertEquals
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
 
+@RunWith(RobolectricTestRunner::class)
 class MealListPresenterTest {
 
     private val mockRepository = mockk<MealsDataRepository>()
@@ -32,7 +36,7 @@ class MealListPresenterTest {
         every { view.openItem(any()) } just Runs
         every { view.isLoading(any()) } just Runs
         every { view.fillList(any()) } just Runs
-        every { view.setVisibleItem(any()) } just Runs
+        every { view.scrollToSaved(any()) } just Runs
         every { view.showErrorMessage(any(), any()) } just Runs
         every { view.showErrorMessage(any(), any(), false) } just Runs
         every { view.showEmptyView(any(), any()) } just Runs
@@ -64,7 +68,7 @@ class MealListPresenterTest {
             view.isLoading(true)
             view.fillList(MockDataTest.MEALS)
             view.isLoading(false)
-            view.showEmptyView(false, "")
+            view.showEmptyView(false)
         }
     }
 
@@ -89,13 +93,12 @@ class MealListPresenterTest {
             view.isLoading(true)
             view.fillList(MockDataTest.MEALS)
             view.isLoading(false)
-            view.showEmptyView(false, "")
+            view.showEmptyView(false)
 
             //firstRequest
-            view.isLoading(true)
+            view.clearList()
             view.fillList(MockDataTest.MEALS)
-            view.setVisibleItem(any())
-            view.isLoading(false)
+            view.scrollToSaved(any())
         }
     }
 
@@ -148,10 +151,11 @@ class MealListPresenterTest {
             view.isLoading(true)
             view.fillList(MockDataTest.MEALS)
             view.isLoading(false)
-            view.showEmptyView(false, "")
+            view.showEmptyView(false)
 
             //loadMore
             view.isLoading(true)
+            view.isLoading(false)
         }
     }
 
@@ -178,7 +182,7 @@ class MealListPresenterTest {
             view.isLoading(true)
             view.fillList(MockDataTest.MEALS)
             view.isLoading(false)
-            view.showEmptyView(false, "")
+            view.showEmptyView(false)
 
             //search
             view.isLoading(true)
@@ -216,7 +220,7 @@ class MealListPresenterTest {
             view.isLoading(true)
             view.fillList(MockDataTest.MEALS)
             view.isLoading(false)
-            view.showEmptyView(false, "")
+            view.showEmptyView(false)
 
             //search
             view.isLoading(true)
@@ -253,7 +257,7 @@ class MealListPresenterTest {
             view.isLoading(true)
             view.fillList(MockDataTest.MEALS)
             view.isLoading(false)
-            view.showEmptyView(false, "")
+            view.showEmptyView(false)
 
             //onItemClick
             view.openItem(MockDataTest.MEALS.first())
@@ -282,7 +286,7 @@ class MealListPresenterTest {
             view.isLoading(true)
             view.fillList(MockDataTest.MEALS)
             view.isLoading(false)
-            view.showEmptyView(false, "")
+            view.showEmptyView(false)
 
             //onAddMealBtnClicked
             view.openAddMeal()
@@ -311,7 +315,7 @@ class MealListPresenterTest {
             view.isLoading(true)
             view.fillList(MockDataTest.MEALS)
             view.isLoading(false)
-            view.showEmptyView(false, "")
+            view.showEmptyView(false)
 
             //onItemClick
             view.hideKeyboard()
@@ -340,7 +344,7 @@ class MealListPresenterTest {
             view.isLoading(true)
             view.fillList(MockDataTest.MEALS)
             view.isLoading(false)
-            view.showEmptyView(false, "")
+            view.showEmptyView(false)
         }
     }
 
@@ -392,12 +396,12 @@ class MealListPresenterTest {
     @Test
     fun `Save item position`() {
         //Given
+        val savedPosition = Bundle()
         presenter.attach(view)
         presenter.firstRequest()
 
         //When
-        presenter.onPaused(2)
-        presenter.attach(view)
+        presenter.onPaused(savedPosition)
         presenter.firstRequest()
 
         //Then
@@ -407,13 +411,12 @@ class MealListPresenterTest {
             view.isLoading(true)
             view.fillList(MockDataTest.MEALS)
             view.isLoading(false)
-            view.showEmptyView(false, "")
+            view.showEmptyView(false)
 
             //firstRequest
-            view.isLoading(true)
+            view.clearList()
             view.fillList(MockDataTest.MEALS)
-            view.setVisibleItem(2)
-            view.isLoading(false)
+            view.scrollToSaved(savedPosition)
         }
     }
 }
