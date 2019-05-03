@@ -11,4 +11,9 @@ data class Page<T>(
         val sorted: Boolean,
         val limit: Int,
         @SerializedName("number") val pageNumber: Int
-)
+) {
+    companion object {
+        fun <T> emptyPage() =
+                Page(listOf<T>(), -1, -1, true, true, true, -1, -1)
+    }
+}

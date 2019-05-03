@@ -1,5 +1,6 @@
 package com.teammealky.mealky.presentation.meals
 
+import android.os.Parcelable
 import androidx.recyclerview.widget.RecyclerView
 import com.teammealky.mealky.domain.model.Meal
 import com.teammealky.mealky.domain.usecase.meals.ListMealsUseCase
@@ -17,7 +18,7 @@ class MealListPresenter @Inject constructor(
     private var totalElements: Int = 0
     private var pageNumber: Int = 0
     private var meals = emptyList<Meal>()
-    private var visibleItemId = 0
+    private var savedRecyclerViewPosition: Parcelable? = null
     private var searchDisposable = CompositeDisposable()
     var isLoading = false
     var currentQuery = ""
@@ -32,8 +33,8 @@ class MealListPresenter @Inject constructor(
     }
 
     fun firstRequest() {
-        ui().perform { it.isLoading(true) }
         if (meals.isEmpty()) {
+            ui().perform { it.isLoading(true) }
             searchDisposable.add(getMealsUseCase.execute(
                     ListMealsUseCase.Params(page = 0, limit = LIMIT),
                     { page ->
@@ -52,9 +53,9 @@ class MealListPresenter @Inject constructor(
 
     private fun refresh() {
         ui().perform {
+            it.clearList()
             it.fillList(meals)
-            it.setVisibleItem(visibleItemId)
-            it.isLoading(false)
+            it.scrollToSaved(savedRecyclerViewPosition)
         }
     }
 
@@ -77,6 +78,7 @@ class MealListPresenter @Inject constructor(
                         pageNumber++
                 },
                 { e ->
+                    ui().perform { it.isLoading(false) }
                     Timber.e("KUBA_LOG Method:loadMore ***** $e *****")
                 }))
     }
@@ -111,13 +113,12 @@ class MealListPresenter @Inject constructor(
         totalPages = 0
         pageNumber = 0
         meals = emptyList()
-        visibleItemId = 0
+        savedRecyclerViewPosition = null
         searchDisposable.clear()
     }
 
-
-    fun onPaused(itemPosition: Int) {
-        this.visibleItemId = itemPosition
+    fun onPaused(savedRecyclerView: Parcelable?) {
+        this.savedRecyclerViewPosition = savedRecyclerView
     }
 
     fun scrolled(newState: Int) {
@@ -138,7 +139,7 @@ class MealListPresenter @Inject constructor(
         fun openItem(meal: Meal)
         fun isLoading(isLoading: Boolean)
         fun fillList(meals: List<Meal>)
-        fun setVisibleItem(visibleItemId: Int)
+        fun scrollToSaved(savedRecyclerView: Parcelable?)
         fun clearList()
         fun scrollToTop()
         fun showEmptyView(isVisible: Boolean, query: String = "")

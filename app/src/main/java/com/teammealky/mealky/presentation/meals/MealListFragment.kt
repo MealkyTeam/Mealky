@@ -24,6 +24,7 @@ import kotlinx.android.synthetic.main.empty_item.*
 import kotlinx.android.synthetic.main.empty_item.view.*
 import kotlinx.android.synthetic.main.meals_fragment.*
 import kotlinx.android.synthetic.main.search_toolbar.*
+import android.os.Parcelable
 
 class MealListFragment : BaseFragment<MealListPresenter, MealListPresenter.UI, MealListViewModel>(),
         MealListPresenter.UI, MealsAdapter.OnItemClickListener,
@@ -96,11 +97,11 @@ class MealListFragment : BaseFragment<MealListPresenter, MealListPresenter.UI, M
     }
 
     override fun clearList() {
-        adapter.meals = emptyList()
+        adapter.clearList()
     }
 
-    override fun setVisibleItem(visibleItemId: Int) {
-        layoutManager.scrollToPosition(visibleItemId)
+    override fun scrollToSaved(savedRecyclerView: Parcelable?) {
+        layoutManager.onRestoreInstanceState(savedRecyclerView)
     }
 
     override fun isLoading(isLoading: Boolean) {
@@ -120,9 +121,7 @@ class MealListFragment : BaseFragment<MealListPresenter, MealListPresenter.UI, M
     }
 
     override fun onPause() {
-        val itemPosition = (mealListRv.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
-        presenter?.onPaused(itemPosition)
-
+        presenter?.onPaused(layoutManager.onSaveInstanceState())
         super.onPause()
     }
 
