@@ -349,16 +349,17 @@ class MealListPresenterTest {
     }
 
     /**
-     * Scenario: Check if is last page and it is
+     * Scenario: Check if should stop load more and it should
      * Given there is filled presenter
      * When I scroll to bottom
-     * Then presenter must check if is last page and say yes
+     * Then presenter must check if it should stop load more and it should return yes
      */
     @Test
-    fun `Check if last page (YES)`() {
+    fun `Check if should stop load more and it should`() {
         //Given
         presenter.attach(view)
         presenter.currentQuery = NOT_EMPTY_QUERY_WITHOUT_RESULT
+        presenter.isLast = true
 
         //When
         //scrolled
@@ -368,21 +369,25 @@ class MealListPresenterTest {
     }
 
     /**
-     * Scenario: Check if is last page and there is more pages left
+     * Scenario: Check if should stop load more and it shouldn't
      * Given there is filled presenter
      * When I scroll to bottom
-     * Then presenter must check if is last page and say nop
+     * Then presenter must check if it should stop load more and it should return no
      */
     @Test
-    fun `Check if last page (NO)`() {
+    fun `Check if should stop load more and it shouldn't`() {
         //Given
-        every { mockUseCase.asSingle(ListMealsUseCase.Params("", 0, 8)) } returns Single.just(MockDataTest.MEALS_PAGE2)
         presenter.attach(view)
+        presenter.currentQuery = NOT_EMPTY_QUERY_WITHOUT_RESULT
+        presenter.isLast = false
 
         //When
         //scrolled
 
         //Then
+        assertEquals(false, presenter.shouldStopLoadMore())
+        presenter.currentQuery = ""
+        presenter.isLast = true
         assertEquals(false, presenter.shouldStopLoadMore())
     }
 

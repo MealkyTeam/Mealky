@@ -21,7 +21,7 @@ class MealListPresenter @Inject constructor(
     private var savedRecyclerViewPosition: Parcelable? = null
     private var searchDisposable = CompositeDisposable()
     var isLoading = false
-    private var isLast = false
+    var isLast = false
     var currentQuery = ""
 
     fun onItemClicked(model: Meal) {
@@ -113,7 +113,6 @@ class MealListPresenter @Inject constructor(
         totalPages = 0
         pageNumber = 0
         meals = emptyList()
-        visibleItemId = 0
         isLast = false
         savedRecyclerViewPosition = null
         searchDisposable.clear()
