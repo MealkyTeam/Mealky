@@ -55,6 +55,8 @@
     <string name="password_reset">Password has been reset. Check your email.</string>
     <string name="go_back_to_sign_in">Go back to Sign in.</string>
     <string name="preparation_time_min">Preparation time (min)</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
     <string name="add_new_recipe">Add new recipe</string>
     <string name="add_images">Add image</string>
     <string name="add_ingredient">Add ingredient</string>
@@ -67,6 +69,7 @@
     <string name="meal_added">Your meal waits for verification. You will receive an email when the recipe will be confirmed.</string>
     <string name="open_gallery">Open gallery</string>
     <string name="open_camera">Open camera</string>
+    <string name="remove_item">Remove item button</string>
     <string name="thumbnail">Thumbnail</string>
     <string name="discovery">Discovery</string>
     <string name="add_meal_exit_message">Are you sure do you want to go back? Your recipe won\'t be saved!</string>
