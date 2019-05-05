@@ -86,6 +86,10 @@ class MealFragment : BaseFragment<MealPresenter, MealPresenter.UI, MealViewModel
         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 
+    override fun enableButton(isEnabled: Boolean) {
+        ingredientsBtn.isEnabled = isEnabled
+    }
+
     companion object {
         fun newInstance(meal: Meal): MealFragment {
             val fragment = MealFragment()

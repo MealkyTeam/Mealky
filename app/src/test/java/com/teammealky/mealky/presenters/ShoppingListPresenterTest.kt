@@ -98,7 +98,7 @@ class ShoppingListPresenterTest {
 
         //Then
         verifySequence {
-            view.setupRecyclerView(MockDataTest.INGREDIENT_VIEW_MODEL)
+            view.setupRecyclerView(MockDataTest.INGREDIENT_VIEW_MODELS)
             view.showEmptyView(false)
             view.enableClearListBtn(true)
         }
@@ -115,7 +115,7 @@ class ShoppingListPresenterTest {
         //Given
         presenter.attach(view)
         verifySequence {
-            view.setupRecyclerView(MockDataTest.INGREDIENT_VIEW_MODEL)
+            view.setupRecyclerView(MockDataTest.INGREDIENT_VIEW_MODELS)
             view.showEmptyView(false)
             view.enableClearListBtn(true)
         }
@@ -148,7 +148,7 @@ class ShoppingListPresenterTest {
     @Test
     fun `On item clicked twice`() {
         //Given
-        val updatedList = MockDataTest.INGREDIENT_VIEW_MODEL.mapIndexed { index, item ->
+        val updatedList = MockDataTest.INGREDIENT_VIEW_MODELS.mapIndexed { index, item ->
             return@mapIndexed if (index == 0)
                 item.copy(isChecked = true)
             else
@@ -162,11 +162,11 @@ class ShoppingListPresenterTest {
         //When
         presenter.attach(view)
         verifySequence {
-            view.setupRecyclerView(MockDataTest.INGREDIENT_VIEW_MODEL)
+            view.setupRecyclerView(MockDataTest.INGREDIENT_VIEW_MODELS)
             view.showEmptyView(false)
             view.enableClearListBtn(true)
         }
-        presenter.onItemClicked(MockDataTest.INGREDIENT_VIEW_MODEL.first())
+        presenter.onItemClicked(MockDataTest.INGREDIENT_VIEW_MODELS.first())
 
         //Then
         verify {
@@ -179,7 +179,7 @@ class ShoppingListPresenterTest {
         //Then
         verify {
             view.fillList(resultList.mapIndexed { index, item ->
-                return@mapIndexed if (index == MockDataTest.INGREDIENT_VIEW_MODEL.size - 1)
+                return@mapIndexed if (index == MockDataTest.INGREDIENT_VIEW_MODELS.size - 1)
                     item.copy(isChecked = false)
                 else
                     item
@@ -199,12 +199,12 @@ class ShoppingListPresenterTest {
         val updatedQuantity = 123.321
         presenter.attach(view)
         verifySequence {
-            view.setupRecyclerView(MockDataTest.INGREDIENT_VIEW_MODEL)
+            view.setupRecyclerView(MockDataTest.INGREDIENT_VIEW_MODELS)
             view.showEmptyView(false)
             view.enableClearListBtn(true)
         }
 
-        val updatedModels = MockDataTest.INGREDIENT_VIEW_MODEL.mapIndexed { index, model ->
+        val updatedModels = MockDataTest.INGREDIENT_VIEW_MODELS.mapIndexed { index, model ->
             return@mapIndexed if (index == 1)
                 model.copy(item = model.item.copy(quantity = updatedQuantity), isChecked = false)
             else
@@ -212,7 +212,7 @@ class ShoppingListPresenterTest {
         }
 
         //When
-        presenter.fieldChanged(MockDataTest.INGREDIENT_VIEW_MODEL[1], 123.321)
+        presenter.fieldChanged(MockDataTest.INGREDIENT_VIEW_MODELS[1], 123.321)
         presenter.attach(view)
 
         //Then
@@ -236,11 +236,11 @@ class ShoppingListPresenterTest {
     fun `On plus btn clicked and added ingredient`() {
         //Given
         val newIngredient = Ingredient("New ingredient", Unit("New unit"), 123.0)
-        val newList = MockDataTest.INGREDIENT_VIEW_MODEL.toMutableList()
+        val newList = MockDataTest.INGREDIENT_VIEW_MODELS.toMutableList()
         newList.add(IngredientViewModel(newIngredient, false))
         presenter.attach(view)
         verifySequence {
-            view.setupRecyclerView(MockDataTest.INGREDIENT_VIEW_MODEL)
+            view.setupRecyclerView(MockDataTest.INGREDIENT_VIEW_MODELS)
             view.showEmptyView(false)
             view.enableClearListBtn(true)
         }
@@ -252,7 +252,7 @@ class ShoppingListPresenterTest {
         //Then
         verifyOrder {
             //onPlusBtnClicked
-            view.showAddIngredientDialog(MockDataTest.INGREDIENT_VIEW_MODEL.map { it.item })
+            view.showAddIngredientDialog(MockDataTest.INGREDIENT_VIEW_MODELS.map { it.item })
 
             //onInformationPassed
             view.showEmptyView(false)
