@@ -25,7 +25,6 @@ class SignInPresenter @Inject constructor(
         }
 
         ui().perform {
-            it.hideKeyboard()
             it.hideEmailError()
             it.showInfoTv(false)
             it.isLoading(true)

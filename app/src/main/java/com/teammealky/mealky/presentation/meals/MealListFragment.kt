@@ -83,12 +83,6 @@ class MealListFragment : BaseFragment<MealListPresenter, MealListPresenter.UI, M
                 presenter?.isLoading = true
                 presenter?.loadMore()
             }
-
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-
-                presenter?.scrolled(newState)
-            }
         })
     }
 

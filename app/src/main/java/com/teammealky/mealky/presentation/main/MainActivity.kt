@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.transition.TransitionValues
 import android.view.MenuItem
+import android.view.MotionEvent
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.teammealky.mealky.R
@@ -127,6 +128,11 @@ class MainActivity : BaseActivity<MainPresenter, MainPresenter.UI, MainViewModel
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         contentSwitcher.getCurrentFragment()?.onActivityResult(requestCode, resultCode, data)
         super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+        presenter?.touchEventDispatched()
+        return super.dispatchTouchEvent(ev)
     }
 
     companion object {
