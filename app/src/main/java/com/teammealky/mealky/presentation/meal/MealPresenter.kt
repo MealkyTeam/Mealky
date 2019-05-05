@@ -15,18 +15,31 @@ class MealPresenter @Inject constructor(
     private var meal: Meal = Meal.basicMeal()
     private var ingredientModels = emptyList<IngredientViewModel>()
 
+    fun onCreated(meal: Meal?) {
+        if (this.meal == Meal.basicMeal()) {
+            this.meal = meal ?: Meal.basicMeal()
+            ingredientModels = meal?.ingredients?.map { IngredientViewModel(it, false) }
+                    ?: emptyList()
+        }
+    }
+
     override fun attach(ui: UI) {
         super.attach(ui)
-        ui().perform { it.setupView(meal, ingredientModels) }
+
+        ui().perform {
+            it.setupView(meal, ingredientModels)
+            it.enableButton(ingredientModels.any { meal -> meal.isChecked })
+        }
     }
 
     fun onIngredientClicked(model: IngredientViewModel) {
         ingredientModels = ingredientModels.map {
-            return@map if (it == model)
-                it.copy(isChecked = !model.isChecked)
+            return@map if (it.item == model.item)
+                it.copy(isChecked = !it.isChecked)
             else
                 it
         }
+        ui().perform { ui -> ui.enableButton(ingredientModels.any { it.isChecked }) }
     }
 
     fun onIngredientsButtonClicked() {
@@ -48,15 +61,9 @@ class MealPresenter @Inject constructor(
                 .map { it.item }
     }
 
-    fun onCreated(meal: Meal?) {
-        if (this.meal == Meal.basicMeal()) {
-            this.meal = meal ?: Meal.basicMeal()
-            ingredientModels = meal?.ingredients?.map { IngredientViewModel(it, false) } ?: emptyList()
-        }
-    }
-
     interface UI : BaseUI {
         fun showToast(succeeded: Boolean)
         fun setupView(meal: Meal, ingredientsViewModels: List<IngredientViewModel>)
+        fun enableButton(isEnabled: Boolean)
     }
 }

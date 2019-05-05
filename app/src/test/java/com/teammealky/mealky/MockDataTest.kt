@@ -85,7 +85,7 @@ class MockDataTest {
 
         val THUMBNAIL_IMAGE = ThumbnailImage(-1, File("filepath"))
 
-        val INGREDIENT_VIEW_MODEL =
+        val INGREDIENT_VIEW_MODELS =
                 INGREDIENTS.map { item -> IngredientViewModel(item, false) }
 
         val CORRECT_TOKEN = Token("Correct token")
