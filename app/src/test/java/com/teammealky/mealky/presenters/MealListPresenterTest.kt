@@ -294,61 +294,6 @@ class MealListPresenterTest {
     }
 
     /**
-     * Scenario: Hide keyboard on scroll state changed to drag
-     * Given there is filled presenter
-     * When I try to scroll list
-     * Then it will hide keyboard
-     */
-    @Test
-    fun `Hide keyboard on list dragged`() {
-        //Given
-        presenter.attach(view)
-        presenter.firstRequest()
-
-        //When
-        presenter.scrolled(RecyclerView.SCROLL_STATE_DRAGGING)
-
-        //Then
-        verifySequence {
-            //firstRequest
-            view.isLoading(true)
-            view.isLoading(true)
-            view.fillList(MockDataTest.MEALS)
-            view.isLoading(false)
-            view.showEmptyView(false)
-
-            //onItemClick
-            view.hideKeyboard()
-        }
-    }
-
-    /**
-     * Scenario: Don't hide keyboard on scroll state changed from drag
-     * Given there is filled presenter
-     * When I stop scrolling
-     * Then do nothing
-     */
-    @Test
-    fun `Do nothing on different scroll state`() {
-        //Given
-        presenter.attach(view)
-        presenter.firstRequest()
-
-        //When
-        presenter.scrolled(RecyclerView.SCROLL_STATE_IDLE)
-
-        //Then
-        verifySequence {
-            //firstRequest
-            view.isLoading(true)
-            view.isLoading(true)
-            view.fillList(MockDataTest.MEALS)
-            view.isLoading(false)
-            view.showEmptyView(false)
-        }
-    }
-
-    /**
      * Scenario: Check if should stop load more and it should
      * Given there is filled presenter
      * When I scroll to bottom

@@ -2,6 +2,7 @@ package com.teammealky.mealky.presentation.account
 
 import android.content.Context
 import android.os.Bundle
+import android.view.MotionEvent
 import androidx.fragment.app.Fragment
 import com.teammealky.mealky.R
 import com.teammealky.mealky.presentation.App
@@ -37,6 +38,11 @@ class AccountActivity : BaseActivity<AccountPresenter, AccountPresenter.UI, Acco
         ft.replace(R.id.containerAccount, fragment)
         ft.addToBackStack(null)
         ft.commit()
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+        presenter?.touchEventDispatched()
+        return super.dispatchTouchEvent(ev)
     }
 
     override fun onBackPressed() {

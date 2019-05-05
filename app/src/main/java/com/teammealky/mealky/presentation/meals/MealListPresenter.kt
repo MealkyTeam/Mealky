@@ -122,11 +122,6 @@ class MealListPresenter @Inject constructor(
         this.savedRecyclerViewPosition = savedRecyclerView
     }
 
-    fun scrolled(newState: Int) {
-        if (newState == RecyclerView.SCROLL_STATE_DRAGGING)
-            ui().perform { it.hideKeyboard() }
-    }
-
     fun shouldStopLoadMore(): Boolean {
         return isLast && currentQuery != ""
     }

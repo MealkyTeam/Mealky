@@ -257,7 +257,6 @@ class ShoppingListPresenterTest {
             //onInformationPassed
             view.showEmptyView(false)
             view.enableClearListBtn(true)
-            view.hideKeyboard()
 
             view.fillList(newList)
         }

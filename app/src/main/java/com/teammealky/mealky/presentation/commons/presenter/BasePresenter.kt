@@ -34,5 +34,9 @@ abstract class BasePresenter<UI : BaseUI> : Presenter<UI> {
         eventDisposable.clear()
     }
 
+    open fun touchEventDispatched() {
+        ui().perform { it.hideKeyboard() }
+    }
+
     protected fun ui(): SafeUI<UI> = uiExecutor
 }
