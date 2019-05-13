@@ -23,7 +23,8 @@ class IngredientQuantityView @JvmOverloads constructor(
             field = value
             bind()
         }
-    var listener: FieldChangedListener? = null
+    var fieldChangedListener: FieldChangedListener? = null
+    var clickListener: OnClickListener? = null
 
     init {
         inflate(R.layout.ingredient_quantity_view, true)
@@ -36,6 +37,9 @@ class IngredientQuantityView @JvmOverloads constructor(
             ingredientNameTv.text = vm.item.name.capitalize() + ":"
             quantityTv.setText(vm.item.quantity.toString(), TextView.BufferType.EDITABLE)
             unitTv.text = vm.item.unit.name
+
+            quantityTv.isFocusableInTouchMode = !vm.isChecked
+            quantityTv.setOnClickListener(if (vm.isChecked) clickListener else null)
         }
     }
 
@@ -44,7 +48,7 @@ class IngredientQuantityView @JvmOverloads constructor(
         val quantity = text.toDoubleOrNull() ?: 0.0
         model?.let { vm ->
             vm.item = vm.item.copy(quantity = quantity)
-            listener?.fieldChanged(vm, quantity)
+            fieldChangedListener?.fieldChanged(vm, quantity)
         }
     }
 
