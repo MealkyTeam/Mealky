@@ -32,7 +32,8 @@ open class ShoppingListItemView @JvmOverloads constructor(
     override fun bind() {
         model?.let { vm ->
             quantityView.model = vm
-            quantityView.listener = fieldChangedListener
+            quantityView.fieldChangedListener = fieldChangedListener
+            quantityView.clickListener = this
 
             bullet.setImageResource(if (vm.isChecked) R.drawable.ic_bullet_grey_16dp else R.drawable.ic_bullet_black_16dp)
             checkbox.buttonDrawable =
