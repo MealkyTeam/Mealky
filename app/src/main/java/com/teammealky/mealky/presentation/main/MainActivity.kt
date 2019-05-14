@@ -13,6 +13,7 @@ import com.teammealky.mealky.presentation.App
 import com.teammealky.mealky.presentation.commons.Navigator
 import com.teammealky.mealky.presentation.commons.extension.*
 import com.teammealky.mealky.presentation.commons.listener.OnBackPressedListener
+import com.teammealky.mealky.presentation.commons.listener.ReSelectTabListener
 import com.teammealky.mealky.presentation.commons.presenter.BaseActivity
 import com.teammealky.mealky.presentation.discover.DiscoverFragment
 import com.teammealky.mealky.presentation.meal.MealFragment
@@ -64,7 +65,8 @@ class MainActivity : BaseActivity<MainPresenter, MainPresenter.UI, MainViewModel
     }
 
     override fun onNavigationItemReselected(item: MenuItem) {
-        presenter?.setContent(item.itemId)
+        val currentFragment = contentSwitcher.getCurrentFragment()
+        if (currentFragment is ReSelectTabListener) currentFragment.onReSelected()
     }
 
     override fun onBackPressed() {

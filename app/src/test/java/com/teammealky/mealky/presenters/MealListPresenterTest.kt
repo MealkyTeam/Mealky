@@ -41,9 +41,9 @@ class MealListPresenterTest {
         every { view.showErrorMessage(any(), any(), false) } just Runs
         every { view.showEmptyView(any(), any()) } just Runs
         every { view.clearList() } just Runs
-        every { view.scrollToTop() } just Runs
         every { view.hideKeyboard() } just Runs
         every { view.openAddMeal() } just Runs
+        every { view.scrollToTop(any()) } just Runs
 
         presenter = MealListPresenter(mockUseCase)
     }
@@ -367,6 +367,27 @@ class MealListPresenterTest {
             view.clearList()
             view.fillList(MockDataTest.MEALS)
             view.scrollToSaved(savedPosition)
+        }
+    }
+
+    /**
+     * Scenario: Scroll to top on tab reselect
+     * Given there is filled presenter
+     * When user clicks on meal list tab
+     * Then smoothly scroll to top
+     */
+    @Test
+    fun `Scroll to top on tab reselect`() {
+        //Given
+        presenter.attach(view)
+        presenter.firstRequest()
+
+        //When
+        presenter.fragmentReselected()
+
+        //Then
+        verifyOrder {
+            view.scrollToTop(true)
         }
     }
 }
