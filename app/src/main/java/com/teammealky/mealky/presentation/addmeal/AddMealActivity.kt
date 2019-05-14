@@ -1,4 +1,4 @@
-package com.teammealky.mealky.presentation.addmeal
+   package com.teammealky.mealky.presentation.addmeal
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -94,7 +94,7 @@ class AddMealActivity : BaseActivity<AddMealPresenter, AddMealPresenter.UI, AddM
     }
 
     override fun toMainActivity() {
-        Navigator.from(this as Navigator.Navigable).openActivity(Navigator.ACTIVITY_MAIN)
+        Navigator.from(this as Navigator.Navigable).openMainActivity(true)
     }
 
     override fun showErrors(errors: List<ValidationResult>) {

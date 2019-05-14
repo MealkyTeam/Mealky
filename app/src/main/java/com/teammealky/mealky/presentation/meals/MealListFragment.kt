@@ -25,6 +25,7 @@ import kotlinx.android.synthetic.main.empty_item.view.*
 import kotlinx.android.synthetic.main.meals_fragment.*
 import kotlinx.android.synthetic.main.search_toolbar.*
 import android.os.Parcelable
+import com.teammealky.mealky.presentation.commons.Navigator.Companion.INVALIDATE_LIST_KEY
 import com.teammealky.mealky.presentation.commons.listener.ReSelectTabListener
 
 class MealListFragment : BaseFragment<MealListPresenter, MealListPresenter.UI, MealListViewModel>(),
@@ -156,7 +157,29 @@ class MealListFragment : BaseFragment<MealListPresenter, MealListPresenter.UI, M
         presenter?.fragmentReselected()
     }
 
+    fun onNewArguments(arguments: Bundle?) {
+        if (null == arguments) return
+
+        val invalidateList = arguments.getBoolean(INVALIDATE_LIST_KEY)
+        presenter?.invalidateRepository(invalidateList)
+    }
+
     override fun openAddMeal() {
         Navigator.from(context as Navigator.Navigable).openActivity(Navigator.ACTIVITY_ADD_MEAL)
+    }
+
+    override fun clearSearchText() {
+        searchEditText.setText("")
+    }
+
+    companion object {
+        fun newInstance(invalidateList: Boolean): MealListFragment {
+            val fragment = MealListFragment()
+            val bundle = Bundle()
+            bundle.putBoolean(INVALIDATE_LIST_KEY, invalidateList)
+            fragment.arguments = bundle
+
+            return fragment
+        }
     }
 }

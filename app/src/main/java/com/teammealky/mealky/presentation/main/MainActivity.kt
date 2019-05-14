@@ -11,6 +11,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.teammealky.mealky.R
 import com.teammealky.mealky.presentation.App
 import com.teammealky.mealky.presentation.commons.Navigator
+import com.teammealky.mealky.presentation.commons.Navigator.Companion.INVALIDATE_LIST_KEY
 import com.teammealky.mealky.presentation.commons.extension.*
 import com.teammealky.mealky.presentation.commons.listener.OnBackPressedListener
 import com.teammealky.mealky.presentation.commons.listener.ReSelectTabListener
@@ -41,6 +42,12 @@ class MainActivity : BaseActivity<MainPresenter, MainPresenter.UI, MainViewModel
         initUI()
     }
 
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        val invalidateList = intent?.getBooleanExtra(INVALIDATE_LIST_KEY, false) ?: false
+        presenter?.setContent(R.id.navHome, invalidateList)
+    }
+
     private fun initUI() {
         bottomBar.setOnNavigationItemSelectedListener(this)
         bottomBar.setOnNavigationItemReselectedListener(this)
@@ -66,7 +73,11 @@ class MainActivity : BaseActivity<MainPresenter, MainPresenter.UI, MainViewModel
 
     override fun onNavigationItemReselected(item: MenuItem) {
         val currentFragment = contentSwitcher.getCurrentFragment()
-        if (currentFragment is ReSelectTabListener) currentFragment.onReSelected()
+        if (currentFragment is ReSelectTabListener)
+            currentFragment.onReSelected()
+
+        if (item.itemId == R.id.navHome)
+            presenter?.setContent(item.itemId)
     }
 
     override fun onBackPressed() {
@@ -86,8 +97,8 @@ class MainActivity : BaseActivity<MainPresenter, MainPresenter.UI, MainViewModel
         }
     }
 
-    override fun openHome() {
-        Navigator.from(this).openHome()
+    override fun openHome(invalidateList: Boolean) {
+        Navigator.from(this).openHome(invalidateList)
     }
 
     override fun openShoppingList() {

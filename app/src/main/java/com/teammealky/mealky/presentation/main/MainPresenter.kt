@@ -12,9 +12,9 @@ class MainPresenter @Inject constructor(
 
 ) : BasePresenter<MainPresenter.UI>() {
 
-    fun setContent(menuItemId: Int) {
+    fun setContent(menuItemId: Int, invalidateList: Boolean = false) {
         when (menuItemId) {
-            R.id.navHome -> ui().perform { it.openHome() }
+            R.id.navHome -> ui().perform { it.openHome(invalidateList) }
             R.id.navShoppingList -> ui().perform { it.openShoppingList() }
             R.id.navDiscover -> ui().perform { it.openDiscover() }
             R.id.navSettings -> ui().perform { it.openSettings() }
@@ -27,7 +27,7 @@ class MainPresenter @Inject constructor(
 
     interface UI : BaseUI {
         fun setContent(fragment: Fragment, cleanStack: Boolean = false, transitionValues: List<TransitionValues>? = null)
-        fun openHome()
+        fun openHome(invalidateList: Boolean)
         fun openShoppingList()
         fun openDiscover()
         fun openSettings()
