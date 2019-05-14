@@ -130,6 +130,10 @@ class MealListPresenter @Inject constructor(
         ui().perform { it.openAddMeal() }
     }
 
+    fun fragmentReselected() {
+        ui().perform { it.scrollToTop(true) }
+    }
+
     interface UI : BaseUI {
         fun setupRecyclerView()
         fun openItem(meal: Meal)
@@ -137,7 +141,7 @@ class MealListPresenter @Inject constructor(
         fun fillList(meals: List<Meal>)
         fun scrollToSaved(savedRecyclerView: Parcelable?)
         fun clearList()
-        fun scrollToTop()
+        fun scrollToTop(animate: Boolean = false)
         fun showEmptyView(isVisible: Boolean, query: String = "")
         fun openAddMeal()
     }
