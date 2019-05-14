@@ -19,8 +19,10 @@ class ContentSwitcher(private val fm: FragmentManager) {
     fun switchContent(newFragment: Fragment, cleanStack: Boolean, transitionValues: List<TransitionValues>?) {
         val currentFragment = getCurrentFragment()
 
-        if (currentFragment?.javaClass == newFragment.javaClass)
+        if (areTheSame(newFragment)) {
+            updateFragment(newFragment)
             return
+        }
 
         val ft = fm.beginTransaction()
         ft.setReorderingAllowed(true)
@@ -42,6 +44,16 @@ class ContentSwitcher(private val fm: FragmentManager) {
         ft.addToBackStack(null)
         ft.commit()
     }
+
+    private fun updateFragment(newFragment: Fragment) {
+        when (newFragment) {
+            is MealListFragment -> {
+                (getCurrentFragment() as MealListFragment).onNewArguments(newFragment.arguments)
+            }
+        }
+    }
+
+    private fun areTheSame(newFragment: Fragment) = getCurrentFragment()?.javaClass == newFragment.javaClass
 
     private fun restoreHome(newFragment: Fragment, ft: FragmentTransaction) {
         val rlNewFragment = fm.getFragment(homeFragmentBundle, Navigator.FRAG_HOME) ?: newFragment

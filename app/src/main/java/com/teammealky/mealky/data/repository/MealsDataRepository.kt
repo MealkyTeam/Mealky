@@ -23,4 +23,8 @@ class MealsDataRepository @Inject constructor(
                 }
         ).filter { it !== local.emptyItem }.first(Page.emptyPage())
     }
+
+    override fun invalidate() {
+        local.invalidate()
+    }
 }

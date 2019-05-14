@@ -1,7 +1,6 @@
 package com.teammealky.mealky.presenters
 
 import android.os.Bundle
-import androidx.recyclerview.widget.RecyclerView
 import com.teammealky.mealky.MockDataTest
 import com.teammealky.mealky.MockDataTest.Companion.NOT_EMPTY_QUERY_WITHOUT_RESULT
 import com.teammealky.mealky.MockDataTest.Companion.NOT_EMPTY_QUERY_WITH_RESULT
@@ -44,8 +43,10 @@ class MealListPresenterTest {
         every { view.hideKeyboard() } just Runs
         every { view.openAddMeal() } just Runs
         every { view.scrollToTop(any()) } just Runs
+        every { view.clearSearchText() } just Runs
+        every { mockRepository.invalidate() } just Runs
 
-        presenter = MealListPresenter(mockUseCase)
+        presenter = MealListPresenter(mockUseCase, mockRepository)
     }
 
     /**
@@ -388,6 +389,35 @@ class MealListPresenterTest {
         //Then
         verifyOrder {
             view.scrollToTop(true)
+        }
+    }
+
+    /**
+     * Scenario: Invalidate repository
+     * Given there is filled presenter
+     * When old meals data should be refetched
+     * Then clear everyting and fetch first page again
+     */
+    @Test
+    fun `Invalidate repository`() {
+        //Given
+        presenter.attach(view)
+        presenter.firstRequest()
+
+        //When
+        presenter.invalidateRepository(true)
+
+        //Then
+        verifyOrder {
+            view.clearSearchText()
+            view.isLoading(true)
+            view.clearList()
+            view.scrollToTop()
+            view.isLoading(true)
+
+            view.fillList(MockDataTest.MEALS_PAGE.items)
+            view.isLoading(false)
+            view.showEmptyView(false, "")
         }
     }
 }

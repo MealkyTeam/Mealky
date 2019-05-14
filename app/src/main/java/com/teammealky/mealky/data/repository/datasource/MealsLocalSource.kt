@@ -68,6 +68,10 @@ class MealsLocalSource @Inject constructor() : MealsRepository {
             val model: Page<Meal>
     )
 
+    override fun invalidate() {
+        cache.clear()
+    }
+
     companion object {
         private const val CACHE_TTL_MIN = 15
     }

@@ -1,8 +1,8 @@
 package com.teammealky.mealky.presentation.meals
 
 import android.os.Parcelable
-import androidx.recyclerview.widget.RecyclerView
 import com.teammealky.mealky.domain.model.Meal
+import com.teammealky.mealky.domain.repository.MealsRepository
 import com.teammealky.mealky.domain.usecase.meals.ListMealsUseCase
 import com.teammealky.mealky.presentation.commons.presenter.BasePresenter
 import com.teammealky.mealky.presentation.commons.presenter.BaseUI
@@ -11,7 +11,8 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class MealListPresenter @Inject constructor(
-        private val getMealsUseCase: ListMealsUseCase
+        private val getMealsUseCase: ListMealsUseCase,
+        private val mealsRepository: MealsRepository
 ) : BasePresenter<MealListPresenter.UI>() {
 
     private var totalPages: Int = 0
@@ -23,6 +24,7 @@ class MealListPresenter @Inject constructor(
     var isLoading = false
     var isLast = false
     var currentQuery = ""
+
 
     fun onItemClicked(model: Meal) {
         ui().perform { it.openItem(model) }
@@ -122,6 +124,15 @@ class MealListPresenter @Inject constructor(
         this.savedRecyclerViewPosition = savedRecyclerView
     }
 
+    fun invalidateRepository(invalidateList: Boolean) {
+        if (invalidateList) {
+            mealsRepository.invalidate()
+            currentQuery = ""
+            ui().perform { it.clearSearchText() }
+            search()
+        }
+    }
+
     fun shouldStopLoadMore(): Boolean {
         return isLast && currentQuery != ""
     }
@@ -144,6 +155,7 @@ class MealListPresenter @Inject constructor(
         fun scrollToTop(animate: Boolean = false)
         fun showEmptyView(isVisible: Boolean, query: String = "")
         fun openAddMeal()
+        fun clearSearchText()
     }
 
     companion object {
