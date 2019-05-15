@@ -65,6 +65,7 @@ class MealListFragment : BaseFragment<MealListPresenter, MealListPresenter.UI, M
     }
 
     override fun setupRecyclerView() {
+        swipeContainer.setOnRefreshListener { presenter?.swipedContainer() }
         layoutManager = LinearLayoutManager(context)
         adapter = MealsAdapter(listener = this)
 
@@ -110,6 +111,10 @@ class MealListFragment : BaseFragment<MealListPresenter, MealListPresenter.UI, M
 
     override fun onItemClick(item: Meal) {
         presenter?.onItemClicked(item)
+    }
+
+    override fun stopSpinner() {
+        swipeContainer.isRefreshing = false
     }
 
     override fun scrollToTop(animate: Boolean) {
@@ -161,7 +166,7 @@ class MealListFragment : BaseFragment<MealListPresenter, MealListPresenter.UI, M
         if (null == arguments) return
 
         val invalidateList = arguments.getBoolean(INVALIDATE_LIST_KEY)
-        presenter?.invalidateRepository(invalidateList)
+        presenter?.invalidateList(invalidateList)
     }
 
     override fun openAddMeal() {
