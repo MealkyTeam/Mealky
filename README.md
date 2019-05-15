@@ -37,6 +37,15 @@ Biblioteki:
 -------------------------------------------------------------------
 Lista zmian:
 
+Wersja 1.2.0
+- Usprawnione chowanie klawiatury.
+- Zablokowano możliwość zmiany ilości w usuniętym składniku.
+- Przycisk dodaj do koszyka jest aktywny tylko gdy są wybrane jakieś składniki.
+- Dodano odswieżanie na pociągnięcie.
+- Poprawki textów w aplikacji.
+- Usprawnienie kodu aplikacji.
+- Poprawki błędów.
+
 Wersja 1.1.0
 - Dodano funkcję “Dodaj posiłek”. 
 - Zmieniono poruszanie się w aplikacji. Kliknięcie przycisku “wstecz” cofa tam gdzie powinno.
