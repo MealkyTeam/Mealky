@@ -2,7 +2,6 @@ package com.teammealky.mealky.presentation.meals
 
 import android.os.Parcelable
 import com.teammealky.mealky.domain.model.Meal
-import com.teammealky.mealky.domain.repository.MealsRepository
 import com.teammealky.mealky.domain.usecase.meals.ListMealsUseCase
 import com.teammealky.mealky.presentation.commons.presenter.BasePresenter
 import com.teammealky.mealky.presentation.commons.presenter.BaseUI
@@ -11,8 +10,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class MealListPresenter @Inject constructor(
-        private val getMealsUseCase: ListMealsUseCase,
-        private val mealsRepository: MealsRepository
+        private val getMealsUseCase: ListMealsUseCase
 ) : BasePresenter<MealListPresenter.UI>() {
 
     private var totalPages: Int = 0
@@ -21,6 +19,7 @@ class MealListPresenter @Inject constructor(
     private var meals = emptyList<Meal>()
     private var savedRecyclerViewPosition: Parcelable? = null
     private var searchDisposable = CompositeDisposable()
+    private var forceReload = false
     var isLoading = false
     var isLast = false
     var currentQuery = ""
@@ -94,7 +93,7 @@ class MealListPresenter @Inject constructor(
 
         ui().perform { it.isLoading(true) }
         searchDisposable.add(getMealsUseCase.execute(
-                ListMealsUseCase.Params(currentQuery, 0, LIMIT),
+                ListMealsUseCase.Params(currentQuery, 0, LIMIT, forceReload),
                 { page ->
                     ui().perform {
                         it.clearList()
@@ -102,7 +101,7 @@ class MealListPresenter @Inject constructor(
                     }
                     totalPages = page.totalPages
                     totalElements = page.totalElements
-
+                    forceReload = false
                     loadMore()
                 },
                 { e ->
@@ -124,15 +123,20 @@ class MealListPresenter @Inject constructor(
         this.savedRecyclerViewPosition = savedRecyclerView
     }
 
-    fun invalidateRepository(invalidateList: Boolean) {
+    fun invalidateList(invalidateList: Boolean) {
         if (invalidateList) {
-            mealsRepository.invalidate()
+            forceReload = true
             currentQuery = ""
             ui().perform { it.clearSearchText() }
             search()
         }
     }
 
+    fun swipedContainer() {
+        forceReload = true
+        ui().perform { it.stopSpinner() }
+        search()
+    }
     fun shouldStopLoadMore(): Boolean {
         return isLast && currentQuery != ""
     }
@@ -155,6 +159,7 @@ class MealListPresenter @Inject constructor(
         fun scrollToTop(animate: Boolean = false)
         fun showEmptyView(isVisible: Boolean, query: String = "")
         fun openAddMeal()
+        fun stopSpinner()
         fun clearSearchText()
     }
 

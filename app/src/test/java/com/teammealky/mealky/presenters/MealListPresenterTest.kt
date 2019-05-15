@@ -28,6 +28,7 @@ class MealListPresenterTest {
     @Before
     fun setUp() {
         every { mockUseCase.asSingle(ListMealsUseCase.Params("", 0, 8)) } returns Single.just(MockDataTest.MEALS_PAGE)
+        every { mockUseCase.asSingle(ListMealsUseCase.Params("", 0, 8, true)) } returns Single.just(MockDataTest.MEALS_PAGE)
         every { mockUseCase.asSingle(ListMealsUseCase.Params(NOT_EMPTY_QUERY_WITH_RESULT, 0, 8)) } returns Single.just(MockDataTest.MEALS_PAGE2)
         every { mockUseCase.asSingle(ListMealsUseCase.Params(NOT_EMPTY_QUERY_WITHOUT_RESULT, 0, 8)) } returns Single.just(MockDataTest.MEALS_EMPTY_PAGE)
 
@@ -44,9 +45,10 @@ class MealListPresenterTest {
         every { view.openAddMeal() } just Runs
         every { view.scrollToTop(any()) } just Runs
         every { view.clearSearchText() } just Runs
+        every { view.stopSpinner() } just Runs
         every { mockRepository.invalidate() } just Runs
 
-        presenter = MealListPresenter(mockUseCase, mockRepository)
+        presenter = MealListPresenter(mockUseCase)
     }
 
     /**
@@ -396,26 +398,62 @@ class MealListPresenterTest {
      * Scenario: Invalidate repository
      * Given there is filled presenter
      * When old meals data should be refetched
-     * Then clear everyting and fetch first page again
+     * Then clear everything and fetch first page again
      */
     @Test
     fun `Invalidate repository`() {
         //Given
         presenter.attach(view)
         presenter.firstRequest()
+        every { mockUseCase.asSingle(ListMealsUseCase.Params("", 0, 8)) } returns Single.just(MockDataTest.MEALS_PAGE2)
 
         //When
-        presenter.invalidateRepository(true)
+        presenter.invalidateList(true)
 
         //Then
         verifyOrder {
+            //search
             view.clearSearchText()
             view.isLoading(true)
             view.clearList()
             view.scrollToTop()
             view.isLoading(true)
 
-            view.fillList(MockDataTest.MEALS_PAGE.items)
+            //loadMore
+            view.fillList(MockDataTest.MEALS_PAGE2.items)
+            view.isLoading(false)
+            view.showEmptyView(false, "")
+        }
+    }
+
+    /**
+     * Scenario: Refresh after user swiped down
+     * Given there is filled presenter
+     * When user swipes down
+     * Then clear everything and fetch again
+     */
+    @Test
+    fun `Refresh after user swiped down`() {
+        //Given
+        presenter.attach(view)
+        presenter.firstRequest()
+        every { mockUseCase.asSingle(ListMealsUseCase.Params("", 0, 8)) } returns Single.just(MockDataTest.MEALS_PAGE2)
+
+        //When
+        presenter.swipedContainer()
+
+        //Then
+        verifyOrder {
+            //swipedContainer
+            view.stopSpinner()
+
+            //search
+            view.isLoading(true)
+            view.clearList()
+            view.scrollToTop()
+
+            //loadMore
+            view.fillList(MockDataTest.MEALS_PAGE2.items)
             view.isLoading(false)
             view.showEmptyView(false, "")
         }
