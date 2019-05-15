@@ -347,7 +347,6 @@ class AddMealPresenterTest {
         //Then
         verifyOrder {
             view.updateIngredients(models)
-            view.hideKeyboard()
         }
     }
 

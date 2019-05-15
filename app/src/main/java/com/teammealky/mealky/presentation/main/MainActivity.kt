@@ -5,13 +5,16 @@ import android.content.Intent
 import android.os.Bundle
 import android.transition.TransitionValues
 import android.view.MenuItem
+import android.view.MotionEvent
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.teammealky.mealky.R
 import com.teammealky.mealky.presentation.App
 import com.teammealky.mealky.presentation.commons.Navigator
+import com.teammealky.mealky.presentation.commons.Navigator.Companion.INVALIDATE_LIST_KEY
 import com.teammealky.mealky.presentation.commons.extension.*
 import com.teammealky.mealky.presentation.commons.listener.OnBackPressedListener
+import com.teammealky.mealky.presentation.commons.listener.ReSelectTabListener
 import com.teammealky.mealky.presentation.commons.presenter.BaseActivity
 import com.teammealky.mealky.presentation.discover.DiscoverFragment
 import com.teammealky.mealky.presentation.meal.MealFragment
@@ -39,6 +42,12 @@ class MainActivity : BaseActivity<MainPresenter, MainPresenter.UI, MainViewModel
         initUI()
     }
 
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        val invalidateList = intent?.getBooleanExtra(INVALIDATE_LIST_KEY, false) ?: false
+        presenter?.setContent(R.id.navHome, invalidateList)
+    }
+
     private fun initUI() {
         bottomBar.setOnNavigationItemSelectedListener(this)
         bottomBar.setOnNavigationItemReselectedListener(this)
@@ -63,7 +72,12 @@ class MainActivity : BaseActivity<MainPresenter, MainPresenter.UI, MainViewModel
     }
 
     override fun onNavigationItemReselected(item: MenuItem) {
-        presenter?.setContent(item.itemId)
+        val currentFragment = contentSwitcher.getCurrentFragment()
+        if (currentFragment is ReSelectTabListener)
+            currentFragment.onReSelected()
+
+        if (item.itemId == R.id.navHome)
+            presenter?.setContent(item.itemId)
     }
 
     override fun onBackPressed() {
@@ -81,6 +95,22 @@ class MainActivity : BaseActivity<MainPresenter, MainPresenter.UI, MainViewModel
         } else {
             finish()
         }
+    }
+
+    override fun openHome(invalidateList: Boolean) {
+        Navigator.from(this).openHome(invalidateList)
+    }
+
+    override fun openShoppingList() {
+        Navigator.from(this).openShoppingList()
+    }
+
+    override fun openDiscover() {
+        Navigator.from(this).openDiscover()
+    }
+
+    override fun openSettings() {
+        Navigator.from(this).openSettings()
     }
 
     private fun updateBottomBarSelection(fragment: Fragment): Boolean {
@@ -111,6 +141,11 @@ class MainActivity : BaseActivity<MainPresenter, MainPresenter.UI, MainViewModel
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         contentSwitcher.getCurrentFragment()?.onActivityResult(requestCode, resultCode, data)
         super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+        presenter?.touchEventDispatched()
+        return super.dispatchTouchEvent(ev)
     }
 
     companion object {

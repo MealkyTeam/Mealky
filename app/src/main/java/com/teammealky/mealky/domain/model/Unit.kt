@@ -1,8 +1,7 @@
 package com.teammealky.mealky.domain.model
 
 data class Unit(
-        val name: String,
-        val id: Int = -1
+        val name: String
 ) {
     override fun equals(other: Any?): Boolean {
         if (other !is Unit) return false

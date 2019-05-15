@@ -1,6 +1,6 @@
 package com.teammealky.mealky.presentation.meals
 
-import androidx.recyclerview.widget.RecyclerView
+import android.os.Parcelable
 import com.teammealky.mealky.domain.model.Meal
 import com.teammealky.mealky.domain.usecase.meals.ListMealsUseCase
 import com.teammealky.mealky.presentation.commons.presenter.BasePresenter
@@ -17,10 +17,13 @@ class MealListPresenter @Inject constructor(
     private var totalElements: Int = 0
     private var pageNumber: Int = 0
     private var meals = emptyList<Meal>()
-    private var visibleItemId = 0
+    private var savedRecyclerViewPosition: Parcelable? = null
     private var searchDisposable = CompositeDisposable()
+    private var forceReload = false
     var isLoading = false
+    var isLast = false
     var currentQuery = ""
+
 
     fun onItemClicked(model: Meal) {
         ui().perform { it.openItem(model) }
@@ -32,8 +35,8 @@ class MealListPresenter @Inject constructor(
     }
 
     fun firstRequest() {
-        ui().perform { it.isLoading(true) }
         if (meals.isEmpty()) {
+            ui().perform { it.isLoading(true) }
             searchDisposable.add(getMealsUseCase.execute(
                     ListMealsUseCase.Params(page = 0, limit = LIMIT),
                     { page ->
@@ -52,9 +55,9 @@ class MealListPresenter @Inject constructor(
 
     private fun refresh() {
         ui().perform {
+            it.clearList()
             it.fillList(meals)
-            it.setVisibleItem(visibleItemId)
-            it.isLoading(false)
+            it.scrollToSaved(savedRecyclerViewPosition)
         }
     }
 
@@ -64,6 +67,7 @@ class MealListPresenter @Inject constructor(
         searchDisposable.add(getMealsUseCase.execute(
                 ListMealsUseCase.Params(currentQuery, pageNumber, LIMIT),
                 { page ->
+                    isLast = page.last
                     ui().perform {
                         isLoading = false
                         meals = meals + page.items
@@ -77,20 +81,19 @@ class MealListPresenter @Inject constructor(
                         pageNumber++
                 },
                 { e ->
+                    ui().perform { it.isLoading(false) }
                     Timber.e("KUBA_LOG Method:loadMore ***** $e *****")
                 }))
     }
 
-    private fun shouldResetPages() = allPagesFetched() && currentQuery == ""
-
-    private fun allPagesFetched() = pageNumber >= totalPages - 1
+    private fun shouldResetPages() = isLast && currentQuery == ""
 
     fun search() {
         invalidate()
 
         ui().perform { it.isLoading(true) }
         searchDisposable.add(getMealsUseCase.execute(
-                ListMealsUseCase.Params(currentQuery, 0, LIMIT),
+                ListMealsUseCase.Params(currentQuery, 0, LIMIT, forceReload),
                 { page ->
                     ui().perform {
                         it.clearList()
@@ -98,7 +101,7 @@ class MealListPresenter @Inject constructor(
                     }
                     totalPages = page.totalPages
                     totalElements = page.totalElements
-
+                    forceReload = false
                     loadMore()
                 },
                 { e ->
@@ -111,26 +114,39 @@ class MealListPresenter @Inject constructor(
         totalPages = 0
         pageNumber = 0
         meals = emptyList()
-        visibleItemId = 0
+        isLast = false
+        savedRecyclerViewPosition = null
         searchDisposable.clear()
     }
 
-
-    fun onPaused(itemPosition: Int) {
-        this.visibleItemId = itemPosition
+    fun onPaused(savedRecyclerView: Parcelable?) {
+        this.savedRecyclerViewPosition = savedRecyclerView
     }
 
-    fun scrolled(newState: Int) {
-        if (newState == RecyclerView.SCROLL_STATE_DRAGGING)
-            ui().perform { it.hideKeyboard() }
+    fun invalidateList(invalidateList: Boolean) {
+        if (invalidateList) {
+            forceReload = true
+            currentQuery = ""
+            ui().perform { it.clearSearchText() }
+            search()
+        }
     }
 
+    fun swipedContainer() {
+        forceReload = true
+        ui().perform { it.stopSpinner() }
+        search()
+    }
     fun shouldStopLoadMore(): Boolean {
-        return allPagesFetched() && currentQuery != ""
+        return isLast && currentQuery != ""
     }
 
     fun onAddMealBtnClicked() {
         ui().perform { it.openAddMeal() }
+    }
+
+    fun fragmentReselected() {
+        ui().perform { it.scrollToTop(true) }
     }
 
     interface UI : BaseUI {
@@ -138,11 +154,13 @@ class MealListPresenter @Inject constructor(
         fun openItem(meal: Meal)
         fun isLoading(isLoading: Boolean)
         fun fillList(meals: List<Meal>)
-        fun setVisibleItem(visibleItemId: Int)
+        fun scrollToSaved(savedRecyclerView: Parcelable?)
         fun clearList()
-        fun scrollToTop()
+        fun scrollToTop(animate: Boolean = false)
         fun showEmptyView(isVisible: Boolean, query: String = "")
         fun openAddMeal()
+        fun stopSpinner()
+        fun clearSearchText()
     }
 
     companion object {

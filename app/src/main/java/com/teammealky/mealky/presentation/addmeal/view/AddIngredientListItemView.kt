@@ -36,7 +36,7 @@ class AddIngredientListItemView @JvmOverloads constructor(
     override fun bind() {
         model?.let {
             quantityView.model = it
-            quantityView.listener = fieldChangedListener
+            quantityView.fieldChangedListener = fieldChangedListener
         }
     }
 }

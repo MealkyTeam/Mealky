@@ -78,12 +78,12 @@ class Navigator(private val nav: Navigable) {
 
     fun openForgottenPassword() {
         val fragment = ForgottenPasswordFragment()
-
         nav.navigateTo(fragment)
     }
 
-    fun openHome() {
-        nav.navigateTo(MealListFragment(), true)
+    fun openHome(invalidateList: Boolean = false) {
+        val fragment = MealListFragment.newInstance(invalidateList)
+        nav.navigateTo(fragment)
     }
 
     fun openActivity(activityString: String) {
@@ -97,9 +97,18 @@ class Navigator(private val nav: Navigable) {
         context.startActivity(intent)
     }
 
+    fun openMainActivity(invalidateList: Boolean = false) {
+        val context = nav.getContext()
+        val intent = Intent(context, MainActivity::class.java).apply {
+            putExtra(INVALIDATE_LIST_KEY, invalidateList)
+        }
+        context.startActivity(intent)
+    }
+
     companion object {
         const val NAVIGATE = "navigate_to"
 
+        const val FRAG_HOME = "home"
         const val FRAG_MEAL = "meal"
         const val FRAG_SHOPPING_LIST = "shopping_list"
         const val FRAG_DISCOVER = "discover"
@@ -111,7 +120,9 @@ class Navigator(private val nav: Navigable) {
 
         const val ACTIVITY_MAIN = "main"
         const val ACTIVITY_ACCOUNT = "account"
-        const val ACTIVITY_ADD_MEAL= "add_meal"
+        const val ACTIVITY_ADD_MEAL = "add_meal"
+
+        const val INVALIDATE_LIST_KEY = "invalidate_list_key"
 
         fun from(navigable: Navigable): Navigator = Navigator(navigable)
     }

@@ -24,10 +24,13 @@ import kotlinx.android.synthetic.main.empty_item.*
 import kotlinx.android.synthetic.main.empty_item.view.*
 import kotlinx.android.synthetic.main.meals_fragment.*
 import kotlinx.android.synthetic.main.search_toolbar.*
+import android.os.Parcelable
+import com.teammealky.mealky.presentation.commons.Navigator.Companion.INVALIDATE_LIST_KEY
+import com.teammealky.mealky.presentation.commons.listener.ReSelectTabListener
 
 class MealListFragment : BaseFragment<MealListPresenter, MealListPresenter.UI, MealListViewModel>(),
         MealListPresenter.UI, MealsAdapter.OnItemClickListener,
-        TextWatcher, TextView.OnEditorActionListener, View.OnClickListener {
+        TextWatcher, TextView.OnEditorActionListener, View.OnClickListener, ReSelectTabListener {
 
     override val vmClass = MealListViewModel::class.java
 
@@ -62,6 +65,7 @@ class MealListFragment : BaseFragment<MealListPresenter, MealListPresenter.UI, M
     }
 
     override fun setupRecyclerView() {
+        swipeContainer.setOnRefreshListener { presenter?.swipedContainer() }
         layoutManager = LinearLayoutManager(context)
         adapter = MealsAdapter(listener = this)
 
@@ -82,12 +86,6 @@ class MealListFragment : BaseFragment<MealListPresenter, MealListPresenter.UI, M
                 presenter?.isLoading = true
                 presenter?.loadMore()
             }
-
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-
-                presenter?.scrolled(newState)
-            }
         })
     }
 
@@ -96,11 +94,11 @@ class MealListFragment : BaseFragment<MealListPresenter, MealListPresenter.UI, M
     }
 
     override fun clearList() {
-        adapter.meals = emptyList()
+        adapter.clearList()
     }
 
-    override fun setVisibleItem(visibleItemId: Int) {
-        layoutManager.scrollToPosition(visibleItemId)
+    override fun scrollToSaved(savedRecyclerView: Parcelable?) {
+        layoutManager.onRestoreInstanceState(savedRecyclerView)
     }
 
     override fun isLoading(isLoading: Boolean) {
@@ -115,14 +113,19 @@ class MealListFragment : BaseFragment<MealListPresenter, MealListPresenter.UI, M
         presenter?.onItemClicked(item)
     }
 
-    override fun scrollToTop() {
-        mealListRv.scrollToPosition(0)
+    override fun stopSpinner() {
+        swipeContainer.isRefreshing = false
+    }
+
+    override fun scrollToTop(animate: Boolean) {
+        if (animate)
+            mealListRv.smoothScrollToPosition(0)
+        else
+            mealListRv.scrollToPosition(0)
     }
 
     override fun onPause() {
-        val itemPosition = (mealListRv.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
-        presenter?.onPaused(itemPosition)
-
+        presenter?.onPaused(layoutManager.onSaveInstanceState())
         super.onPause()
     }
 
@@ -150,12 +153,38 @@ class MealListFragment : BaseFragment<MealListPresenter, MealListPresenter.UI, M
     }
 
     override fun onClick(v: View?) {
-        when(v?.id){
+        when (v?.id) {
             R.id.addMealBtn -> presenter?.onAddMealBtnClicked()
         }
     }
 
+    override fun onReSelected() {
+        presenter?.fragmentReselected()
+    }
+
+    fun onNewArguments(arguments: Bundle?) {
+        if (null == arguments) return
+
+        val invalidateList = arguments.getBoolean(INVALIDATE_LIST_KEY)
+        presenter?.invalidateList(invalidateList)
+    }
+
     override fun openAddMeal() {
         Navigator.from(context as Navigator.Navigable).openActivity(Navigator.ACTIVITY_ADD_MEAL)
+    }
+
+    override fun clearSearchText() {
+        searchEditText.setText("")
+    }
+
+    companion object {
+        fun newInstance(invalidateList: Boolean): MealListFragment {
+            val fragment = MealListFragment()
+            val bundle = Bundle()
+            bundle.putBoolean(INVALIDATE_LIST_KEY, invalidateList)
+            fragment.arguments = bundle
+
+            return fragment
+        }
     }
 }

@@ -22,7 +22,6 @@ class SignUpPresenter @Inject constructor(
             return
 
         ui().perform {
-            it.hideKeyboard()
             it.showInfoTv(false)
             it.isLoading(true)
         }

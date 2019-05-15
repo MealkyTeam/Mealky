@@ -9,7 +9,7 @@ import com.teammealky.mealky.domain.model.Meal
 import com.teammealky.mealky.presentation.commons.extension.loadImage
 import kotlinx.android.synthetic.main.meal_item.view.*
 
-class MealsAdapter(var meals: List<Meal> = emptyList(), private val listener: OnItemClickListener) :
+class MealsAdapter(private var meals: List<Meal> = emptyList(), private val listener: OnItemClickListener) :
         RecyclerView.Adapter<MealsAdapter.ViewHolder>() {
 
     interface OnItemClickListener {
@@ -40,6 +40,10 @@ class MealsAdapter(var meals: List<Meal> = emptyList(), private val listener: On
 
     override fun getItemCount() = meals.size
 
+    fun clearList(){
+        this.meals = emptyList()
+    }
+    
     fun addItems(meals: List<Meal>) {
         this.meals += meals
         this.notifyDataSetChanged()

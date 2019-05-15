@@ -83,7 +83,6 @@ class SignInPresenterTest {
             view.toggleSignInButton(true)
 
             //signInButtonClicked
-            view.hideKeyboard()
             view.hideEmailError()
             view.showInfoTv(false)
             view.isLoading(true)
@@ -149,7 +148,6 @@ class SignInPresenterTest {
             view.toggleSignInButton(true)
 
             //signInButtonClicked
-            view.hideKeyboard()
             view.hideEmailError()
             view.showInfoTv(false)
             view.isLoading(true)
@@ -190,7 +188,6 @@ class SignInPresenterTest {
             view.toggleSignInButton(true)
 
             //signInButtonClicked
-            view.hideKeyboard()
             view.hideEmailError()
             view.showInfoTv(false)
             view.isLoading(true)
@@ -232,7 +229,6 @@ class SignInPresenterTest {
             view.toggleSignInButton(true)
 
             //signInButtonClicked
-            view.hideKeyboard()
             view.hideEmailError()
             view.showInfoTv(false)
             view.isLoading(true)
@@ -275,7 +271,6 @@ class SignInPresenterTest {
             view.toggleSignInButton(true)
 
             //signInButtonClicked
-            view.hideKeyboard()
             view.hideEmailError()
             view.showInfoTv(false)
             view.isLoading(true)

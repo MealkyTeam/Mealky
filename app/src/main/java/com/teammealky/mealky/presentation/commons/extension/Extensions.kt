@@ -17,6 +17,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.WindowManager
 
+fun Date.isOlderThan(minutes: Int, nowFn: () -> Date = { Date() }): Boolean {
+    return nowFn().time - 1000 * 60 * minutes > time
+}
+
 fun BottomNavigationView.clearSelection() {
     for (i in 0 until menu.size()) {
         menu.getItem(i).apply {

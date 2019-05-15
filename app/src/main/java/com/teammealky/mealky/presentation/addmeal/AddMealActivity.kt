@@ -1,4 +1,4 @@
-package com.teammealky.mealky.presentation.addmeal
+   package com.teammealky.mealky.presentation.addmeal
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -30,6 +30,7 @@ import com.teammealky.mealky.presentation.meal.adapter.IngredientsAdapter.OnItem
 import com.teammealky.mealky.presentation.meal.model.IngredientViewModel
 import com.teammealky.mealky.presentation.commons.view.IngredientQuantityView.Companion.FieldChangedListener
 import android.content.Intent
+import android.view.MotionEvent
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.teammealky.mealky.presentation.addmeal.gallerycameradialog.GalleryCameraDialog
@@ -65,11 +66,6 @@ class AddMealActivity : BaseActivity<AddMealPresenter, AddMealPresenter.UI, AddM
         setupOnClick()
         addMealThumbnailsView.deleteListener = this
         setupRecyclerView()
-
-        scrollView.setOnTouchListener { _, _ ->
-            presenter?.touchedOutside()
-            false
-        }
     }
 
     private fun setupRecyclerView() {
@@ -98,7 +94,7 @@ class AddMealActivity : BaseActivity<AddMealPresenter, AddMealPresenter.UI, AddM
     }
 
     override fun toMainActivity() {
-        Navigator.from(this as Navigator.Navigable).openActivity(Navigator.ACTIVITY_MAIN)
+        Navigator.from(this as Navigator.Navigable).openMainActivity(true)
     }
 
     override fun showErrors(errors: List<ValidationResult>) {
@@ -252,6 +248,11 @@ class AddMealActivity : BaseActivity<AddMealPresenter, AddMealPresenter.UI, AddM
 
         }
         builder.show()
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+        presenter?.touchEventDispatched()
+        return super.dispatchTouchEvent(ev)
     }
 
     override fun getContext() = this

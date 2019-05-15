@@ -66,7 +66,7 @@ class ForgottenPasswordFragment : BaseFragment<ForgottenPasswordPresenter, Forgo
     }
 
     override fun showToast() {
-        val message = getString(R.string.password_reseted)
+        val message = getString(R.string.password_reset)
         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 

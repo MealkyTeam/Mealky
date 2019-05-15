@@ -48,10 +48,6 @@ class AddMealPresenter @Inject constructor(
     private fun fieldsAreNoteEmpty() = model.description.trim().isNotEmpty() && model.title.trim().isNotEmpty()
             && model.preparationTime.trim().isNotEmpty()
 
-    fun touchedOutside() {
-        ui().perform { it.hideKeyboard() }
-    }
-
     fun onConfirmBtnClicked() {
         ui().perform {
             it.clearErrors()
@@ -161,7 +157,6 @@ class AddMealPresenter @Inject constructor(
 
         ui().perform {
             it.updateIngredients(ingredientModels)
-            it.hideKeyboard()
         }
     }
 
