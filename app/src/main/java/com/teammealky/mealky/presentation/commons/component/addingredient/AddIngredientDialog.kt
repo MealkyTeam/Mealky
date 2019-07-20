@@ -64,16 +64,16 @@ class AddIngredientDialog : BaseDialogFragment<AddIngredientPresenter, AddIngred
     override fun onStart() {
         super.onStart()
 
-        ingredientInput = dialog.ingredientInput
-        quantityInput = dialog.quantityInput
-        unitInput = dialog.unitInput
-        progressBar = dialog.progressBar
-        userInputLayout = dialog.userInputLayout
-        infoTv = dialog.infoTv
+        ingredientInput = dialog?.ingredientInput
+        quantityInput = dialog?.quantityInput
+        unitInput = dialog?.unitInput
+        progressBar = dialog?.progressBar
+        userInputLayout = dialog?.userInputLayout
+        infoTv = dialog?.infoTv
 
         ingredientInput?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
-                dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+                dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
             }
         }
         ingredientInput?.requestFocus()
@@ -85,7 +85,7 @@ class AddIngredientDialog : BaseDialogFragment<AddIngredientPresenter, AddIngred
 
     private fun setupView() {
         setupTextListeners()
-        dialog.addIngredientBtn.setOnClickListener(this)
+        dialog?.addIngredientBtn?.setOnClickListener(this)
     }
 
     override fun setupAutocompleteAdapters(ingredients: List<Ingredient>, units: List<Unit>) {
@@ -134,7 +134,7 @@ class AddIngredientDialog : BaseDialogFragment<AddIngredientPresenter, AddIngred
     }
 
     override fun toggleAddButton(isToggled: Boolean) {
-        dialog.addIngredientBtn.isEnabled = isToggled
+        dialog?.addIngredientBtn?.isEnabled = isToggled
     }
 
     override fun addIngredient(ingredient: Ingredient) {

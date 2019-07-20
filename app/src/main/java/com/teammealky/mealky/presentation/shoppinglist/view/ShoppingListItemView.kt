@@ -43,9 +43,9 @@ open class ShoppingListItemView @JvmOverloads constructor(
 
             strikethrough.isVisible(vm.isChecked)
 
-            ingredientNameTv.setTextColor(ContextCompat.getColor(context, if (vm.isChecked) R.color.colorPrimary else R.color.text_primary))
-            quantityTv.setTextColor(ContextCompat.getColor(context, if (vm.isChecked) R.color.colorPrimary else R.color.text_primary))
-            unitTv.setTextColor(ContextCompat.getColor(context, if (vm.isChecked) R.color.colorPrimary else R.color.text_primary))
+            ingredientNameTv.setTextColor(ContextCompat.getColor(context, if (vm.isChecked) R.color.colorAccent else R.color.text_primary))
+            quantityTv.setTextColor(ContextCompat.getColor(context, if (vm.isChecked) R.color.colorAccent else R.color.text_primary))
+            unitTv.setTextColor(ContextCompat.getColor(context, if (vm.isChecked) R.color.colorAccent else R.color.text_primary))
 
             shoppingListItemLayout.setOnClickListener(this)
             checkbox.setOnClickListener(this)

@@ -3,7 +3,6 @@ package com.teammealky.mealky.presentation.main
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.transition.TransitionValues
 import android.view.MenuItem
 import android.view.MotionEvent
 import androidx.fragment.app.Fragment
@@ -61,8 +60,8 @@ class MainActivity : BaseActivity<MainPresenter, MainPresenter.UI, MainViewModel
         presenter?.setContent(fragment, cleanStack)
     }
 
-    override fun setContent(fragment: Fragment, cleanStack: Boolean, transitionValues: List<TransitionValues>?) {
-        contentSwitcher.switchContent(fragment, cleanStack, transitionValues)
+    override fun setContent(fragment: Fragment, cleanStack: Boolean) {
+        contentSwitcher.switchContent(fragment, cleanStack)
         updateBottomBarSelection(fragment)
     }
 

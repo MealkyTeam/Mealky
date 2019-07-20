@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:background="@color/colorPrimary">
+    tools:background="@color/colorAccent">
 
     <com.teammealky.mealky.presentation.settings.view.SignOutCard
         android:id="@+id/signOutCard"

@@ -1,6 +1,5 @@
 package com.teammealky.mealky.presentation.main
 
-import android.transition.TransitionValues
 import androidx.fragment.app.Fragment
 import com.teammealky.mealky.R
 import com.teammealky.mealky.presentation.commons.presenter.BasePresenter
@@ -21,12 +20,12 @@ class MainPresenter @Inject constructor(
         }
     }
 
-    fun setContent(fragment: Fragment, cleanStack: Boolean, transitionValues: List<TransitionValues>? = null) {
-        ui().perform { it.setContent(fragment, cleanStack, transitionValues) }
+    fun setContent(fragment: Fragment, cleanStack: Boolean) {
+        ui().perform { it.setContent(fragment, cleanStack) }
     }
 
     interface UI : BaseUI {
-        fun setContent(fragment: Fragment, cleanStack: Boolean = false, transitionValues: List<TransitionValues>? = null)
+        fun setContent(fragment: Fragment, cleanStack: Boolean = false)
         fun openHome(invalidateList: Boolean)
         fun openShoppingList()
         fun openDiscover()

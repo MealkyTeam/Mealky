@@ -28,10 +28,13 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:theme="@style/EditTextLabel"
                 android:layout_marginTop="32dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/titleInput"
+                    style="@style/EditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/title"
@@ -41,11 +44,14 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="8dp">
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:theme="@style/EditTextLabel"
+                android:layout_marginTop="8dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/preparationTimeInput"
                     android:layout_width="match_parent"
+                    style="@style/EditText"
                     android:layout_height="wrap_content"
                     android:hint="@string/preparation_time_min"
                     android:maxLength="3"
@@ -124,12 +130,15 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:theme="@style/EditTextLabel"
                 android:layout_height="wrap_content">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/preparationInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    style="@style/EditText"
                     android:hint="@string/description"
                     android:inputType="textMultiLine"
                     android:maxLines="5"
@@ -150,7 +159,6 @@
                 android:layout_marginBottom="8dp"
                 android:enabled="false"
                 android:text="@string/confirm" />
-
         </LinearLayout>
 
         <ProgressBar
