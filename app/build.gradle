@@ -67,7 +67,6 @@ android {
             buildConfigField "String", "CENTRAL_LOGIN", rootProject.ext.api.release.login
             buildConfigField "String", "CENTRAL_PASSWORD", rootProject.ext.api.release.password
             resValue "string", "fileProviderAuthorities", rootProject.ext.api.release.fileProviderAuthorities
-
         }
     }
     testOptions {
@@ -80,7 +79,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
-    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'com.google.android.material:material:1.1.0-alpha07'
 
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     implementation 'androidx.appcompat:appcompat:1.0.2'
@@ -90,31 +89,31 @@ dependencies {
     kapt 'com.mindorks.android:placeholderview-compiler:1.0.3'
     implementation 'com.jakewharton.timber:timber:4.7.1'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.12.1'
-    implementation "io.reactivex.rxjava2:rxjava:2.2.6"
+    implementation "io.reactivex.rxjava2:rxjava:2.2.9"
     implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
 
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation "com.karumi:dexter:5.0.0"
     implementation 'com.github.jkwiecien:EasyImage:3.0.1'
 
-    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
-    implementation 'com.google.dagger:dagger-android:2.15'
-    implementation 'com.google.dagger:dagger-android-support:2.13'
+    implementation 'com.squareup.retrofit2:retrofit:2.6.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
+    implementation 'com.google.dagger:dagger-android:2.22'
+    implementation 'com.google.dagger:dagger-android-support:2.22'
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.16'
     implementation 'com.google.dagger:dagger:2.22.1'
-    kapt 'com.google.dagger:dagger-compiler:2.13'
+    kapt 'com.google.dagger:dagger-compiler:2.16'
     compileOnly 'javax.annotation:jsr250-api:1.0'
 
-    testImplementation 'androidx.test:runner:1.1.1'
+    testImplementation 'androidx.test:runner:1.2.0'
     testImplementation 'org.robolectric:robolectric:4.1'
     testImplementation 'junit:junit:4.12'
     implementation "io.mockk:mockk-common:1.8.13.kotlin13"
     testImplementation "io.mockk:mockk:1.8.13.kotlin13"
 
-    androidTestImplementation 'androidx.test:runner:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation('com.crashlytics.sdk.android:crashlytics:2.9.8@aar') {
         transitive = true
     }

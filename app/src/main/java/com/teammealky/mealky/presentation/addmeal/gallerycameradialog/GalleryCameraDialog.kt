@@ -45,8 +45,8 @@ class GalleryCameraDialog : BaseDialogFragment<GalleryCameraPresenter, GalleryCa
     override fun onStart() {
         super.onStart()
 
-        dialog.openCameraBtn.setOnClickListener(this)
-        dialog.openGalleryBtn.setOnClickListener(this)
+        dialog?.openCameraBtn?.setOnClickListener(this)
+        dialog?.openGalleryBtn?.setOnClickListener(this)
         easyImage = EasyImage.Builder(requireContext())
                 .setCopyImagesToPublicGalleryFolder(false)
                 .allowMultiple(false)

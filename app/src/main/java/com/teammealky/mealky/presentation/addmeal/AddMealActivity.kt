@@ -234,6 +234,7 @@ class AddMealActivity : BaseActivity<AddMealPresenter, AddMealPresenter.UI, AddM
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
         galleryCameraDialog?.onActivityResult(requestCode,resultCode,data)
     }
 

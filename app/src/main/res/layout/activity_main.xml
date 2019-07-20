@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@color/colorAccent"
     android:clipToPadding="false"
     tools:ignore="MergeRootFrame">
 
@@ -22,8 +22,9 @@
         android:layout_gravity="bottom"
         android:background="@color/colorPrimaryDark"
         app:elevation="8dp"
-        app:itemTextColor="@color/colorPrimary"
         app:labelVisibilityMode="labeled"
+        app:itemIconTint="@drawable/bottom_navigation_colors"
+        app:itemTextColor="@drawable/bottom_navigation_colors"
         app:menu="@menu/bottom_bar" />
 
 </FrameLayout>

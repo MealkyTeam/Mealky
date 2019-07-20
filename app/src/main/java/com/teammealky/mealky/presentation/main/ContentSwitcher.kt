@@ -1,7 +1,6 @@
 package com.teammealky.mealky.presentation.main
 
 import android.os.Bundle
-import android.transition.TransitionValues
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -16,7 +15,7 @@ class ContentSwitcher(private val fm: FragmentManager) {
 
     private val homeFragmentBundle = Bundle()
 
-    fun switchContent(newFragment: Fragment, cleanStack: Boolean, transitionValues: List<TransitionValues>?) {
+    fun switchContent(newFragment: Fragment, cleanStack: Boolean) {
         val currentFragment = getCurrentFragment()
 
         if (areTheSame(newFragment)) {

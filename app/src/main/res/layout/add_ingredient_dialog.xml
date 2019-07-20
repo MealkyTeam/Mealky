@@ -33,6 +33,8 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:theme="@style/EditTextLabel"
             android:layout_height="wrap_content">
 
             <AutoCompleteTextView
@@ -41,6 +43,8 @@
                 android:layout_height="wrap_content"
                 android:completionThreshold="1"
                 android:focusable="true"
+                style="@style/EditText"
+                android:padding="16dp"
                 android:hint="@string/ingredient"
                 android:imeOptions="actionNext"
                 android:maxLength="25"
@@ -50,10 +54,13 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="8dp">
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:theme="@style/EditTextLabel"
+            android:layout_marginTop="8dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/quantityInput"
+                style="@style/EditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/quantity"
@@ -65,7 +72,9 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="8dp">
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:theme="@style/EditTextLabel"
+            android:layout_marginTop="8dp">
 
             <AutoCompleteTextView
                 android:id="@+id/unitInput"
@@ -73,6 +82,8 @@
                 android:layout_height="wrap_content"
                 android:completionThreshold="1"
                 android:hint="@string/unit"
+                android:padding="16dp"
+                style="@style/EditText"
                 android:imeOptions="actionDone"
                 android:maxLength="25"
                 android:inputType="text" />

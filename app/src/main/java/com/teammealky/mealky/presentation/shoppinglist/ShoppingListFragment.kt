@@ -128,7 +128,10 @@ class ShoppingListFragment : BaseFragment<ShoppingListPresenter, ShoppingListPre
     override fun showAddIngredientDialog(ingredients: List<Ingredient>) {
         addIngredientDialog = AddIngredientDialog.newInstance(ingredients)
         addIngredientDialog?.setTargetFragment(this, ADD_DIALOG_ID)
-        addIngredientDialog?.show(fragmentManager, ADD_DIALOG)
+
+        fragmentManager?.let {
+            addIngredientDialog?.show(it, ADD_DIALOG)
+        }
     }
 
     companion object {

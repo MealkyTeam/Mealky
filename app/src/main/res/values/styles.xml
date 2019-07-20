@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorControlActivated">@color/colorPrimary</item>
         <item name="android:alertDialogTheme">@style/AlertDialogCustom</item>
     </style>
 
@@ -28,9 +29,32 @@
         <item name="android:textColorHint">@color/text_disabled</item>
         <item name="colorAccent">@android:color/white</item>
         <item name="colorControlNormal">@color/borderPrimary</item>
-        <item name="colorControlActivated">@color/secondary</item>
+        <item name="colorControlActivated">@color/colorPrimary</item>
         <item name="android:textColorHighlight">@color/text_primary</item>
         <item name="android:textColorLink">@color/text_primary</item>
+    </style>
+
+    <style name="EditTextLabel" parent="@style/ThemeOverlay.MaterialComponents.TextInputEditText.OutlinedBox">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColorHint">@color/colorAccent</item>
+        <item name="colorAccent">@android:color/white</item>
+        <item name="colorControlNormal">#6b000000</item>
+        <item name="colorControlActivated">@color/colorPrimary</item>
+
+        <item name="android:textColorHighlight">@color/text_primary</item>
+        <item name="android:textColorLink">@color/text_primary</item>
+
+    </style>
+
+    <style name="EditText" parent="@android:style/Widget.EditText">
+        <item name="android:textColorHighlight">@color/colorPrimary</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="checkBoxStyle" parent="Base.Theme.AppCompat">
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorSecondary">@color/colorAccent</item>
     </style>
 
 </resources>

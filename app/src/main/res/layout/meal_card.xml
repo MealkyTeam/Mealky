@@ -34,7 +34,7 @@
                 android:paddingRight="16dp"
                 android:paddingBottom="4dp"
                 android:textAlignment="center"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/colorAccent"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 tools:text="Pancakes" />

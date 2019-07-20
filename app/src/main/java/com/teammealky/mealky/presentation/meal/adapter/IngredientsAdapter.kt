@@ -21,7 +21,6 @@ open class IngredientsAdapter(var models: List<IngredientViewModel> = emptyList(
         return ViewHolder(IngredientView(parent.context, listener))
     }
 
-    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val model = models[position]
         (holder.view as IngredientView).model = model
